@@ -1,0 +1,11 @@
+RewriteEngine On
+
+DirectoryIndex auth.php 
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^question.php$ /questions.php?qtype=1 [L,QSA]
+RewriteRule ^check_comp.html$ /questions.php?qtype=2 [L,QSA]
+
+ErrorDocument 404 /404.php 

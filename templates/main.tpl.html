@@ -1,0 +1,11 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+	<p>Привет человек номер - {$smarty.session.sotrud_id}</p>
+	Это главная страница
+	<p><a href="question.php">Какой то экзаменатор</a></p>
+ 
+	<p><a href="./">Личный кабинет</a></p>
+ 
+	<p><a href="auth.php">Выход</a></p>
+
+{/block}

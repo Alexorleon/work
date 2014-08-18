@@ -1,0 +1,36 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+<div id="questionsDiv" align="center" >
+
+<form id="questions" name="questions" method="post">
+
+<input id="answer" name="answer" type="hidden" value="1"/>
+
+<!-- Пройти тестирование или пробное тестирование-->
+{if $typetest eq 1}
+
+	{$question['TEXT']}
+
+	<p>
+	{section name=i loop=$array_answers}
+		<input type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']})" value="{$array_answers[i]['TEXT']}"/>
+	{/section}
+	</p>
+{elseif $typetest eq 2}
+    <!--<input id="answer" name="answer" type="hidden" value="1"/>-->
+	<input type="button" onclick="typeTest(1)" value="Пробное тестирование"/>
+	<input type="button" onclick="typeTest(2)" value="Тестирование"/>
+{else}
+	dfgjlkj;lksjg;lkjsdg;lkjsdflgj
+{/if}
+
+</form>
+</div>
+<script src="{$tpl}js/script.js"></script>
+
+{/block}

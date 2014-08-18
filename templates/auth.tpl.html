@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+</head>
+<body>
+<div id="error_mess"> {$error_} </div>
+
+<div id="mainDiv" align="center" >
+
+<form id="auth" name="auth" method="post">
+<table >
+<tr>
+<td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly /></td>
+</tr>
+
+<tr>
+<td><input type="button" value="1" onclick="addToField(1)"/></td>
+<td><input type="button" value="2" onclick="addToField(2)"/></td>
+<td><input type="button" value="3" onclick="addToField(3)"/></td>
+</tr>
+
+<tr>
+<td><input type="button" value="4" onclick="addToField(4)"/></td>
+<td><input type="button" value="5" onclick="addToField(5)"/></td>
+<td><input type="button" value="6" onclick="addToField(6)"/></td>
+</tr>
+
+<tr>
+<td><input type="button" value="7" onclick="addToField(7)"/></td>
+<td><input type="button" value="8" onclick="addToField(8)"/></td>
+<td><input type="button" value="9" onclick="addToField(9)"/></td>
+</tr>
+
+<tr>
+<td><input type="reset" value="C" id="resetButton"/></td>
+<td><input type="button" value="0" onclick="addToField(0)"/></td>
+<td><input type="button" value="<" onclick="del()"/></td>
+</tr>
+</table>
+
+
+<input id="type_submit" name="type_submit" type="hidden" value="1"/>
+
+<p><input type="button" onclick="go_auth()" value="Личный 
+кабинет"/>
+
+<input type="button" onclick="go_pre_examiner()" value="Предсменный
+ экзаменатор"/>
+
+ <input type="button" onclick="go_check_comp()" value="Контроль
+ компетентности"/>
+ 
+</form>
+</div>
+<script src="{$tpl}js/script.js"></script>
+</body>
+</html>
