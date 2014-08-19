@@ -164,8 +164,6 @@ SQL;
 SQL;
 				echo $db->debug_show_sql_result($sql);
 
-				// fsdggdfgdffsdfasfasfsdfsf
-
 
 				$smarty->assign("error_", $error_);
 
