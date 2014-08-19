@@ -157,12 +157,14 @@ SQL;
 				
 				$sotrud_dolj = $_SESSION['sotrud_dolj'];
 				echo $sotrud_dolj;
-				
+
 				// 
 				$sql = <<<SQL
 				SELECT TESTNAMESID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID
 SQL;
 				echo $db->debug_show_sql_result($sql);
+
+				// fsdggdfgdf
 
 
 				$smarty->assign("error_", $error_);
