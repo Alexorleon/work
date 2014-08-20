@@ -1,4 +1,5 @@
 <?php	
+// v 0.0.2
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 
 	$db = new db;
@@ -181,25 +182,23 @@ SQL;
 
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
 		// выбираются только те вопросы, которые активны в таблице TESTPARAMETERS
-		// выбираем только активные и по модулю
+
 		// 1. Посчитать сколько всего вопросов каждого типа
 		$sql = <<<SQL
-		SELECT TESTNAMESID, TYPEQUESTIONSID, MODULEID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN 
+		SELECT TESTNAMESID, TYPEQUESTIONSID, MODULEID, COUNT(TYPEQUESTIONSID) CNT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN 
 		(SELECT SPECIALITY_B.TESTNAMESID FROM stat.SPECIALITY_B, stat.ALLQUESTIONS WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') AND ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE IS NOT NULL AND TESTPARAMETERS.MODULEID=5) GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
 SQL;
 
-		$array_res[] = $obj->go_result($sql);
-		//$testname = $s_res['TESTNAMESID'];
+		$dataRow = $obj->go_result($sql);
 
-		//echo "-------   " . $array_res[];
-		foreach($array_res as $value)
-		{
-			//echo $value;
-			var_dump($value);
-		}
-
+		//print_r($dataRow);
 		echo $obj->debug_show_sql_result($sql);
-
+		
+		for ($i = 0; $i < count($dataRow); $i++) {
+    		echo $dataRow[$i]['TESTNAMESID'];
+    		echo $dataRow[$i]['CNT'];
+		}
+		
 		// 2. Распределить по заданному критерию
 
 		// 3. Выбрать случайным образом необходимое количество каждого вопроса
