@@ -163,7 +163,7 @@ SQL;
 				SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
 SQL;
 				echo $db->debug_show_sql_result($sql);*/
-				echo $db->debug_show_sql_result(control_competence());
+				control_competence($db);
 
 				$smarty->assign("error_", $error_);
 
@@ -177,7 +177,7 @@ SQL;
 	// --- ФУНКЦИИ ---
 
 	// контроль компетентности
-	function control_competence(){
+	function control_competence(&$obj){
 
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
 		// из тестов выбираются подходящие для выбранной должности.
@@ -187,7 +187,17 @@ SQL;
 		$sql = <<<SQL
 		SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
 SQL;
-		$s_res = $db->go_result_once($sql);
+		$array_res[] = $obj->go_result($sql);
+		//$testname = $s_res['TESTNAMESID'];
+
+		//echo "-------   " . $array_res[];
+		foreach($array_res as $value)
+		{
+			//echo $value;
+			var_dump($value);
+		}
+
+		echo $obj->debug_show_sql_result($sql);
 
 		// 2. Распределить по заданному критерию
 
@@ -197,7 +207,6 @@ SQL;
 
 		// 5. Выводим результаты и записываем их в историю
 
-		return $sql;
 	}
 
 	// пишем в историю
