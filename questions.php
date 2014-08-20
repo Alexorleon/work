@@ -155,15 +155,15 @@ SQL;
 
 			}else{ // тестирование
 				
-				$sotrud_dolj = $_SESSION['sotrud_dolj'];
-				echo $sotrud_dolj;
+				
+				
 
 				// 
-				$sql = <<<SQL
-				SELECT TESTNAMESID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID
+				/*$sql = <<<SQL
+				SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
 SQL;
-				echo $db->debug_show_sql_result($sql);
-
+				echo $db->debug_show_sql_result($sql);*/
+				echo $db->debug_show_sql_result(control_competence());
 
 				$smarty->assign("error_", $error_);
 
@@ -179,16 +179,15 @@ SQL;
 	// контроль компетентности
 	function control_competence(){
 
+		$sotrud_dolj = $_SESSION['sotrud_dolj'];
 		// из тестов выбираются подходящие для выбранной должности.
 		// затем из вопросов берем только один случайный вопрос. только по модулю знания, только текстовый и которые принадлежат к выбранным тестам.
 		
 		// 1. Посчитать сколько всего вопросов каждого типа
 		$sql = <<<SQL
-		SELECT TESTNAMESID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS GROUP BY TESTNAMESID, TYPEQUESTIONSID WHERE ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')
+		SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
 SQL;
-
-		
-		//$s_res = $db->go_result_once($sql);
+		$s_res = $db->go_result_once($sql);
 
 		// 2. Распределить по заданному критерию
 
@@ -197,6 +196,8 @@ SQL;
 		// 4. Проходим по массиву и грузим каждый вопрос и ответы к нему
 
 		// 5. Выводим результаты и записываем их в историю
+
+		return $sql;
 	}
 
 	// пишем в историю
