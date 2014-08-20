@@ -163,7 +163,7 @@ SQL;
 				SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
 SQL;
 				echo $db->debug_show_sql_result($sql);*/
-				echo $db->debug_show_sql_result(control_competence());
+				control_competence($db);
 
 				$smarty->assign("error_", $error_);
 
@@ -177,18 +177,41 @@ SQL;
 	// --- ФУНКЦИИ ---
 
 	// контроль компетентности
-	function control_competence(){
+	function control_competence(&$obj){
 
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
-		// из тестов выбираются подходящие для выбранной должности.
-		// затем из вопросов берем только один случайный вопрос. только по модулю знания, только текстовый и которые принадлежат к выбранным тестам.
+		// выбираются только те вопросы, которые активны в таблице TESTPARAMETERS
 		
 		// 1. Посчитать сколько всего вопросов каждого типа
-		$sql = <<<SQL
+		/*$sql = <<<SQL
 		SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
-SQL;
-		$s_res = $db->go_result_once($sql);
+SQL;*/
 
+$sql = <<<SQL
+		SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') AND ALLQUESTIONS.MODULEID=5 AND ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE IS NOT NULL) GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
+SQL;
+
+/*$sql = <<<SQL
+SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE IS NOT NULL
+SQL;*/
+
+		$array_res[] = $obj->go_result($sql);
+		//$testname = $s_res['TESTNAMESID'];
+
+		//echo "-------   " . $array_res[];
+		foreach($array_res as $value)
+		{
+			//echo $value;
+			var_dump($value);
+		}
+
+		echo $obj->debug_show_sql_result($sql);
+
+// выбираем только активные
+		/*$ssql = <<<SQL
+SELECT TESTNAMESID, TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE IS NOT NULL
+SQL;
+echo $obj->debug_show_sql_result($ssql);*/
 		// 2. Распределить по заданному критерию
 
 		// 3. Выбрать случайным образом необходимое количество каждого вопроса
@@ -197,7 +220,6 @@ SQL;
 
 		// 5. Выводим результаты и записываем их в историю
 
-		return $sql;
 	}
 
 	// пишем в историю
