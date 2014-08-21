@@ -179,19 +179,32 @@ SQL;
 	function control_competence(&$obj){
 
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
-		// выбираются только те вопросы, которые активны в таблице TESTPARAMETERS
+		// выбираются вопросы по должности и только те, которые активны в таблице TESTPARAMETERS
 
 		// 1. Посчитать сколько всего вопросов каждого типа
 		$sql = <<<SQL
 		SELECT TESTNAMESID, TYPEQUESTIONSID, MODULEID, RISKLEVELID, COUNT(TYPEQUESTIONSID) CNT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN 
-		(SELECT SPECIALITY_B.TESTNAMESID FROM stat.SPECIALITY_B, stat.ALLQUESTIONS WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') AND ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE IS NOT NULL AND TESTPARAMETERS.MODULEID=5) GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID, RISKLEVELID
+		(SELECT SPECIALITY_B.TESTNAMESID FROM stat.SPECIALITY_B, stat.ALLQUESTIONS WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') AND ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE IS NOT NULL) GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID, RISKLEVELID
 SQL;
+
+		// пример, если нужно ограничить по модулю
+		/*$sql = <<<SQL
+		SELECT TESTNAMESID, TYPEQUESTIONSID, MODULEID, RISKLEVELID, COUNT(TYPEQUESTIONSID) CNT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN 
+		(SELECT SPECIALITY_B.TESTNAMESID FROM stat.SPECIALITY_B, stat.ALLQUESTIONS WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') AND ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE IS NOT NULL AND TESTPARAMETERS.MODULEID=5) AND ALLQUESTIONS.MODULEID=5 GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID, RISKLEVELID
+SQL;*/
 
 		$dataRow = $obj->go_result($sql);
 
 		//print_r($dataRow);
 		echo $obj->debug_show_sql_result($sql);
-		$dt;
+
+		$numq = $_SESSION['numquestions'];
+		// количество вопрос в тесте
+		for ($i = 0; $i < $numq; $i++) {
+
+		}
+
+		// извлекаем
 		for ($i = 0; $i < count($dataRow); $i++) {
 
     		echo $dataRow[$i]['TESTNAMESID'];
@@ -203,17 +216,24 @@ SQL;
     		echo $dataRow[$i]['RISKLEVELID'];
     		echo ',';
     		echo $dataRow[$i]['CNT'];
+
+    		// 
+    		for ($j = 0; $j < $dataRow[$i]['CNT']; $j++) {
+
+    		}
     		echo "---";
 
-    		// получаем ID вопроса
-    		/*$sql = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID= AND ALLQUESTIONS.TYPEQUESTIONSID= AND ALLQUESTIONS.MODULEID= AND ALLQUESTIONS.RISKLEVELID=
-SQL;
-			$s_res = $obj->go_result_once($sql);
-			echo "===";
-			echo $s_res['ID'];*/
+    		
 		}
-		
+		// получаем ID вопроса
+    		$ssql = <<<SQL
+		SELECT ID, TESTNAMESID, TYPEQUESTIONSID, MODULEID, RISKLEVELID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN 
+		(SELECT SPECIALITY_B.TESTNAMESID FROM stat.SPECIALITY_B, stat.ALLQUESTIONS WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') AND ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE IS NOT NULL) GROUP BY ID, TESTNAMESID, TYPEQUESTIONSID, MODULEID, RISKLEVELID
+SQL;
+
+		$dataR = $obj->go_result($ssql);
+
+		echo $obj->debug_show_sql_result($ssql);
 		// 2. Распределить по заданному критерию
 
 		// 3. Выбрать случайным образом необходимое количество каждого вопроса
