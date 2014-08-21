@@ -223,6 +223,17 @@ SQL;
 		// убераем повторения
 		$onlytype_mass = array_unique($onlytype_mass);
 
+		// подсчитываем количество рисков для каждого вопроса
+		$sql = <<<SQL
+		SELECT TESTNAMESID, TYPEQUESTIONSID, MODULEID, RISKLEVELID, COUNT(RISKLEVELID) CNT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN 
+		(SELECT SPECIALITY_B.TESTNAMESID FROM stat.SPECIALITY_B, stat.ALLQUESTIONS WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') AND ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE IS NOT NULL) GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID, RISKLEVELID
+SQL;
+		//$tempdataRow = $obj->go_result($sql);
+
+		//print_r($tempdataRow);
+		echo $obj->debug_show_sql_result($sql);
+		echo "<br /";
+
 //--------------------- тестовое оформление
 		echo "Всего вопросов: " . count($dataRow);
 		echo "<br />";
