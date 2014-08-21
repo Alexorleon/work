@@ -10,8 +10,6 @@
 	$_SESSION['transitionOption'] = 1; // флаг правильности ответа
 	$_SESSION['ID_question'] = 0; // ID вопроса
 	$_SESSION['answer_attempt'] = 0; // количество попыток ответов на вопрос
-
-	// TODO: определить какой экзаменатор. необходимо для записи в таблицу истории.
 		
 	if ($_POST){
 		
@@ -40,12 +38,23 @@ SQL;
 
 			// переход на другую страницу, вместо header используем die.
 			if ($type_submit == "1"){
+
 				die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 			}elseif ($type_submit == "2"){
+
+				// запомнить какой экзаменатор. необходимо для записи в таблицу истории.
+				$_SESSION['examinertype']="PE";
 				die('<script>document.location.href= "'.lhost.'/question.php"</script>');
 			}elseif ($type_submit == "3"){
+
+				// запомнить какой экзаменатор. необходимо для записи в таблицу истории.
+				// контроль компетентности (control competence) - CC. предсменный экзаменатор (pre-shift examiner) - PE.
+				$_SESSION['examinertype']="CC";
+
+				set_numquestions($db);
 				die('<script>document.location.href= "'.lhost.'/check_comp.html"</script>');
 			}else{
+
 				die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 			}
 		}
@@ -56,5 +65,18 @@ SQL;
 	$smarty->assign("title", "Авторизация");
 	$smarty->display("auth.tpl.html");
 
-	//$smarty->assign('predpr', $s_res);
+	// --- ФУНКЦИИ ---
+
+	// узнаем сколько должно быть вопросов в тесте
+	function set_numquestions(&$obj){
+
+		$sql = <<<SQL
+		select NUMQUESTIONS from stat.ADMININFO
+SQL;
+		$numq_res = $obj->go_result_once($sql);
+
+		// запоминаем количество задаваемых вопросов
+		$_SESSION['numquestions']=$numq_res['NUMQUESTIONS'];
+
+	}
   ?>
