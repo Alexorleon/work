@@ -144,7 +144,7 @@ SQL;
 		// попадаем сюда после выбора теста. чтобы остаться на этой же странице.
 		}else{
 
-			if($_SESSION['qtype'] == 1){ // Пробное тестирование
+			if($_SESSION['qtype'] == 1){ // Пробное тестирование. Без записи в историю.
 
 				echo "Пробное тестирование";
 
@@ -156,10 +156,8 @@ SQL;
 
 			}else{ // тестирование
 				
-				
-				
 
-				// 
+
 				/*$sql = <<<SQL
 				SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
 SQL;
@@ -193,8 +191,9 @@ SQL;
 
 		//print_r($dataRow);
 		echo $obj->debug_show_sql_result($sql);
-		
+		$dt;
 		for ($i = 0; $i < count($dataRow); $i++) {
+
     		echo $dataRow[$i]['TESTNAMESID'];
     		echo ',';
     		echo $dataRow[$i]['TYPEQUESTIONSID'];
@@ -205,6 +204,14 @@ SQL;
     		echo ',';
     		echo $dataRow[$i]['CNT'];
     		echo "---";
+
+    		// получаем ID вопроса
+    		/*$sql = <<<SQL
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID= AND ALLQUESTIONS.TYPEQUESTIONSID= AND ALLQUESTIONS.MODULEID= AND ALLQUESTIONS.RISKLEVELID=
+SQL;
+			$s_res = $obj->go_result_once($sql);
+			echo "===";
+			echo $s_res['ID'];*/
 		}
 		
 		// 2. Распределить по заданному критерию

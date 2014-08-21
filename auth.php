@@ -13,7 +13,7 @@
 		
 	if ($_POST){
 		
-		$tabnum = $_POST['tabnum'];//получаем пост переменную табельного номера
+		$tabnum = $_POST['tabnum']; //получаем пост переменную табельного номера
 		$type_submit = $_POST['type_submit'];
 		
 		$tabnum = trim(stripslashes(htmlspecialchars($tabnum)));
@@ -23,10 +23,11 @@ SQL;
 
 		//if (!$res = $db->go_result($sql)) {to_log('res', $sql);}
 		$s_res = $db->go_result_once($sql);
-
 		if((empty($s_res))){
 			// показать пользователю, что такого номера нет, можно просто сделать редирект или так
-			$error_='такого номера нет'; 
+			//$error_='такого номера нет';
+			// TODO: здесь нужно убрать выпадение ошибки
+			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}else{
 
 			// запоминаем данные сотрудника
