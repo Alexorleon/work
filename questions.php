@@ -156,8 +156,6 @@ SQL;
 
 			}else{ // тестирование
 				
-
-
 				/*$sql = <<<SQL
 				SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
 SQL;
@@ -210,11 +208,57 @@ SQL;
 		//print_r($dataRow);
 		echo $obj->debug_show_sql_result($sql);
 
+		// количество вопросов в тесте
 		$numq = $_SESSION['numquestions'];
-		// количество вопрос в тесте
-		for ($i = 0; $i < $numq; $i++) {
 
+		// извлекаем только типы вопросов
+		$onlytype_mass = array();
+		for ($i = 0; $i < count($dataRow); $i++) {
+			array_push($onlytype_mass, $dataRow[$i]['TYPEQUESTIONSID']);
 		}
+
+		// подсчитываем количество вопросов каждого типа
+		$countq_mass = array_count_values($onlytype_mass);
+
+		// убераем повторения
+		$onlytype_mass = array_unique($onlytype_mass);
+
+//--------------------- тестовое оформление
+		echo "Всего вопросов: " . count($dataRow);
+		echo "<br />";
+		echo "Необходимо вопросов: " . $numq;
+		echo "<br />";
+
+		echo "-- Количество вопросов --";
+		echo "<br />";
+
+		// запоминаем все TITLE
+		$c = 0;
+		foreach ($onlytype_mass as $element){
+		
+			$sql = <<<SQL
+			SELECT TITLE FROM stat.TYPEQUESTIONS WHERE TYPEQUESTIONS.ID='$element'
+SQL;
+			$tempdata = $obj->go_result_once($sql);
+			
+			$title_mass[$c] = $tempdata['TITLE'];
+			$c++;
+		}
+
+		// запоминаем количество вопросов
+		$c = 0;
+		foreach ($countq_mass as $element){
+		
+			$countype_mass[$c] = $element;
+			$c++;
+		}
+
+		// тестовый вывод
+		for($i = 0; $i < count($title_mass); $i++){
+			echo $title_mass[$i] . ": " . $countype_mass[$i];
+			echo "<br />";
+		}
+//---------------------
 
 		// извлекаем
 		for ($i = 0; $i < count($dataRow); $i++) {
@@ -226,10 +270,12 @@ SQL;
     		echo $dataRow[$i]['MODULEID'];
     		echo ',';
     		echo $dataRow[$i]['RISKLEVELID'];
-    		echo "---";
-
-    		
+    		echo "---";    		
 		}
+		/*
+		$stack = array("orange", "banana");
+		array_push($stack, "apple", "raspberry");
+		*/
 
 		// 2. Распределить по заданному критерию
 
