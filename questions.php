@@ -142,36 +142,31 @@ SQL;
 			$smarty->display("questions.tpl.html");
 		
 		// попадаем сюда после выбора теста. чтобы остаться на этой же странице.
-		}else{
+		}else{ // qtype == 3
 
 			if($_SESSION['qtype'] == 1){ // Пробное тестирование. Без записи в историю.
 
 				echo "Пробное тестирование";
 
 
-
-
-
-
-
-
-/*
 				if ($_POST){
 
 					$answer = $_POST['answer'];
-
+					echo $answer."blabla - Этот ансвер не выводится, кстати, выводится сессия дальше, проверь";
+					echo "<br /";
 					// выбираем вариант ответа
 					if ($answer == "21"){ // 21 это ID в таблице уровень компетенции
 						echo "good"; // правильно
 
-						//die('<script>document.location.href= "'.lhost.'/commentAnswer.php"</script>');
+
+						//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 					}else{ //не правильно
 						echo "not good";
-						
-						//die('<script>document.location.href= "'.lhost.'/commentAnswer.php"</script>');
+						//
+						//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 					}
 				}
-*/
+
 //>>>>>>>>>>>>>>>>>> 1
 				// если еще ни разу не отвечали, то требуются подготовительные действия
 				if ($_SESSION['counter_questions'] == 0){
