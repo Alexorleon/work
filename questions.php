@@ -54,7 +54,7 @@ SQL;
 				SELECT TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_id'
 SQL;
 				$s_res = $db->go_result_once($sql);
-				$question_text = $s_res['TEXT'];
+				//$question_text = $s_res['TEXT']; TODO: вроде и не нужно
 
 				// увеличиваем счетчик попыток
 				$_SESSION['answer_attempt'] = $_SESSION['answer_attempt'] + 1;
@@ -83,7 +83,7 @@ SQL;
 
 				$temp_id = $_SESSION['ID_question'];
 				
-				$question_text = $s_res['TEXT'];
+				//$question_text = $s_res['TEXT']; TODO: вроде и не нужно
 			}
 			
 			// берем ответы к этому вопросу
@@ -155,10 +155,24 @@ SQL;
 
 
 
+/*
+				if ($_POST){
 
+					$answer = $_POST['answer'];
 
+					// выбираем вариант ответа
+					if ($answer == "21"){ // 21 это ID в таблице уровень компетенции
+						echo "good"; // правильно
 
-				
+						//die('<script>document.location.href= "'.lhost.'/commentAnswer.php"</script>');
+					}else{ //не правильно
+						echo "not good";
+						
+						//die('<script>document.location.href= "'.lhost.'/commentAnswer.php"</script>');
+					}
+				}
+*/
+//>>>>>>>>>>>>>>>>>> 1
 				// если еще ни разу не отвечали, то требуются подготовительные действия
 				if ($_SESSION['counter_questions'] == 0){
 				
@@ -167,17 +181,17 @@ SQL;
 					$_SESSION['tempmass'] = array(41, 42, 43);
 					//-----
 
-					$_SESSION['counter_questions']++;
-
 					// TODO: задаем вопрос
 
-					echo "---counter_questions: " . $_SESSION['counter_questions'];
+					$_SESSION['counter_questions']++;
+
+					die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 				}else{
 
 					// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
 					if($_SESSION['counter_questions'] < 3/*$_SESSION['numquestions']*/){ // TEST
-									
-						$_SESSION['counter_questions']++;
+
+						echo "--- " . $_SESSION['counter_questions'] . " ---";
 
 						// стартуем таймер
 						$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s');
@@ -186,23 +200,36 @@ SQL;
 
 						// TODO: задаем вопрос. берем ID вопроса из этого массива.
 
+						// TODO: тут должен быть вывод вопроса в зависимости от его типа
+
+						$testid = $_SESSION['tempmass'][$_SESSION['counter_questions']];
+
 						$sql = <<<SQL
-						SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$_SESSION['tempmass'][$_SESSION['counter_questions']]'
+						SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$testid'
 SQL;
 						$s_res = $db->go_result_once($sql);
 
+						$temp_id = $s_res['ID'];
+
+						echo $temp_id;
+						
+						$question_text = $s_res['TEXT'];
+
 						// берем ответы к этому вопросу
-						$sql = <<<SQL
+						$sql_ans = <<<SQL
+
 						SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
-SQL;						
-						$array_answers = $db->go_result($sql);
+SQL;
+								
+						$array_answers = $db->go_result($sql_ans);
 
 						shuffle($array_answers);
 
-					
+						$_SESSION['counter_questions']++;
+				
 					}else{ // иначе переходим в commentAnswer и выводим результаты теста.
 
-						echo "This is SPARTA!!!!!"
+						echo "This is SPARTA!!!!!";
 					}
 				}
 
@@ -210,7 +237,7 @@ SQL;
 				$smarty->assign("question", $s_res);//вопрос
 				$smarty->assign("array_answers", $array_answers);//ответы
 
-
+//<<<<<<<<<<<<<<<<<<<< 1
 
 
 
@@ -235,10 +262,7 @@ SQL;
 
 			}else{ // тестирование
 				
-				/*$sql = <<<SQL
-				SELECT TESTNAMESID, MODULEID, TYPEQUESTIONSID, COUNT(TYPEQUESTIONSID) FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') GROUP BY TESTNAMESID, TYPEQUESTIONSID, MODULEID
-SQL;
-				echo $db->debug_show_sql_result($sql);*/
+
 				control_competence($db);
 
 				$smarty->assign("error_", $error_);
