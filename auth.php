@@ -10,6 +10,7 @@
 	$_SESSION['transitionOption'] = 1; // флаг правильности ответа
 	$_SESSION['ID_question'] = 0; // ID вопроса
 	$_SESSION['answer_attempt'] = 0; // количество попыток ответов на вопрос
+	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
 		
 	if ($_POST){
 		
@@ -53,6 +54,7 @@ SQL;
 				$_SESSION['examinertype']="CC";
 
 				set_numquestions($db);
+				
 				die('<script>document.location.href= "'.lhost.'/check_comp.html"</script>');
 			}else{
 
@@ -77,7 +79,7 @@ SQL;
 		$numq_res = $obj->go_result_once($sql);
 
 		// запоминаем количество задаваемых вопросов
-		$_SESSION['numquestions']=$numq_res['NUMQUESTIONS'];
+		$_SESSION['numquestions'] = $numq_res['NUMQUESTIONS'];
 
 	}
   ?>

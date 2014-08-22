@@ -148,6 +148,85 @@ SQL;
 
 				echo "Пробное тестирование";
 
+
+
+
+
+
+
+
+
+
+
+				
+				// если еще ни разу не отвечали, то требуются подготовительные действия
+				if ($_SESSION['counter_questions'] == 0){
+				
+					// TODO: формируем контроль компетентности. количество вопросов по рискам. Это будет массив из ID вопросов.
+					//-----
+					$_SESSION['tempmass'] = array(41, 42, 43);
+					//-----
+
+					$_SESSION['counter_questions']++;
+
+					// TODO: задаем вопрос
+
+					echo "---counter_questions: " . $_SESSION['counter_questions'];
+				}else{
+
+					// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
+					if($_SESSION['counter_questions'] < 3/*$_SESSION['numquestions']*/){ // TEST
+									
+						$_SESSION['counter_questions']++;
+
+						// стартуем таймер
+						$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s');
+
+						$sotrud_dolj = $_SESSION['sotrud_dolj'];
+
+						// TODO: задаем вопрос. берем ID вопроса из этого массива.
+
+						$sql = <<<SQL
+						SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$_SESSION['tempmass'][$_SESSION['counter_questions']]'
+SQL;
+						$s_res = $db->go_result_once($sql);
+
+						// берем ответы к этому вопросу
+						$sql = <<<SQL
+						SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
+SQL;						
+						$array_answers = $db->go_result($sql);
+
+						shuffle($array_answers);
+
+					
+					}else{ // иначе переходим в commentAnswer и выводим результаты теста.
+
+						echo "This is SPARTA!!!!!"
+					}
+				}
+
+
+				$smarty->assign("question", $s_res);//вопрос
+				$smarty->assign("array_answers", $array_answers);//ответы
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 				$smarty->assign("error_", $error_);
 
 				$smarty->assign("typetest", 3);
