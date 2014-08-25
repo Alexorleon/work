@@ -77,7 +77,8 @@ SQL;
 			$_SESSION['counter_questions']++;
 				
 		}else{ // иначе переходим в commentAnswer и выводим результаты теста.
-
+		
+			$_SESSION['counter_questions'] = 0;
 			die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=2"</script>');
 		}
 	}

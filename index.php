@@ -22,7 +22,7 @@
 			echo "контроль компетентности";
 
 			
-			//die('<script>document.location.href= "'.lhost.'/question.php"</script>');
+			die('<script>document.location.href= "'.lhost.'/question.php?qtype=2"</script>');
 		}elseif ($type_submit == 3){
 			echo "видеонструктажи";
 		
@@ -32,7 +32,7 @@
 			echo "предсменный экзаменатор";
 
 			
-			//die('<script>document.location.href= "'.lhost.'/question.php"</script>');
+			die('<script>document.location.href= "'.lhost.'/question.php?qtype=1"</script>');
 		}elseif ($type_submit == 5){
 			echo "Компьютерные модели несчастных случаев";
 
