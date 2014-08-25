@@ -42,7 +42,10 @@ SQL;
 			
 		}else if($_GET['type_exam'] == 2){ // это контроль компетентности
 			
-			//echo "type exam= ".$_GET['type_exam'];
+			$question_com = "Статистика теста";
+			$question_ans = '';
+			$transitionOption = 1;
+			// TODO: выводим статистику ответов
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -61,6 +64,13 @@ SQL;
 				}else{
 					die('<script>document.location.href= "'.lhost.'/question.php"</script>');
 				}
+				
+		}else if($_GET['type_exam'] == 2){ // это контроль компетентности
+			
+			die('<script>document.location.href= "'.lhost.'/index.php"</script>');
+		}else{
+			
+			die("У меня не прописано, что делать");
 		}
 	}
 
