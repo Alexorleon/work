@@ -1,21 +1,22 @@
 <?php
 	 // Пробное тестирование. Без записи в историю.
 
-	echo "Пробное тестирование";
+	//echo "Пробное тестирование";
 
 	if ($_POST){
 
 		$answer = $_POST['answer'];
-		echo $answer."blabla - Этот ансвер не выводится, кстати, выводится сессия дальше, проверь";
-		echo "<br /";
+		//echo "<br /";
+		//echo $answer;
+		//echo "<br /";
 		// выбираем вариант ответа
 		if ($answer == "21"){ // 21 это ID в таблице уровень компетенции
-			echo "good"; // правильно
+			//echo "good"; // правильно
 
 
 			//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 		}else{ //не правильно
-			echo "not good";
+			//echo "not good";
 			//
 			//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 		}
@@ -36,10 +37,10 @@
 		die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 	}else{
 
-	// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
-		if($_SESSION['counter_questions'] < 3/*$_SESSION['numquestions']*/){ // TEST
+		// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
+		if($_SESSION['counter_questions'] < 3 /*$_SESSION['numquestions']*/){ // TEST
 
-			echo "--- " . $_SESSION['counter_questions'] . " ---";
+			//echo "--- " . $_SESSION['counter_questions'] . " ---";
 
 			// стартуем таймер
 			$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s');
@@ -59,7 +60,7 @@ SQL;
 
 			$temp_id = $s_res['ID'];
 
-			echo $temp_id;
+			//echo $temp_id;
 						
 			$question_text = $s_res['TEXT'];
 
@@ -77,7 +78,7 @@ SQL;
 				
 		}else{ // иначе переходим в commentAnswer и выводим результаты теста.
 
-			echo "This is SPARTA!!!!!";
+			die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=2"</script>');
 		}
 	}
 

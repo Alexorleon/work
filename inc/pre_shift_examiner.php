@@ -17,18 +17,18 @@
 					$tempqu = $_SESSION['ID_question'];
 					$tempans = $_SESSION['answer_attempt'];
 
-					// ответили правильно, записываем все в историю
+					// ответили правильно, записываем все в историю TODO: транзакция
 					$sql = <<<SQL
 					INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL) VALUES ($tempID, $tempqu, to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), $tempans, 'pred', 'N')
 SQL;
 					$db->go_query($sql);
 
-					die('<script>document.location.href= "'.lhost.'/commentAnswer.php"</script>');
+					die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=1"</script>'); // type_exam=1 означает предсменный экзаменатор pre_shift_examiner
 				}else{
 					//не правильно
 					//echo "not good";
 					$_SESSION['transitionOption'] = 0;
-					die('<script>document.location.href= "'.lhost.'/commentAnswer.php"</script>');
+					die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=1"</script>');
 				}
 			}
 
