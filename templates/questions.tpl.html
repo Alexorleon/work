@@ -26,7 +26,14 @@
 	<input type="button" onclick="typeTest(1)" value="Пробное тестирование"/>
 	<input type="button" onclick="typeTest(2)" value="Тестирование"/>
 {else}
-	dfgjlkj;lksjg;lkjsdg;lkjsdflgj
+
+	{$question['TEXT']}
+
+	<p>
+	{section name=i loop=$array_answers}
+		<input type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']})" value="{$array_answers[i]['TEXT']}"/>
+	{/section}
+	</p>
 {/if}
 
 </form>

@@ -7,5 +7,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteRule ^question.php$ /questions.php?qtype=1 [L,QSA]
 RewriteRule ^check_comp.html$ /questions.php?qtype=2 [L,QSA]
+RewriteRule ^trial_testing.html$ /questions.php?qtype=3 [L,QSA]
+RewriteRule ^testing.html$ /questions.php?qtype=4 [L,QSA]
 
 ErrorDocument 404 /404.php 
