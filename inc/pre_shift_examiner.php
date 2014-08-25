@@ -18,8 +18,9 @@
 					$tempans = $_SESSION['answer_attempt'];
 
 					// ответили правильно, записываем все в историю TODO: транзакция
+					// TODO: тип экзаменатора изменить со строки на число. для этого создать еще одну таблицу.
 					$sql = <<<SQL
-					INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL) VALUES ($tempID, $tempqu, to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), $tempans, 'pred', 'N')
+					INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL) VALUES ($tempID, $tempqu, to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), $tempans, 'PE', 'N')
 SQL;
 					$db->go_query($sql);
 

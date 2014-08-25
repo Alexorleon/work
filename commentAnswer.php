@@ -60,7 +60,7 @@ SQL;
 		if($_GET['type_exam'] == 1){
 			// выбираем вариант ответа
 			if ($transitionOption == 1){
-					die('<script>document.location.href= "'.lhost.'/index.php"</script>');
+					die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 				}else{
 					die('<script>document.location.href= "'.lhost.'/question.php"</script>');
 				}

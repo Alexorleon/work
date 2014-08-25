@@ -57,3 +57,9 @@ function typeTest(ans){
 	$("#questions").submit();
 }
 
+// index.php главное меню
+function go_from_main(n){
+
+	$("#type_submit_main").val(n);
+	$("#mainpage" ).submit();
+}

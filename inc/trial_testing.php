@@ -10,14 +10,14 @@
 		//echo $answer;
 		//echo "<br /";
 		// выбираем вариант ответа
-		if ($answer == "21"){ // 21 это ID в таблице уровень компетенции
+		if ($answer == "21"){ // 21 это ID в таблице уровень компетенции. магическое число возможно нужно будет заменить.
 			//echo "good"; // правильно
 
 
 			//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 		}else{ //не правильно
 			//echo "not good";
-			//
+			// TODO: либо сразу пишем в историю, либо сохраняем список на потом. лучше сразу - частые но маленькие транзакции.
 			//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 		}
 	}
