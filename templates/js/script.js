@@ -63,3 +63,9 @@ function go_from_main(n){
 	$("#type_submit_main").val(n);
 	$("#mainpage" ).submit();
 }
+
+// regulations
+function get_regulations(n){
+	$("#type_regulations").val(n);
+	$("#regulationsPage").submit();
+}

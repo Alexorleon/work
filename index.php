@@ -14,10 +14,8 @@
 		$type_submit = $_POST['type_submit_main']; // по какой кнопке нажали. выбераем раздел.
 		
 		if ($type_submit == 1){
-			echo "нормативные документы";
-
 		
-			//die('<script>document.location.href= "'.lhost.'/index.php"</script>');
+			die('<script>document.location.href= "'.lhost.'/regulations.php"</script>');
 		}elseif ($type_submit == 2){
 			echo "контроль компетентности";
 
