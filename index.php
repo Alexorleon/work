@@ -33,7 +33,7 @@
 			//die('<script>document.location.href= "'.lhost.'/question.php"</script>');
 		}elseif ($type_submit == 7){ // Личные данные
 
-			//die('<script>document.location.href= "'.lhost.'/check_comp.html"</script>');
+			die('<script>document.location.href= "'.lhost.'/personal_data.php"</script>');
 		}else{
 
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');

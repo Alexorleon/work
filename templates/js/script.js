@@ -81,3 +81,10 @@ function get_compmodel(n){
 	$("#type_compmodel").val(n);
 	$("#compmodelPage").submit();
 }
+
+// personal data
+function get_personal(n){
+	$("#type_personal").val(n);
+	$("#personalPage").submit();
+}
+
