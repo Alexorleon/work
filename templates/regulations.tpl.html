@@ -1,30 +1,33 @@
 {extends file='index.tpl.html'}
 {block name=content}  
-	
-<title>{$title}</title>
-<meta charset="utf-8">
+
 <link rel="stylesheet" href="{$tpl}css/main.css">
-<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
-</head>
-<body>
 <div id="error_mess"> {$error_} </div>
 
 <div id="mainDiv" align="center" >
 
 <form id="regulationsPage" name="regulationsPage" method="post">
 
+
 <input id="type_regulations" name="type_regulations" type="hidden" value="1"/>
-<table >
 
-<tr>
-<td><input type="button" value="Новые документы" onclick="get_regulations(1)"/></td>
-<td><input type="button" value="Все документы" onclick="get_regulations(2)"/></td>
-</tr>
+{if $typedoc eq "new"}
+	
+	<input type="button" value="ТУТ НОВЫЕ ДОКУМЕНТЫ" onclick="get_regulations(1)"/>
+{elseif $typedoc eq "all"}
+    
+	<input type="button" value="А ТУТ ВСЕ ДОКУМЕНТЫ" onclick="get_regulations(1)"/>
+{else}
 
-<tr>
-<td><input type="button" value="Назад" onclick="get_regulations(3)"/></td>
-</tr>
-</table>
+    <table >
+	<tr>
+	<td><input type="button" value="Новые документы" onclick="get_regulations(1)"/></td>
+	<td><input type="button" value="Все документы" onclick="get_regulations(2)"/></td>
+	</tr>
+	</table>
+{/if}
+
+<input type="button" value="Назад" onclick="get_regulations(3)"/>
 
 </form>
 </div>

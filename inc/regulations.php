@@ -1,49 +1,55 @@
 <?php
-	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
+	//require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
 
-	$db = new db;
-	$db->GetConnect();
-	$error_='';
+	//$db = new db;
+	//$db->GetConnect();
+	//$error_='';
 	
-	// выбираем вариант (новые или все)
-	if ($_POST){
+	die("Fuck php");
+	// РІС‹Р±РёСЂР°РµРј РІР°СЂРёР°РЅС‚ (РЅРѕРІС‹Рµ РёР»Рё РІСЃРµ)
+	/*if ($_POST){
 
 		$type_regulations = $_POST['type_regulations'];
 
-		if ($type_regulations == 1){ // новые документы
+		if ($type_regulations == 1){ // РЅРѕРІС‹Рµ РґРѕРєСѓРјРµРЅС‚С‹
 
 
 			die('<script>document.location.href= "'.lhost.'/regulations.php?type_reg=1"</script>');
-		}elseif ($type_regulations == 2){ // все документы
+		}elseif ($type_regulations == 2){ // РІСЃРµ РґРѕРєСѓРјРµРЅС‚С‹
 
 
 			die('<script>document.location.href= "'.lhost.'/regulations.php?type_reg=2"</script>');
 		}else{
 			
-			// переходим назад в лобби
+			// РїРµСЂРµС…РѕРґРёРј РЅР°Р·Р°Рґ РІ Р»РѕР±Р±Рё
 			die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 		}
-	}
+	}*/
 	
-	
-	// TODO: запросить у БД есть ли новые документы. т.е. еще не прочитанные.
-	
-	// после выбора варианта, попадаем сюда же и выводим документы по выбору.
-	if(isset($_GET['type_reg'])){
+	// TODO: Р·Р°РїСЂРѕСЃРёС‚СЊ Сѓ Р‘Р” РµСЃС‚СЊ Р»Рё РЅРѕРІС‹Рµ РґРѕРєСѓРјРµРЅС‚С‹. С‚.Рµ. РµС‰Рµ РЅРµ РїСЂРѕС‡РёС‚Р°РЅРЅС‹Рµ.
 
-		// выводим все документы
+	// РїРѕСЃР»Рµ РІС‹Р±РѕСЂР° РІР°СЂРёР°РЅС‚Р°, РїРѕРїР°РґР°РµРј СЃСЋРґР° Р¶Рµ Рё РІС‹РІРѕРґРёРј РґРѕРєСѓРјРµРЅС‚С‹ РїРѕ РІС‹Р±РѕСЂСѓ.
+	/*if(isset($_GET['type_reg'])){
+
+		// РІС‹РІРѕРґРёРј С‚РѕР»СЊРєРѕ РЅРѕРІС‹Рµ РґРѕРєСѓРјРµРЅС‚С‹
 		if($_GET['type_reg'] == 1){
 		
-			echo "New doc";
-		}elseif ($_GET['type_reg'] == 2){ // выводим только новые документы
+			$typedoc = "new";
+		}elseif ($_GET['type_reg'] == 2){ // РІС‹РІРѕРґРёРј РІСЃРµ РґРѕРєСѓРјРµРЅС‚С‹
 		
-			echo "All doc";
-		}else{}
-	}
+			$typedoc = "all";
+		}else{
+			print_r("aaaaaaaaaaaaa");
+			$typedoc = '';
+		}
+	}else{
+	print_r("bbbbbbbbbbbb");
+		$typedoc = '';
+	}*/
 
-	$smarty->assign("error_", $error_);
+	//$smarty->assign("error_", $error_);
 
-	//$smarty->assign("typetest", $typetest);
-	$smarty->assign("title", "Нормативные документы");
-	$smarty->display("regulations.tpl.html");
+	//$smarty->assign("typedoc", $typedoc);
+	//$smarty->assign("title", "РќРѕСЂРјР°С‚РёРІРЅС‹Рµ РґРѕРєСѓРјРµРЅС‚С‹");
+	//$smarty->display("regulations.tpl.html");
 ?>

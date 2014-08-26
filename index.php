@@ -15,7 +15,7 @@
 		
 		if ($type_submit == 1){
 		
-			die('<script>document.location.href= "'.lhost.'/regulations.php"</script>');
+			die('<script>document.location.href= "'.lhost.'/regulations.php?type_reg=0"</script>');
 		}elseif ($type_submit == 2){
 			echo "контроль компетентности";
 
