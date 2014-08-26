@@ -13,17 +13,17 @@
 		// выводим только новые инструктажи
 		if($_GET['type_brif'] == 1){
 		
-			$typedoc = "new";
+			$typebrif = "new";
 			// TODO: 
 		}elseif ($_GET['type_brif'] == 2){ // выводим все инструктажи
 		
-			$typedoc = "all";
+			$typebrif = "all";
 			// TODO: 
 		}else{
-			$typedoc = '';
+			$typebrif = '';
 		}
 	}else{
-		$typedoc = '';
+		$typebrif = '';
 	}
 
 	// выбираем вариант (новые или все)
@@ -54,11 +54,10 @@
 	}
 	
 	// TODO: запросить у БД есть ли новые инструктажи. т.е. еще не прочитанные.
-
 	
 	$smarty->assign("error_", $error_);
 
-	$smarty->assign("typedoc", $typedoc);
-	$smarty->assign("title", "Нормативные инструктажи");
+	$smarty->assign("typebrif", $typebrif);
+	$smarty->assign("title", "Видео инструктажи");
 	$smarty->display("video_briefings.tpl.html");
 ?>

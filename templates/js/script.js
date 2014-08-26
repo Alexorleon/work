@@ -70,9 +70,14 @@ function get_regulations(n){
 	$("#regulationsPage").submit();
 }
 
-// regulations
+// video_briefings
 function get_briefings(n){
 	$("#type_briefings").val(n);
 	$("#briefingsPage").submit();
 }
 
+// comp_model
+function get_compmodel(n){
+	$("#type_compmodel").val(n);
+	$("#compmodelPage").submit();
+}

@@ -11,10 +11,10 @@
 
 <input id="type_briefings" name="type_briefings" type="hidden" value="1"/>
 
-{if $typedoc eq "new"}
+{if $typebrif eq "new"}
 	
 	<input type="button" value="ТУТ НОВЫЕ инструктажи" onclick="get_briefings(1)"/>
-{elseif $typedoc eq "all"}
+{elseif $typebrif eq "all"}
     
 	<input type="button" value="А ТУТ ВСЕ инструктажи" onclick="get_briefings(1)"/>
 {else}

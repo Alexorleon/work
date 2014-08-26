@@ -27,7 +27,7 @@
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=1"</script>');
 		}elseif ($type_submit == 5){ // Компьютерные модели несчастных случаев
 		
-			//die('<script>document.location.href= "'.lhost.'/question.php"</script>');
+			die('<script>document.location.href= "'.lhost.'/comp_model.php?type_comp=0"</script>');
 		}elseif ($type_submit == 6){ // Предложения руководству
 			
 			//die('<script>document.location.href= "'.lhost.'/question.php"</script>');
