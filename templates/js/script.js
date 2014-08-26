@@ -88,3 +88,8 @@ function get_personal(n){
 	$("#personalPage").submit();
 }
 
+// proposals
+function get_proposals(n){
+	$("#type_proposals").val(n);
+	$("#proposalsPage").submit();
+}

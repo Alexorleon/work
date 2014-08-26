@@ -30,7 +30,7 @@
 			die('<script>document.location.href= "'.lhost.'/comp_model.php?type_comp=0"</script>');
 		}elseif ($type_submit == 6){ // Предложения руководству
 			
-			//die('<script>document.location.href= "'.lhost.'/question.php"</script>');
+			die('<script>document.location.href= "'.lhost.'/proposals.php"</script>');
 		}elseif ($type_submit == 7){ // Личные данные
 
 			die('<script>document.location.href= "'.lhost.'/personal_data.php"</script>');
