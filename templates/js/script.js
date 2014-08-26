@@ -69,3 +69,10 @@ function get_regulations(n){
 	$("#type_regulations").val(n);
 	$("#regulationsPage").submit();
 }
+
+// regulations
+function get_briefings(n){
+	$("#type_briefings").val(n);
+	$("#briefingsPage").submit();
+}
+

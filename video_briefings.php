@@ -5,44 +5,60 @@
 	$db->GetConnect();
 	$error_='';
 	
-	// выбираем вариант (новые или все)
+	// TODO: Р·Р°РїСЂРѕСЃ РІСЃРµС… С„Р°Р№Р»РѕРІ
+	
+	// РїРѕСЃР»Рµ РІС‹Р±РѕСЂР° РІР°СЂРёР°РЅС‚Р°, РїРѕРїР°РґР°РµРј СЃСЋРґР° Р¶Рµ Рё РІС‹РІРѕРґРёРј РёРЅСЃС‚СЂСѓРєС‚Р°Р¶Рё РїРѕ РІС‹Р±РѕСЂСѓ.
+	if(isset($_GET['type_brif'])){
+
+		// РІС‹РІРѕРґРёРј С‚РѕР»СЊРєРѕ РЅРѕРІС‹Рµ РёРЅСЃС‚СЂСѓРєС‚Р°Р¶Рё
+		if($_GET['type_brif'] == 1){
+		
+			$typedoc = "new";
+			// TODO: 
+		}elseif ($_GET['type_brif'] == 2){ // РІС‹РІРѕРґРёРј РІСЃРµ РёРЅСЃС‚СЂСѓРєС‚Р°Р¶Рё
+		
+			$typedoc = "all";
+			// TODO: 
+		}else{
+			$typedoc = '';
+		}
+	}else{
+		$typedoc = '';
+	}
+
+	// РІС‹Р±РёСЂР°РµРј РІР°СЂРёР°РЅС‚ (РЅРѕРІС‹Рµ РёР»Рё РІСЃРµ)
 	if ($_POST){
 
-		$type_regulations = $_POST['type_regulations'];
+		$type_briefings = $_POST['type_briefings'];
 
-		if ($type_regulations == 1){ // новые документы
-
-
-			die('<script>document.location.href= "'.lhost.'/regulations.php?type_reg=1"</script>');
-		}elseif ($type_regulations == 2){ // все документы
+		if ($type_briefings == 1){ // РЅРѕРІС‹Рµ РёРЅСЃС‚СЂСѓРєС‚Р°Р¶Рё
 
 
-			die('<script>document.location.href= "'.lhost.'/regulations.php?type_reg=2"</script>');
+			die('<script>document.location.href= "'.lhost.'/video_briefings.php?type_brif=1"</script>');
+		}elseif ($type_briefings == 2){ // РІСЃРµ РёРЅСЃС‚СЂСѓРєС‚Р°Р¶Рё
+
+
+			die('<script>document.location.href= "'.lhost.'/video_briefings.php?type_brif=2"</script>');
 		}else{
 			
-			// переходим назад в лобби
-			die('<script>document.location.href= "'.lhost.'/index.php"</script>');
+			if($_GET['type_brif'] != 0){
+
+				// РїРµСЂРµС…РѕРґРёРј РѕР±СЂР°С‚РЅРѕ Рє РІС‹Р±РѕСЂСѓ РґРѕРєСѓРјРµРЅС‚РѕРІ
+				die('<script>document.location.href= "'.lhost.'/video_briefings.php?type_brif=0"</script>');
+			}else{
+			
+				// РїРµСЂРµС…РѕРґРёРј РІ Р»РѕР±Р±Рё
+				die('<script>document.location.href= "'.lhost.'/index.php"</script>');
+			}
 		}
 	}
 	
-	// TODO: запросить у БД есть ли новые документы. т.е. еще не прочитанные.
+	// TODO: Р·Р°РїСЂРѕСЃРёС‚СЊ Сѓ Р‘Р” РµСЃС‚СЊ Р»Рё РЅРѕРІС‹Рµ РёРЅСЃС‚СЂСѓРєС‚Р°Р¶Рё. С‚.Рµ. РµС‰Рµ РЅРµ РїСЂРѕС‡РёС‚Р°РЅРЅС‹Рµ.
+
 	
-	// после выбора варианта, попадаем сюда же и выводим документы по выбору.
-	if(isset($_GET['type_reg'])){
-
-		// выводим все документы
-		if($_GET['type_reg'] == 1){
-		
-			echo "New doc";
-		}elseif ($_GET['type_reg'] == 2){ // выводим только новые документы
-		
-			echo "All doc";
-		}else{}
-	}
-
 	$smarty->assign("error_", $error_);
 
-	//$smarty->assign("typetest", $typetest);
-	$smarty->assign("title", "Нормативные документы");
-	$smarty->display("regulations.tpl.html");
+	$smarty->assign("typedoc", $typedoc);
+	$smarty->assign("title", "РќРѕСЂРјР°С‚РёРІРЅС‹Рµ РёРЅСЃС‚СЂСѓРєС‚Р°Р¶Рё");
+	$smarty->display("video_briefings.tpl.html");
 ?>

@@ -13,38 +13,26 @@
 		
 		$type_submit = $_POST['type_submit_main']; // по какой кнопке нажали. выбераем раздел.
 		
-		if ($type_submit == 1){
+		if ($type_submit == 1){ // нормативные документы
 		
 			die('<script>document.location.href= "'.lhost.'/regulations.php?type_reg=0"</script>');
-		}elseif ($type_submit == 2){
-			echo "контроль компетентности";
-
+		}elseif ($type_submit == 2){ // контроль компетентности
 			
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=2"</script>');
-		}elseif ($type_submit == 3){
-			echo "видеонструктажи";
-		
-		
-			//die('<script>document.location.href= "'.lhost.'/question.php"</script>');
-		}elseif ($type_submit == 4){
-			echo "предсменный экзаменатор";
+		}elseif ($type_submit == 3){ // видеоинструктажи
 
+			die('<script>document.location.href= "'.lhost.'/video_briefings.php?type_brif=0"</script>');
+		}elseif ($type_submit == 4){ // предсменный экзаменатор
 			
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=1"</script>');
-		}elseif ($type_submit == 5){
-			echo "Компьютерные модели несчастных случаев";
-
+		}elseif ($type_submit == 5){ // Компьютерные модели несчастных случаев
 		
 			//die('<script>document.location.href= "'.lhost.'/question.php"</script>');
-		}elseif ($type_submit == 6){
-			echo "Предложения руководству";
-
+		}elseif ($type_submit == 6){ // Предложения руководству
 			
 			//die('<script>document.location.href= "'.lhost.'/question.php"</script>');
-		}elseif ($type_submit == 7){
-			echo "Личные данные";
-		
-		
+		}elseif ($type_submit == 7){ // Личные данные
+
 			//die('<script>document.location.href= "'.lhost.'/check_comp.html"</script>');
 		}else{
 
