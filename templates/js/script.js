@@ -93,3 +93,9 @@ function get_proposals(n){
 	$("#type_proposals").val(n);
 	$("#proposalsPage").submit();
 }
+
+// documents
+function get_documents(n){
+	$("#type_documents").val(n);
+	$("#documentsPage").submit();
+}

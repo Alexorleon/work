@@ -15,19 +15,19 @@
 		
 		if ($type_submit == 1){ // нормативные документы
 		
-			die('<script>document.location.href= "'.lhost.'/regulations.php?type_reg=0"</script>');
+			die('<script>document.location.href= "'.lhost.'/documents.php?type_doc=1"</script>');
 		}elseif ($type_submit == 2){ // контроль компетентности
 			
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=2"</script>');
 		}elseif ($type_submit == 3){ // видеоинструктажи
 
-			die('<script>document.location.href= "'.lhost.'/video_briefings.php?type_brif=0"</script>');
+			die('<script>document.location.href= "'.lhost.'/documents.php?type_doc=2"</script>');
 		}elseif ($type_submit == 4){ // предсменный экзаменатор
 			
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=1"</script>');
 		}elseif ($type_submit == 5){ // Компьютерные модели несчастных случаев
 		
-			die('<script>document.location.href= "'.lhost.'/comp_model.php?type_comp=0"</script>');
+			die('<script>document.location.href= "'.lhost.'/documents.php?type_doc=3"</script>');
 		}elseif ($type_submit == 6){ // Предложения руководству
 			
 			die('<script>document.location.href= "'.lhost.'/proposals.php"</script>');
