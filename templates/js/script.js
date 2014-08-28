@@ -38,9 +38,10 @@ function del(){
 }
 
 // выбор варианта ответа
-function textAnswer(ans){
+function textAnswer(ans, idans){
 	//alert(ans);
-	$("#answer").val(ans);
+	$("#comp_lvl_id").val(ans);
+	$("#answ_id").val(idans);
 	$("#questions").submit();
 }
 
@@ -62,24 +63,6 @@ function go_from_main(n){
 
 	$("#type_submit_main").val(n);
 	$("#mainpage" ).submit();
-}
-
-// regulations
-function get_regulations(n){
-	$("#type_regulations").val(n);
-	$("#regulationsPage").submit();
-}
-
-// video_briefings
-function get_briefings(n){
-	$("#type_briefings").val(n);
-	$("#briefingsPage").submit();
-}
-
-// comp_model
-function get_compmodel(n){
-	$("#type_compmodel").val(n);
-	$("#compmodelPage").submit();
 }
 
 // personal data
