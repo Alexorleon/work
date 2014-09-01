@@ -23,6 +23,7 @@
 	
 	
 	/*
+	берем название должности из первой строки.
 	берем первую строку.
 	если в должности не пусто, запоминаем ее.
 	находим соответствие теста к этой долности. - у нас есть id 9.
@@ -32,7 +33,7 @@
 	
 	SELECT Max(ID) FROM ALLQUESTIONS
 	*/
-	
+			
 	// TODO: РАЗБОР ИДЕТ ТОЛЬКО ТЕКСТОВОГО ТИПА
 	foreach ($objPHPExcel->getWorksheetIterator() as $worksheet){
 	
@@ -44,6 +45,10 @@
 		//echo $nrColumns . ' колонок (A-' . $highestColumn . ') ';
 		echo $highestRow . ' строк.';
 		echo '<br>Данные: <table border="1"><tr>';
+		
+		// находим ID специальности из первой строки
+		$cell = $worksheet->getCellByColumnAndRow(0, 1);
+		$risk = $cell->getValue();
 		// TODO: брать кусками
 		
 		// берем первый вопрос
@@ -67,7 +72,7 @@ SQL;
 			
 			// получаем сам вопрос
 			$cell = $worksheet->getCellByColumnAndRow(2, $row);
-			$question = $cell->getValue();
+			$question = iconv("utf-8", "windows-1251", $cell->getValue());
 						
 			// тест - проверить номер последнего ID
 			$sql = <<<SQL
@@ -81,6 +86,7 @@ SQL;
 			$risk = $cell->getValue();
 			if($risk == 0) $risk = 21;
 			print_r("    ".$risk."    ");
+			print_r("!!!!!- ".$question);
 				
 			// записываем вопрос
 			$sql = <<<SQL
@@ -96,7 +102,12 @@ SQL;
 			$s_res = $db->go_result_once($sql);
 			print_r(" posle= ".$s_res['max']);
 			
-			/*for ($i = $row; $i < $row + 3; $i++)
+			
+		}
+		echo '</table>';
+	}
+	
+	/*for ($i = $row; $i < $row + 3; $i++)
 			{
 				echo '<tr>';
 				// берем поочередно ячейки
@@ -110,10 +121,12 @@ SQL;
 				}
 				echo '</tr>';
 			}*/
-		}
-		echo '</table>';
-	}
 	
+	
+	
+	
+	
+	//------------------------------------------------------------
 	/*class chunkReadFilter implements PHPExcel_Reader_IReadFilter
 	{
 		private $_startRow = 0;

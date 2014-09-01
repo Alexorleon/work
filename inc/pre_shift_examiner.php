@@ -8,7 +8,7 @@
 		$idans = $_POST['answ_id'];
 		
 		// выбираем вариант ответа
-		if ($answer == "21"){ // магическое число 21 это ID в таблице уровень компетенции
+		if ($answer == "21"){ // магическое число 21 это ID в таблице уровень компетенции // TODO: потом можно будет заменить
 			// правильно
 			$_SESSION['transitionOption'] = 1;
 
@@ -71,15 +71,23 @@ SQL;
 		}
 
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
-		// из всех тестов берем только с определенной должностью.
-		// затем из вопросов берем только один случайный вопрос. только по модулю знания, только текстовый и которые принадлежат к выбранным тестам.
+
+		// 1. получаем все тесты для определенной должности.
+		// 2. получаем все вопросы по выбранным тестам.
+		// 3. получаем один случайный текстовый вопрос по модулю знания из выбранных вопросов.
 		$sql = <<<SQL
-		SELECT ID, TEXT FROM
-		(SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.TESTNAMESID IN 
-		(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj') ORDER BY dbms_random.value) WHERE rownum=1
+		SELECT ID, TEXT FROM 
+		(SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
+		(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+		(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) ORDER BY dbms_random.value) WHERE rownum=1
 SQL;
 
 		$s_res = $db->go_result_once($sql);
+		
+		if(empty($s_res)){
+		
+			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
+		}
 
 		// запоминаем ID вопроса если потребуется отвечать на него снова
 		$_SESSION['ID_question'] = $s_res['ID'];
