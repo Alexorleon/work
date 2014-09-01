@@ -38,9 +38,10 @@ function del(){
 }
 
 // выбор варианта ответа
-function textAnswer(ans){
+function textAnswer(ans, idans){
 	//alert(ans);
-	$("#answer").val(ans);
+	$("#comp_lvl_id").val(ans);
+	$("#answ_id").val(idans);
 	$("#questions").submit();
 }
 
@@ -57,3 +58,27 @@ function typeTest(ans){
 	$("#questions").submit();
 }
 
+// index.php главное меню
+function go_from_main(n){
+
+	$("#type_submit_main").val(n);
+	$("#mainpage" ).submit();
+}
+
+// personal data
+function get_personal(n){
+	$("#type_personal").val(n);
+	$("#personalPage").submit();
+}
+
+// proposals
+function get_proposals(n){
+	$("#type_proposals").val(n);
+	$("#proposalsPage").submit();
+}
+
+// documents
+function get_documents(n){
+	$("#type_documents").val(n);
+	$("#documentsPage").submit();
+}

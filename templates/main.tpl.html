@@ -1,11 +1,52 @@
 {extends file='index.tpl.html'}
 {block name=content}  
-	<p>Привет человек номер - {$smarty.session.sotrud_id}</p>
+	
+	<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+</head>
+<body>
+<div id="error_mess"> {$error_} </div>
+
+<div id="mainDiv" align="center" >
+
+<form id="mainpage" name="mainpage" method="post">
+
+<input id="type_submit_main" name="type_submit_main" type="hidden" value="1"/>
+<table >
+
+<tr>
+<td><input type="button" value="Нормативные документы" onclick="go_from_main(1)"/></td>
+<td><input type="button" value="Контроль компетентности" onclick="go_from_main(2)"/></td>
+</tr>
+
+<tr>
+<td><input type="button" value="Видеоинструктажи" onclick="go_from_main(3)"/></td>
+<td><input type="button" value="Предсменный экзаменатор" onclick="go_from_main(4)"/></td>
+</tr>
+
+<tr>
+<td><input type="button" value="Компьютерные модели несчастных случаев" onclick="go_from_main(5)"/></td>
+<td><input type="button" value="Предложения руководству" onclick="go_from_main(6)"/></td>
+</tr>
+
+<tr>
+<td><input type="button" value="Личные данные" onclick="go_from_main(7)"/></td>
+<td><input type="button" value="Выход" onclick="go_from_main(8)"/></td>
+</tr>
+</table>
+
+</form>
+</div>
+<script src="{$tpl}js/script.js"></script>
+	
+	<!--<p>Привет человек номер - {$smarty.session.sotrud_id}</p>
 	Это главная страница
 	<p><a href="question.php">Какой то экзаменатор</a></p>
  
 	<p><a href="./">Личный кабинет</a></p>
  
-	<p><a href="auth.php">Выход</a></p>
-
+	<p><a href="auth.php">Выход</a></p>-->
+	
 {/block}

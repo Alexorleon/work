@@ -1,0 +1,22 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+
+<link rel="stylesheet" href="{$tpl}css/main.css">
+<div id="error_mess"> {$error_} </div>
+
+<div id="mainDiv" align="center" >
+
+<form id="personalPage" name="personalPage" method="post">
+
+
+<input id="type_personal" name="type_personal" type="hidden" value="1"/>
+
+<!-- TODO: вывод статистики-->
+
+<input type="button" value="Назад" onclick="get_personal(0)"/>
+
+</form>
+</div>
+<script src="{$tpl}js/script.js"></script>
+
+{/block}

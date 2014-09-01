@@ -1,6 +1,7 @@
 p{
 font: 20px tahoma;
 }
+
 mainDiv{
 background: skyblue;
 width:350px;
@@ -9,23 +10,28 @@ box-shadow:10px 10px 150px grey;
 padding-top: 5px;
 padding-bottom: 20px;
 }
+
 input[type="submit"]{
 width:50px;
 height:30px;
 opacity:0.8;
 border:0px;
 }
+
 input[type="button"], input[type="reset"]{
 width:100px;
 height:100px;
 opacity:0.8;
 border:0px;
 }
+
 input[type="text"]{
 font-size: 54px;
 height:64px;
 width:310px;
 }
+
 input:hover{
 opacity:1;
 }
+

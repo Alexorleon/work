@@ -10,6 +10,7 @@
 	$_SESSION['transitionOption'] = 1; // флаг правильности ответа
 	$_SESSION['ID_question'] = 0; // ID вопроса
 	$_SESSION['answer_attempt'] = 0; // количество попыток ответов на вопрос
+	$_SESSION['first_answerid'] = 0; // первый неправильный ответ
 	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
 		
 	if ($_POST){
