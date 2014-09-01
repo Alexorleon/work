@@ -9,50 +9,48 @@
 
 if(isset($_GET['type_exam'])){
 
-		// это предсменный экзаменатор
-		if($_GET['type_exam'] == 1){
-			
-			// как ответили (правильно или нет)
-			$transitionOption = $_SESSION['transitionOption'];
-
-			if ($transitionOption != 1){ // not good
+	// это предсменный экзаменатор
+	if($_GET['type_exam'] == 1){
 		
-				// так как ответили не правильно, то выводим комментарий и правильный ответ
-				$temp_id = $_SESSION['ID_question'];
-				$sql = <<<SQL
-				SELECT COMMENTARY FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_id'
+		// как ответили (правильно или нет)
+		$transitionOption = $_SESSION['transitionOption'];
+
+		if ($transitionOption != 1){ // not good
+	
+			// так как ответили не правильно, то выводим комментарий и правильный ответ
+			$temp_id = $_SESSION['ID_question'];
+			$sql = <<<SQL
+			SELECT COMMENTARY FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_id'
 SQL;
-				$s_res = $db->go_result_once($sql);
+			$s_res = $db->go_result_once($sql);
 
-				$question_com = $s_res['COMMENTARY'];
+			$question_com = $s_res['COMMENTARY'];
 
-				// правильный ответ
-				$sql = <<<SQL
-				SELECT TEXT FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id' AND ALLANSWERS.COMPETENCELEVELID='21'
+			// правильный ответ
+			$sql = <<<SQL
+			SELECT TEXT FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id' AND ALLANSWERS.COMPETENCELEVELID='21'
 SQL;
-				$s_res = $db->go_result_once($sql);
+			$s_res = $db->go_result_once($sql);
 
-				$question_ans = $s_res['TEXT'];
-				
-			}else{
-
-				$question_com = "Вы ответили правильно!";
-				$question_ans = '';
-			}
+			$question_ans = $s_res['TEXT'];
 			
-		}else if($_GET['type_exam'] == 2){ // это контроль компетентности
-			
-			$question_com = "Статистика теста";
-			$question_ans = '';
-			$transitionOption = 1;
-			// TODO: выводим статистику ответов
 		}else{
-			
-			die("У меня не прописано, что делать");
+
+			$question_com = "Вы ответили правильно!";
+			$question_ans = '';
 		}
-
-
+		
+	}else if($_GET['type_exam'] == 2){ // это контроль компетентности
+		
+		$question_com = "Статистика теста";
+		$question_ans = '';
+		$transitionOption = 1;
+		// TODO: выводим статистику ответов
+	}else{
+		
+		die("У меня не прописано, что делать");
 	}
+}
 	
 	if ($_POST){
 
