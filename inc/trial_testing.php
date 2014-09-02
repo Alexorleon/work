@@ -1,53 +1,94 @@
 <?php
-	 // Пробное тестирование. Без записи в историю.
+	// Пробное тестирование. Без записи в историю.
 
 	//echo "Пробное тестирование";
 
 	if ($_POST){
 
 		$answer = $_POST['answer'];
-		//echo "<br /";
-		//echo $answer;
-		//echo "<br /";
-		// выбираем вариант ответа
-		if ($answer == "21"){ // 21 это ID в таблице уровень компетенции. магическое число возможно нужно будет заменить.
-			//echo "good"; // правильно
+
+			// выбираем вариант ответа
+			if ($answer == "21"){ // 21 это ID в таблице уровень компетенции. магическое число возможно нужно будет заменить.
+				//echo "good"; // правильно
 
 
-			//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
-		}else{ //не правильно
-			//echo "not good";
-			// TODO: либо сразу пишем в историю, либо сохраняем список на потом. лучше сразу - частые но маленькие транзакции.
-			//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
-		}
+				//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
+			}else{ //не правильно
+				//echo "not good";
+				// TODO: либо сразу пишем в историю, либо сохраняем список на потом. лучше сразу - частые но маленькие транзакции.
+				//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
+			}
 	}
 
 	// если еще ни разу не отвечали, то требуются подготовительные действия
 	if ($_SESSION['counter_questions'] == 0){
-				
-		// TODO: формируем контроль компетентности. количество вопросов по рискам. Это будет массив из ID вопросов.
-		//-----
-		$_SESSION['tempmass'] = array(41, 42, 43);
-		//-----
+		
+		$sotrud_dolj = $_SESSION['sotrud_dolj'];
+		
+		/*
+		формируем равномерный массив вопросов по уровню их риска.
+		для этого берем все вопросы по каждому риску. Это будет массив из ID вопросов.
+		*/
+		
+		// вопросы по смертельному риску
+		$sql_ques = <<<SQL
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
+			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
+SQL;
+		$array_death_risk = $db->go_result($sql_ques);
+		shuffle($array_death_risk);
+		
+		// вопросы по высокому риску
+		$sql_ques = <<<SQL
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
+			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
+SQL;
+		$array_high_risk = $db->go_result($sql_ques);
+		shuffle($array_high_risk);
+		
+		// вопросы по существенному риску
+		$sql_ques = <<<SQL
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
+			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
+SQL;
+		$array_sign_risk = $db->go_result($sql_ques);
+		shuffle($array_sign_risk);
+		
+		// формируем основной массив вопросов необходимого количества
+		$tempcount = $_SESSION['numquestions']; // необходимое количество
+		$final_array = array();
+		
+		for ($i = 0; $i < $tempcount; $i++){
+			
+		}
 
 		// TODO: задаем вопрос
 
-		$_SESSION['counter_questions']++;
-
-		die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
+		//$_SESSION['counter_questions']++;
+		print_r($array_death_risk);
+		echo "<br />";
+		print_r($array_high_risk);
+		echo "<br />";
+		print_r($array_sign_risk);
+		die();
+		//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 	}else{
 
 		// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
-		if($_SESSION['counter_questions'] < 3 /*$_SESSION['numquestions']*/){ // TEST
+		if($_SESSION['counter_questions'] < 3 /*$_SESSION['numquestions']*/){ // TODO: пока тестирование
 
 			//echo "--- " . $_SESSION['counter_questions'] . " ---";
 
 			// стартуем таймер
 			$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s');
 
-			$sotrud_dolj = $_SESSION['sotrud_dolj'];
+			
 
 			// TODO: задаем вопрос. берем ID вопроса из этого массива.
+			// TODO: проверить количество задаваемых вопросов с размером массива
 
 			// TODO: тут должен быть вывод вопроса в зависимости от его типа
 
