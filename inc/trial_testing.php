@@ -61,9 +61,70 @@ SQL;
 		$tempcount = $_SESSION['numquestions']; // необходимое количество
 		$final_array = array();
 		
-		for ($i = 0; $i < $tempcount; $i++){
+		// берем поочередно из каждого массива ID вопроса
+		$i = 0;
+		$b_dr = false;
+		$b_hr = false;
+		$b_sr = false;
+		$count_ques = 0;
+		do{
 			
-		}
+			more_question:
+			
+			if($count_ques >= $tempcount) break; // набрали нужное количество вопросов
+			// если массив себя исчерпал, проходим мимо
+			if(count($array_death_risk) <= $i){
+			
+				// берем значение из другого массива
+			}else{
+				// если еще не добавили
+				if(!$b_dr){
+					array_push($final_array, $array_death_risk[$i]);
+					$b_dr = true;
+					$count_ques++;
+				}
+			}
+			
+			if($count_ques >= $tempcount) break;
+			
+			if(count($array_high_risk) <= $i){
+			}else{
+				if(!$b_hr){
+					array_push($final_array, $array_high_risk[$i]);
+					$b_hr = true;
+					$count_ques++;
+				}
+			}
+			
+			if($count_ques >= $tempcount) break;
+			
+			if(count($array_sign_risk) <= $i){
+			}else{
+				if(!$b_sr){
+					array_push($final_array, $array_sign_risk[$i]);
+					$b_sr = true;
+					$count_ques++;
+				}
+			}
+			
+			// проверяем что все вложились или больше нечего добавить
+			if($b_dr == true && $b_hr == true && $b_sr == true){ // все гуд, с каждого по вопросу
+			
+				$i++;
+				$b_dr = false;
+				$b_hr = false;
+				$b_sr = false;
+			}elseif($b_dr == false && $b_hr == false && $b_sr == false){ // опаньки, закончились вопросы в массивах
+				break;
+			}else{
+				
+				$i++;
+				$b_dr = false;
+				$b_hr = false;
+				$b_sr = false;
+				goto more_question;
+			}
+		}while ($count_ques < $tempcount);
 
 		// TODO: задаем вопрос
 
@@ -73,6 +134,8 @@ SQL;
 		print_r($array_high_risk);
 		echo "<br />";
 		print_r($array_sign_risk);
+		echo "<br />";
+		print_r($final_array);
 		die();
 		//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 	}else{
