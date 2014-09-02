@@ -15,24 +15,9 @@
                 ->setKeywords("office 2007 openxml php")
                 ->setCategory("Тестовый файл");
 	$objPHPExcel->getActiveSheet()->setTitle('Демо');*/
-	
-	// Специальность	Вопросы	Ответы	Цена	Компетентность	Риск	Фактор
-	
+		
 	$objPHPExcel = new PHPExcel();
 	$objPHPExcel = PHPExcel_IOFactory::load("test.xlsx");
-	
-	
-	/*
-	берем название должности из первой строки.
-	берем первую строку.
-	если в должности не пусто, запоминаем ее.
-	находим соответствие теста к этой долности. - у нас есть id 9.
-	каждый файл который мы открыли относится к определенному типу вопроса. - у нас есть 8.
-	берем из ячейки уровень риска.
-	берем из ячейки модуль. - у нас 5
-	
-	SELECT Max(ID) FROM ALLQUESTIONS
-	*/
 	
 	// получаем актуальные уровни компетенции из таблицы
 	$sql = <<<SQL
@@ -87,8 +72,8 @@ SQL;
 			
 			// получаем сам вопрос
 			$cell = $worksheet->getCellByColumnAndRow(1, $row);
-			//$question = iconv("utf-8", "windows-1251", $cell->getValue());
-			$question = $cell->getValue();
+			$question = iconv("utf-8", "windows-1251", $cell->getValue());
+			//$question = $cell->getValue();
 			
 			// TODO: как определить какой тип вопроса
 			
@@ -142,7 +127,8 @@ SQL;
 			
 				// получаем ответ
 				$cell = $worksheet->getCellByColumnAndRow(2, $i);
-				$answer = $cell->getValue();
+				$answer = iconv("utf-8", "windows-1251", $cell->getValue());
+				//$answer = $cell->getValue();
 				
 				// получаем цену
 				$cell = $worksheet->getCellByColumnAndRow(3, $i);
@@ -150,7 +136,8 @@ SQL;
 				
 				// получаем комментарий
 				$cell = $worksheet->getCellByColumnAndRow(6, $i);
-				$commentary = $cell->getValue();
+				$commentary = iconv("utf-8", "windows-1251", $cell->getValue());
+				//$commentary = $cell->getValue();
 			
 				// по цене находим компетентность и риск
 				if(($price >= $array_competence[3]['min']) && ($price <= $array_competence[3]['max'])){
