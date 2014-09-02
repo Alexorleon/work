@@ -91,17 +91,31 @@ SQL;
 			$question = $cell->getValue();
 			
 			// TODO: как определить какой тип вопроса
-						
-			// получаем номер последнего ID
+			
+			// необходимо получить номер последнего ID. Для этого нужно сначало сделать тестовую запись,
+			// на тот случай если автоинкремент таблицы уже срабатывал.
+			$sql = <<<SQL
+				INSERT INTO stat.ALLQUESTIONS (TEXT) VALUES ('TEST')
+SQL;
+			$db->go_query($sql);
+			
+			// последний ID
 			$sql = <<<SQL
 				SELECT Max(ID) AS "max" FROM stat.ALLQUESTIONS
 SQL;
 			$s_res = $db->go_result_once($sql);
 			print_r(" do= ".$s_res['max']);
-			$count_questions = $s_res['max']; // TODO: ОПАСНО - выводит максимальный ID, НО на самом деле автоинкремент другой. если добавили и удалили запись, то MAX нарушается.
+			$count_questions = $s_res['max'];
+			
+			// теперь удаляем тестовую запись
+			$sql = <<<SQL
+				DELETE FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$count_questions'
+SQL;
+			$db->go_query($sql);
 			
 			// увеличиваем счетчик для следующей записи
 			$count_questions++;
+			
 			// записываем вопрос
 			$sql = <<<SQL
 				INSERT INTO stat.ALLQUESTIONS (TEXT, TYPEQUESTIONSID, MODULEID) 
