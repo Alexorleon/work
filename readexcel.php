@@ -5,7 +5,7 @@
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
-	
+	 
 	// устанавливаем метаданные
 	/*$objPHPExcel->getProperties()->setCreator("PHP")
                 ->setLastModifiedBy("Алексей")
@@ -15,24 +15,16 @@
                 ->setKeywords("office 2007 openxml php")
                 ->setCategory("Тестовый файл");
 	$objPHPExcel->getActiveSheet()->setTitle('Демо');*/
-	
-	// Специальность	Вопросы	Ответы	Цена	Компетентность	Риск	Фактор
-	
+		
 	$objPHPExcel = new PHPExcel();
 	$objPHPExcel = PHPExcel_IOFactory::load("test.xlsx");
 	
-	
-	/*
-	берем название должности из первой строки.
-	берем первую строку.
-	если в должности не пусто, запоминаем ее.
-	находим соответствие теста к этой долности. - у нас есть id 9.
-	каждый файл который мы открыли относится к определенному типу вопроса. - у нас есть 8.
-	берем из ячейки уровень риска.
-	берем из ячейки модуль. - у нас 5
-	
-	SELECT Max(ID) FROM ALLQUESTIONS
-	*/
+	// получаем актуальные уровни компетенции из таблицы
+	$sql = <<<SQL
+		SELECT PENALTYPOINTS_MIN AS "min", PENALTYPOINTS_MAX AS "max" FROM stat.COMPETENCELEVEL
+SQL;
+	$array_competence = $db->go_result($sql);
+	//print_r($array_competence[1]['min']);
 			
 	// TODO: РАЗБОР ИДЕТ ТОЛЬКО ТЕКСТОВОГО ТИПА
 	foreach ($objPHPExcel->getWorksheetIterator() as $worksheet){
@@ -44,56 +36,84 @@
 		//$nrColumns = ord($highestColumn) - 64;
 		//echo $nrColumns . ' колонок (A-' . $highestColumn . ') ';
 		echo $highestRow . ' строк.';
-		echo '<br>Данные: <table border="1"><tr>';
+		//echo '<br>Данные: <table border="1"><tr>';
 		
-		// находим ID специальности из первой строки
+		// находим ID теста и модуль из первой строки
 		$cell = $worksheet->getCellByColumnAndRow(0, 1);
-		$risk = $cell->getValue();
-		// TODO: брать кусками
+		$complete_line = $cell->getValue();
+		//print_r($complete_line);
+		//echo "<br />";
+		// разбор полученной строки. " - ГРОЗ - Проверка знаний"
+		$out_array = preg_split('/ - /', $complete_line);
 		
-		// берем первый вопрос
-		for ($row = 2; $row <= $highestRow; $row = $row + 3){ // 3 - количество ответов
-		
-			// берем поочередно 3 строки из этого вопроса
-			// формируем сам вопрос
-			
-			// определяем название теста TODO: если тот же, то запрос повторять не нужно
-			// получаем должность
-			$cell = $worksheet->getCellByColumnAndRow(1, $row);
-			$dolj_id = $cell->getValue();
-			
-			$sql = <<<SQL
-				SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE DOLJNOSTKOD='$dolj_id'
-SQL;
-			$s_res = $db->go_result_once($sql);
+		// получаем ID теста
+		$str_testname = iconv("utf-8", "windows-1251", $out_array[1]); // название теста
 
-			$test_id = $s_res['TESTNAMESID']; // у нас есть специальность - 9
-			print_r($test_id."    ");
+		$sql = <<<SQL
+			SELECT ID FROM stat.TESTNAMES WHERE TITLE='$str_testname'
+SQL;
+		$s_res = $db->go_result_once($sql);
+		$testname_id = $s_res['ID']; // у нас есть специальность - 41
+		
+		// получаем ID модуля
+		$str_module = iconv("utf-8", "windows-1251", $out_array[2]); // модуль
+		
+		$sql = <<<SQL
+			SELECT ID FROM stat.MODULE WHERE TITLE='$str_module'
+SQL;
+		$s_res = $db->go_result_once($sql);
+		$module_id = $s_res['ID'];
+
+		// TODO: брать кусками
+		// TODO: начать транзакцию
+		
+		// поочередно берем вопросы
+		for ($row = 3; $row <= $highestRow; $row = $row + 3){ // 3 - с шагом количества ответов
 			
 			// получаем сам вопрос
-			$cell = $worksheet->getCellByColumnAndRow(2, $row);
+			$cell = $worksheet->getCellByColumnAndRow(1, $row);
 			$question = iconv("utf-8", "windows-1251", $cell->getValue());
-						
-			// тест - проверить номер последнего ID
+			//$question = $cell->getValue();
+			
+			// TODO: как определить какой тип вопроса
+			
+			// необходимо получить номер последнего ID. Для этого нужно сначало сделать тестовую запись,
+			// на тот случай если автоинкремент таблицы уже срабатывал.
+			$sql = <<<SQL
+				INSERT INTO stat.ALLQUESTIONS (TEXT) VALUES ('TEST')
+SQL;
+			$db->go_query($sql);
+			
+			// последний ID
 			$sql = <<<SQL
 				SELECT Max(ID) AS "max" FROM stat.ALLQUESTIONS
 SQL;
 			$s_res = $db->go_result_once($sql);
-			print_r("do= ".$s_res['max']);
+			print_r(" do= ".$s_res['max']);
+			$count_questions = $s_res['max'];
 			
-			// получаем уровень риска
-			$cell = $worksheet->getCellByColumnAndRow(6, $row);
-			$risk = $cell->getValue();
-			if($risk == 0) $risk = 21;
-			print_r("    ".$risk."    ");
-			print_r("!!!!!- ".$question);
-				
+			// теперь удаляем тестовую запись
+			$sql = <<<SQL
+				DELETE FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$count_questions'
+SQL;
+			$db->go_query($sql);
+			
+			// увеличиваем счетчик для следующей записи
+			$count_questions++;
+			
 			// записываем вопрос
 			$sql = <<<SQL
-				INSERT INTO stat.ALLQUESTIONS (TEXT, TESTNAMESID, TYPEQUESTIONSID, RISKLEVELID, MODULEID) 
-				VALUES ('$question', '$test_id', '8', '$risk', '5')
+				INSERT INTO stat.ALLQUESTIONS (TEXT, TYPEQUESTIONSID, MODULEID) 
+				VALUES ('$question', '8', '5')
 SQL;
-			$db->go_query($sql);			
+			$db->go_query($sql);
+			
+			// добавляем новую связь теста и вопроса
+			$sql = <<<SQL
+				INSERT INTO stat.ALLQUESTIONS_B (TESTNAMESID, ALLQUESTIONSID) 
+				VALUES ('$testname_id', '$count_questions')
+SQL;
+			$db->go_query($sql);
 			
 			// тест - проверить номер последнего ID после вставки
 			$sql = <<<SQL
@@ -101,12 +121,67 @@ SQL;
 SQL;
 			$s_res = $db->go_result_once($sql);
 			print_r(" posle= ".$s_res['max']);
+						
+			// записываем все ответы
+			for ($i = $row; $i < $row + 3; $i++){
 			
+				// получаем ответ
+				$cell = $worksheet->getCellByColumnAndRow(2, $i);
+				$answer = iconv("utf-8", "windows-1251", $cell->getValue());
+				//$answer = $cell->getValue();
+				
+				// получаем цену
+				$cell = $worksheet->getCellByColumnAndRow(3, $i);
+				$price = $cell->getValue();
+				
+				// получаем комментарий
+				$cell = $worksheet->getCellByColumnAndRow(6, $i);
+				$commentary = iconv("utf-8", "windows-1251", $cell->getValue());
+				//$commentary = $cell->getValue();
 			
+				// по цене находим компетентность и риск
+				if(($price >= $array_competence[3]['min']) && ($price <= $array_competence[3]['max'])){
+					
+					// id 21 компетентен id_risk 21
+					$competence = 21;
+					$riskLevel = 21;
+				}elseif(($price >= $array_competence[2]['min']) && ($price <= $array_competence[2]['max'])){
+				
+					// id 41 малокомпетентен id_risk 9
+					$competence = 41;
+					$riskLevel = 9;
+				}elseif(($price >= $array_competence[1]['min']) && ($price <= $array_competence[1]['max'])){
+				
+					// id 4 некомпетентен id_risk 8
+					$competence = 4;
+					$riskLevel = 8;
+				}elseif($price >= $array_competence[0]['min']){
+				
+					// id 3 опасно некомпетентен id_risk 7
+					$competence = 3;
+					$riskLevel = 7;
+				}else{
+					
+					// такого диапазона не существует
+				}
+				
+				// записываем ответ
+				$sql = <<<SQL
+					INSERT INTO stat.ALLANSWERS (TEXT, ALLQUESTIONSID, COMPETENCELEVELID, COMMENTARY, RISKLEVELID) 
+					VALUES ('$answer', '$count_questions', '$competence', '$commentary', '$riskLevel')
+SQL;
+				$db->go_query($sql);
+			}
+			
+			// TODO: завершить транзакцию
+			
+			//print_r(" oooo ".$price." oooo ");
+			//print_r("!!!!!- ".$question." -!!!!!");
+			//echo "<br />";
 		}
-		echo '</table>';
+		//echo '</table>';
 	}
-	
+		
 	/*for ($i = $row; $i < $row + 3; $i++)
 			{
 				echo '<tr>';
@@ -188,8 +263,7 @@ SQL;
 		}
 	}*/
 	
-	// TODO: получить историю отправленных сообщений (и показать прочитанные)
-	
+	$smarty->assign("array_competence", $array_competence);
 	$smarty->assign("error_", $error_);
 
 	// TODO: заголовок тоже через иф

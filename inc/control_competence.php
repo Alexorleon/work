@@ -1,30 +1,27 @@
 <?php
-	//echo "контроль компетентности";
 	$typetest = 2;
 
-	// выбираем вариант тестировани€ (пробное или нет)
+	// выбираем вариант тестирования (пробное или нет)
 	if ($_POST){
 
 		$answer = $_POST['answer'];
 
-		if ($answer == "1"){ // ѕробное тестирование
+		if ($answer == "1"){ // пробное тестирование
 
-			//echo "ѕробное тестирование";
 			//$_SESSION['qtype'] = 1;
+			$_SESSION['counter_questions'] = 0;
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
-		}else{ //“естирование
+		}else{ // тестирование
 
-			//echo "тестирование";
 			//$_SESSION['qtype'] = 2;
+			$_SESSION['counter_questions'] = 0;
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=4"</script>');
 		}
 	}
 
-		$smarty->assign("error_", $error_);
+	$smarty->assign("error_", $error_);
 
-		$smarty->assign("typetest", $typetest);
-		$smarty->assign("title", " онтроль компетентности");
-		$smarty->display("questions.tpl.html");
-		
-		// попадаем сюда после выбора теста. чтобы остатьс€ на этой же странице.
+	$smarty->assign("typetest", $typetest);
+	$smarty->assign("title", " онтроль компетентности");
+	$smarty->display("questions.tpl.html");
 ?>
