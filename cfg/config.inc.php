@@ -13,7 +13,7 @@ session_start();
 
 	$smarty->assign('tpl','http://'.$_SERVER['HTTP_HOST'].'/templates/');
 	$smarty->assign('js','http://'.$_SERVER['HTTP_HOST'].'/templates/js/');
-	
+	zray_disable();
     require "/db.inc.php";
 	//require_once(INC_DIR."functions.inc.php");//функции
 	require (INC_DIR."function.class.inc.php");//классы

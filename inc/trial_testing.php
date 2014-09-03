@@ -8,16 +8,17 @@
 		$answer = $_POST['answer'];
 
 			// выбираем вариант ответа
-			if ($answer == "21"){ // 21 это ID в таблице уровень компетенции. магическое число возможно нужно будет заменить.
+			/*if ($answer == "21"){ // 21 это ID в таблице уровень компетенции. магическое число возможно нужно будет заменить.
 				//echo "good"; // правильно
 
 
-				//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
+				die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 			}else{ //не правильно
 				//echo "not good";
 				// TODO: либо сразу пишем в историю, либо сохраняем список на потом. лучше сразу - частые но маленькие транзакции.
-				//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
-			}
+				die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
+			}*/
+			die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 	}
 
 	// если еще ни разу не отвечали, то требуются подготовительные действия
@@ -175,45 +176,40 @@ SQL;
 		print_r($array_sign_risk);
 		echo "<br />";
 		print_r($final_array);*/
-
-		//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 	}else{
 
 		// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
 		if($_SESSION['counter_questions'] < $_SESSION['numquestions']){
 
-			//echo "--- " . $_SESSION['counter_questions'] . " ---";
-
 			//ask_question($db);
-			
-			
+				
 			// TODO: тут должен быть вывод вопроса в зависимости от его типа (свое оформление и запрос)
 
-		// стартуем таймер
-		//$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s'); в пробном тесте не нужен
+			// стартуем таймер
+			//$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s'); в пробном тесте не нужен
 
-		$testid = $_SESSION['final_array'][$_SESSION['counter_questions']];
-		//print_r("===".$testid);
-		$temp_testid = (int)$testid['ID'];
+			$testid = $_SESSION['final_array'][$_SESSION['counter_questions']];
+			//print_r("===".$testid);
+			$temp_testid = (int)$testid['ID'];
 
-		$sql = <<<SQL
-		SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
+			$sql = <<<SQL
+			SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
-		$s_res = $db->go_result_once($sql);
+			$s_res = $db->go_result_once($sql);
 
-		$temp_id = (int)$testid['ID'];
-		
-		$question_text = $s_res['TEXT'];
+			$temp_id = (int)$testid['ID'];
+			
+			$question_text = $s_res['TEXT'];
 
-		// берем ответы к этому вопросу
-		$sql_ans = <<<SQL
-		SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
+			// берем ответы к этому вопросу
+			$sql_ans = <<<SQL
+			SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
 SQL;
-		$array_answers = $db->go_result($sql_ans);
+			$array_answers = $db->go_result($sql_ans);
 
-		shuffle($array_answers);
+			shuffle($array_answers);
 
-		$_SESSION['counter_questions']++;		
+			$_SESSION['counter_questions']++;
 		
 		}else{ // иначе переходим в commentAnswer и выводим результаты теста.
 		

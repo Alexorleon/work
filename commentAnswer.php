@@ -33,15 +33,17 @@ SQL;
 			$s_res = $db->go_result_once($sql);
 
 			$question_ans = $s_res['TEXT'];
-			
 		}else{
 
 			$question_com = "Вы ответили правильно!";
 			$question_ans = '';
 		}
 		
+		$type_examiner = "PE";
 	// это контроль компетентности
 	}else if($_GET['type_exam'] == 2){
+
+		$type_examiner = "CC";
 		
 		$question_com = "Статистика теста";
 		$question_ans = '';
@@ -75,6 +77,7 @@ SQL;
 
 	$smarty->assign("error_", $error_);
 
+	$smarty->assign("type_examiner", $type_examiner);
 	$smarty->assign("question_com", $question_com);
 	$smarty->assign("question_ans", $question_ans);
 	$smarty->assign("transitionOption", $transitionOption);

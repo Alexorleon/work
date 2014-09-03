@@ -9,13 +9,20 @@
 
 <form id="commentAnswer" name="commentAnswer" method="post">
 
-<!--Если ответ не правильный, выводим комментарий и правильный ответ-->
-{if $transitionOption neq '1'}
-	Комментарий:
-	<p>{$question_com}</p>
+<!--смотрим какой экзаменатор-->
+{if $type_examiner eq "PE"}
 
-	Правильный ответ:
-	<p>{$question_ans}</p>
+	<!--Если ответ не правильный, выводим комментарий и правильный ответ-->
+	{if $transitionOption neq '1'}
+		Комментарий:
+		<p>{$question_com}</p>
+
+		Правильный ответ:
+		<p>{$question_ans}</p>
+	{/if}
+
+{else}
+
 {/if}
 
 <!-- вариант для кнопки (повторить вопрос или выйти)-->
