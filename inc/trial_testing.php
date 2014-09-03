@@ -1,7 +1,18 @@
 <?php
 	// Пробное тестирование. Без записи в историю.
+	
+	if(isset($_GET['qtype'])){
 
-	//echo "Пробное тестирование";
+		if($_GET['qtype'] == 3){ // пробное тестирование
+		
+
+		}else if($_GET['qtype'] == 4){ // просто тестирование
+		
+
+		}else{
+			die("У меня не прописано, что делать");
+		}
+	}
 
 	if ($_POST){
 
@@ -231,31 +242,6 @@ SQL;
 	// задаем вопрос
 	function ask_question(&$obj){
 		
-		// TODO: тут должен быть вывод вопроса в зависимости от его типа (свое оформление и запрос)
-
-		// стартуем таймер
-		//$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s'); в пробном тесте не нужен
-
-		/*$testid = $_SESSION['final_array'][$_SESSION['counter_questions']];
-		//print_r("===".$testid);
-
-		$sql = <<<SQL
-		SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$testid'
-SQL;
-		$s_res = $obj->go_result_once($sql);
-
-		$temp_id = $s_res['ID'];
 		
-		$question_text = $s_res['TEXT'];
-
-		// берем ответы к этому вопросу
-		$sql_ans = <<<SQL
-		SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
-SQL;
-		$array_answers = $obj->go_result($sql_ans);
-
-		shuffle($array_answers);*/
-
-		//$_SESSION['counter_questions']++;
 	}
 ?>
