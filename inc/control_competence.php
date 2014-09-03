@@ -9,17 +9,19 @@
 		if ($answer == "1"){ // пробное тестирование
 
 			//$_SESSION['qtype'] = 1;
+			$_SESSION['counter_questions'] = 0;
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 		}else{ // тестирование
 
 			//$_SESSION['qtype'] = 2;
+			$_SESSION['counter_questions'] = 0;
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=4"</script>');
 		}
 	}
 
-		$smarty->assign("error_", $error_);
+	$smarty->assign("error_", $error_);
 
-		$smarty->assign("typetest", $typetest);
-		$smarty->assign("title", "Контроль компетентности");
-		$smarty->display("questions.tpl.html");
+	$smarty->assign("typetest", $typetest);
+	$smarty->assign("title", "Контроль компетентности");
+	$smarty->display("questions.tpl.html");
 ?>

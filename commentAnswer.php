@@ -40,7 +40,8 @@ SQL;
 			$question_ans = '';
 		}
 		
-	}else if($_GET['type_exam'] == 2){ // это контроль компетентности
+	// это контроль компетентности
+	}else if($_GET['type_exam'] == 2){
 		
 		$question_com = "Статистика теста";
 		$question_ans = '';

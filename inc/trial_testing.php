@@ -56,11 +56,19 @@ SQL;
 SQL;
 		$array_sign_risk = $db->go_result($sql_ques);
 		shuffle($array_sign_risk);
+		//print_r($array_sign_risk);
+		
+		/*$sql_www = <<<SQL
+			SELECT 2 from dual
+SQL;
+		$wwww = $db->go_result($sql_www);*/
+	
+		//print_r($wwww);
 		
 		// формируем основной массив вопросов необходимого количества
 		$tempcount = $_SESSION['numquestions']; // необходимое количество
 		$final_array = array();
-		
+		//$final_array = array('41','42','43');
 		// берем поочередно из каждого массива ID вопроса
 		$i = 0;
 		$b_dr = false;
@@ -115,8 +123,11 @@ SQL;
 				$b_hr = false;
 				$b_sr = false;
 			}elseif($b_dr == false && $b_hr == false && $b_sr == false){ // опаньки, закончились вопросы в массивах
+			
+				// поэтому требуемое количество вопросов заменим на доступное
+				$_SESSION['numquestions'] = count($final_array);
 				break;
-			}else{
+			}else{ // ага, кто то не вложидся, берем у других
 				
 				$i++;
 				$b_dr = false;
@@ -126,59 +137,104 @@ SQL;
 			}
 		}while ($count_ques < $tempcount);
 
-		// TODO: задаем вопрос
+		// запоминаем подготовленный массив
+		$_SESSION['final_array'] = array();
+		$c = 0;
+		foreach ($final_array as $element){
+		
+			$_SESSION['final_array'][] = $element;
+			$c++;
+		}
+		print_r($_SESSION['final_array']);
+		//print_r($final_array);
+		//die();
+		// задаем вопрос
+		//ask_question($db);
+		
+		
+		// TODO: тут должен быть вывод вопроса в зависимости от его типа (свое оформление и запрос)
+
+		// стартуем таймер
+		//$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s'); в пробном тесте не нужен
+
+		$testid = $_SESSION['final_array'][$_SESSION['counter_questions']];
+		//print_r($testid['ID']);
+		$temp_testid = (int)$testid['ID'];
+
+		$sql = <<<SQL
+		SELECT TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
+SQL;
+		$s_res = $db->go_result_once($sql);
+		/*$sql_www = <<<SQL
+			SELECT 2 from dual
+SQL;
+		$wwww = $db->go_result($sql_www);
+	
+		print_r($wwww);*/
+		
+		$temp_id = (int)$testid['ID'];
+		$question_text = $s_res['TEXT'];
+
+		// берем ответы к этому вопросу
+		$sql_ans = <<<SQL
+		SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
+SQL;
+		$array_answers = $db->go_result($sql_ans);
+
+		shuffle($array_answers);
 
 		//$_SESSION['counter_questions']++;
-		print_r($array_death_risk);
+		unset($_SESSION['final_array']);
+		die();
+		//$_SESSION['counter_questions']++;
+		
+		/*print_r($array_death_risk);
 		echo "<br />";
 		print_r($array_high_risk);
 		echo "<br />";
 		print_r($array_sign_risk);
 		echo "<br />";
-		print_r($final_array);
-		die();
+		print_r($final_array);*/
+
 		//die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
 	}else{
 
 		// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
-		if($_SESSION['counter_questions'] < 3 /*$_SESSION['numquestions']*/){ // TODO: пока тестирование
+		if($_SESSION['counter_questions'] < $_SESSION['numquestions']){
 
 			//echo "--- " . $_SESSION['counter_questions'] . " ---";
 
-			// стартуем таймер
-			$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s');
-
+			//ask_question($db);
 			
+			
+			// TODO: тут должен быть вывод вопроса в зависимости от его типа (свое оформление и запрос)
 
-			// TODO: задаем вопрос. берем ID вопроса из этого массива.
-			// TODO: проверить количество задаваемых вопросов с размером массива
+		// стартуем таймер
+		//$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s'); в пробном тесте не нужен
 
-			// TODO: тут должен быть вывод вопроса в зависимости от его типа
+		/*$testid = $_SESSION['final_array'][$_SESSION['counter_questions']];
+		//print_r("===".$testid);
 
-			$testid = $_SESSION['tempmass'][$_SESSION['counter_questions']];
-
-			$sql = <<<SQL
-			SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$testid'
+		$sql = <<<SQL
+		SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$testid['ID']'
 SQL;
-			$s_res = $db->go_result_once($sql);
+		$s_res = $db->go_result_once($sql);
 
-			$temp_id = $s_res['ID'];
+		$temp_id = $s_res['ID'];
+		
+		$question_text = $s_res['TEXT'];
 
-			//echo $temp_id;
-						
-			$question_text = $s_res['TEXT'];
-
-			// берем ответы к этому вопросу
-			$sql_ans = <<<SQL
-
-			SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
+		// берем ответы к этому вопросу
+		$sql_ans = <<<SQL
+		SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
 SQL;
-								
-			$array_answers = $db->go_result($sql_ans);
+		$array_answers = $db->go_result($sql_ans);
 
-			shuffle($array_answers);
+		shuffle($array_answers);
 
-			$_SESSION['counter_questions']++;
+		$_SESSION['counter_questions']++;*/
+		
+		
 				
 		}else{ // иначе переходим в commentAnswer и выводим результаты теста.
 		
@@ -186,12 +242,45 @@ SQL;
 			die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=2"</script>');
 		}
 	}
+	
+	$smarty->assign("error_", $error_);
+	//$smarty->assign("question", $question_text);//вопрос
+	//$smarty->assign("array_answers", $array_answers);//ответы
 
-		$smarty->assign("error_", $error_);
-		$smarty->assign("question", $s_res);//вопрос
-		$smarty->assign("array_answers", $array_answers);//ответы
+	$smarty->assign("typetest", 3);
+	$smarty->assign("title", "Контроль компетентности");
+	$smarty->display("questions.tpl.html");
+	
+	// --- ФУНКЦИИ ---
+	
+	// задаем вопрос
+	function ask_question(&$obj){
+		
+		// TODO: тут должен быть вывод вопроса в зависимости от его типа (свое оформление и запрос)
 
-		$smarty->assign("typetest", 3);
-		$smarty->assign("title", "Контроль компетентности");
-		$smarty->display("questions.tpl.html");
+		// стартуем таймер
+		//$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s'); в пробном тесте не нужен
+
+		/*$testid = $_SESSION['final_array'][$_SESSION['counter_questions']];
+		//print_r("===".$testid);
+
+		$sql = <<<SQL
+		SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$testid'
+SQL;
+		$s_res = $obj->go_result_once($sql);
+
+		$temp_id = $s_res['ID'];
+		
+		$question_text = $s_res['TEXT'];
+
+		// берем ответы к этому вопросу
+		$sql_ans = <<<SQL
+		SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
+SQL;
+		$array_answers = $obj->go_result($sql_ans);
+
+		shuffle($array_answers);*/
+
+		//$_SESSION['counter_questions']++;
+	}
 ?>
