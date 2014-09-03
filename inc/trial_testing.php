@@ -56,14 +56,6 @@ SQL;
 SQL;
 		$array_sign_risk = $db->go_result($sql_ques);
 		shuffle($array_sign_risk);
-		//print_r($array_sign_risk);
-		
-		/*$sql_www = <<<SQL
-			SELECT 2 from dual
-SQL;
-		$wwww = $db->go_result($sql_www);*/
-	
-		//print_r($wwww);
 		
 		// формируем основной массив вопросов необходимого количества
 		$tempcount = $_SESSION['numquestions']; // необходимое количество
@@ -138,14 +130,12 @@ SQL;
 		}while ($count_ques < $tempcount);
 
 		// запоминаем подготовленный массив
-		$_SESSION['final_array'] = array();
-		$c = 0;
+		$_SESSION['final_array'] = array(); // TODO: пока здесь, временно
 		foreach ($final_array as $element){
 		
 			$_SESSION['final_array'][] = $element;
-			$c++;
 		}
-		print_r($_SESSION['final_array']);
+		//print_r($_SESSION['final_array']);
 		//print_r($final_array);
 		//die();
 		// задаем вопрос
@@ -165,13 +155,6 @@ SQL;
 		SELECT TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
 		$s_res = $db->go_result_once($sql);
-		/*$sql_www = <<<SQL
-			SELECT 2 from dual
-SQL;
-		$wwww = $db->go_result($sql_www);
-	
-		print_r($wwww);*/
-		
 		$temp_id = (int)$testid['ID'];
 		$question_text = $s_res['TEXT'];
 
@@ -183,10 +166,7 @@ SQL;
 
 		shuffle($array_answers);
 
-		//$_SESSION['counter_questions']++;
-		unset($_SESSION['final_array']);
-		die();
-		//$_SESSION['counter_questions']++;
+		$_SESSION['counter_questions']++;
 		
 		/*print_r($array_death_risk);
 		echo "<br />";
@@ -212,15 +192,16 @@ SQL;
 		// стартуем таймер
 		//$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s'); в пробном тесте не нужен
 
-		/*$testid = $_SESSION['final_array'][$_SESSION['counter_questions']];
+		$testid = $_SESSION['final_array'][$_SESSION['counter_questions']];
 		//print_r("===".$testid);
+		$temp_testid = (int)$testid['ID'];
 
 		$sql = <<<SQL
-		SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$testid['ID']'
+		SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
 		$s_res = $db->go_result_once($sql);
 
-		$temp_id = $s_res['ID'];
+		$temp_id = (int)$testid['ID'];
 		
 		$question_text = $s_res['TEXT'];
 
@@ -232,10 +213,8 @@ SQL;
 
 		shuffle($array_answers);
 
-		$_SESSION['counter_questions']++;*/
+		$_SESSION['counter_questions']++;		
 		
-		
-				
 		}else{ // иначе переходим в commentAnswer и выводим результаты теста.
 		
 			$_SESSION['counter_questions'] = 0;
@@ -244,8 +223,8 @@ SQL;
 	}
 	
 	$smarty->assign("error_", $error_);
-	//$smarty->assign("question", $question_text);//вопрос
-	//$smarty->assign("array_answers", $array_answers);//ответы
+	$smarty->assign("question", $question_text);//вопрос
+	$smarty->assign("array_answers", $array_answers);//ответы
 
 	$smarty->assign("typetest", 3);
 	$smarty->assign("title", "Контроль компетентности");
