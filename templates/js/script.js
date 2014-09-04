@@ -38,8 +38,8 @@ function del(){
 }
 
 // выбор варианта ответа
-function textAnswer(ans, idans){
-	//alert(ans);
+function textAnswer(ans, idans, i){
+	$("#numid").val(i);
 	$("#comp_lvl_id").val(ans);
 	$("#answ_id").val(idans);
 	$("#questions").submit();

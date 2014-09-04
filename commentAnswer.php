@@ -48,7 +48,24 @@ SQL;
 		$question_com = "Статистика теста";
 		$question_ans = '';
 		$transitionOption = 1;
-		// TODO: выводим статистику ответов
+		
+		// выводим статистику ответов
+		/*$array_final_qu = array(); // основной массив для ответов
+		
+		foreach ($q_final_array as $element){
+		
+			$_SESSION['q_final_array'][] = $element;
+		}*/
+		/*$array_final_qu = array();
+		for($count_i = 0; $count_i < count($_SESSION['q_final_array']); $count_i++){
+		
+			array_push($array_final_qu, $_SESSION['q_final_array'][$count_i]['ID']);
+		}*/
+		print_r($_SESSION['final_array_questions']);
+		echo "<br />";
+		print_r($_SESSION['final_array_answers']);
+		die();
+		//echo "<br />";
 	}else{
 		
 		die("У меня не прописано, что делать");
@@ -81,6 +98,10 @@ SQL;
 	$smarty->assign("question_com", $question_com);
 	$smarty->assign("question_ans", $question_ans);
 	$smarty->assign("transitionOption", $transitionOption);
+	
+	//$smarty->assign("array_final_qu", $_SESSION['q_final_array']);
+	//$smarty->assign("array_final_qu", );
+	//$smarty->assign("array_final_an", );
 
 	$smarty->assign("title", "Комментарий");
 	$smarty->display("commentAnswer.tpl.html");

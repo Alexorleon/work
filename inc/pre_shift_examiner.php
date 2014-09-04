@@ -8,7 +8,7 @@
 		$idans = $_POST['answ_id'];
 		
 		// выбираем вариант ответа
-		if ($answer == "21"){ // магическое число 21 это ID в таблице уровень компетенции // TODO: потом можно будет заменить
+		if ($answer == 21){ // магическое число 21 это ID в таблице уровень компетенции // TODO: потом можно будет заменить
 			// правильно
 			$_SESSION['transitionOption'] = 1;
 
@@ -30,7 +30,9 @@
 			// ответили правильно, записываем все в историю
 			// TODO: транзакция
 			$sql = <<<SQL
-			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES ($tempID, $tempqu, to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), '$tempans', 1, 'N', '$tempAnsID')
+			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
+			($tempID, $tempqu, to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), 
+			'$tempans', 1, 'N', '$tempAnsID')
 SQL;
 			$db->go_query($sql);
 			

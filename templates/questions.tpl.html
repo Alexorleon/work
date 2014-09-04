@@ -14,14 +14,16 @@
 <!-- Пройти тестирование или пробное тестирование-->
 	<input type="hidden" id="comp_lvl_id" name="comp_lvl_id" value="0">
 	<input type="hidden" id="answ_id" name="answ_id" value="0">
-
+	<input type="hidden" id="numid" name="numid" value="0">
+	
+{$k = 0}
 {if $typetest eq 1}
 
 	{$question['TEXT']}
 
-	<p>
+	<p>	
 	{section name=i loop=$array_answers}
-		<input type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']})" value="{$array_answers[i]['TEXT']}"/>
+		<input type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/>
 	{/section}
 	</p>
 {elseif $typetest eq 2}
@@ -35,7 +37,7 @@
 
 	<p>
 	{section name=i loop=$array_answers}
-		<input type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']})" value="{$array_answers[i]['TEXT']}"/>
+		<input type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/>
 	{/section}
 	</p>
 {/if}

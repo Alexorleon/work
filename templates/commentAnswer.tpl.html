@@ -23,6 +23,17 @@
 
 {else}
 
+<table>
+<tr>
+{section name=gh loop=$array_final_qu}
+	<!--<option value="{$sotruds_vyd[gh]['SOTRUD_K']}" {if $signers['VYD_SOTR_K'] eq $sotruds_vyd[gh]['SOTRUD_K']}selected{/if}>{$sotruds_vyd[gh]['SOTRUD_FIO']}</option>-->
+	<td>
+	{$array_final_qu[gh]}
+	</td>
+{/section}
+</tr>
+</table>
+
 {/if}
 
 <!-- вариант для кнопки (повторить вопрос или выйти)-->
