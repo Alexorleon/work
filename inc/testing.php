@@ -10,22 +10,31 @@
 
 		if ($answer == 3){ // пробное тестирование
 		
-			//print_r($_SESSION['array_answers'][$numid]['TEXT']);
-			array_push($_SESSION['final_array_answers'], iconv("utf-8", "windows-1251", $_SESSION['array_answers'][$numid]['TEXT']));
-			
-			//array_push($_SESSION['a_final_array'], (int)$idans); // записываем ответ
 
-			// запоминаем правильный ли это ответ
-			// TODO: добавить еще массив с самим ответом или убрать это значение и все брать запросом уже в отчете
-			//array_push($_SESSION['a_final_array'], (int)$comp_lvl);
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+			if ($comp_lvl == 21){
+				
+				array_push($_SESSION['final_array_answers'], 'T');
+			}else{
 			
-		}elseif ($answer == 4){ // просто тестирование
+				array_push($_SESSION['final_array_answers'], 'F');
+			}
 			
-			//array_push($_SESSION['a_final_array'], (int)$idans); // записываем ответ
-			//array_push($_SESSION['a_final_array'], (int)$comp_lvl);
+		}elseif ($answer == 4){ // тестирование с записью в историю
+			
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+			if ($comp_lvl == 21){
+				
+				array_push($_SESSION['final_array_answers'], 'T');
+			}else{
+			
+				array_push($_SESSION['final_array_answers'], 'F');
+			}
 			
 			// пишем в историю
-			//write_history($db, $idans);
+			write_history($db, $idans);
 		}else{
 		}
 	}
@@ -247,11 +256,11 @@ SQL;
 		$s_res = $obj->go_result_once($sql);
 		//$temp_id = (int)$testid['ID'];
 		$question_text = $s_res['TEXT'];
-		array_push($_SESSION['final_array_questions'], iconv("utf-8", "windows-1251", $question_text)); // запоминаем вопрос TODO: iconv
+		array_push($_SESSION['final_array_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 		// берем ответы к этому вопросу
 		$sql_ans = <<<SQL
-		SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
+		SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
 SQL;
 		$array_answers = $obj->go_result($sql_ans);
 
@@ -276,15 +285,24 @@ SQL;
 	
 	// пишем в историю
 	function write_history(&$obj, $tempAnsID){
-	
+
 		$tempID = $_SESSION['sotrud_id'];
-		$tempqu = $_SESSION['q_final_array'][$_SESSION['counter_questions']];
+		$tempcount = $_SESSION['counter_questions'];
+		$tempcount--;
+		$tempqu = (int)$_SESSION['q_final_array'][$tempcount]['ID'];
+		$dateBegin = $_SESSION['DATEBEGIN'];
 		$dateEnd = date('d.m.y H:i:s');
 
 		$sql = <<<SQL
 			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
-			($tempID, $tempqu, to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), 
-			0, 2, 'N', '$tempAnsID')
+			($tempID, 
+			$tempqu, 
+			to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), 
+			to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), 
+			0, 
+			2, 
+			'N', 
+			'$tempAnsID')
 SQL;
 			$obj->go_query($sql);
 	}

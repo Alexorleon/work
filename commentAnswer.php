@@ -61,10 +61,10 @@ SQL;
 		
 			array_push($array_final_qu, $_SESSION['q_final_array'][$count_i]['ID']);
 		}*/
-		print_r($_SESSION['final_array_questions']);
-		echo "<br />";
-		print_r($_SESSION['final_array_answers']);
-		die();
+		//print_r($_SESSION['final_array_questions']);
+		//echo "<br />";
+		//print_r($_SESSION['final_array_answers']);
+		//die();
 		//echo "<br />";
 	}else{
 		
@@ -100,8 +100,8 @@ SQL;
 	$smarty->assign("transitionOption", $transitionOption);
 	
 	//$smarty->assign("array_final_qu", $_SESSION['q_final_array']);
-	//$smarty->assign("array_final_qu", );
-	//$smarty->assign("array_final_an", );
+	$smarty->assign("array_final_qu", $_SESSION['final_array_questions']);
+	$smarty->assign("array_final_an", $_SESSION['final_array_answers']);
 
 	$smarty->assign("title", "Комментарий");
 	$smarty->display("commentAnswer.tpl.html");
