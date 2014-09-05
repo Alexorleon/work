@@ -167,8 +167,8 @@ SQL;
 				
 				// записываем ответ
 				$sql = <<<SQL
-					INSERT INTO stat.ALLANSWERS (TEXT, ALLQUESTIONSID, COMPETENCELEVELID, COMMENTARY, RISKLEVELID) 
-					VALUES ('$answer', '$count_questions', '$competence', '$commentary', '$riskLevel')
+					INSERT INTO stat.ALLANSWERS (TEXT, ALLQUESTIONSID, COMPETENCELEVELID, COMMENTARY, RISKLEVELID, PRICE) 
+					VALUES ('$answer', '$count_questions', '$competence', '$commentary', '$riskLevel', '$price')
 SQL;
 				$db->go_query($sql);
 			}
