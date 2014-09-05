@@ -63,7 +63,30 @@ SQL;
 SQL;
 		$s_res = $db->go_result_once($sql);
 		$module_id = $s_res['ID'];
-
+	
+		// необходимо получить номер последнего ID. Для этого нужно сначало сделать тестовую запись,
+		// на тот случай если автоинкремент таблицы уже срабатывал.
+		$sql = <<<SQL
+			INSERT INTO stat.ALLQUESTIONS (TEXT) VALUES ('TEST')
+SQL;
+		$db->go_query($sql);
+		
+		// последний ID
+		$sql = <<<SQL
+			SELECT Max(ID) AS "max" FROM stat.ALLQUESTIONS
+SQL;
+		$s_res = $db->go_result_once($sql);
+		$count_questions = $s_res['max'];
+		
+		// теперь удаляем тестовую запись
+		$sql = <<<SQL
+			DELETE FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$count_questions'
+SQL;
+		$db->go_query($sql);
+		
+		// увеличиваем счетчик для следующей записи
+		$count_questions++;
+		
 		// TODO: брать кусками
 		// TODO: начать транзакцию
 		
@@ -77,34 +100,47 @@ SQL;
 			
 			// TODO: как определить какой тип вопроса
 			
-			// необходимо получить номер последнего ID. Для этого нужно сначало сделать тестовую запись,
-			// на тот случай если автоинкремент таблицы уже срабатывал.
-			$sql = <<<SQL
-				INSERT INTO stat.ALLQUESTIONS (TEXT) VALUES ('TEST')
-SQL;
-			$db->go_query($sql);
+			$price = 0;
+			// определяем максимальный риск для вопроса
+			for ($i = $row; $i < $row + 3; $i++){
 			
-			// последний ID
-			$sql = <<<SQL
-				SELECT Max(ID) AS "max" FROM stat.ALLQUESTIONS
-SQL;
-			$s_res = $db->go_result_once($sql);
-			print_r(" do= ".$s_res['max']);
-			$count_questions = $s_res['max'];
+				// получаем цену
+				$cell = $worksheet->getCellByColumnAndRow(3, $i);
+				$pr = $cell->getValue();
+				
+				// находим максимальную цену
+				if($price < $pr){
+				
+					$price = $pr;
+				}
+			}
 			
-			// теперь удаляем тестовую запись
-			$sql = <<<SQL
-				DELETE FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$count_questions'
-SQL;
-			$db->go_query($sql);
+			// по цене находим максимальный риск
+			if(($price >= $array_competence[3]['min']) && ($price <= $array_competence[3]['max'])){
+				
+				// id_risk 21
+				$riskLevel = 21;
+			}elseif(($price >= $array_competence[2]['min']) && ($price <= $array_competence[2]['max'])){
 			
-			// увеличиваем счетчик для следующей записи
-			$count_questions++;
+				// id_risk 9
+				$riskLevel = 9;
+			}elseif(($price >= $array_competence[1]['min']) && ($price <= $array_competence[1]['max'])){
+			
+				// id_risk 8
+				$riskLevel = 8;
+			}elseif($price >= $array_competence[0]['min']){
+			
+				// id_risk 7
+				$riskLevel = 7;
+			}else{
+				
+				// такого диапазона не существует
+			}
 			
 			// записываем вопрос
 			$sql = <<<SQL
-				INSERT INTO stat.ALLQUESTIONS (TEXT, TYPEQUESTIONSID, MODULEID) 
-				VALUES ('$question', '8', '5')
+				INSERT INTO stat.ALLQUESTIONS (TEXT, TYPEQUESTIONSID, MODULEID, RISKLEVELID) 
+				VALUES ('$question', '8', '5', '$riskLevel')
 SQL;
 			$db->go_query($sql);
 			
@@ -113,15 +149,15 @@ SQL;
 				INSERT INTO stat.ALLQUESTIONS_B (TESTNAMESID, ALLQUESTIONSID) 
 				VALUES ('$testname_id', '$count_questions')
 SQL;
-			$db->go_query($sql);
+			$db->go_query($sql);			
 			
 			// тест - проверить номер последнего ID после вставки
-			$sql = <<<SQL
+			/*$sql = <<<SQL
 				SELECT Max(ID) AS "max" FROM ALLQUESTIONS
 SQL;
 			$s_res = $db->go_result_once($sql);
-			print_r(" posle= ".$s_res['max']);
-						
+			print_r(" posle= ".$s_res['max']);*/
+			
 			// записываем все ответы
 			for ($i = $row; $i < $row + 3; $i++){
 			
@@ -172,6 +208,9 @@ SQL;
 SQL;
 				$db->go_query($sql);
 			}
+			
+			// увеличиваем счетчик для следующей записи
+			$count_questions++;
 			
 			// TODO: завершить транзакцию
 			
