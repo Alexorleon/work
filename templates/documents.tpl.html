@@ -13,7 +13,35 @@
 
 <!-- TODO: вывод документов-->
 
-<input type="button" value="Назад" onclick="get_documents(0)"/>
+{if $type_doc eq 1}
+
+	{if !isset($smarty.get.norm_doc_id)}
+		<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
+	{else}
+		<a href="/regulations"><input type="button" value="Назад" onclick=""/></a>
+	{/if}
+	
+{elseif $type_doc eq 2}
+
+	{if !isset($smarty.get.video_id)}
+		<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
+	{else}
+		<a href="/video_instructing"><input type="button" value="Назад" onclick=""/></a>
+	{/if}
+	
+{elseif $type_doc eq 3}
+
+	{if !isset($smarty.get.comp_model_id)}
+		<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
+	{else}
+		<a href="/comp_model"><input type="button" value="Назад" onclick=""/></a>
+	{/if}
+
+{else}
+
+	<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
+	
+{/if}
 
 </form>
 </div>

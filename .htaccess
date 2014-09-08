@@ -7,6 +7,18 @@ RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteRule ^question.php$ /questions.php?qtype=1 [L,QSA]
 RewriteRule ^check_comp.html$ /questions.php?qtype=2 [L,QSA]
+
+RewriteRule ^lobby$ /index.php?type_doc=2 [L,QSA]
+
+RewriteRule ^regulations$ /documents.php?type_doc=1 [L,QSA]
+RewriteRule ^show_regulations_([0-9]+)$ /documents.php?type_doc=1&norm_doc_id=$1 [L,QSA]
+
+RewriteRule ^video_instructing$ /documents.php?type_doc=2 [L,QSA]
+RewriteRule ^show_video_([0-9]+)$ /documents.php?type_doc=2&video_id=$1 [L,QSA]
+
+RewriteRule ^comp_model$ /documents.php?type_doc=3 [L,QSA]
+RewriteRule ^show_compmodel_([0-9]+)$ /documents.php?type_doc=3&comp_model_id=$1 [L,QSA]
+
 RewriteRule ^trial_testing.html$ /questions.php?qtype=3 [L,QSA]
 RewriteRule ^testing.html$ /questions.php?qtype=4 [L,QSA]
 
