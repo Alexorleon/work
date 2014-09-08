@@ -23,10 +23,17 @@
 			if (isset($_GET['video_id']) && !empty($_GET['video_id'])){
 				print_r("Вывести видео - ".$_GET['video_id']);
 			}else{
-				print_r("<a href='/show_video_1'>видео1</a><br>");
-				print_r("<a href='/show_video_2'>видео2</a><br>");
-				print_r("<a href='/show_video_3'>видео3</a><br>");
-				print_r("<a href='/show_video_4'>видео4</a><br>");
+				
+				$sotrud_dolj = $_SESSION['sotrud_dolj'];
+				
+				// получаем видеоинструкции
+				$sql = <<<SQL
+				SELECT ID, TITLE, VIDEO FROM stat.INSTRUCTIONALVIDEO WHERE INSTRUCTIONALVIDEO.TESTNAMESID IN 
+				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')
+SQL;
+				$array_instr = $db->go_result($sql);
+				
+				$smarty->assign("array_instr", $array_instr);
 			}
 		}elseif ($_GET['type_doc'] == 3){ // компьютерные модели
 			

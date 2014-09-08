@@ -24,6 +24,9 @@
 {elseif $type_doc eq 2}
 
 	{if !isset($smarty.get.video_id)}
+		{section name=j loop=$array_instr}
+			<p><a href="/show_video_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
+		{/section}
 		<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
 	{else}
 		<a href="/video_instructing"><input type="button" value="Назад" onclick=""/></a>
