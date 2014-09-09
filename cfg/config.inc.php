@@ -11,6 +11,7 @@ session_start();
 	$smarty->caching = false;//Кэш тоже выключить пока
 	$smarty->cache_lifetime = 120;
 
+	$smarty->assign('lhost','http://'.$_SERVER['HTTP_HOST']);
 	$smarty->assign('tpl','http://'.$_SERVER['HTTP_HOST'].'/templates/');
 	$smarty->assign('js','http://'.$_SERVER['HTTP_HOST'].'/templates/js/');
 	zray_disable();
