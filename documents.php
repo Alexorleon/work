@@ -47,6 +47,9 @@ SQL;
 				$array_instr = $db->go_result($sql);
 				
 				// TODO: сделать 2 запроса,с выборкой из _b. с Y и без.
+				// !!!!! заменить Y на 0 и 1, где 1 это прочитано. Теперь можно просто сортировать при выборке и массив 
+				// заполнится в порядке прочтения. С другой стороны, это медленне чем 2 запроса.
+				
 				//$sotrud_id = $_SESSION['sotrud_id'];
 				
 				$smarty->assign("array_instr", $array_instr);
@@ -55,12 +58,30 @@ SQL;
 			
 			if (isset($_GET['comp_model_id']) && !empty($_GET['comp_model_id'])){
 			
-				print_r("Вывести модель - ".$_GET['comp_model_id']);
+				$comp_model_id = $_GET['comp_model_id'];
+				
+				// получаем необходимое видео
+				$sql = <<<SQL
+				SELECT VIDEO FROM stat.COMPMODACC WHERE COMPMODACC.ID='$comp_model_id'
+SQL;
+				$video_instr = $db->go_result_once($sql);
+				
+				$smarty->assign("video_instr", $video_instr);
 			}else{
-				print_r("<a href='/show_compmodel_1'>модель1</a><br>");
-				print_r("<a href='/show_compmodel_2'>модель2</a><br>");
-				print_r("<a href='/show_compmodel_3'>модель3</a><br>");
-				print_r("<a href='/show_compmodel_4'>модель4</a><br>");
+				
+				$sotrud_dolj = $_SESSION['sotrud_dolj'];
+				
+				// получаем компьютерные модели				
+				$sql = <<<SQL
+				SELECT ID, TITLE FROM stat.COMPMODACC WHERE COMPMODACC.ID IN
+				(SELECT COMPMODACCID FROM stat.COMPMODACC_B_TN WHERE COMPMODACC_B_TN.TESTNAMESID IN 
+				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
+SQL;
+				$array_instr = $db->go_result($sql);
+				
+				// TODO: -//-
+				
+				$smarty->assign("array_instr", $array_instr);
 			}
 		}else{
 		}
