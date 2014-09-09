@@ -27,11 +27,21 @@
 				$sotrud_dolj = $_SESSION['sotrud_dolj'];
 				
 				// получаем видеоинструкции
-				$sql = <<<SQL
+				/*$sql = <<<SQL
 				SELECT ID, TITLE, VIDEO FROM stat.INSTRUCTIONALVIDEO WHERE INSTRUCTIONALVIDEO.TESTNAMESID IN 
 				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')
 SQL;
+				$array_instr = $db->go_result($sql);*/
+				
+				$sql = <<<SQL
+				SELECT ID, TITLE, VIDEO FROM stat.INSTRUCTIONALVIDEO WHERE INSTRUCTIONALVIDEO.ID IN
+				(SELECT INSTRUCTIONALVIDEOID FROM stat.INSTVID_B_TN WHERE INSTVID_B_TN.TESTNAMESID IN 
+				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
+SQL;
 				$array_instr = $db->go_result($sql);
+				
+				// TODO: запросить у БД есть ли новые документы. т.е. еще не прочитанные.
+				//$sotrud_id = $_SESSION['sotrud_id'];
 				
 				$smarty->assign("array_instr", $array_instr);
 			}
