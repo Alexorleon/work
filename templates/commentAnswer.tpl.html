@@ -23,6 +23,27 @@
 
 {else}
 
+<table>
+{$count1 = 0}
+{$count2 = 1}
+{section name=gh loop=$array_final_qu}
+	<!--<option value="{$sotruds_vyd[gh]['SOTRUD_K']}" {if $signers['VYD_SOTR_K'] eq $sotruds_vyd[gh]['SOTRUD_K']}selected{/if}>{$sotruds_vyd[gh]['SOTRUD_FIO']}</option>-->
+<tr>
+	<td>
+	{$array_final_qu[gh]}
+	</td>
+	<td>
+	{$array_final_an[{$count1}]}
+	{$count1++}
+	</td>
+	<td>
+	{$array_final_an[{$count2}]}
+	{$count2++}
+	</td>
+</tr>
+{/section}
+</table>
+
 {/if}
 
 <!-- вариант для кнопки (повторить вопрос или выйти)-->

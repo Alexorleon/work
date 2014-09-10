@@ -1,6 +1,44 @@
 <?php
 	// Пробное тестирование. Без записи в историю.
 	
+	if ($_POST){
+
+		$answer = $_GET['qtype'];
+		$comp_lvl = $_POST['comp_lvl_id'];
+		$idans = $_POST['answ_id'];
+		$numid = $_POST['numid'];
+
+		if ($answer == 3){ // пробное тестирование
+		
+
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+			if ($comp_lvl == 21){
+				
+				array_push($_SESSION['final_array_answers'], 'T');
+			}else{
+			
+				array_push($_SESSION['final_array_answers'], 'F');
+			}
+			
+		}elseif ($answer == 4){ // тестирование с записью в историю
+			
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+			if ($comp_lvl == 21){
+				
+				array_push($_SESSION['final_array_answers'], 'T');
+			}else{
+			
+				array_push($_SESSION['final_array_answers'], 'F');
+			}
+			
+			// пишем в историю
+			write_history($db, $idans);
+		}else{
+		}
+	}
+	
 	if(isset($_GET['qtype'])){
 
 		if($_GET['qtype'] == 3){ // пробное тестирование
@@ -77,21 +115,6 @@
 	$smarty->assign("typetest", 3);
 	$smarty->display("questions.tpl.html");
 
-	if ($_POST){
-
-		$answer = $_GET['qtype'];
-
-		if ($answer == 3){ // пробное тестирование
-			
-			//echo "trial testing";
-		}elseif ($answer == 4){ // просто тестирование
-			// пишем в историю
-			// TODO: либо сразу пишем в историю, либо сохраняем список на потом. лучше сразу - частые но маленькие транзакции.
-			//write_history();
-		}else{
-		}
-	}
-	
 	// --- ФУНКЦИИ ---
 	
 	// подготовка
@@ -134,7 +157,7 @@ SQL;
 		
 		// формируем основной массив вопросов необходимого количества
 		$tempcount = $_SESSION['numquestions']; // необходимое количество
-		$final_array = array();
+		$q_final_array = array(); // основной массив для вопросов
 		
 		// берем поочередно из каждого массива ID вопроса
 		$count_i = 0;
@@ -154,7 +177,7 @@ SQL;
 			}else{
 				// если еще не добавили
 				if(!$b_dr){
-					array_push($final_array, $array_death_risk[$count_i]);
+					array_push($q_final_array, $array_death_risk[$count_i]);
 					$b_dr = true;
 					$count_ques++;
 				}
@@ -165,7 +188,7 @@ SQL;
 			if(count($array_high_risk) <= $count_i){
 			}else{
 				if(!$b_hr){
-					array_push($final_array, $array_high_risk[$count_i]);
+					array_push($q_final_array, $array_high_risk[$count_i]);
 					$b_hr = true;
 					$count_ques++;
 				}
@@ -176,7 +199,7 @@ SQL;
 			if(count($array_sign_risk) <= $count_i){
 			}else{
 				if(!$b_sr){
-					array_push($final_array, $array_sign_risk[$count_i]);
+					array_push($q_final_array, $array_sign_risk[$count_i]);
 					$b_sr = true;
 					$count_ques++;
 				}
@@ -192,7 +215,7 @@ SQL;
 			}elseif($b_dr == false && $b_hr == false && $b_sr == false){ // опаньки, закончились вопросы в массивах
 			
 				// поэтому требуемое количество вопросов заменим на доступное
-				$_SESSION['numquestions'] = count($final_array);
+				$_SESSION['numquestions'] = count($q_final_array);
 				break;
 			}else{ // ага, кто то не вложидся, берем у других
 				
@@ -205,13 +228,16 @@ SQL;
 		}while ($count_ques < $tempcount);
 
 		// запоминаем подготовленный массив
-		$_SESSION['final_array'] = array(); // TODO: пока здесь, временно
-		foreach ($final_array as $element){
+		$_SESSION['q_final_array'] = array(); // TODO: пока временно здесь - в нем хранятся ID
+		$_SESSION['final_array_answers'] = array(); // основной массив для ответов - хранится текст
+		$_SESSION['final_array_questions'] = array(); // хранится текст вопросов
 		
-			$_SESSION['final_array'][] = $element;
+		foreach ($q_final_array as $element){
+		
+			$_SESSION['q_final_array'][] = $element;
 		}
 		
-		//print_r($_SESSION['final_array']);
+		//print_r($_SESSION['q_final_array']);
 		//die();
 	}
 	
@@ -220,10 +246,7 @@ SQL;
 		
 		// TODO: тут должен быть вывод вопроса в зависимости от его типа (свое оформление и запрос)
 		
-		// стартуем таймер
-		//$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s'); в пробном тесте не нужен
-
-		$testid = $_SESSION['final_array'][$_SESSION['counter_questions']];
+		$testid = $_SESSION['q_final_array'][$_SESSION['counter_questions']];
 		//print_r($testid['ID']);
 		$temp_testid = (int)$testid['ID'];
 
@@ -233,10 +256,11 @@ SQL;
 		$s_res = $obj->go_result_once($sql);
 		//$temp_id = (int)$testid['ID'];
 		$question_text = $s_res['TEXT'];
+		array_push($_SESSION['final_array_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 		// берем ответы к этому вопросу
 		$sql_ans = <<<SQL
-		SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
+		SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
 SQL;
 		$array_answers = $obj->go_result($sql_ans);
 
@@ -247,17 +271,39 @@ SQL;
 		$_SESSION['question_text'] = $question_text;
 		$_SESSION['array_answers'] = $array_answers;
 		
+		// стартуем таймер
+		$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s');
+		
 		/*print_r($array_death_risk);
 		echo "<br />";
 		print_r($array_high_risk);
 		echo "<br />";
 		print_r($array_sign_risk);
 		echo "<br />";
-		print_r($final_array);*/
+		print_r($q_final_array);*/
 	}
 	
 	// пишем в историю
-	function write_history(&$obj){
+	function write_history(&$obj, $tempAnsID){
 
+		$tempID = $_SESSION['sotrud_id'];
+		$tempcount = $_SESSION['counter_questions'];
+		$tempcount--;
+		$tempqu = (int)$_SESSION['q_final_array'][$tempcount]['ID'];
+		$dateBegin = $_SESSION['DATEBEGIN'];
+		$dateEnd = date('d.m.y H:i:s');
+
+		$sql = <<<SQL
+			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
+			($tempID, 
+			$tempqu, 
+			to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), 
+			to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), 
+			0, 
+			2, 
+			'N', 
+			'$tempAnsID')
+SQL;
+			$obj->go_query($sql);
 	}
 ?>
