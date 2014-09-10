@@ -10,15 +10,12 @@
 
 <textarea  type="field_proposol" id="tabnum" name="tabnum" readonly></textarea>
 
-<p><select>
+<p style="font-size:8px"><select>
 {section name=j loop=$array_typemes}
 	<option value="{$array_typemes[j]['ID']}">{$array_typemes[j]['TITLE']}</option>
 {/section}
 </select></p>
 
-<table>
-
-<tr>
 <td><input type="button" value="1" onclick="addToField(1)"/></td>
 <td><input type="button" value="2" onclick="addToField(2)"/></td>
 <td><input type="button" value="3" onclick="addToField(3)"/></td>
@@ -29,11 +26,11 @@
 <td><input type="button" value="8" onclick="addToField(8)"/></td>
 <td><input type="button" value="9" onclick="addToField(9)"/></td>
 <td><input type="button" value="0" onclick="addToField(0)"/></td>
+<td><input type="button" value="-" onclick="addToField('-')"/></td>
 <td><input type="button" value="?" onclick="addToField('?')"/></td>
 <td><input type="button" value="!" onclick="addToField('!')"/></td>
-</tr>
 
-<tr>
+<p style="font-size:8px">
 <td><input type="button" value="Й" onclick="addToField('Й')"/></td>
 <td><input type="button" value="Ц" onclick="addToField('Ц')"/></td>
 <td><input type="button" value="У" onclick="addToField('У')"/></td>
@@ -46,9 +43,9 @@
 <td><input type="button" value="З" onclick="addToField('З')"/></td>
 <td><input type="button" value="Х" onclick="addToField('Х')"/></td>
 <td><input type="button" value="Ъ" onclick="addToField('Ъ')"/></td>
-</tr>
+</p>
 
-<tr>
+<p style="font-size:8px">
 <td><input type="button" value="Ф" onclick="addToField('Ф')"/></td>
 <td><input type="button" value="Ы" onclick="addToField('Ы')"/></td>
 <td><input type="button" value="В" onclick="addToField('В')"/></td>
@@ -60,9 +57,9 @@
 <td><input type="button" value="Д" onclick="addToField('Д')"/></td>
 <td><input type="button" value="Ж" onclick="addToField('Ж')"/></td>
 <td><input type="button" value="Э" onclick="addToField('Э')"/></td>
-</tr>
+</p>
 
-<tr>
+<p style="font-size:8px">
 <td><input type="button" value="Я" onclick="addToField('Я')"/></td>
 <td><input type="button" value="Ч" onclick="addToField('Ч')"/></td>
 <td><input type="button" value="С" onclick="addToField('С')"/></td>
@@ -72,16 +69,14 @@
 <td><input type="button" value="Ь" onclick="addToField('Ь')"/></td>
 <td><input type="button" value="Б" onclick="addToField('Б')"/></td>
 <td><input type="button" value="Ю" onclick="addToField('Ю')"/></td>
-<td><input type="button" value="," onclick="addToField(',')"/></td>
 <td><input type="button" value="." onclick="addToField('.')"/></td>
-<td><input type="button" value=" " onclick="addToField(' ')"/></td>
-</tr>
+</p>
 
-<tr>
+<p style="font-size:8px">
 <td><input type="reset" value="C" id="resetButton"/></td>
 <td><input type="button" value="<" onclick="del()"/></td>
-</tr>
-</table>
+<td><input type="button" value=" " onclick="addToField(' ')"/></td>
+</p>
 
 <input id="type_proposals" name="type_proposals" type="hidden" value="1"/>
 
