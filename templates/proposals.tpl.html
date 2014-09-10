@@ -8,12 +8,85 @@
 
 <form id="proposalsPage" name="proposalsPage" method="post">
 
+<textarea  type="field_proposol" id="tabnum" name="tabnum" readonly></textarea>
+
+<p><select>
+{section name=j loop=$array_typemes}
+	<option value="{$array_typemes[j]['ID']}">{$array_typemes[j]['TITLE']}</option>
+{/section}
+</select></p>
+
+<table>
+
+<tr>
+<td><input type="button" value="1" onclick="addToField(1)"/></td>
+<td><input type="button" value="2" onclick="addToField(2)"/></td>
+<td><input type="button" value="3" onclick="addToField(3)"/></td>
+<td><input type="button" value="4" onclick="addToField(4)"/></td>
+<td><input type="button" value="5" onclick="addToField(5)"/></td>
+<td><input type="button" value="6" onclick="addToField(6)"/></td>
+<td><input type="button" value="7" onclick="addToField(7)"/></td>
+<td><input type="button" value="8" onclick="addToField(8)"/></td>
+<td><input type="button" value="9" onclick="addToField(9)"/></td>
+<td><input type="button" value="0" onclick="addToField(0)"/></td>
+<td><input type="button" value="?" onclick="addToField('?')"/></td>
+<td><input type="button" value="!" onclick="addToField('!')"/></td>
+</tr>
+
+<tr>
+<td><input type="button" value="Й" onclick="addToField('Й')"/></td>
+<td><input type="button" value="Ц" onclick="addToField('Ц')"/></td>
+<td><input type="button" value="У" onclick="addToField('У')"/></td>
+<td><input type="button" value="К" onclick="addToField('К')"/></td>
+<td><input type="button" value="Е" onclick="addToField('Е')"/></td>
+<td><input type="button" value="Н" onclick="addToField('Н')"/></td>
+<td><input type="button" value="Г" onclick="addToField('Г')"/></td>
+<td><input type="button" value="Ш" onclick="addToField('Ш')"/></td>
+<td><input type="button" value="Щ" onclick="addToField('Щ')"/></td>
+<td><input type="button" value="З" onclick="addToField('З')"/></td>
+<td><input type="button" value="Х" onclick="addToField('Х')"/></td>
+<td><input type="button" value="Ъ" onclick="addToField('Ъ')"/></td>
+</tr>
+
+<tr>
+<td><input type="button" value="Ф" onclick="addToField('Ф')"/></td>
+<td><input type="button" value="Ы" onclick="addToField('Ы')"/></td>
+<td><input type="button" value="В" onclick="addToField('В')"/></td>
+<td><input type="button" value="А" onclick="addToField('А')"/></td>
+<td><input type="button" value="П" onclick="addToField('П')"/></td>
+<td><input type="button" value="Р" onclick="addToField('Р')"/></td>
+<td><input type="button" value="О" onclick="addToField('О')"/></td>
+<td><input type="button" value="Л" onclick="addToField('Л')"/></td>
+<td><input type="button" value="Д" onclick="addToField('Д')"/></td>
+<td><input type="button" value="Ж" onclick="addToField('Ж')"/></td>
+<td><input type="button" value="Э" onclick="addToField('Э')"/></td>
+</tr>
+
+<tr>
+<td><input type="button" value="Я" onclick="addToField('Я')"/></td>
+<td><input type="button" value="Ч" onclick="addToField('Ч')"/></td>
+<td><input type="button" value="С" onclick="addToField('С')"/></td>
+<td><input type="button" value="М" onclick="addToField('М')"/></td>
+<td><input type="button" value="И" onclick="addToField('И')"/></td>
+<td><input type="button" value="Т" onclick="addToField('Т')"/></td>
+<td><input type="button" value="Ь" onclick="addToField('Ь')"/></td>
+<td><input type="button" value="Б" onclick="addToField('Б')"/></td>
+<td><input type="button" value="Ю" onclick="addToField('Ю')"/></td>
+<td><input type="button" value="," onclick="addToField(',')"/></td>
+<td><input type="button" value="." onclick="addToField('.')"/></td>
+<td><input type="button" value=" " onclick="addToField(' ')"/></td>
+</tr>
+
+<tr>
+<td><input type="reset" value="C" id="resetButton"/></td>
+<td><input type="button" value="<" onclick="del()"/></td>
+</tr>
+</table>
 
 <input id="type_proposals" name="type_proposals" type="hidden" value="1"/>
 
-<!-- TODO: вывод статистики-->
-
 <input type="button" value="Назад" onclick="get_proposals(0)"/>
+<input type="button" value="Отправить" onclick="get_proposals(1)"/>
 
 </form>
 </div>

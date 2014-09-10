@@ -30,6 +30,13 @@ font-size: 54px;
 height:64px;
 width:310px;
 }
+textarea[type="field_proposol"]{
+outline: none;
+resize: none;
+font-size: 36px;
+height:240px;
+width:1260px;
+}
 
 input:hover{
 opacity:1;
