@@ -72,7 +72,17 @@ function get_personal(n){
 }
 
 // proposals
-function get_proposals(n){
+function get_proposals(n, f){
+
+	// если нажали отправить, то получаем значение сообщения из списка
+	if(n == 1){
+		
+		num = f.typemessage.selectedIndex;
+		num++;
+		//if(num) alert("Выбран герой: " + f.typemessage.options[num].value);
+		$("#typemessage").val(num);
+		$("#tabnum").val();
+	}
 	$("#type_proposals").val(n);
 	$("#proposalsPage").submit();
 }

@@ -9,8 +9,8 @@
 <form id="proposalsPage" name="proposalsPage" method="post">
 
 <textarea  type="field_proposol" id="tabnum" name="tabnum" readonly></textarea>
-
-<p style="font-size:8px"><select>
+ 
+<p style="font-size:8px"><select name="typemessage" id="typemessage">
 {section name=j loop=$array_typemes}
 	<option value="{$array_typemes[j]['ID']}">{$array_typemes[j]['TITLE']}</option>
 {/section}
@@ -26,7 +26,6 @@
 <td><input type="button" value="8" onclick="addToField(8)"/></td>
 <td><input type="button" value="9" onclick="addToField(9)"/></td>
 <td><input type="button" value="0" onclick="addToField(0)"/></td>
-<td><input type="button" value="-" onclick="addToField('-')"/></td>
 <td><input type="button" value="?" onclick="addToField('?')"/></td>
 <td><input type="button" value="!" onclick="addToField('!')"/></td>
 
@@ -69,19 +68,20 @@
 <td><input type="button" value="Ь" onclick="addToField('Ь')"/></td>
 <td><input type="button" value="Б" onclick="addToField('Б')"/></td>
 <td><input type="button" value="Ю" onclick="addToField('Ю')"/></td>
-<td><input type="button" value="." onclick="addToField('.')"/></td>
 </p>
 
 <p style="font-size:8px">
-<td><input type="reset" value="C" id="resetButton"/></td>
+<td><input type="reset" value="Очистить" id="resetButton"/></td>
 <td><input type="button" value="<" onclick="del()"/></td>
 <td><input type="button" value=" " onclick="addToField(' ')"/></td>
+<td><input type="button" value="," onclick="addToField(',')"/></td>
+<td><input type="button" value="." onclick="addToField('.')"/></td>
 </p>
 
 <input id="type_proposals" name="type_proposals" type="hidden" value="1"/>
 
 <input type="button" value="Назад" onclick="get_proposals(0)"/>
-<input type="button" value="Отправить" onclick="get_proposals(1)"/>
+<input type="button" value="Отправить" onclick="get_proposals(1, this.form)"/>
 
 </form>
 </div>

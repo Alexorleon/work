@@ -304,6 +304,6 @@ SQL;
 			'N', 
 			'$tempAnsID')
 SQL;
-			$obj->go_query($sql);
+		$obj->go_query($sql);
 	}
 ?>

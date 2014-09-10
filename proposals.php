@@ -9,16 +9,28 @@
 
 		$type_proposals = $_POST['type_proposals'];
 
-		if ($type_proposals == 0){ // новые документы
+		if ($type_proposals == 0){
 
 			// переходим в лобби
 			die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 		}elseif($type_proposals == 1){
 		
-			// отправляем сообщение - добавляем в БД.
-			print_r("send send send");
+			// записываем предложение
+			$sotrudID = $_SESSION['sotrud_id'];
+			$typemessage = $_POST['typemessage'];
+			$message = iconv("utf-8", "windows-1251", $_POST['tabnum']);
+			$current_date = date('d.m.y H:i:s');
+
+			$sql = <<<SQL
+				INSERT INTO stat.PROPOSALS (SOTRUDID, PROPOSAL_TYPEMESID, PROPOSAL, DATE_SENT) VALUES 
+				('$sotrudID', 
+				'$typemessage', 
+				'$message', 
+				to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS'))
+SQL;
+			$db->go_query($sql);
 			
-			// доложить об успешности или не успешности отправления, но не обновлять страницу!
+			// TODO: доложить об успешности
 			
 		}else{}
 	}
