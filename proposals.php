@@ -6,7 +6,7 @@
 	$error_='';
 		
 	if ($_POST){
-
+		
 		$type_proposals = $_POST['type_proposals'];
 
 		if ($type_proposals == 0){
@@ -35,13 +35,22 @@ SQL;
 		}else{}
 	}
 	
-	// получаем типы сообщения			
+	// разделим на 2 меню. статистику и добавление нового предложения.
+	if(isset($_GET['type_prop'])){
+	
+		if($_GET['type_prop'] == 0){ // выводим статистику
+		
+			$smarty->assign("type_prop", "view");
+		}elseif($_GET['type_prop'] == 1){ // добавляем новое предложение
+		
+			$smarty->assign("type_prop", "add");
+		}else{}
+	}
+	// получаем типы сообщения
 	$sql = <<<SQL
 	SELECT ID, TITLE FROM stat.PROPOSALS_TYPEMES
 SQL;
-	$array_typemes = $db->go_result($sql);
-
-	// TODO: получить историю отправленных сообщений (и показать прочитанные)
+	$array_typemes = $db->go_result($sql);	
 	
 	$smarty->assign("error_", $error_);
 	$smarty->assign("array_typemes", $array_typemes);

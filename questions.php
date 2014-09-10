@@ -21,7 +21,6 @@
 			require_once($_SERVER['DOCUMENT_ROOT']."/inc/testing.php");
 			
 		}else if($_GET['qtype'] == 4){// это контроль компетентности - просто тестирование
-			//require_once($_SERVER['DOCUMENT_ROOT']."/inc/testing.php");
 			require_once($_SERVER['DOCUMENT_ROOT']."/inc/testing.php");
 			
 		}else{

@@ -30,7 +30,8 @@
 			die('<script>document.location.href= "'.lhost.'/documents.php?type_doc=3"</script>');
 		}elseif ($type_submit == 6){ // Предложения руководству
 			
-			die('<script>document.location.href= "'.lhost.'/proposals.php"</script>');
+			die('<script>document.location.href= "'.lhost.'/proposals"</script>');
+			//die('<script>document.location.href= "'.lhost.'/proposals.php?type_prop=0"</script>');
 		}elseif ($type_submit == 7){ // Личные данные
 
 			die('<script>document.location.href= "'.lhost.'/personal_data.php"</script>');

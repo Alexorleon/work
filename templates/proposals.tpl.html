@@ -8,6 +8,13 @@
 
 <form id="proposalsPage" name="proposalsPage" method="post">
 
+{if $type_prop eq "view"} <!--вывести статистику-->
+
+<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
+<a href="/addproposals"><input type="button" value="Добавить" onclick=""/></a>
+
+{elseif $type_prop eq "add"} <!--добавить новое предложение-->
+
 <textarea  type="field_proposol" id="tabnum" name="tabnum" readonly></textarea>
  
 <p style="font-size:8px"><select name="typemessage" id="typemessage">
@@ -80,8 +87,14 @@
 
 <input id="type_proposals" name="type_proposals" type="hidden" value="1"/>
 
-<input type="button" value="Назад" onclick="get_proposals(0)"/>
+<!--<input type="button" value="Назад" onclick="get_proposals(0)"/>-->
+<a href="/proposals"><input type="button" value="Назад" onclick=""/></a>
 <input type="button" value="Отправить" onclick="get_proposals(1, this.form)"/>
+
+{else}
+
+{/if}
+
 
 </form>
 </div>
