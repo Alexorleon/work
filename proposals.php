@@ -35,23 +35,35 @@ SQL;
 		}else{}
 	}
 	
+	// получаем типы сообщения
+	$sql = <<<SQL
+	SELECT ID, TITLE FROM stat.PROPOSALS_TYPEMES
+SQL;
+	$array_typemes = $db->go_result($sql);
+		
 	// разделим на 2 меню. статистику и добавление нового предложения.
 	if(isset($_GET['type_prop'])){
 	
 		if($_GET['type_prop'] == 0){ // выводим статистику
 		
+			/*$sotrudID = $_SESSION['sotrud_id'];
+			
+			// собираем статистику
+			$sql = <<<SQL
+			SELECT PROPOSAL FROM stat.PROPOSALS WHERE PROPOSALS.ID='$sotrudID'
+SQL;
+			$statistic = $db->go_result($sql);
+			
+			print_r();
+			die();*/
+			
 			$smarty->assign("type_prop", "view");
 		}elseif($_GET['type_prop'] == 1){ // добавляем новое предложение
 		
 			$smarty->assign("type_prop", "add");
 		}else{}
 	}
-	// получаем типы сообщения
-	$sql = <<<SQL
-	SELECT ID, TITLE FROM stat.PROPOSALS_TYPEMES
-SQL;
-	$array_typemes = $db->go_result($sql);	
-	
+		
 	$smarty->assign("error_", $error_);
 	$smarty->assign("array_typemes", $array_typemes);
 
