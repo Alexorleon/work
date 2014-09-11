@@ -45,17 +45,40 @@ SQL;
 	if(isset($_GET['type_prop'])){
 	
 		if($_GET['type_prop'] == 0){ // выводим статистику
+			
+			$sotrudID = $_SESSION['sotrud_id'];
+			$array_statistic = array();
 		
-			/*$sotrudID = $_SESSION['sotrud_id'];
+			for($count_i = 0; $count_i < count($array_typemes); $count_i++){
 			
-			// собираем статистику
-			$sql = <<<SQL
-			SELECT PROPOSAL FROM stat.PROPOSALS WHERE PROPOSALS.ID='$sotrudID'
+				$temp_typemesid = (int)$array_typemes[$count_i]['ID'];
+				
+				// собираем статистику
+				$sql = <<<SQL
+				SELECT DATE_SENT, PROPOSAL, ANSWER, DATE_ANSWER FROM stat.PROPOSALS 
+				WHERE PROPOSALS.SOTRUDID='$sotrudID' AND PROPOSALS.PROPOSAL_TYPEMESID='$temp_typemesid'
 SQL;
-			$statistic = $db->go_result($sql);
+				$statistic = $db->go_result($sql);
+
+				$array_temp2 = array();
+				
+				for($count_n = 0; $count_n < count($statistic); $count_n++){
+				
+					$array_temp = array();
+					
+					array_push($array_temp, $statistic[$count_n]['DATE_SENT']);
+					array_push($array_temp, $statistic[$count_n]['PROPOSAL']);
+					array_push($array_temp, $statistic[$count_n]['ANSWER']);
+					array_push($array_temp, $statistic[$count_n]['DATE_ANSWER']);
+					
+					array_push($array_temp2, $array_temp);
+				}
+				
+				array_push($array_statistic, $array_temp2);
+			}		
 			
-			print_r();
-			die();*/
+			print_r($array_statistic);
+			die();
 			
 			$smarty->assign("type_prop", "view");
 		}elseif($_GET['type_prop'] == 1){ // добавляем новое предложение
