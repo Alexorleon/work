@@ -77,10 +77,11 @@ SQL;
 				array_push($array_statistic, $array_temp2);
 			}		
 			
-			print_r($array_statistic);
-			die();
+			//print_r($array_statistic);
+			//die();
 			
 			$smarty->assign("type_prop", "view");
+			$smarty->assign("array_statistic", $array_statistic);
 		}elseif($_GET['type_prop'] == 1){ // добавляем новое предложение
 		
 			$smarty->assign("type_prop", "add");

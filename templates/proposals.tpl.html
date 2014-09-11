@@ -8,10 +8,25 @@
 
 <form id="proposalsPage" name="proposalsPage" method="post">
 
-{if $type_prop eq "view"} <!--вывести статистику-->
+{if $type_prop eq "view"}
+
+<!--выводим статистику-->
+<!--<table>
+{$count = 0}
+{section name=first loop=$array_statistic[0]}
+
+	<tr>
+		<td>
+		{$array_statistic[0][first]}
+		</td>
+	</tr>
+	
+{/section}
+</table>-->
 
 <a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
 <a href="/addproposals"><input type="button" value="Добавить" onclick=""/></a>
+
 
 {elseif $type_prop eq "add"} <!--добавить новое предложение-->
 
