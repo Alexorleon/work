@@ -11,18 +11,41 @@
 {if $type_prop eq "view"}
 
 <!--выводим статистику-->
-<!--<table>
-{$count = 0}
-{section name=first loop=$array_statistic[0]}
-
-	<tr>
-		<td>
-		{$array_statistic[0][first]}
-		</td>
-	</tr>
-	
+<table>
+<!--шапка-->
+<tr>
+	<td>дата</td>
+	<td>сообщение</td>
+	<td>ответ</td>
+	<td>дата</td>
+</tr>
+{section name=first loop=$array_statistic show=true}
+	{section name=second loop=$array_statistic[first]}
+		{section name=third loop=$array_statistic[first][second]}
+			
+			<tr>
+				<td>
+				{$array_statistic[first][second][third]}
+				</td>
+			</tr>
+			
+			
+		{/section}
+	{/section}
 {/section}
-</table>-->
+<!--{$array_statistic[first][second][third]} <br>
+
+{foreach from=$array_statistic item=i_1 name=first key=k_1}
+	{foreach from=$array_statistic[i_1] item=i_2 name=second key=k_2}
+		<tr>
+			<td>
+			{$array_statistic[i_1][i_2]}
+			</td>
+		</tr>
+	{/foreach}
+{/foreach}
+-->
+</table>
 
 <a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
 <a href="/addproposals"><input type="button" value="Добавить" onclick=""/></a>
