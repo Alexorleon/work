@@ -67,6 +67,15 @@ SQL;
 				
 					$array_temp = array();
 					
+					// есть ли ответ на сообщение
+					if($statistic[$count_n]['ANSWER'] != ""){
+					
+						array_push($array_temp, 'T');
+					}else{
+					
+						array_push($array_temp, 'F');
+					}
+					
 					array_push($array_temp, $statistic[$count_n]['DATE_SENT']);
 					array_push($array_temp, $statistic[$count_n]['PROPOSAL']);
 					array_push($array_temp, $statistic[$count_n]['ANSWER']);

@@ -8,31 +8,56 @@
 
 <form id="proposalsPage" name="proposalsPage" method="post">
 
+{$type_color = "color:#FE2E2E"}
+
 {if $type_prop eq "view"}
 
 <!--выводим статистику-->
-<table>
+
+
+{section name=first loop=$array_statistic show=true}
+<table border="1" width="720px">
 <!--шапка-->
 <tr>
+	<td>status</td>
 	<td>дата отправки</td>
 	<td>сообщение</td>
 	<td>ответ</td>
 	<td>дата ответа</td>
 </tr>
-{section name=first loop=$array_statistic show=true}
 	{section name=second loop=$array_statistic[first]}
+	
+		<!--закрашиваем строку
+		{if $smarty.section.second eq ""}
+
+			{$type_color = "color:#B40404"}
+		{else}
+
+			{$type_color = "color:#04B404"}
+		{/if}
+-->
 		<tr>
-		{section name=third loop=$array_statistic[first][second]}			
-			<td>	
-			{if $smarty.section.third.index eq 0 or $smarty.section.third.index eq 3}
+		{section name=third loop=$array_statistic[first][second]}
+
+			{if $array_statistic[first][second][0] eq 'T'}
+
+				{$type_color = "color:#04B404"}
+			{else}
+
+				{$type_color = "color:#B40404"}
+			{/if}
+		
+			<td style={$type_color}>	
+			{if $smarty.section.third.index eq 1 or $smarty.section.third.index eq 4}
 				{to_date date=$array_statistic[first][second][third]}
 			{else}
 				{$array_statistic[first][second][third]}
 			{/if}			
 			</td>
 		{/section}
-		</tr>			
+		</tr>
 	{/section}
+</table>
 {/section}
 <!--{$array_statistic[first][second][third]} <br>
 
