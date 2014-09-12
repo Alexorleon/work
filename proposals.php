@@ -19,8 +19,8 @@
 			$sotrudID = $_SESSION['sotrud_id'];
 			$typemessage = $_POST['typemessage'];
 			$message = iconv("utf-8", "windows-1251", $_POST['tabnum']);
-			$current_date = date('d.m.y H:i:s');
-
+			$current_date = date('d.m.Y H:i:s');
+			
 			$sql = <<<SQL
 				INSERT INTO stat.PROPOSALS (SOTRUDID, PROPOSAL_TYPEMESID, PROPOSAL, DATE_SENT) VALUES 
 				('$sotrudID', 
@@ -55,9 +55,10 @@ SQL;
 				
 				// собираем статистику
 				$sql = <<<SQL
-				SELECT DATE_SENT, PROPOSAL, ANSWER, DATE_ANSWER FROM stat.PROPOSALS 
+				SELECT TO_CHAR(DATE_SENT, 'YY-mm-dd HH24:MI:SS') AS DATE_SENT, PROPOSAL, ANSWER, DATE_ANSWER FROM stat.PROPOSALS 
 				WHERE PROPOSALS.SOTRUDID='$sotrudID' AND PROPOSALS.PROPOSAL_TYPEMESID='$temp_typemesid'
 SQL;
+				//die($sql);
 				$statistic = $db->go_result($sql);
 
 				$array_temp2 = array();

@@ -13,7 +13,7 @@
 			$_SESSION['transitionOption'] = 1;
 
 			$dateBegin = $_SESSION['DATEBEGIN'];
-			$dateEnd = date('d.m.y H:i:s');
+			$dateEnd = date('d.m.Y H:i:s');
 			$tempID = $_SESSION['sotrud_id'];
 			$tempqu = $_SESSION['ID_question'];
 			$tempans = $_SESSION['answer_attempt'];
@@ -69,7 +69,7 @@ SQL;
 		// стартуем таймер если начали тест, убедиться что отвечаем впервые
 		if($_SESSION['answer_attempt'] == 0){
 
-			$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s');
+			$_SESSION['DATEBEGIN'] = date('d.m.Y H:i:s');
 		}
 
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
