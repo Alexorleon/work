@@ -12,16 +12,16 @@
 		
 			if (isset($_GET['norm_doc_id']) && !empty($_GET['norm_doc_id'])){
 			
-				/*$video_id = $_GET['video_id'];
+				$norm_doc_id = $_GET['norm_doc_id'];
 				
 				// получаем необходимое видео
 				$sql = <<<SQL
-				SELECT NAME FROM stat.ALLTRAINING WHERE ALLTRAINING.ID='$video_id'
+				SELECT NAME FROM stat.ALLTRAINING WHERE ALLTRAINING.ID='$norm_doc_id'
 SQL;
-				$video_instr = $db->go_result_once($sql);
+				$doc_instr = $db->go_result_once($sql);
 				
-				$smarty->assign("video_instr", $video_instr);
-				//print_r($video_instr['VIDEO']);
+				$smarty->assign("doc_instr", $doc_instr);
+				//print_r($doc_instr['NAME']);
 				
 			}else{
 				
@@ -32,7 +32,7 @@ SQL;
 				SELECT ID, TITLE FROM stat.ALLTRAINING WHERE ALLTRAINING.ID IN
 				(SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.TESTNAMESID IN 
 				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) 
-				AND ALLTRAINING.ALLTRAININGTYPEID=2
+				AND ALLTRAINING.ALLTRAININGTYPEID=1
 SQL;
 				$array_instr = $db->go_result($sql);
 				
@@ -42,7 +42,7 @@ SQL;
 				
 				//$sotrud_id = $_SESSION['sotrud_id'];
 				
-				$smarty->assign("array_instr", $array_instr);*/
+				$smarty->assign("array_instr", $array_instr);
 			}
 		}elseif ($_GET['type_doc'] == 2){ // видеоинструктажи
 		

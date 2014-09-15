@@ -16,6 +16,9 @@
 {if $type_doc eq 1}
 
 	{if !isset($smarty.get.norm_doc_id)}
+		{section name=j loop=$array_instr}
+			<p><a href="/show_regulations_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
+		{/section}
 		<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
 	{else}
 		<a href="/regulations"><input type="button" value="Назад" onclick=""/></a>
