@@ -18,9 +18,26 @@ opacity:0.8;
 border:0px;
 }
 
-input[type="button"], input[type="reset"]{
-width:100px;
-height:100px;
+input[type="num_button"], input[type="reset"]{
+background: url('/files/img/num_button.png') no-repeat 0 0;
+width:81px;
+height:81px;
+opacity:0.8;
+border:0px;
+text-align: center;
+text-decoration:none !important;
+font-size: 48px;
+color:#fff;
+text-shadow: 
+	black 2px 2px 0, 
+	black -2px -2px 0, 
+	black -2px 2px 0, 
+	black 2px -2px 0;
+}
+
+input[type="button"]{
+width:180px;
+height:80px;
 opacity:0.8;
 border:0px;
 }
@@ -28,7 +45,7 @@ border:0px;
 input[type="text"]{
 font-size: 54px;
 height:64px;
-width:310px;
+width:250px;
 }
 textarea[type="field_proposol"]{
 outline: none;
