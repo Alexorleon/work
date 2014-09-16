@@ -10,12 +10,12 @@
 		
 	}
 	
-	// ïîëó÷àåì ñïèñîê ñîòðóäíèêîâ ïðîøåäøèõ ïðåäñìåííûé ýêçàìåíàòîð çà âûáðàííûé ïåðèîä
-	
 	//(ALLHISTORY.DATEEND >= to_date('$date_to',  'DD.MM.YYYY HH24:MI:SS')) and (VYD_DATA <= to_date('$date_do',  'DD.MM.YYYY HH24:MI:SS')))
-	$period = time() - (3 * 60 * 60); // TODO: óñòàíîâèòü íóæíûé ïåðèîä
+	
+	$period = time() - (3 * 60 * 60); // TODO: ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð½ÑƒÐ¶Ð½Ñ‹Ð¹ Ð¿ÐµÑ€Ð¸Ð¾Ð´
 	$current_date = date('d.m.Y H:i:s', $period);
 		
+	// Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ ÑÐ¿Ð¸ÑÐ¾Ðº ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð² Ð¿Ñ€Ð¾ÑˆÐµÐ´ÑˆÐ¸Ñ… Ð¿Ñ€ÐµÐ´ÑÐ¼ÐµÐ½Ð½Ñ‹Ð¹ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð°Ñ‚Ð¾Ñ€ Ð·Ð° Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ñ‹Ð¹ Ð¿ÐµÑ€Ð¸Ð¾Ð´
 	$sql = <<<SQL
 	SELECT SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
 	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
@@ -23,14 +23,16 @@
 SQL;
 	$array_sotrud = $db->go_result($sql);
 	
-	print_r($array_sotrud);
-	die();
+	//print_r($array_sotrud);
 
 	$smarty->assign("error_", $error_);
+	
+	//$smarty->assign("array_sotrud", $array_sotrud);
+	//<!--{section name=count loop=$array_sotrud}-->
 
-	$smarty->assign("title", "Ëàìïîâàÿ");
+	$smarty->assign("title", "Ð›Ð°Ð¼Ð¿Ð¾Ð²Ð°Ñ");
 	$smarty->display("lamp.tpl.html");
 
-	// --- ÔÓÍÊÖÈÈ ---
+	// --- Ð¤Ð£ÐÐšÐ¦Ð˜Ð˜ ---
 
   ?>
