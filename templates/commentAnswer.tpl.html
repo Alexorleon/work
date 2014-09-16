@@ -24,6 +24,13 @@
 {else} <!--контроль компетентности CC-->
 
 <table class="simple-little-table" cellspacing='0'>
+
+<tr>
+	<th>Вопрос</th>
+	<th>Ответ</th>
+	<th>Комментарий</th>
+</tr><!-- Table Header -->
+
 {$count = 0}
 {$type_ans = ''}
 {$type_color = "color:#FE2E2E"}
@@ -40,18 +47,18 @@
 	{$type_color = "color:#B40404"}
 {/if}
 	<tr style={$type_color}>
-	<td>
-	{$array_final_qu[gh]} <!--это final_array_questions-->
-	</td>
-	<td>
-	{$array_final_an[{$count}]} <!--это final_array_answers-->
-	{capture}{$count++}{/capture}
-	</td>
-	<td>
-	{$array_final_an[{$count}]}
-	{capture}{$count++}{/capture}
-	</td>
-</tr>
+		<td>
+		{$array_final_qu[gh]} <!--это final_array_questions-->
+		</td>
+		<td>
+		{$array_final_an[{$count}]} <!--это final_array_answers-->
+		{capture}{$count++}{/capture}
+		</td>
+		<td>
+		{$array_final_an[{$count}]}
+		{capture}{$count++}{/capture}
+		</td>
+	</tr>
 {/section}
 </table>
 
