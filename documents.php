@@ -14,7 +14,7 @@
 			
 				$norm_doc_id = $_GET['norm_doc_id'];
 				
-				// получаем необходимое видео
+				// получаем необходимый документ
 				$sql = <<<SQL
 				SELECT NAME FROM stat.ALLTRAINING WHERE ALLTRAINING.ID='$norm_doc_id'
 SQL;

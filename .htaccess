@@ -25,4 +25,6 @@ RewriteRule ^show_compmodel_([0-9]+)$ /documents.php?type_doc=3&comp_model_id=$1
 RewriteRule ^trial_testing.html$ /questions.php?qtype=3 [L,QSA]
 RewriteRule ^testing.html$ /questions.php?qtype=4 [L,QSA]
 
+RewriteRule ^lamp$ /lamp.php [L,QSA]
+
 ErrorDocument 404 /404.php 
