@@ -60,7 +60,7 @@ opacity:1;
 }
 
 /*
-ТАБЛИЦА
+-------------------------------------BEGIN ТАБЛИЦА------------------------------------
 */
 /* NULL */
 html, body, div, span, applet, object, iframe,
@@ -219,4 +219,17 @@ quotes:"" "";
 	color: #bd5a35;
 	text-decoration:underline;
 }
+/*
+-------------------------------------END ТАБЛИЦА------------------------------------
+*/
+
+span.title-lamp{
+	font-size: 24px;
+	overflow: hidden;
+	height: 103px;
+	margin-bottom: 30px;
+	background:  url('/files/img/tabs-divider.png') repeat-x bottom center;
+	text-shadow: 1px 1px rgba(255, 255, 255, 1);
+}
+
 
