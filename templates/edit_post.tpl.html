@@ -14,25 +14,27 @@
 
 <table>
 	<tr>
-		<td>Название:</td>
-		<td><input  type="field_postname" id="field_postname" name="field_postname"></textarea></td>
+		<td>Название должности:</td>
+		<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
 	</tr>
 	
 	<tr>
-		<td>Специальность:</td>
+		<td>Название теста:</td>
 		<td>
-			<p style="font-size:8px"><select name="typemessage" id="typemessage">
-			{section name=j loop=$array_posts}
-			<option value="{$array_posts[j]['KOD']}">{$array_posts[j]['TEXT']}</option>
+			<p style="font-size:8px"><select name="type_specialty" id="type_specialty">
+			{section name=j loop=$array_testnames}
+			<option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
 			{/section}
 			</select></p>
 		</td>
 	</tr>
 </table>
 
-</form>
-
 <a href="/list_posts"><input type="button" value="Назад" onclick=""/></a>
+<!--в зависимости от статуса добавляем или редактируем-->
+<input type="button" value="Сохранить" onclick="get_post(this.form)"/>
+
+</form>
 
 </div>
 

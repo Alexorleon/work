@@ -5,12 +5,15 @@
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
+	
+	// инициализация
+	$_SESSION['add_or_edit_post'] = 0; // добавление
 		
 	if ($_POST){
 		
 	}
 	
-	// получаем список всех должностей
+	// получаем список всех должностей. 10 - кокс-майнинг
 	$sql = <<<SQL
 	SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K=10
 SQL;
