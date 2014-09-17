@@ -10,6 +10,9 @@ RewriteRule ^check_comp.html$ /questions.php?qtype=2 [L,QSA]
 
 RewriteRule ^lobby$ /index.php?type_doc=2 [L,QSA]
 
+RewriteRule ^proposals$ /proposals.php?type_prop=0 [L,QSA]
+RewriteRule ^addproposals$ /proposals.php?type_prop=1 [L,QSA]
+
 RewriteRule ^regulations$ /documents.php?type_doc=1 [L,QSA]
 RewriteRule ^show_regulations_([0-9]+)$ /documents.php?type_doc=1&norm_doc_id=$1 [L,QSA]
 
@@ -21,5 +24,8 @@ RewriteRule ^show_compmodel_([0-9]+)$ /documents.php?type_doc=3&comp_model_id=$1
 
 RewriteRule ^trial_testing.html$ /questions.php?qtype=3 [L,QSA]
 RewriteRule ^testing.html$ /questions.php?qtype=4 [L,QSA]
+
+RewriteRule ^lamp$ /lamp.php [L,QSA]
+RewriteRule ^list_posts$ /list_posts.php [L,QSA]
 
 ErrorDocument 404 /404.php 

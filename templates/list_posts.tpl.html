@@ -1,0 +1,42 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+<div id="list_postsDiv" align="center" >
+
+<form id="list_posts" name="list_posts" method="post">
+
+<p><span class="title-lamp">Список должностей для терминала</span></p>
+
+{$count = 0}
+<table class="simple-little-table" cellspacing='0'>
+
+<tr>
+	<th>№</th>
+	<th>Название</th>
+</tr><!-- Table Header -->
+	
+{section name=count loop=$array_posts}	
+	<tr>
+		<td>
+		{$array_posts[{$count}]['KOD']}
+		</td>
+		<td>
+		<a href="path_to_heaven/{$array_posts[{$count}]['KOD']}">
+		{$array_posts[{$count}]['TEXT']}
+		</a>
+		</td>
+		{capture}{$count++}{/capture}
+	</tr>	
+{/section}
+
+</form>
+</div>
+
+<script src="{$tpl}js/script.js"></script>
+
+{/block}

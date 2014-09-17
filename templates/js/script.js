@@ -72,9 +72,28 @@ function get_personal(n){
 }
 
 // proposals
-function get_proposals(n){
-	$("#type_proposals").val(n);
-	$("#proposalsPage").submit();
+function get_proposals(n, f){
+
+	// если нажали отправить, то получаем значение сообщения из списка
+	if(n == 1){
+		
+		if($("#tabnum").val() != ""){ // не пустое сообщение
+
+			num = f.typemessage.selectedIndex;
+			num++;
+
+			$("#typemessage").val(num);
+			$("#tabnum").val();
+			
+			$("#type_proposals").val(n);
+			$("#proposalsPage").submit();
+		}else{
+			alert("Введите сообщение");
+		}
+	}else{
+
+		$("#type_proposals").val(0);
+	}
 }
 
 // documents

@@ -1,0 +1,66 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+<div id="lampDiv" align="center" >
+
+<form id="lamp" name="lamp" method="post">
+
+<p><span class="title-lamp">Предсменный контроль</span></p>
+<!--Прошедшие предсменный экзаменатор-->
+
+<table class="simple-little-table" cellspacing='0'>
+	<tr>
+		<th>ФИО</th>
+		<th>Табельный</th>
+		<th>ФИО</th>
+		<th>Табельный</th>
+		<th>ФИО</th>
+		<th>Табельный</th>
+	</tr><!-- Table Header -->
+    
+	<tr>
+		<td>Кузнецов Денис Иванович</td>
+		<td>1129893</td>
+		<td>Кузнецов Денис Иванович</td>
+		<td>1129893</td>
+		<td>Кузнецов Денис Иванович</td>
+		<td>1129893</td>
+	</tr><!-- Table Row -->
+	
+	<tr>
+		<td>Кузнецов Денис Иванович</td>
+		<td>1129893</td>
+		<td>Кузнецов Денис Иванович</td>
+		<td>1129893</td>
+		<td>Кузнецов Денис Иванович</td>
+		<td>1129893</td>
+	</tr><!-- Table Row -->
+	
+	<tr>
+		<td>Кузнецов Денис Иванович</td>
+		<td>1129893</td>
+		<td>Кузнецов Денис Иванович</td>
+		<td>1129893</td>
+		<td>Кузнецов Денис Иванович</td>
+		<td>1129893</td>
+	</tr><!-- Table Row -->
+
+	
+	<!--<tr>
+		<td><a href="blog.harrix.org">Кузнецов Денис Иванович</a></td>
+		<td>80%</td>
+		<td><a href="blog.harrix.org">1129893</a></td>
+	</tr>-->
+</table>
+
+</form>
+</div>
+
+<script src="{$tpl}js/script.js"></script>
+
+{/block}

@@ -10,9 +10,7 @@
 
 		if ($answer == 3){ // пробное тестирование
 		
-
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+			// необходимо для закрашивания цветом
 			if ($comp_lvl == 21){
 				
 				array_push($_SESSION['final_array_answers'], 'T');
@@ -20,11 +18,15 @@
 			
 				array_push($_SESSION['final_array_answers'], 'F');
 			}
+			
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+			//print_r($_SESSION['final_array_answers']);
+			//die();
 			
 		}elseif ($answer == 4){ // тестирование с записью в историю
 			
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+			// необходимо для закрашивания цветом
 			if ($comp_lvl == 21){
 				
 				array_push($_SESSION['final_array_answers'], 'T');
@@ -32,6 +34,9 @@
 			
 				array_push($_SESSION['final_array_answers'], 'F');
 			}
+			
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
 			
 			// пишем в историю
 			write_history($db, $idans);
@@ -304,6 +309,6 @@ SQL;
 			'N', 
 			'$tempAnsID')
 SQL;
-			$obj->go_query($sql);
+		$obj->go_query($sql);
 	}
 ?>

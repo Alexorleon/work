@@ -8,7 +8,6 @@
 
 <form id="documentsPage" name="documentsPage" method="post">
 
-
 <input id="type_documents" name="type_documents" type="hidden" value="1"/>
 
 <!-- TODO: вывод документов-->
@@ -16,9 +15,21 @@
 {if $type_doc eq 1}
 
 	{if !isset($smarty.get.norm_doc_id)}
+		{section name=j loop=$array_instr}
+			<p><a href="/show_regulations_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
+		{/section}
 		<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
 	{else}
+
+		<!--<object width="800" height="600" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
+			<param name="pdfdoc" value="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" />
+			<embed width="800" height="600" type="application/x-shockwave-flash" src="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" />
+			<embed src="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" width="600" height="400" />
+		</object>-->
+		<iframe class="iframe" src="{$lhost}/storage/regulations/{$doc_instr['NAME']}" width="100%" height="70%" align="left"></iframe>
+
 		<a href="/regulations"><input type="button" value="Назад" onclick=""/></a>
+		<a href="/lobby"><input type="button" value="В меню" onclick=""/></a>
 	{/if}
 	
 {elseif $type_doc eq 2}
@@ -36,12 +47,13 @@
 				<param name="allowFullScreen" value="true">
 				<param name="allowScriptAccess" value="always">
 				<param name="movie" value="{$lhost}/libs/uppod.swf">
-<!--				<param name="FlashVars" value="way={$lhost}/storage/video/{$video_instr['VIDEO']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=22AEcBaJNjOk0Tv1XAjOkisQrN9mwtzC5kisNtXHv1l1fwcpsQNkbk18=xYTcSfYI=j1l1CQV8Yv1X=jOkedQBVhdwf9vwjzCh5beJal1CMkbtSal1SQopBwntQv1X1Ca4Hj1nl1k0nTWwjG3QNXzBGDY31X1dSGfzkOk03whTT31X=jOkZsNk6HsQfzC5k1kQOkaBwnzBGDR9WNkbSal1f0LbFWGXF2Qi6dM8kbk13Q3Q3Q33Qktj1fRdwnYeWQkzC5k42QiN63Gktj1ozfUrF">-->
-				<param name="FlashVars" value="way={$lhost}/storage/video/{$video_instr['VIDEO']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=61ARHjYNf=jOk0v1yX1SGfzkO2k03whT317XAjOkisQ7r9mwtzC55I1jOkZBMiv62Qt9sG7nT30cLWNYkbk1WNxORL1kOk1mwdXRWNXzBGYDY31X1SQFD6dwyL2GAfTk06Q3QSIzd56L2MHXzkOkaBwdnzBGDRWNHkbSal1CGrhpd06zv1SXej5btj1Rhhd0XFdwkf9vwjzC5ebAJYl1CMykbCal1kweVG30hIdwRf9vwjzC5bTtj1cpmwyXzBGDY317X1kQ3Q3QE3Q31l1k0RnTWwjG3NRkbk13Q3QA3Q3Qktj16fRdwnY2UYiR3Nkbk1aJZxaoZuahf1kOkZ2MGJzC5f8Sa4l1SQl6W0aXzBGDY31iX1kQ3Q3QR3Q31l1k0dnTWwjL2Q76zmNJzC5yk42Qi63Ghktj1ozfUrD">
+<!--				<param name="FlashVars" value="way={$lhost}/storage/video/{$video_instr['NAME']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=22AEcBaJNjOk0Tv1XAjOkisQrN9mwtzC5kisNtXHv1l1fwcpsQNkbk18=xYTcSfYI=j1l1CQV8Yv1X=jOkedQBVhdwf9vwjzCh5beJal1CMkbtSal1SQopBwntQv1X1Ca4Hj1nl1k0nTWwjG3QNXzBGDY31X1dSGfzkOk03whTT31X=jOkZsNk6HsQfzC5k1kQOkaBwnzBGDR9WNkbSal1f0LbFWGXF2Qi6dM8kbk13Q3Q3Q33Qktj1fRdwnYeWQkzC5k42QiN63Gktj1ozfUrF">-->
+				<param name="FlashVars" value="way={$lhost}/storage/video/{$video_instr['NAME']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=61ARHjYNf=jOk0v1yX1SGfzkO2k03whT317XAjOkisQ7r9mwtzC55I1jOkZBMiv62Qt9sG7nT30cLWNYkbk1WNxORL1kOk1mwdXRWNXzBGYDY31X1SQFD6dwyL2GAfTk06Q3QSIzd56L2MHXzkOkaBwdnzBGDRWNHkbSal1CGrhpd06zv1SXej5btj1Rhhd0XFdwkf9vwjzC5ebAJYl1CMykbCal1kweVG30hIdwRf9vwjzC5bTtj1cpmwyXzBGDY317X1kQ3Q3QE3Q31l1k0RnTWwjG3NRkbk13Q3QA3Q3Qktj16fRdwnY2UYiR3Nkbk1aJZxaoZuahf1kOkZ2MGJzC5f8Sa4l1SQl6W0aXzBGDY31iX1kQ3Q3QR3Q31l1k0dnTWwjL2Q76zmNJzC5yk42Qi63Ghktj1ozfUrD">
 			</object>				
 		</div>
 		
 		<a href="/video_instructing"><input type="button" value="Назад" onclick=""/></a>
+		<a href="/lobby"><input type="button" value="В меню" onclick=""/></a>
 	{/if}
 	
 {elseif $type_doc eq 3}
@@ -59,12 +71,13 @@
 				<param name="allowFullScreen" value="true">
 				<param name="allowScriptAccess" value="always">
 				<param name="movie" value="{$lhost}/libs/uppod.swf">
-<!--				<param name="FlashVars" value="way={$lhost}/storage/compmodel/{$video_instr['VIDEO']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=22AEcBaJNjOk0Tv1XAjOkisQrN9mwtzC5kisNtXHv1l1fwcpsQNkbk18=xYTcSfYI=j1l1CQV8Yv1X=jOkedQBVhdwf9vwjzCh5beJal1CMkbtSal1SQopBwntQv1X1Ca4Hj1nl1k0nTWwjG3QNXzBGDY31X1dSGfzkOk03whTT31X=jOkZsNk6HsQfzC5k1kQOkaBwnzBGDR9WNkbSal1f0LbFWGXF2Qi6dM8kbk13Q3Q3Q33Qktj1fRdwnYeWQkzC5k42QiN63Gktj1ozfUrF">-->
-				<param name="FlashVars" value="way={$lhost}/storage/compmodel/{$video_instr['VIDEO']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=61ARHjYNf=jOk0v1yX1SGfzkO2k03whT317XAjOkisQ7r9mwtzC55I1jOkZBMiv62Qt9sG7nT30cLWNYkbk1WNxORL1kOk1mwdXRWNXzBGYDY31X1SQFD6dwyL2GAfTk06Q3QSIzd56L2MHXzkOkaBwdnzBGDRWNHkbSal1CGrhpd06zv1SXej5btj1Rhhd0XFdwkf9vwjzC5ebAJYl1CMykbCal1kweVG30hIdwRf9vwjzC5bTtj1cpmwyXzBGDY317X1kQ3Q3QE3Q31l1k0RnTWwjG3NRkbk13Q3QA3Q3Qktj16fRdwnY2UYiR3Nkbk1aJZxaoZuahf1kOkZ2MGJzC5f8Sa4l1SQl6W0aXzBGDY31iX1kQ3Q3QR3Q31l1k0dnTWwjL2Q76zmNJzC5yk42Qi63Ghktj1ozfUrD">
+<!--				<param name="FlashVars" value="way={$lhost}/storage/compmodel/{$video_instr['NAME']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=22AEcBaJNjOk0Tv1XAjOkisQrN9mwtzC5kisNtXHv1l1fwcpsQNkbk18=xYTcSfYI=j1l1CQV8Yv1X=jOkedQBVhdwf9vwjzCh5beJal1CMkbtSal1SQopBwntQv1X1Ca4Hj1nl1k0nTWwjG3QNXzBGDY31X1dSGfzkOk03whTT31X=jOkZsNk6HsQfzC5k1kQOkaBwnzBGDR9WNkbSal1f0LbFWGXF2Qi6dM8kbk13Q3Q3Q33Qktj1fRdwnYeWQkzC5k42QiN63Gktj1ozfUrF">-->
+				<param name="FlashVars" value="way={$lhost}/storage/compmodel/{$video_instr['NAME']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=61ARHjYNf=jOk0v1yX1SGfzkO2k03whT317XAjOkisQ7r9mwtzC55I1jOkZBMiv62Qt9sG7nT30cLWNYkbk1WNxORL1kOk1mwdXRWNXzBGYDY31X1SQFD6dwyL2GAfTk06Q3QSIzd56L2MHXzkOkaBwdnzBGDRWNHkbSal1CGrhpd06zv1SXej5btj1Rhhd0XFdwkf9vwjzC5ebAJYl1CMykbCal1kweVG30hIdwRf9vwjzC5bTtj1cpmwyXzBGDY317X1kQ3Q3QE3Q31l1k0RnTWwjG3NRkbk13Q3QA3Q3Qktj16fRdwnY2UYiR3Nkbk1aJZxaoZuahf1kOkZ2MGJzC5f8Sa4l1SQl6W0aXzBGDY31iX1kQ3Q3QR3Q31l1k0dnTWwjL2Q76zmNJzC5yk42Qi63Ghktj1ozfUrD">
 			</object>				
 		</div>
 	
 		<a href="/comp_model"><input type="button" value="Назад" onclick=""/></a>
+		<a href="/lobby"><input type="button" value="В меню" onclick=""/></a>
 	{/if}
 
 {else}
@@ -76,5 +89,4 @@
 </form>
 </div>
 <script src="{$tpl}js/script.js"></script>
-
 {/block}

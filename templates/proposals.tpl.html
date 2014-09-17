@@ -8,12 +8,150 @@
 
 <form id="proposalsPage" name="proposalsPage" method="post">
 
+{$type_color = "color:#FE2E2E"}
+
+{if $type_prop eq "view"}
+
+<!--выводим статистику-->
+
+
+{section name=first loop=$array_statistic show=true}
+<table border="1" width="720px" class="simple-little-table" cellspacing='0'>
+<!--шапка-->
+<tr>
+	<th>дата отправки</th>
+	<th>сообщение</th>
+	<th>ответ</th>
+	<th>дата ответа</th>
+</tr>
+	{section name=second loop=$array_statistic[first]}
+	
+		<tr>
+		{section name=third loop=$array_statistic[first][second]}
+
+			{if $array_statistic[first][second][0] eq 'T'}
+
+				{$type_color = "color:#04B404"}
+			{else}
+
+				{$type_color = "color:#B40404"}
+			{/if}
+		
+			{if $smarty.section.third.index eq 0} {continue} {/if} <!-- status не выводим-->
+			
+			<td style={$type_color}>			
+			{if $smarty.section.third.index eq 1 or $smarty.section.third.index eq 4}
+				{to_date date=$array_statistic[first][second][third]}
+			{else}
+				{$array_statistic[first][second][third]}
+			{/if}			
+			</td>
+		{/section}
+		</tr>
+	{/section}
+</table>
+{/section}
+<!--{$array_statistic[first][second][third]} <br>
+
+{foreach from=$array_statistic item=i_1 name=first key=k_1}
+	{foreach from=$array_statistic[i_1] item=i_2 name=second key=k_2}
+		<tr>
+			<td>
+			{$array_statistic[i_1][i_2]}
+			</td>
+		</tr>
+	{/foreach}
+{/foreach}
+-->
+</table>
+
+<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
+<a href="/addproposals"><input type="button" value="Добавить" onclick=""/></a>
+
+
+{elseif $type_prop eq "add"} <!--добавить новое предложение-->
+
+<textarea  type="field_proposol" id="tabnum" name="tabnum" readonly></textarea>
+ 
+<p style="font-size:8px"><select name="typemessage" id="typemessage">
+{section name=j loop=$array_typemes}
+	<option value="{$array_typemes[j]['ID']}">{$array_typemes[j]['TITLE']}</option>
+{/section}
+</select></p>
+
+<td><input type="num_button" value="1" onclick="addToField(1)"/></td>
+<td><input type="num_button" value="2" onclick="addToField(2)"/></td>
+<td><input type="num_button" value="3" onclick="addToField(3)"/></td>
+<td><input type="num_button" value="4" onclick="addToField(4)"/></td>
+<td><input type="num_button" value="5" onclick="addToField(5)"/></td>
+<td><input type="num_button" value="6" onclick="addToField(6)"/></td>
+<td><input type="num_button" value="7" onclick="addToField(7)"/></td>
+<td><input type="num_button" value="8" onclick="addToField(8)"/></td>
+<td><input type="num_button" value="9" onclick="addToField(9)"/></td>
+<td><input type="num_button" value="0" onclick="addToField(0)"/></td>
+<td><input type="num_button" value="?" onclick="addToField('?')"/></td>
+<td><input type="num_button" value="!" onclick="addToField('!')"/></td>
+
+<p style="font-size:8px">
+<td><input type="num_button" value="Й" onclick="addToField('Й')"/></td>
+<td><input type="num_button" value="Ц" onclick="addToField('Ц')"/></td>
+<td><input type="num_button" value="У" onclick="addToField('У')"/></td>
+<td><input type="num_button" value="К" onclick="addToField('К')"/></td>
+<td><input type="num_button" value="Е" onclick="addToField('Е')"/></td>
+<td><input type="num_button" value="Н" onclick="addToField('Н')"/></td>
+<td><input type="num_button" value="Г" onclick="addToField('Г')"/></td>
+<td><input type="num_button" value="Ш" onclick="addToField('Ш')"/></td>
+<td><input type="num_button" value="Щ" onclick="addToField('Щ')"/></td>
+<td><input type="num_button" value="З" onclick="addToField('З')"/></td>
+<td><input type="num_button" value="Х" onclick="addToField('Х')"/></td>
+<td><input type="num_button" value="Ъ" onclick="addToField('Ъ')"/></td>
+</p>
+
+<p style="font-size:8px">
+<td><input type="num_button" value="Ф" onclick="addToField('Ф')"/></td>
+<td><input type="num_button" value="Ы" onclick="addToField('Ы')"/></td>
+<td><input type="num_button" value="В" onclick="addToField('В')"/></td>
+<td><input type="num_button" value="А" onclick="addToField('А')"/></td>
+<td><input type="num_button" value="П" onclick="addToField('П')"/></td>
+<td><input type="num_button" value="Р" onclick="addToField('Р')"/></td>
+<td><input type="num_button" value="О" onclick="addToField('О')"/></td>
+<td><input type="num_button" value="Л" onclick="addToField('Л')"/></td>
+<td><input type="num_button" value="Д" onclick="addToField('Д')"/></td>
+<td><input type="num_button" value="Ж" onclick="addToField('Ж')"/></td>
+<td><input type="num_button" value="Э" onclick="addToField('Э')"/></td>
+</p>
+
+<p style="font-size:8px">
+<td><input type="num_button" value="Я" onclick="addToField('Я')"/></td>
+<td><input type="num_button" value="Ч" onclick="addToField('Ч')"/></td>
+<td><input type="num_button" value="С" onclick="addToField('С')"/></td>
+<td><input type="num_button" value="М" onclick="addToField('М')"/></td>
+<td><input type="num_button" value="И" onclick="addToField('И')"/></td>
+<td><input type="num_button" value="Т" onclick="addToField('Т')"/></td>
+<td><input type="num_button" value="Ь" onclick="addToField('Ь')"/></td>
+<td><input type="num_button" value="Б" onclick="addToField('Б')"/></td>
+<td><input type="num_button" value="Ю" onclick="addToField('Ю')"/></td>
+</p>
+
+<p style="font-size:8px">
+<td><input type="reset" value="Очистить" id="resetnum_button"/></td>
+<td><input type="num_button" value="<" onclick="del()"/></td>
+<td><input type="num_button" value=" " onclick="addToField(' ')"/></td>
+<td><input type="num_button" value="," onclick="addToField(',')"/></td>
+<td><input type="num_button" value="." onclick="addToField('.')"/></td>
+</p>
 
 <input id="type_proposals" name="type_proposals" type="hidden" value="1"/>
 
-<!-- TODO: вывод статистики-->
+<!--<input type="num_button" value="Назад" onclick="get_proposals(0)"/>-->
+<a href="/proposals"><input type="button" value="Назад" onclick=""/></a>
+<a href="/lobby"><input type="button" value="В меню" onclick=""/></a>
+<input type="button" value="Отправить" onclick="get_proposals(1, this.form)"/>
 
-<input type="button" value="Назад" onclick="get_proposals(0)"/>
+{else}
+
+{/if}
+
 
 </form>
 </div>
