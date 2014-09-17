@@ -2,6 +2,14 @@
 {block name=content}  
 
 <link rel="stylesheet" href="{$tpl}css/main.css">
+
+
+<script>
+jQuery(document).ready(function(){
+	$('#proposalsPage').disableTextSelect(); 
+});
+</script>
+
 <div id="error_mess"> {$error_} </div>
 
 <div id="mainDiv" align="center" >
@@ -78,66 +86,66 @@
 {/section}
 </select></p>
 
-<td><input type="num_button" value="1" onclick="addToField(1)"/></td>
-<td><input type="num_button" value="2" onclick="addToField(2)"/></td>
-<td><input type="num_button" value="3" onclick="addToField(3)"/></td>
-<td><input type="num_button" value="4" onclick="addToField(4)"/></td>
-<td><input type="num_button" value="5" onclick="addToField(5)"/></td>
-<td><input type="num_button" value="6" onclick="addToField(6)"/></td>
-<td><input type="num_button" value="7" onclick="addToField(7)"/></td>
-<td><input type="num_button" value="8" onclick="addToField(8)"/></td>
-<td><input type="num_button" value="9" onclick="addToField(9)"/></td>
-<td><input type="num_button" value="0" onclick="addToField(0)"/></td>
-<td><input type="num_button" value="?" onclick="addToField('?')"/></td>
-<td><input type="num_button" value="!" onclick="addToField('!')"/></td>
+<td><input type="num_button" value="1" onclick="addToField(1)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="2" onclick="addToField(2)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="3" onclick="addToField(3)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="4" onclick="addToField(4)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="5" onclick="addToField(5)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="6" onclick="addToField(6)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="7" onclick="addToField(7)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="8" onclick="addToField(8)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="9" onclick="addToField(9)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="0" onclick="addToField(0)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="?" onclick="addToField('?')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="!" onclick="addToField('!')" style="cursor: pointer;"/></td>
 
 <p style="font-size:8px">
-<td><input type="num_button" value="Й" onclick="addToField('Й')"/></td>
-<td><input type="num_button" value="Ц" onclick="addToField('Ц')"/></td>
-<td><input type="num_button" value="У" onclick="addToField('У')"/></td>
-<td><input type="num_button" value="К" onclick="addToField('К')"/></td>
-<td><input type="num_button" value="Е" onclick="addToField('Е')"/></td>
-<td><input type="num_button" value="Н" onclick="addToField('Н')"/></td>
-<td><input type="num_button" value="Г" onclick="addToField('Г')"/></td>
-<td><input type="num_button" value="Ш" onclick="addToField('Ш')"/></td>
-<td><input type="num_button" value="Щ" onclick="addToField('Щ')"/></td>
-<td><input type="num_button" value="З" onclick="addToField('З')"/></td>
-<td><input type="num_button" value="Х" onclick="addToField('Х')"/></td>
-<td><input type="num_button" value="Ъ" onclick="addToField('Ъ')"/></td>
+<td><input type="num_button" value="Й" onclick="addToField('Й')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ц" onclick="addToField('Ц')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="У" onclick="addToField('У')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="К" onclick="addToField('К')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Е" onclick="addToField('Е')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Н" onclick="addToField('Н')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Г" onclick="addToField('Г')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ш" onclick="addToField('Ш')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Щ" onclick="addToField('Щ')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="З" onclick="addToField('З')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Х" onclick="addToField('Х')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ъ" onclick="addToField('Ъ')" style="cursor: pointer;"/></td>
 </p>
 
 <p style="font-size:8px">
-<td><input type="num_button" value="Ф" onclick="addToField('Ф')"/></td>
-<td><input type="num_button" value="Ы" onclick="addToField('Ы')"/></td>
-<td><input type="num_button" value="В" onclick="addToField('В')"/></td>
-<td><input type="num_button" value="А" onclick="addToField('А')"/></td>
-<td><input type="num_button" value="П" onclick="addToField('П')"/></td>
-<td><input type="num_button" value="Р" onclick="addToField('Р')"/></td>
-<td><input type="num_button" value="О" onclick="addToField('О')"/></td>
-<td><input type="num_button" value="Л" onclick="addToField('Л')"/></td>
-<td><input type="num_button" value="Д" onclick="addToField('Д')"/></td>
-<td><input type="num_button" value="Ж" onclick="addToField('Ж')"/></td>
-<td><input type="num_button" value="Э" onclick="addToField('Э')"/></td>
+<td><input type="num_button" value="Ф" onclick="addToField('Ф')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ы" onclick="addToField('Ы')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="В" onclick="addToField('В')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="А" onclick="addToField('А')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="П" onclick="addToField('П')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Р" onclick="addToField('Р')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="О" onclick="addToField('О')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Л" onclick="addToField('Л')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Д" onclick="addToField('Д')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ж" onclick="addToField('Ж')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Э" onclick="addToField('Э')" style="cursor: pointer;"/></td>
 </p>
 
 <p style="font-size:8px">
-<td><input type="num_button" value="Я" onclick="addToField('Я')"/></td>
-<td><input type="num_button" value="Ч" onclick="addToField('Ч')"/></td>
-<td><input type="num_button" value="С" onclick="addToField('С')"/></td>
-<td><input type="num_button" value="М" onclick="addToField('М')"/></td>
-<td><input type="num_button" value="И" onclick="addToField('И')"/></td>
-<td><input type="num_button" value="Т" onclick="addToField('Т')"/></td>
-<td><input type="num_button" value="Ь" onclick="addToField('Ь')"/></td>
-<td><input type="num_button" value="Б" onclick="addToField('Б')"/></td>
-<td><input type="num_button" value="Ю" onclick="addToField('Ю')"/></td>
+<td><input type="num_button" value="Я" onclick="addToField('Я')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ч" onclick="addToField('Ч')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="С" onclick="addToField('С')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="М" onclick="addToField('М')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="И" onclick="addToField('И')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Т" onclick="addToField('Т')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ь" onclick="addToField('Ь')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Б" onclick="addToField('Б')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ю" onclick="addToField('Ю')" style="cursor: pointer;"/></td>
 </p>
 
 <p style="font-size:8px">
 <td><input type="reset" value="Очистить" id="resetnum_button"/></td>
-<td><input type="num_button" value="<" onclick="del()"/></td>
-<td><input type="num_button" value=" " onclick="addToField(' ')"/></td>
-<td><input type="num_button" value="," onclick="addToField(',')"/></td>
-<td><input type="num_button" value="." onclick="addToField('.')"/></td>
+<td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
+<td><input type="num_button" value=" " onclick="addToField(' ')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="," onclick="addToField(',')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="." onclick="addToField('.')" style="cursor: pointer;"/></td>
 </p>
 
 <input id="type_proposals" name="type_proposals" type="hidden" value="1"/>
