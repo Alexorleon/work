@@ -1,7 +1,6 @@
 <?php	
 	unset($_SESSION);
-	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
-	require_once($_SERVER['DOCUMENT_ROOT']."./PHPExcel/IOFactory.php");
+	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
 	
 	$db = new db;
 	$db->GetConnect();

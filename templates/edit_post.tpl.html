@@ -1,0 +1,25 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+<div id="edit_postDiv" align="center" >
+
+<form id="edit_post" name="edit_post" method="post">
+
+<p><span class="title-lamp">Редактирование должности</span></p>
+
+
+
+</form>
+
+<a href="/list_posts"><input type="button" value="Назад" onclick=""/></a>
+
+</div>
+
+<script src="{$tpl}js/script.js"></script>
+
+{/block}

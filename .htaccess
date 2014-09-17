@@ -27,5 +27,7 @@ RewriteRule ^testing.html$ /questions.php?qtype=4 [L,QSA]
 
 RewriteRule ^lamp$ /lamp.php [L,QSA]
 RewriteRule ^list_posts$ /list_posts.php [L,QSA]
+RewriteRule ^edit_post$ /edit_post.php?posttype=0 [L,QSA]
+RewriteRule ^new_post$ /edit_post.php?posttype=1 [L,QSA]
 
 ErrorDocument 404 /404.php 
