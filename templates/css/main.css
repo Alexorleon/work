@@ -1,5 +1,25 @@
-p{
-font: 20px tahoma;
+#auth, input{
+
+	
+/**
+ * Для эксплорера
+ */
+-ms-user-select: none;
+
+/**
+ * Для мозилы
+ */
+-moz-user-select: none;
+
+/**
+ * Для конкверора
+ */
+-khtml-user-select: none;
+
+/**
+ * Для Сафари и Хрома
+ */
+-webkit-user-select: none;
 }
 
 mainDiv{
@@ -47,6 +67,14 @@ font-size: 54px;
 height:64px;
 width:250px;
 }
+
+/*строка ввода для редактирования названия должности*/
+input[type="field_postname"]{
+font-size: 14px;
+height:18px;
+width:120px;
+}
+
 textarea[type="field_proposol"]{
 outline: none;
 resize: none;
@@ -62,6 +90,10 @@ opacity:1;
 /*
 -------------------------------------BEGIN ТАБЛИЦА------------------------------------
 */
+.simple-little-table tr th{
+	min-width: 200px;
+	max-width: 200px;
+}
 /* NULL */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

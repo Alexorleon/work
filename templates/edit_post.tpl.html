@@ -12,7 +12,23 @@
 
 <p><span class="title-lamp">Редактирование должности</span></p>
 
-
+<table>
+	<tr>
+		<td>Название:</td>
+		<td><input  type="field_postname" id="field_postname" name="field_postname"></textarea></td>
+	</tr>
+	
+	<tr>
+		<td>Специальность:</td>
+		<td>
+			<p style="font-size:8px"><select name="typemessage" id="typemessage">
+			{section name=j loop=$array_posts}
+			<option value="{$array_posts[j]['KOD']}">{$array_posts[j]['TEXT']}</option>
+			{/section}
+			</select></p>
+		</td>
+	</tr>
+</table>
 
 </form>
 
