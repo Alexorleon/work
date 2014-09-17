@@ -20,18 +20,18 @@
 	<th>Название</th>
 </tr><!-- Table Header -->
 	
-{section name=count loop=$array_posts}
-
+{section name=count loop=$array_posts}	
 	<tr>
 		<td>
 		{$array_posts[{$count}]['KOD']}
 		</td>
 		<td>
+		<a href="path_to_heaven/{$array_posts[{$count}]['KOD']}">
 		{$array_posts[{$count}]['TEXT']}
+		</a>
 		</td>
 		{capture}{$count++}{/capture}
-	</tr>
-
+	</tr>	
 {/section}
 
 </form>
