@@ -23,7 +23,7 @@
 </tr><!-- Table Header -->
 	
 {section name=count loop=$array_posts}	
-	<tr onclick="window.location='path_to_heaven/{$array_posts[{$count}]['KOD']}'" style="cursor: pointer;">
+	<tr onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}'" style="cursor: pointer;">
 		<td>
 		{$array_posts[{$count}]['KOD']}
 		</td>
