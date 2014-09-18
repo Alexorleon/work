@@ -19,8 +19,10 @@
 		$type_submit = $_POST['type_submit'];
 		
 		$tabnum = trim(stripslashes(htmlspecialchars($tabnum)));
+		
+		// TODO: в данный момент PREDPR_K относится к Кокс-майнинг
 		$sql = <<<SQL
-			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL
+			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL and PREDPR_K=10
 SQL;
 
 		//if (!$res = $db->go_result($sql)) {to_log('res', $sql);}

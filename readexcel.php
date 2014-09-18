@@ -29,6 +29,7 @@
 SQL;
 	$array_competence = $db->go_result($sql);
 	//print_r($array_competence[1]['min']);
+	//print_r($array_competence[1]['max']);
 	
 	// TODO: РАЗБОР ИДЕТ ТОЛЬКО ТЕКСТОВОГО ТИПА
 	foreach ($objPHPExcel->getWorksheetIterator() as $worksheet){
@@ -99,7 +100,7 @@ SQL;
 		// TODO: начать транзакцию
 		
 		// поочередно берем вопросы
-		for ($row = 3; $row <= $highestRow; $row = $row + 3){ // 3 - с шагом количества ответов
+		for($row = 3; $row <= $highestRow; $row = $row + 3){ // 3 - с шагом количества ответов
 			
 			// получаем сам вопрос
 			$cell = $worksheet->getCellByColumnAndRow(1, $row);
@@ -110,11 +111,10 @@ SQL;
 			
 			$price = 0;
 			// определяем максимальный риск для вопроса
-			// TODO: это значение можно взять из таблицы TESTNAMES
-			for ($i = $row; $i < $row + 3; $i++){
+			for($i = $row; $i < $row + 3; $i++){
 			
 				// получаем цену
-				$cell = $worksheet->getCellByColumnAndRow(3, $i);
+				$cell = $worksheet->getCellByColumnAndRow(4, $i);
 				$pr = $cell->getValue();
 				
 				// находим максимальную цену
