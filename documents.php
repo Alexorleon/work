@@ -64,7 +64,7 @@ SQL;
 				
 				$sotrud_dolj = $_SESSION['sotrud_dolj'];
 				
-				// получаем нормативные документы				
+				// получаем видео				
 				$sql = <<<SQL
 				SELECT ID, TITLE FROM stat.ALLTRAINING WHERE ALLTRAINING.ID IN
 				(SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.TESTNAMESID IN 

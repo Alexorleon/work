@@ -20,6 +20,10 @@ jQuery(document).ready(function(){
 
 <div id="mainDiv" align="center" >
 
+<!-- ENDS menu-holder -->
+<div id="menu-holder"></div>
+<!-- ENDS menu-holder -->
+	
 <form id="auth" name="auth" method="post">
 табельный номер для теста - 971
 <table >
@@ -55,16 +59,24 @@ jQuery(document).ready(function(){
 
 <input id="type_submit" name="type_submit" type="hidden" value="1"/>
 
-<p><input type="button" onclick="go_auth()" value="Личный 
-кабинет"/>
+<!--
+<input type="move_button" onclick="go_auth()" value="Личный кабинет"/>
 
-<input type="button" onclick="go_pre_examiner()" value="Предсменный
+<input type="move_button" onclick="go_pre_examiner()" value="Предсменный 
  экзаменатор"/>
 
- <input type="button" onclick="go_check_comp()" value="Контроль
- компетентности"/>
+<input type="move_button" onclick="go_check_comp()" value="Контроль 
+компетентности"/>
+-->
+
+<button class="move_button" onclick="go_auth()" >Личный<br>кабинет</button>
+
+<button class="move_button" onclick="go_pre_examiner()" >Предсменный<br>экзаменатор</button>
+
+<button class="move_button" onclick="go_check_comp()" >Контроль<br>компетентности</button>
  
 </form>
+
 </div>
 <script src="{$tpl}js/script.js"></script>
 </body>

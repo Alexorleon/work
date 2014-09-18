@@ -36,16 +36,40 @@ text-shadow:
 }
 
 input[type="button"]{
-width:180px;
-height:80px;
+width:210px;
+height:100px;
 opacity:0.8;
 border:0px;
+}
+
+.move_button{
+background: url('/files/img/move_button.png') no-repeat 0 0;
+width:210px;
+height:100px;
+opacity:0.8;
+border:0px;
+cursor: pointer;
+text-decoration:none !important;
+text-align: center;
+font-size: 24px;
+color:#fff;
+text-shadow: 
+	black 2px 2px 0, 
+	black -2px -2px 0, 
+	black -2px 2px 0, 
+	black 2px -2px 0;
+}
+
+.move_button:hover{
+opacity:1;
 }
 
 input[type="text"]{
 font-size: 54px;
 height:64px;
 width:250px;
+opacity:0.6;
+text-align: center;
 }
 
 /*строка ввода для редактирования названия должности*/
@@ -244,4 +268,8 @@ span.title-lamp{
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
 
-
+#menu-holder{
+	width: 50%;
+	height: 24px;
+	background:  url('/files/img/menu-bg.png') repeat-x center;
+}
