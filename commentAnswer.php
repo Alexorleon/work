@@ -19,8 +19,12 @@ if(isset($_GET['type_exam'])){
 	
 			// так как ответили не правильно, то выводим комментарий и правильный ответ
 			$temp_id = $_SESSION['ID_question'];
-			$sql = <<<SQL
+			$temp_idans = $_SESSION['first_answerid'];
+			/*$sql = <<<SQL
 			SELECT COMMENTARY FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_id'
+SQL;*/
+			$sql = <<<SQL
+			SELECT COMMENTARY FROM stat.ALLANSWERS WHERE ALLANSWERS.ID='$temp_idans'
 SQL;
 			$s_res = $db->go_result_once($sql);
 

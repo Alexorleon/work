@@ -1,0 +1,43 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+<div id="edit_postDiv" align="center" >
+
+<form id="edit_post" name="edit_post" method="post">
+
+<p><span class="title-lamp">Редактирование должности</span></p>
+
+<table>
+	<tr>
+		<td>Название должности:</td>
+		<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
+	</tr>
+	
+	<tr>
+		<td>Название теста:</td>
+		<td>
+			<p style="font-size:8px"><select name="type_specialty" id="type_specialty">
+			{section name=j loop=$array_testnames}
+			<option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
+			{/section}
+			</select></p>
+		</td>
+	</tr>
+</table>
+
+<a href="/list_posts"><input type="button" value="Назад" onclick=""/></a>
+<!--в зависимости от статуса добавляем или редактируем-->
+<input type="button" value="Сохранить" onclick="get_post(this.form)"/>
+
+</form>
+
+</div>
+
+<script src="{$tpl}js/script.js"></script>
+
+{/block}

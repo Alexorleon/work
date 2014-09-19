@@ -35,18 +35,151 @@ text-shadow:
 	black 2px -2px 0;
 }
 
+/*
 input[type="button"]{
-width:180px;
-height:80px;
+width:210px;
+height:100px;
 opacity:0.8;
 border:0px;
+}*/
+
+.move_button{
+background: url('/files/img/move_button.png') no-repeat 0 0;
+width: 210px;
+height: 100px;
+margin-top: 4%;
+opacity: 0.8;
+border: 0px;
+cursor: pointer;
+text-decoration: none !important;
+text-align: center;
+font-size: 24px;
+color: #fff;
+text-shadow: 
+	black 2px 2px 0, 
+	black -2px -2px 0, 
+	black -2px 2px 0, 
+	black 2px -2px 0;
 }
+
+.move_button:hover{
+opacity:1;
+}
+
+.choice_button{
+background: #0066cc;
+min-height: 100px;
+width: 100%;
+margin-bottom: 10px;
+opacity: 0.8;
+border: 0px;
+word-wrap: normal;
+white-space: normal;
+cursor: pointer;
+text-decoration:none !important;
+text-align: center;
+font-size: 22px;
+color:#fff;
+text-shadow: 
+	black 1px 1px 0, 
+	black -1px -1px 0, 
+	black -1px 1px 0, 
+	black 1px -1px 0;
+}
+
+#bottom{
+width: 100%;
+position: absolute;
+bottom: 10px;
+}
+
+.text_question{
+text-align: center;
+margin-top: 4%;
+font-size: 36px;
+}
+
+.text_question_comment{
+text-align: center;
+margin-top: 2%;
+font-size: 28px;
+}
+
+.text_module{
+text-align: right;
+margin-top: 2%;
+margin-right: 20px;
+font-size: 22px;
+}
+
+.text_status_ansF{
+text-align: center;
+margin-top: 2%;
+opacity: 0.8;
+font-size: 36px;
+color:#B40404;
+text-shadow: 
+	black 1px 1px 0, 
+	black -1px -1px 0, 
+	black -1px 1px 0, 
+	black 1px -1px 0;
+}
+
+.text_status_ansT{
+text-align: center;
+margin-top: 2%;
+opacity: 0.8;
+font-size: 36px;
+color:#04B404;
+text-shadow: 
+	black 1px 1px 0, 
+	black -1px -1px 0, 
+	black -1px 1px 0, 
+	black 1px -1px 0;
+}
+
+/*
+#main{
+	width: 100%;
+}
+
+.wrapper{
+	width: 966px;
+	margin: 0px auto;
+	position: relative;
+}
+
+#content{
+	min-height: 400px;
+	overflow: hidden;
+	margin-bottom: 40px;
+	font-size: 14px;
+	line-height: 1.5em;
+}
+
+#page-content{
+	float: left;
+	width: 906px;
+	margin-left: 30px;
+	line-height: 1.5em;
+}*/
 
 input[type="text"]{
 font-size: 54px;
 height:64px;
 width:250px;
+margin-top: 4%;
+opacity:0.6;
+text-align: center;
 }
+
+/*строка ввода для редактирования названия должности*/
+input[type="field_postname"]{
+font-size: 14px;
+height:18px;
+width:120px;
+}
+
 textarea[type="field_proposol"]{
 outline: none;
 resize: none;
@@ -62,6 +195,10 @@ opacity:1;
 /*
 -------------------------------------BEGIN ТАБЛИЦА------------------------------------
 */
+.simple-little-table tr th{
+	min-width: 200px;
+	max-width: 200px;
+}
 /* NULL */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -90,11 +227,13 @@ outline:0;
 
 body {
 	line-height: 1;
-	margin:20px;
+	margin: 0px;
 	color: #51565b;
 	background: #f1f1f1 url('/files/img/noise.png');
 	font-family:Tahoma, Verdana, Arial, 'Sans Serif';
 	font-size:  100%;
+	
+	/*cursor: url('/files/img/pointcur.cur'), all-elements;*/
 }
 
 ol, ul {
@@ -232,4 +371,8 @@ span.title-lamp{
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
 
-
+#menu-holder{
+	width: 100%;
+	height: 21px;
+	background:  url('/files/img/menu-bg.png') repeat-x center;
+}

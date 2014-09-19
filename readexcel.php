@@ -15,9 +15,13 @@
                 ->setKeywords("office 2007 openxml php")
                 ->setCategory("Тестовый файл");
 	$objPHPExcel->getActiveSheet()->setTitle('Демо');*/
-		
+	
+	// имя файла
+	$file_name = iconv("utf-8", "windows-1251", "ГРОЗ Кокс-Майнинг.xlsx");
+	die("STOP"); // TODO: предостережение от случайного запуска
+
 	$objPHPExcel = new PHPExcel();
-	$objPHPExcel = PHPExcel_IOFactory::load("test.xlsx");
+	$objPHPExcel = PHPExcel_IOFactory::load($_SERVER['DOCUMENT_ROOT']."./export/$file_name");
 	
 	// получаем актуальные уровни компетенции из таблицы
 	$sql = <<<SQL
@@ -25,44 +29,49 @@
 SQL;
 	$array_competence = $db->go_result($sql);
 	//print_r($array_competence[1]['min']);
-			
+	//print_r($array_competence[1]['max']);
+	
 	// TODO: РАЗБОР ИДЕТ ТОЛЬКО ТЕКСТОВОГО ТИПА
 	foreach ($objPHPExcel->getWorksheetIterator() as $worksheet){
 	
 		$highestRow         = $worksheet->getHighestRow(); // или getHighestDataRow
 		$highestColumn      = $worksheet->getHighestColumn(); // например, 'F'
 		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-		echo "---".$highestRow."---";
+		echo $highestRow." rows";
 		//$nrColumns = ord($highestColumn) - 64;
 		//echo $nrColumns . ' колонок (A-' . $highestColumn . ') ';
-		echo $highestRow . ' строк.';
 		//echo '<br>Данные: <table border="1"><tr>';
 		
 		// находим ID теста и модуль из первой строки
 		$cell = $worksheet->getCellByColumnAndRow(0, 1);
 		$complete_line = $cell->getValue();
 		//print_r($complete_line);
-		//echo "<br />";
+		echo "<br />";
 		// разбор полученной строки. " - ГРОЗ - Проверка знаний"
 		$out_array = preg_split('/ - /', $complete_line);
 		
 		// получаем ID теста
-		$str_testname = iconv("utf-8", "windows-1251", $out_array[1]); // название теста
-
+		$str_testname = iconv("utf-8", "windows-1251", $out_array[0]); // название теста
+		//print_r($str_testname);
+		//echo "<br />";
+		
 		$sql = <<<SQL
 			SELECT ID FROM stat.TESTNAMES WHERE TITLE='$str_testname'
 SQL;
 		$s_res = $db->go_result_once($sql);
-		$testname_id = $s_res['ID']; // у нас есть специальность - 41
+		$testname_id = $s_res['ID']; // у нас есть специальность
+		//print_r($testname_id);
+		//echo "<br />";
 		
 		// получаем ID модуля
-		$str_module = iconv("utf-8", "windows-1251", $out_array[2]); // модуль
+		$str_module = iconv("utf-8", "windows-1251", $out_array[1]); // модуль
 		
 		$sql = <<<SQL
 			SELECT ID FROM stat.MODULE WHERE TITLE='$str_module'
 SQL;
 		$s_res = $db->go_result_once($sql);
 		$module_id = $s_res['ID'];
+		//print_r($module_id);
 	
 		// необходимо получить номер последнего ID. Для этого нужно сначало сделать тестовую запись,
 		// на тот случай если автоинкремент таблицы уже срабатывал.
@@ -91,7 +100,7 @@ SQL;
 		// TODO: начать транзакцию
 		
 		// поочередно берем вопросы
-		for ($row = 3; $row <= $highestRow; $row = $row + 3){ // 3 - с шагом количества ответов
+		for($row = 3; $row <= $highestRow; $row = $row + 3){ // 3 - с шагом количества ответов
 			
 			// получаем сам вопрос
 			$cell = $worksheet->getCellByColumnAndRow(1, $row);
@@ -102,10 +111,10 @@ SQL;
 			
 			$price = 0;
 			// определяем максимальный риск для вопроса
-			for ($i = $row; $i < $row + 3; $i++){
+			for($i = $row; $i < $row + 3; $i++){
 			
 				// получаем цену
-				$cell = $worksheet->getCellByColumnAndRow(3, $i);
+				$cell = $worksheet->getCellByColumnAndRow(4, $i);
 				$pr = $cell->getValue();
 				
 				// находим максимальную цену
@@ -149,8 +158,9 @@ SQL;
 				INSERT INTO stat.ALLQUESTIONS_B (TESTNAMESID, ALLQUESTIONSID) 
 				VALUES ('$testname_id', '$count_questions')
 SQL;
-			$db->go_query($sql);			
+			$db->go_query($sql);
 			
+
 			// тест - проверить номер последнего ID после вставки
 			/*$sql = <<<SQL
 				SELECT Max(ID) AS "max" FROM ALLQUESTIONS
@@ -167,7 +177,7 @@ SQL;
 				//$answer = $cell->getValue();
 				
 				// получаем цену
-				$cell = $worksheet->getCellByColumnAndRow(3, $i);
+				$cell = $worksheet->getCellByColumnAndRow(4, $i);
 				$price = $cell->getValue();
 				
 				// получаем комментарий
@@ -240,6 +250,10 @@ SQL;
 	
 	
 	
+	
+	
+	
+	
 	//------------------------------------------------------------
 	/*class chunkReadFilter implements PHPExcel_Reader_IReadFilter
 	{
@@ -260,7 +274,7 @@ SQL;
 	}
 	
 	
-
+	
 	if ($_SESSION['startRow']) $startRow = $_SESSION['startRow'];
 	else $startRow = 13;
 
@@ -286,12 +300,10 @@ SQL;
     echo "The End";
     unset($_SESSION['startRow']);*/
 
-				
-	
 
 
 	
-	/*if ($_POST){
+	if ($_POST){
 
 		$type_documents = $_POST['type_documents'];
 
@@ -300,7 +312,7 @@ SQL;
 			// переходим в лобби
 			die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 		}
-	}*/
+	}
 	
 	$smarty->assign("array_competence", $array_competence);
 	$smarty->assign("error_", $error_);

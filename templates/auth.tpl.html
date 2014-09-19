@@ -4,57 +4,86 @@
 <title>{$title}</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
+
 <script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+<script>
+jQuery(document).ready(function(){
+	$('#auth').disableTextSelect(); 
+});
+</script>
+
 </head>
 <body>
 <div id="error_mess"> {$error_} </div>
 
 <div id="mainDiv" align="center" >
 
+<!-- menu-holder -->
+<div id="menu-holder"></div>
+<!-- ENDS menu-holder -->
+	
 <form id="auth" name="auth" method="post">
+табельный номер для теста - 971
 <table >
 <tr>
 <td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly /></td>
 </tr>
 
 <tr>
-<td><input type="num_button" value="1" onclick="addToField(1)"/></td>
-<td><input type="num_button" value="2" onclick="addToField(2)"/></td>
-<td><input type="num_button" value="3" onclick="addToField(3)"/></td>
+<td><input type="num_button" value="1" onclick="addToField(1)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="2" onclick="addToField(2)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="3" onclick="addToField(3)" style="cursor: pointer;"/></td>
 </tr>
 
 <tr>
-<td><input type="num_button" value="4" onclick="addToField(4)"/></td>
-<td><input type="num_button" value="5" onclick="addToField(5)"/></td>
-<td><input type="num_button" value="6" onclick="addToField(6)"/></td>
+<td><input type="num_button" value="4" onclick="addToField(4)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="5" onclick="addToField(5)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="6" onclick="addToField(6)" style="cursor: pointer;"/></td>
 </tr>
 
 <tr>
-<td><input type="num_button" value="7" onclick="addToField(7)"/></td>
-<td><input type="num_button" value="8" onclick="addToField(8)"/></td>
-<td><input type="num_button" value="9" onclick="addToField(9)"/></td>
+<td><input type="num_button" value="7" onclick="addToField(7)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="8" onclick="addToField(8)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="9" onclick="addToField(9)" style="cursor: pointer;"/></td>
 </tr>
 
 <tr>
-<td><input type="reset" value="C" id="resetButton"/></td>
-<td><input type="num_button" value="0" onclick="addToField(0)"/></td>
-<td><input type="num_button" value="<" onclick="del()"/></td>
+<td><input type="reset" value="C" id="resetButton" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="0" onclick="addToField(0)" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
 </tr>
 </table>
 
 
 <input id="type_submit" name="type_submit" type="hidden" value="1"/>
 
-<p><input type="button" onclick="go_auth()" value="Личный 
-кабинет"/>
+<!--
+<input type="move_button" onclick="go_auth()" value="Личный кабинет"/>
 
-<input type="button" onclick="go_pre_examiner()" value="Предсменный
+<input type="move_button" onclick="go_pre_examiner()" value="Предсменный 
  экзаменатор"/>
 
- <input type="button" onclick="go_check_comp()" value="Контроль
- компетентности"/>
- 
+<input type="move_button" onclick="go_check_comp()" value="Контроль 
+компетентности"/>
+-->
+
+<!--
+<button class="move_button" onclick="go_auth()" >Личный<br>кабинет</button>
+-->
+<button class="move_button" onclick="go_pre_examiner()" >Предсменный<br>экзаменатор</button>
+<!--
+<button class="move_button" onclick="go_check_comp()" >Контроль<br>компетентности</button>
+-->
 </form>
+
+<div id="bottom">
+	<!-- menu-holder -->
+	<div id="menu-holder"></div>
+	<!-- ENDS menu-holder -->
+</div>
+
 </div>
 <script src="{$tpl}js/script.js"></script>
 </body>

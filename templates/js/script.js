@@ -102,3 +102,20 @@ function get_documents(n, t){
 	$("#type_doc").val(t);
 	$("#documentsPage").submit();
 }
+
+// add or edit posts
+function get_post(f){
+
+	if($("#postname").val() != ""){ // не пустое сообщение
+
+		num = f.type_specialty.selectedIndex;
+		post_id = f.type_specialty.options[num].value;
+
+		$("#type_specialty").val(post_id);
+		$("#postname").val();
+		$("#edit_post").submit();
+	}else{
+		
+		alert("Введите сообщение");
+	}
+}
