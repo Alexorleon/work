@@ -12,32 +12,37 @@
 <input id="answer" name="answer" type="hidden" value="1"/>
 
 <!-- Пройти тестирование или пробное тестирование-->
-	<input type="hidden" id="comp_lvl_id" name="comp_lvl_id" value="0">
-	<input type="hidden" id="answ_id" name="answ_id" value="0">
-	<input type="hidden" id="numid" name="numid" value="0">
+<input type="hidden" id="comp_lvl_id" name="comp_lvl_id" value="0">
+<input type="hidden" id="answ_id" name="answ_id" value="0">
+<input type="hidden" id="numid" name="numid" value="0">
 	
 {$k = 0}
-{if $typetest eq 1}
+{if $typetest eq 1} <!-- Предсменный экзаменатор -->
 
-	{$question['TEXT']}
+{$question['TEXT']}
 
-	<p>	
-	{section name=i loop=$array_answers}
-		<input type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/>
-	{/section}
-	</p>
-{elseif $typetest eq 2}
-    <!--<input id="answer" name="answer" type="hidden" value="1"/>-->
-	<input type="button" onclick="typeTest(1)" value="Пробное тестирование"/>
-	<input type="button" onclick="typeTest(2)" value="Тестирование"/>
-{else}
+		<div id="bottom">
+		{section name=i loop=$array_answers}
+			<input class="choice_button" type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/>
+		{/section}
+		</div>
+
+{elseif $typetest eq 2} <!-- Меню выбора сдачи -->
+    
+	<!--<input class="move_button" type="button" onclick="typeTest(1)" value="Пробное тестирование"/>-->
+	<!--<input class="move_button" type="button" onclick="typeTest(2)" value="Тестирование"/>-->
+	<button class="move_button" type="button" onclick="typeTest(1)" >Пробное<br>тестирование</button>
+	<button class="move_button" type="button" onclick="typeTest(2)" >Тестирование</button>
+	
+{else} <!-- Контроль компетентности -->
 
 	<!--{$question['TEXT']}-->
 	{$question}
 
 	<p>
 	{section name=i loop=$array_answers}
-		<input type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/>
+		<input class="choice_button" type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/>
+		<br>
 	{/section}
 	</p>
 {/if}
