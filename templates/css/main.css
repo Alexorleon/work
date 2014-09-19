@@ -67,9 +67,9 @@ opacity:1;
 
 .choice_button{
 background: #0066cc;
-min-height: 80px;
+min-height: 100px;
 width: 100%;
-margin-bottom: 5px;
+margin-bottom: 10px;
 opacity: 0.8;
 border: 0px;
 word-wrap: normal;
@@ -90,6 +90,19 @@ text-shadow:
 width: 100%;
 position: absolute;
 bottom: 10px;
+}
+
+.text_question{
+text-align: center;
+margin-top: 4%;
+font-size: 36px;
+}
+
+.text_module{
+text-align: right;
+margin-top: 2%;
+margin-right: 20px;
+font-size: 22px;
 }
 
 /*
@@ -185,6 +198,8 @@ body {
 	background: #f1f1f1 url('/files/img/noise.png');
 	font-family:Tahoma, Verdana, Arial, 'Sans Serif';
 	font-size:  100%;
+	
+	/*cursor: url('/files/img/pointcur.cur'), all-elements;*/
 }
 
 ol, ul {
@@ -324,6 +339,6 @@ span.title-lamp{
 
 #menu-holder{
 	width: 100%;
-	height: 24px;
+	height: 21px;
 	background:  url('/files/img/menu-bg.png') repeat-x center;
 }
