@@ -25,11 +25,17 @@
 <div class="text_module"><span>МОДУЛЬ: {$textmodule}<span></div>
 <div class="text_question"><span>{$question['TEXT']}<span></div>
 
-	<div id="bottom">
+<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+
+	{$count = 1}
 	{section name=i loop=$array_answers}
-		<input class="choice_button" type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/>
+		<tr>
+			<td><input class="quest_num" type="button" value={$count}></td>
+			<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/></td>
+		</tr>
+		{capture}{$count++}{/capture}
 	{/section}
-	</div>
+</table>
 
 {elseif $typetest eq 2} <!-- Меню выбора сдачи -->
     

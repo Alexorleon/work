@@ -106,6 +106,7 @@ SQL;
 	//$smarty->assign("array_final_qu", $_SESSION['q_final_array']);
 	$smarty->assign("array_final_qu", $_SESSION['final_array_questions']);
 	$smarty->assign("array_final_an", $_SESSION['final_array_answers']);
+	print_r($_SESSION['final_array_questions']);
 
 	$smarty->assign("title", "Комментарий");
 	$smarty->display("commentAnswer.tpl.html");
