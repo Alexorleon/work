@@ -18,6 +18,15 @@ function go_pre_examiner(){
 	}
 }
 
+// предсменный экзаменатор через поиск сотрудника
+function go_pre_examiner_fromsearch(emp){
+	//document.location.href = './questions.php';
+	$("#type_submit").val("2");
+	//$("#tabnum").val(emp);
+	alert(emp);
+	//$("#auth").submit();
+}
+
 // контроль компетентности
 function go_check_comp(){
 	//document.location.href = './questions.php';

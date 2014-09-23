@@ -15,23 +15,48 @@ jQuery(document).ready(function(){
 <div id="mainDiv" align="center" >
 
 <form id="search_employeePage" name="search_employeePage" method="post">
+<!--{if $search_emp_type eq "view"}
+{elseif $search_emp_type eq "search"}
+{else}
+{/if}-->
 
-{if $search_emp_type eq "view"}
-
-
-
-{elseif $search_emp_type eq "search"} <!--найти сотрудника-->
-
-
+{if empty($array_employee)}
 
 {else}
 
+{$count = 0}
+<table class="simple-little-table" cellspacing='0'>
 
+<tr>
+	<th>Фамилия</th>
+	<th>Имя</th>
+	<th>Отчество</th>
+	<th>Табельный номер</th>
+</tr><!-- Table Header -->
+
+{section name=count loop=$array_employee}	
+	<tr onclick="go_pre_examiner_fromsearch({$array_employee[{$count}]['TABEL_KADR']}')" style="cursor: pointer;">
+		<td>
+		{$array_employee[{$count}]['SOTRUD_FAM']}
+		</td>
+		<td>		
+		{$array_employee[{$count}]['SOTRUD_IM']}		
+		</td>
+		<td>		
+		{$array_employee[{$count}]['SOTRUD_OTCH']}		
+		</td>
+		<td>		
+		{$array_employee[{$count}]['TABEL_KADR']}		
+		</td>
+		{capture}{$count++}{/capture}
+	</tr>	
+{/section}
+</table>
 
 {/if}
 
 <textarea  type="field_employee" id="tabnum" name="tabnum" readonly></textarea>
- 
+
 <p style="font-size:8px">
 <td><input type="num_button" value="Й" onclick="addToField('Й')" style="cursor: pointer;"/></td>
 <td><input type="num_button" value="Ц" onclick="addToField('Ц')" style="cursor: pointer;"/></td>
@@ -78,11 +103,8 @@ jQuery(document).ready(function(){
 <td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
 </p>
 
-<!--<input id="type_proposals" name="type_proposals" type="hidden" value="1"/>-->
-
-<a href="/auth.php"><input type="button" value="Назад" onclick=""/></a>
-<a href="/search_employee_s"><input type="button" value="Найти" onclick="search_employee()"/></a>
-
+<a href="/auth.php"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+<input class="move_button" type="button" value="Найти" onclick="search_employee()"/>
 </form>
 </div>
 <script src="{$tpl}js/script.js"></script>

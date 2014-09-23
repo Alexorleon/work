@@ -7,10 +7,10 @@
 	$error_='';
 
 	// инициализация переменных по умолчанию
-	$_SESSION['transitionOption'] = 1; // флаг правильности ответа
-	$_SESSION['ID_question'] = 0; // ID вопроса
-	$_SESSION['answer_attempt'] = 0; // количество попыток ответов на вопрос
-	$_SESSION['first_answerid'] = 0; // первый неправильный ответ
+	$_SESSION['transitionOption'] = 1; 	// флаг правильности ответа
+	$_SESSION['ID_question'] = 0; 		// ID вопроса
+	$_SESSION['answer_attempt'] = 0; 	// количество попыток ответов на вопрос
+	$_SESSION['first_answerid'] = 0; 	// первый неправильный ответ
 	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
 		
 	if ($_POST){
@@ -21,7 +21,7 @@
 		// переход к поиску сотрудника
 		if($type_submit == "4"){
 
-			die('<script>document.location.href= "'.lhost.'/search_employee_v"</script>');
+			die('<script>document.location.href= "'.lhost.'/search_employee"</script>');
 		}
 		
 		$tabnum = trim(stripslashes(htmlspecialchars($tabnum)));

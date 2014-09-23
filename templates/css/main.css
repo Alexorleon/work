@@ -407,6 +407,16 @@ span.title-lamp{
 -------------------------------------- BEGIN search_employeePage -------------------------------------
 */
 
+textarea[type="field_employee"]{
+outline: none;
+resize: none;
+margin-top: 20px;
+margin-bottom: 20px;
+font-size: 36px;
+height:50px;
+width:860px;
+}
+
 /*
 -------------------------------------- END search_employeePage -----------------------------------------
 */
