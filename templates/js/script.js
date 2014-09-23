@@ -29,6 +29,12 @@ function go_check_comp(){
 	}
 }
 
+// переходим к поиску по фамилии сотрудника
+function go_search_employee(){
+
+	$("#type_submit").val("4");
+}
+
 function addToField(n){
 	$("#tabnum").val($("#tabnum").val()+n);
 }
@@ -93,6 +99,19 @@ function get_proposals(n, f){
 	}else{
 
 		$("#type_proposals").val(0);
+	}
+}
+
+// найти сотрудника по фамилии
+function search_employee(){
+
+	if($("#tabnum").val() != ""){ // не пустое сообщение
+
+		$("#tabnum").val();
+
+		$("#search_employeePage").submit();
+	}else{
+		alert("Введите сообщение");
 	}
 }
 

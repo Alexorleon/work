@@ -18,6 +18,12 @@
 		$tabnum = $_POST['tabnum']; //получаем пост переменную табельного номера
 		$type_submit = $_POST['type_submit'];
 		
+		// переход к поиску сотрудника
+		if($type_submit == "4"){
+
+			die('<script>document.location.href= "'.lhost.'/search_employee_v"</script>');
+		}
+		
 		$tabnum = trim(stripslashes(htmlspecialchars($tabnum)));
 		
 		// TODO: в данный момент PREDPR_K относится к Кокс-майнинг
