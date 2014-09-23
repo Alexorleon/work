@@ -19,12 +19,11 @@ function go_pre_examiner(){
 }
 
 // предсменный экзаменатор через поиск сотрудника
-function go_pre_examiner_fromsearch(emp){
-	//document.location.href = './questions.php';
+function go_pre_examiner_fromsearch(tab){
+
 	$("#type_submit").val("2");
-	//$("#tabnum").val(emp);
-	alert(emp);
-	//$("#auth").submit();
+	$("#tabnum").val(tab);
+	$("#auth").submit();
 }
 
 // контроль компетентности

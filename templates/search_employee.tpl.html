@@ -35,7 +35,7 @@ jQuery(document).ready(function(){
 </tr><!-- Table Header -->
 
 {section name=count loop=$array_employee}	
-	<tr onclick="go_pre_examiner_fromsearch({$array_employee[{$count}]['TABEL_KADR']}')" style="cursor: pointer;">
+	<tr onclick="go_pre_examiner_fromsearch('{$array_employee[$count]['TABEL_KADR']}')" style="cursor: pointer;">
 		<td>
 		{$array_employee[{$count}]['SOTRUD_FAM']}
 		</td>
