@@ -1,0 +1,112 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+
+<script>
+jQuery(document).ready(function(){
+	$('#search_employeePage').disableTextSelect(); 
+});
+</script>
+
+<div id="error_mess"> {$error_} </div>
+
+<div id="mainDiv" align="center" >
+
+<form id="search_employeePage" name="search_employeePage" method="post">
+<!--{if $search_emp_type eq "view"}
+{elseif $search_emp_type eq "search"}
+{else}
+{/if}-->
+
+{if empty($array_employee)}
+
+{else}
+
+{$count = 0}
+<table class="simple-little-table" cellspacing='0'>
+
+<tr>
+	<th>Фамилия</th>
+	<th>Имя</th>
+	<th>Отчество</th>
+	<th>Табельный номер</th>
+</tr><!-- Table Header -->
+
+{section name=count loop=$array_employee}	
+	<tr onclick="go_pre_examiner_fromsearch('{$array_employee[$count]['TABEL_KADR']}')" style="cursor: pointer;">
+		<td>
+		{$array_employee[{$count}]['SOTRUD_FAM']}
+		</td>
+		<td>		
+		{$array_employee[{$count}]['SOTRUD_IM']}		
+		</td>
+		<td>		
+		{$array_employee[{$count}]['SOTRUD_OTCH']}		
+		</td>
+		<td>		
+		{$array_employee[{$count}]['TABEL_KADR']}		
+		</td>
+		{capture}{$count++}{/capture}
+	</tr>	
+{/section}
+</table>
+
+{/if}
+
+<textarea  type="field_employee" id="tabnum" name="tabnum" readonly></textarea>
+
+<p style="font-size:8px">
+<td><input type="num_button" value="Й" onclick="addToField('Й')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ц" onclick="addToField('Ц')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="У" onclick="addToField('У')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="К" onclick="addToField('К')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Е" onclick="addToField('Е')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Н" onclick="addToField('Н')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Г" onclick="addToField('Г')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ш" onclick="addToField('Ш')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Щ" onclick="addToField('Щ')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="З" onclick="addToField('З')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Х" onclick="addToField('Х')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ъ" onclick="addToField('Ъ')" style="cursor: pointer;"/></td>
+</p>
+
+<p style="font-size:8px">
+<td><input type="num_button" value="Ф" onclick="addToField('Ф')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ы" onclick="addToField('Ы')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="В" onclick="addToField('В')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="А" onclick="addToField('А')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="П" onclick="addToField('П')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Р" onclick="addToField('Р')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="О" onclick="addToField('О')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Л" onclick="addToField('Л')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Д" onclick="addToField('Д')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ж" onclick="addToField('Ж')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Э" onclick="addToField('Э')" style="cursor: pointer;"/></td>
+</p>
+
+<p style="font-size:8px">
+<td><input type="num_button" value="Я" onclick="addToField('Я')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ч" onclick="addToField('Ч')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="С" onclick="addToField('С')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="М" onclick="addToField('М')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="И" onclick="addToField('И')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Т" onclick="addToField('Т')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ь" onclick="addToField('Ь')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Б" onclick="addToField('Б')" style="cursor: pointer;"/></td>
+<td><input type="num_button" value="Ю" onclick="addToField('Ю')" style="cursor: pointer;"/></td>
+</p>
+
+<p style="font-size:8px">
+<td><input type="reset" value="Очистить" id="resetnum_button"/></td>
+<td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
+</p>
+
+<a href="/auth.php"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+<input class="move_button" type="button" value="Найти" onclick="search_employee()"/>
+</form>
+</div>
+<script src="{$tpl}js/script.js"></script>
+
+{/block}

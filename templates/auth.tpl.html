@@ -23,14 +23,24 @@ jQuery(document).ready(function(){
 <!-- menu-holder -->
 <div id="menu-holder"></div>
 <!-- ENDS menu-holder -->
-	
+
+<!--<div class="top-face">Комплекс развития и контроля компетентности</div>-->
+<div class="top-face">Предсменный экзаменатор</div>
+
+<div id="menu-holder"></div>
+
+<div class="info">Введите табельный номер</div>
+
+<!--табельный номер для теста - 971-->
 <form id="auth" name="auth" method="post">
-табельный номер для теста - 971
 <table >
 <tr>
 <td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly /></td>
+<td><button class="search_button" onclick="go_search_employee()"></button></td>
 </tr>
+</table>
 
+<table >
 <tr>
 <td><input type="num_button" value="1" onclick="addToField(1)" style="cursor: pointer;"/></td>
 <td><input type="num_button" value="2" onclick="addToField(2)" style="cursor: pointer;"/></td>
@@ -69,16 +79,18 @@ jQuery(document).ready(function(){
 компетентности"/>
 -->
 
-<!--
-<button class="move_button" onclick="go_auth()" >Личный<br>кабинет</button>
--->
-<button class="move_button" onclick="go_pre_examiner()" >Предсменный<br>экзаменатор</button>
+
+<!--<button class="move_button" onclick="go_auth()" >Личный<br>кабинет</button>-->
+
+<!--<button class="move_button" onclick="go_pre_examiner()" >Предсменный<br>экзаменатор</button>-->
+<button class="next_button" onclick="go_pre_examiner()" >Далее<br></button>
 <!--
 <button class="move_button" onclick="go_check_comp()" >Контроль<br>компетентности</button>
 -->
 </form>
 
 <div id="bottom">
+	<div id="menu-holder-light"></div>
 	<!-- menu-holder -->
 	<div id="menu-holder"></div>
 	<!-- ENDS menu-holder -->

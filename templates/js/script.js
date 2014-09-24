@@ -18,6 +18,14 @@ function go_pre_examiner(){
 	}
 }
 
+// предсменный экзаменатор через поиск сотрудника
+function go_pre_examiner_fromsearch(tab){
+
+	$("#type_submit").val("2");
+	$("#tabnum").val(tab);
+	$("#auth").submit();
+}
+
 // контроль компетентности
 function go_check_comp(){
 	//document.location.href = './questions.php';
@@ -27,6 +35,12 @@ function go_check_comp(){
 	}else{
 		alert("Введите корректный табельный номер");
 	}
+}
+
+// переходим к поиску по фамилии сотрудника
+function go_search_employee(){
+
+	$("#type_submit").val("4");
 }
 
 function addToField(n){
@@ -93,6 +107,19 @@ function get_proposals(n, f){
 	}else{
 
 		$("#type_proposals").val(0);
+	}
+}
+
+// найти сотрудника по фамилии
+function search_employee(){
+
+	if($("#tabnum").val() != ""){ // не пустое сообщение
+
+		$("#tabnum").val();
+
+		$("#search_employeePage").submit();
+	}else{
+		alert("Введите сообщение");
 	}
 }
 
