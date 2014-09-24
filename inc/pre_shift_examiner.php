@@ -118,6 +118,11 @@ SQL;*/
 
 	$smarty->assign("question", $s_res);//вопрос
 	$smarty->assign("array_answers", $array_answers);//ответы
+	
+	// FIO
+	$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
+	$smarty->assign("sm_sotrud_im", $_SESSION['sotrud_im']);
+	$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);
 
 	$smarty->assign("typetest", $typetest);
 	$smarty->assign("title", "Предсменный экзаменатор");

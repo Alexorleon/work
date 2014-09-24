@@ -20,10 +20,14 @@
 {if $typetest eq 1} <!-- Предсменный экзаменатор -->
 
 <!-- В зависимости от типа вопроса и модуля сделать свое оформление -->
-{$textmodule = "Проверка знаний"}
+<!--{$textmodule = "Проверка знаний"}-->
 
-<div class="text_module"><span>МОДУЛЬ: {$textmodule}<span></div>
+<div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}<span></div>
+<!--<div class="text_module"><span>МОДУЛЬ: {$textmodule}<span></div>-->
 <div class="text_question"><span>{$question['TEXT']}<span></div>
+
+<!--Временная картинка-->
+<!--<img src="fon.png" alt="Письма мастера дзен">-->
 
 <table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
 

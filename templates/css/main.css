@@ -35,13 +35,30 @@ text-shadow:
 	black 2px -2px 0;
 }
 
-/*
-input[type="button"]{
-width:210px;
-height:100px;
+/*input[type="search_button"]{
+background: url('/files/img/hor_button.png') no-repeat 0 0;
+width:162px;
+height:81px;
 opacity:0.8;
 border:0px;
+text-align: center;
+text-decoration:none !important;
+font-size: 28px;
+color:#fff;
+text-shadow: 
+	black 2px 2px 0, 
+	black -2px -2px 0, 
+	black -2px 2px 0, 
+	black 2px -2px 0;
 }*/
+
+.search_button{
+background: url('/files/img/employee_search.png') no-repeat 0 0;
+width: 64px;
+height: 64px;
+border: 0px;
+margin-left: 10px;
+}
 
 .move_button{
 background: url('/files/img/move_button.png') no-repeat 0 0;
@@ -53,13 +70,13 @@ border: 0px;
 cursor: pointer;
 text-decoration: none !important;
 text-align: center;
-font-size: 24px;
+font-size: 36px;
 color: #fff;
 text-shadow: 
-	black 2px 2px 0, 
-	black -2px -2px 0, 
-	black -2px 2px 0, 
-	black 2px -2px 0;
+	black 1px 1px 0, 
+	black -1px -1px 0, 
+	black -1px 1px 0, 
+	black 1px -1px 0;
 }
 
 .move_button:hover{
@@ -77,7 +94,7 @@ border: 0px;
 vertical-align: middle;
 text-decoration:none !important;
 text-align: right;
-font-size: 22px;
+font-size: 36px;
 color:#fff;
 text-shadow: 
 	black 1px 1px 0, 
@@ -87,11 +104,11 @@ text-shadow:
 }
 
 .choice_button{
-background: #0066cc;
+background: #A9D0F5;
 min-height: 100px;
 width: 100%;
 /*margin-bottom: 10px;*/
-opacity: 0.8;
+/*opacity: 0.5;*/
 border: 0px;
 vertical-align: middle;
 word-wrap: normal;
@@ -99,24 +116,24 @@ white-space: normal;
 cursor: pointer;
 text-decoration:none !important;
 text-align: center;
-font-size: 22px;
-color:#fff;
-text-shadow: 
+font-size: 36px;
+color:#190707;
+/*text-shadow: 
 	black 1px 1px 0, 
 	black -1px -1px 0, 
 	black -1px 1px 0, 
-	black 1px -1px 0;
+	black 1px -1px 0;*/
 }
 
 #bottom{
 width: 100%;
 position: absolute;
-bottom: 10px;
+bottom: 0px;
 }
 
 .text_question{
 text-align: center;
-margin-top: 4%;
+margin-top: 12%;
 font-size: 36px;
 }
 
@@ -130,6 +147,14 @@ font-size: 28px;
 text-align: right;
 margin-top: 2%;
 margin-right: 20px;
+font-size: 22px;
+}
+
+/* ФИО на странице ответа*/
+.text_FIO{
+text-align: left;
+margin-top: 1%;
+margin-left: 20px;
 font-size: 22px;
 }
 
@@ -190,6 +215,8 @@ font-size: 54px;
 height:64px;
 width:250px;
 margin-top: 4%;
+margin-bottom: 1%;
+margin-left: 72px;
 opacity:0.6;
 text-align: center;
 }
@@ -226,7 +253,7 @@ opacity:1;
 	max-width: 200px;
 }
 /* NULL */
-html, body, div, span, applet, object, iframe,
+/*html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, font, img, ins, kbd, q, s, samp,
@@ -244,7 +271,7 @@ font-size:100%;
 font-family:inherit;
 vertical-align:baseline;
 background:transparent;
-}
+}*/
 
 /*Do not forget to describe the styles for:focus!*/
 :focus {
@@ -397,10 +424,40 @@ span.title-lamp{
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
 
+#menu-holder-light{
+	width: 100%;
+	height: 8px;
+	background:  #A9D0F5;
+}
+
 #menu-holder{
 	width: 100%;
 	height: 21px;
 	background:  url('/files/img/menu-bg.png') repeat-x center;
+}
+
+.info{
+text-align: center;
+margin-top: 3%;
+font-size: 36px;
+}
+
+.top-face{
+background: #A9D0F5;
+width: 100%;
+height: 80px;
+border: 0px;
+vertical-align: center;
+text-decoration: none !important;
+text-align: center;
+font-size: 48px;
+letter-spacing: 5px;
+color: #fff;
+text-shadow: 
+	black 2px 2px 0, 
+	black -2px -2px 0, 
+	black -2px 2px 0, 
+	black 2px -2px 0;
 }
 
 /*
