@@ -60,7 +60,7 @@ border: 0px;
 margin-left: 10px;
 }
 
-.move_button{
+.next_button{
 background: url('/files/img/move_button.png') no-repeat 0 0;
 width: 210px;
 height: 100px;
@@ -71,6 +71,29 @@ cursor: pointer;
 text-decoration: none !important;
 text-align: center;
 font-size: 36px;
+color: #fff;
+text-shadow: 
+	black 1px 1px 0, 
+	black -1px -1px 0, 
+	black -1px 1px 0, 
+	black 1px -1px 0;
+}
+
+.next_button:hover{
+opacity:1;
+}
+
+.move_button{
+background: url('/files/img/move_button.png') no-repeat 0 0;
+width: 210px;
+height: 100px;
+margin-top: 4%;
+opacity: 0.8;
+border: 0px;
+cursor: pointer;
+text-decoration: none !important;
+text-align: center;
+font-size: 22px;
 color: #fff;
 text-shadow: 
 	black 1px 1px 0, 
@@ -133,7 +156,7 @@ bottom: 0px;
 
 .text_question{
 text-align: center;
-margin-top: 12%;
+margin-top: 16%;
 font-size: 36px;
 }
 

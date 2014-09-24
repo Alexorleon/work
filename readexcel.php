@@ -17,7 +17,7 @@
 	$objPHPExcel->getActiveSheet()->setTitle('Демо');*/
 	
 	// имя файла
-	$file_name = iconv("utf-8", "windows-1251", "ГРОЗ Кокс-Майнинг.xlsx");
+	$file_name = iconv("utf-8", "windows-1251", "Электрослесарь Кокс-Майнинг.xlsx");
 	die("STOP"); // TODO: предостережение от случайного запуска
 
 	$objPHPExcel = new PHPExcel();
@@ -37,7 +37,8 @@ SQL;
 		$highestRow         = $worksheet->getHighestRow(); // или getHighestDataRow
 		$highestColumn      = $worksheet->getHighestColumn(); // например, 'F'
 		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-		echo $highestRow." rows";
+		echo $highestRow." rows  and ".$highestColumn."columns";
+		die();
 		//$nrColumns = ord($highestColumn) - 64;
 		//echo $nrColumns . ' колонок (A-' . $highestColumn . ') ';
 		//echo '<br>Данные: <table border="1"><tr>';
