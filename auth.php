@@ -34,6 +34,7 @@ SQL;
 		//if (!$res = $db->go_result($sql)) {to_log('res', $sql);}
 		$s_res = $db->go_result_once($sql);
 		if((empty($s_res))){
+		//if( !$s_res){
 			// показать пользователю, что такого номера нет, можно просто сделать редирект или так
 			//$error_='такого номера нет';
 			// TODO: здесь нужно убрать выпадение ошибки
@@ -48,7 +49,7 @@ SQL;
 			$_SESSION['sotrud_dolj']=$s_res['DOLJ_K'];
 
 			// переход на другую страницу, вместо header используем die.
-			if ($type_submit == "1"){
+			if($type_submit == "1"){
 
 				die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 			}elseif ($type_submit == "2"){

@@ -181,6 +181,19 @@ margin-left: 20px;
 font-size: 22px;
 }
 
+.text_sotrud_tabel{
+text-align: right;
+margin-top: 1%;
+margin-right: 20px;
+font-size: 22px;
+}
+
+.text_sotrud_dolj{
+text-align: center;
+margin-top: 1%;
+font-size: 22px;
+}
+
 .text_status_ansF{
 text-align: center;
 margin-top: 2%;

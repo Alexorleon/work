@@ -22,13 +22,10 @@
 	EXAMINERTYPE=1)
 SQL;
 	$array_sotrud = $db->go_result($sql);
-	
-	//print_r($array_sotrud);
 
 	$smarty->assign("error_", $error_);
 	
-	//$smarty->assign("array_sotrud", $array_sotrud);
-	//<!--{section name=count loop=$array_sotrud}-->
+	$smarty->assign("array_sotrud", $array_sotrud);
 
 	$smarty->assign("title", "Ламповая");
 	$smarty->display("lamp.tpl.html");

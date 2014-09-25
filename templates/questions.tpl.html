@@ -21,8 +21,13 @@
 
 <!-- В зависимости от типа вопроса и модуля сделать свое оформление -->
 <!--{$textmodule = "Проверка знаний"}-->
-
-<div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}<span></div>
+<table style="width: 100%">
+<tr>
+<td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}<span></div></td>
+<td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj['TEXT']}<span></div></td>
+<td><div class="text_sotrud_tabel"><span>Табельный номер: {$sm_sotrud_tabel['TABEL_KADR']}<span></div></td>
+</tr>
+</table>
 <!--<div class="text_module"><span>МОДУЛЬ: {$textmodule}<span></div>-->
 <div class="text_question"><span>{$question['TEXT']}<span></div>
 

@@ -13,43 +13,25 @@
 <p><span class="title-lamp">Предсменный контроль</span></p>
 <!--Прошедшие предсменный экзаменатор-->
 
+{$count = 0}
 <table class="simple-little-table" cellspacing='0'>
-	<tr>
-		<th>ФИО</th>
-		<th>Табельный</th>
-		<th>ФИО</th>
-		<th>Табельный</th>
-		<th>ФИО</th>
-		<th>Табельный</th>
-	</tr><!-- Table Header -->
-    
-	<tr>
-		<td>Кузнецов Денис Иванович</td>
-		<td>1129893</td>
-		<td>Кузнецов Денис Иванович</td>
-		<td>1129893</td>
-		<td>Кузнецов Денис Иванович</td>
-		<td>1129893</td>
-	</tr><!-- Table Row -->
-	
-	<tr>
-		<td>Кузнецов Денис Иванович</td>
-		<td>1129893</td>
-		<td>Кузнецов Денис Иванович</td>
-		<td>1129893</td>
-		<td>Кузнецов Денис Иванович</td>
-		<td>1129893</td>
-	</tr><!-- Table Row -->
-	
-	<tr>
-		<td>Кузнецов Денис Иванович</td>
-		<td>1129893</td>
-		<td>Кузнецов Денис Иванович</td>
-		<td>1129893</td>
-		<td>Кузнецов Денис Иванович</td>
-		<td>1129893</td>
-	</tr><!-- Table Row -->
 
+<tr>
+	<th>ФИО</th>
+	<th>Табельный</th>
+</tr><!-- Table Header -->
+	
+{section name=count loop=$array_sotrud}	
+	<tr>
+		<td>
+		{$array_sotrud[{$count}]['SOTRUD_FAM']}
+		</td>
+		<td>		
+		{$array_sotrud[{$count}]['TABEL_KADR']}		
+		</td>
+		{capture}{$count++}{/capture}
+	</tr>	
+{/section}
 	
 	<!--<tr>
 		<td><a href="blog.harrix.org">Кузнецов Денис Иванович</a></td>

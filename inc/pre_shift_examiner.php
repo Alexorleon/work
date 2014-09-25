@@ -105,6 +105,21 @@ SQL;
 SQL;
 	$array_answers = $db->go_result($sql);
 	
+	// получаем название должности
+	$temp_doljkod = $_SESSION['sotrud_dolj'];
+	$sql = <<<SQL
+	SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$temp_doljkod'
+SQL;
+	$sm_sotrud_dolj = $db->go_result_once($sql);
+	
+	// получаем табельный
+	// TODO: задано жестко дл€ кокс-майнинг
+	$temp_sotrud_id = $_SESSION['sotrud_id'];
+	$sql = <<<SQL
+	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='$temp_sotrud_id'
+SQL;
+	$sm_sotrud_tabel = $db->go_result_once($sql);
+	
 	/*резерв
 	$sql = <<<SQL
 	SELECT ID, TEXT FROM
@@ -122,7 +137,9 @@ SQL;*/
 	// FIO
 	$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
 	$smarty->assign("sm_sotrud_im", $_SESSION['sotrud_im']);
-	$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);
+	$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);	
+	$smarty->assign("sm_sotrud_dolj", $sm_sotrud_dolj);
+	$smarty->assign("sm_sotrud_tabel", $sm_sotrud_tabel);
 
 	$smarty->assign("typetest", $typetest);
 	$smarty->assign("title", "ѕредсменный экзаменатор");
