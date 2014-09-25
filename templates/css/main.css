@@ -156,7 +156,7 @@ bottom: 0px;
 
 .text_question{
 text-align: center;
-margin-top: 16%;
+/*margin-top: 16%;*/
 font-size: 36px;
 }
 
@@ -181,6 +181,7 @@ margin-left: 20px;
 font-size: 22px;
 }
 
+/* табельный на странице ответа*/
 .text_sotrud_tabel{
 text-align: right;
 margin-top: 1%;
@@ -188,9 +189,17 @@ margin-right: 20px;
 font-size: 22px;
 }
 
+/* должность на странице ответа*/
 .text_sotrud_dolj{
 text-align: center;
 margin-top: 1%;
+font-size: 22px;
+}
+
+/* номер вопроса на странице ответа*/
+.text_ID_question{
+text-align: left;
+margin-left: 10px;
 font-size: 22px;
 }
 

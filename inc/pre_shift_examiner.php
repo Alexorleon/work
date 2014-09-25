@@ -140,6 +140,7 @@ SQL;*/
 	$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);	
 	$smarty->assign("sm_sotrud_dolj", $sm_sotrud_dolj);
 	$smarty->assign("sm_sotrud_tabel", $sm_sotrud_tabel);
+	$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
 
 	$smarty->assign("typetest", $typetest);
 	$smarty->assign("title", "Предсменный экзаменатор");
