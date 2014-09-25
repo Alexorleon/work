@@ -191,7 +191,7 @@ font-size: 22px;
 
 /* должность на странице ответа*/
 .text_sotrud_dolj{
-text-align: center;
+text-align: left;
 margin-top: 1%;
 font-size: 22px;
 }

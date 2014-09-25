@@ -14,6 +14,7 @@ session_start();
 	$smarty->assign('lhost','http://'.$_SERVER['HTTP_HOST']);
 	$smarty->assign('tpl','http://'.$_SERVER['HTTP_HOST'].'/templates/');
 	$smarty->assign('js','http://'.$_SERVER['HTTP_HOST'].'/templates/js/');
+	$smarty->assign('photo','http://'.$_SERVER['HTTP_HOST'].'/storage/photo/');
 	zray_disable();
     require "/db.inc.php";
 	//require_once(INC_DIR."functions.inc.php");//функции

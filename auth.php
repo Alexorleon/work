@@ -33,6 +33,7 @@ SQL;
 
 		//if (!$res = $db->go_result($sql)) {to_log('res', $sql);}
 		$s_res = $db->go_result_once($sql);
+
 		if((empty($s_res))){
 		//if( !$s_res){
 			// показать пользователю, что такого номера нет, можно просто сделать редирект или так
