@@ -11,8 +11,14 @@
 	$current_date = date('d.m.Y H:i:s', $period);
 		
 	// получаем список сотрудников прошедших предсменный экзаменатор за выбранный период
-	$sql = <<<SQL
+	/*$sql = <<<SQL
 	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
+	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
+	EXAMINERTYPE=1)
+SQL;*/
+	$sql = <<<SQL
+	SELECT SOTRUD.TABEL_KADR, TO_CHAR(ALLHISTORY.DATEEND, 'YY-mm-dd HH24:MI:SS') AS DATEEND FROM stat.SOTRUD, stat.ALLHISTORY WHERE 
+	ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND SOTRUD.SOTRUD_K IN 
 	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
 	EXAMINERTYPE=1)
 SQL;

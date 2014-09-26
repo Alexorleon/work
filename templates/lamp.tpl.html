@@ -14,7 +14,7 @@
 			lloop++;
 			get_sotrud(lloop);
 			//$green.css('left', ++greenLeft);
-		}, 15000);
+		}, 5000);
 	});
 	
 /*Обновляем таблу чувачков*/
@@ -30,7 +30,7 @@
 		  success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
 			$("#sotruds").find("tr:gt(0)").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
 			$(data).each(function() {//так, как мы получили структуированные данные от скрипта, запускаем по ним цикл
-				$("#sotruds").append"<td><tr>"+($(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+				$("#sotruds").append("<tr><td>"+$(this).attr('TABEL_KADR')+"</td><td>"+$(this).attr('DATEEND')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
 			});		
 		}	
 	});
@@ -59,6 +59,9 @@
 	<tr>
 		<td>		
 		{$array_sotrud[{$count}]['TABEL_KADR']}		
+		</td>
+		<td>		
+		{$array_sotrud[{$count}]['DATEEND']}		
 		</td>
 		{capture}{$count++}{/capture}
 	</tr>	
