@@ -15,11 +15,10 @@
 			get_sotrud(lloop);
 			//$green.css('left', ++greenLeft);
 		}, 15000);
-
 	});
 	
 /*Обновляем таблу чувачков*/
-	function get_sotrud(ggg) {	//создал функцию, чтобы запускать по событию, входящий параметр ggg просто, чтобы понимать, какой раз запускается функция
+	function get_sotrud() {	//создал функцию, чтобы запускать по событию, входящий параметр ggg просто, чтобы понимать, какой раз запускается функция
 	    $.ajax({//стартуем аякс
 		  type: 'POST',//обращаемся к скрипту методом ПОСТ
 		  url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
@@ -31,13 +30,14 @@
 		  success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
 			$("#sotruds").find("tr:gt(0)").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
 			$(data).each(function() {//так, как мы получили структуированные данные от скрипта, запускаем по ним цикл
-				$("#sotruds").append("<tr><td>Обновил=) "+ggg+$(this).attr('SOTRUD_FAM')+"</td><td>"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+				$("#sotruds").append"<td><tr>"+($(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
 			});		
 		}	
 	});
 	}
 </script>
 {/literal}
+
 <div id="error_mess"> {$error_} </div>
 <div id="lampDiv" align="center" >
 <p onclick="get_sotrud()">click me plz</p>
@@ -52,14 +52,11 @@
 <table id="sotruds" class="simple-little-table" cellspacing='0'>
 
 <tr>
-	<th>ФИО</th>
 	<th>Табельный</th>
+	<th>Дата</th>
 </tr><!-- Table Header -->
 {section name=count loop=$array_sotrud}	
 	<tr>
-		<td>
-		{$array_sotrud[{$count}]['SOTRUD_FAM']}
-		</td>
 		<td>		
 		{$array_sotrud[{$count}]['TABEL_KADR']}		
 		</td>

@@ -14,14 +14,18 @@
 	
 	$period = time() - (3 * 60 * 60); // TODO: установить нужный период
 	$current_date = date('d.m.Y H:i:s', $period);
-		
+	
+	// , TO_CHAR(ALLHISTORY.DATEEND, 'YY-mm-dd HH24:MI:SS') AS DATEEND
+	// , stat.ALLHISTORY 
 	// получаем список сотрудников прошедших предсменный экзаменатор за выбранный период
 	$sql = <<<SQL
-	SELECT SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
+	SELECT SOTRUD.TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
 	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
 	EXAMINERTYPE=1)
 SQL;
 	$array_sotrud = $db->go_result($sql);
+	//print_r($array_sotrud);
+	//die();
 
 	$smarty->assign("error_", $error_);
 	
