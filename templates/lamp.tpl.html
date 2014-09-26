@@ -1,26 +1,60 @@
 {extends file='index.tpl.html'}
 {block name=content}  
 
-<title>{$title}</title>
+<title>{$title}</title> <!-- это зачем здесь?????? это есть в индексе и строка ниже, тоже есть -->
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
+{literal}
+<script>
+	jQuery(function($) {
+		$("#tabnum_lamp").focus();
+		//var time_delay = 5;
+		var lloop = 0;
+		setInterval(function() {
+			lloop++;
+			get_sotrud(lloop);
+			//$green.css('left', ++greenLeft);
+		}, 5000);
 
+	});
+	
+/*Обновляем таблу чувачков*/
+	function get_sotrud(ggg) {	//создал функцию, чтобы запускать по событию, входящий параметр ggg просто, чтобы понимать, какой раз запускается функция
+	    $.ajax({//стартуем аякс
+		  type: 'POST',//обращаемся к скрипту методом ПОСТ
+		  url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
+		//  data: {uch : uch},//если нужно передать какие-то параметры, передаем. Первое параметр в ПОСТ, второе значение. Делаю всегда одинаковые, чтобы не путаться.
+		  dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
+		  error: function(req, text, error) {//обработчик, если произошла ошибка
+			  console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+		  },
+		  success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
+			$("#sotruds").find("tr:gt(0)").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
+			$(data).each(function() {//так, как мы получили структуированные данные от скрипта, запускаем по ним цикл
+				$("#sotruds").append("<tr><td>Обновил=) "+ggg+$(this).attr('SOTRUD_FAM')+"</td><td>"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+			});		
+		}	
+	});
+	}
+</script>
+{/literal}
 <div id="error_mess"> {$error_} </div>
 <div id="lampDiv" align="center" >
-
+<p onclick="get_sotrud()">click me plz</p>
 <form id="lamp" name="lamp" method="post">
 
 <p><span class="title-lamp">Предсменный контроль</span></p>
 <!--Прошедшие предсменный экзаменатор-->
 
+<input type="text" id="tabnum_lamp" name="tabnum_lamp"/>
+
 {$count = 0}
-<table class="simple-little-table" cellspacing='0'>
+<table id="sotruds" class="simple-little-table" cellspacing='0'>
 
 <tr>
 	<th>ФИО</th>
 	<th>Табельный</th>
 </tr><!-- Table Header -->
-	
 {section name=count loop=$array_sotrud}	
 	<tr>
 		<td>

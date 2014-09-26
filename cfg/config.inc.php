@@ -17,6 +17,14 @@ session_start();
 	$smarty->assign('photo','http://'.$_SERVER['HTTP_HOST'].'/storage/photo/');
 	zray_disable();
     require "/db.inc.php";
-	//require_once(INC_DIR."functions.inc.php");//функции
+	require_once(INC_DIR."functions.inc.php");//функции
 	require (INC_DIR."function.class.inc.php");//классы
+	
+	$temp_ub = explode(' ', user_browser());//проверяем версию браузера
+	//print_r($temp_ub);
+	if ($temp_ub[0]=='IE' && (int)$temp_ub[1]<9){
+		$smarty->assign('title','Web ЕКП - Ваш браузер слишком стар =/');	
+		$smarty->display('old_browser.tpl.html'); 
+		die(); 
+	}
 ?>

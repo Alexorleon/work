@@ -21,7 +21,7 @@
 
 <!-- В зависимости от типа вопроса и модуля сделать свое оформление -->
 <!--{$textmodule = "Проверка знаний"}-->
-<table style="width: 100%">
+<table style="width: 100%; background: #A9D0F5;">
 <tr>
 <td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}<span></div></td>
 <td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj['TEXT']}<span></div></td>
@@ -33,10 +33,14 @@
 <!--TODO: Магическое число 21-->
 	{if $type_question eq 21} <!--вопрос с простой картинкой-->
 
-		<div class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}<span></div>
-
 		<img src="{$photo}/{$simplephoto}" alt="">
 
+		<table style="width: 100%; background: #cccc66; min-height: 100px;">
+		<tr>
+		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}<span></div></td>
+		</tr>
+		</table>
+		
 		<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
 
 			{$count = 1}
