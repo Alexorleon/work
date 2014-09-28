@@ -89,19 +89,18 @@
 {/literal}
 
 <div id="error_mess"> {$error_} </div>
-<div id="lampDiv" align="center" >
-
-<p onclick="get_sotrud(999)">click me plz</p>
+<div id="lampDiv" align="left" >
 
 <form id="lamp" name="lamp" method="post">
 
-<p><span class="title-lamp">Предсменный контроль</span></p>
+<p align="center"><span class="title-lamp">Предсменный контроль</span></p>
 <!--Прошедшие предсменный экзаменатор-->
 
-<input type="text" id="tabnum_lamp" name="tabnum_lamp" onkeypress="if((event.keyCode < 48)||(event.keyCode > 57)) event.returnValue=false"/>
+<p style="margin-left: 20px; margin-bottom: 0px;"><span>Поиск табельного</span></p>
+<input type="text_lamp" id="tabnum_lamp" name="tabnum_lamp" onkeypress="if((event.keyCode < 48)||(event.keyCode > 57)) event.returnValue=false"/>
 
 {$count = 0}
-<table id="sotruds" class="simple-little-table" cellspacing='0'>
+<table id="sotruds" class="simple-little-table" cellspacing='0' style="font-size: 28px;">
 
 <tr>
 	<th>Табельный</th>

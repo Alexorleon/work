@@ -267,6 +267,16 @@ opacity:0.6;
 text-align: center;
 }
 
+input[type="text_lamp"]{
+font-size: 54px;
+height:64px;
+width:250px;
+margin-bottom: 1%;
+margin-left: 20px;
+opacity:0.6;
+text-align: center;
+}
+
 /*строка ввода для редактирования названия должности*/
 input[type="field_postname"]{
 font-size: 14px;
