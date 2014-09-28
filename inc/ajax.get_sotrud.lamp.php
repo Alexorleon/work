@@ -13,7 +13,11 @@
 		
 		// получаем табельный и ищем его
 		$check_tab_num = $_POST['check_tab_num'];
-		//print_r($check_tab_num);
+		
+		/*$sql = <<<SQL
+		SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$check_tab_num'
+SQL;
+		$bool_sotrud = $db->go_result_once($sql);*/
 	}
 	
 	$period = time() - (3 * 60 * 60); // TODO: установить нужный период
@@ -41,5 +45,6 @@ SQL;
 	
 	//$array_sotrud = $db->go_result($sql);
 	echo json_encode($array_sotrud);
+	//echo json_encode($bool_sotrud);
 	//$smarty->assign("array_sotrud", $array_sotrud);
   ?>
