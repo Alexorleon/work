@@ -46,5 +46,4 @@ SQL;
 	//$array_sotrud = $db->go_result($sql);
 	echo json_encode($array_sotrud);
 	//echo json_encode($bool_sotrud);
-	//$smarty->assign("array_sotrud", $array_sotrud);
   ?>

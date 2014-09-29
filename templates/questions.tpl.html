@@ -55,10 +55,11 @@
 		
 	{elseif $type_question eq 8} <!--текстовый вопрос-->
 		
-		<table style="width: 100%; margin-top: 16%;">
+		<table style="width: 100%; background: #ffff99; margin-top: 16%; min-height: 100px;">
 		<tr>
-		<td style="min-width: 110px;"><div class="text_ID_question"><span>№: {$sm_ID_question}<span></div></td>
-		<td><div class="text_question"><span>{$question['TEXT']}<span></div></td>
+		<!--<td style="min-width: 110px;"><div class="text_ID_question"><span>№: {$sm_ID_question}<span></div></td>-->
+		<!--<td><div class="text_question"><span>{$question['TEXT']}<span></div></td>-->
+		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}<span></div></td>
 		</tr>
 		</table>
 
