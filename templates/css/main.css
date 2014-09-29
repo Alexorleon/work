@@ -230,6 +230,19 @@ text-shadow:
 	black 1px -1px 0;
 }
 
+.status_search_tabnum{
+text-align: center;
+margin-top: 2%;
+opacity: 0.8;
+font-size: 36px;
+/*color:#04B404;
+text-shadow: 
+	black 1px 1px 0, 
+	black -1px -1px 0, 
+	black -1px 1px 0, 
+	black 1px -1px 0;*/
+}
+
 /*
 #main{
 	width: 100%;

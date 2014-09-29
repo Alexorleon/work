@@ -25,14 +25,14 @@
 			
 			$.ajax({ //стартуем аякс
 				type: 'POST', //обращаемся к скрипту методом ПОСТ
-				//data: {'check_tab_num': check_tab_num},
+				data: {'type': '1'},
 				url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
 				dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
 				error: function(req, text, error) {//обработчик, если произошла ошибка
-				console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
 				},
 				success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
-					console.log(data);
+					//console.log(data);
 					$("#sotruds").find("tr:gt(0)").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
 					$(data).each(function() {//так, как мы получили структуированные данные от скрипта, запускаем по ним цикл
 					//$("#sotruds").append("<tr><td>Обновил "+check_tab_num+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
@@ -42,36 +42,68 @@
 			});
 		}else{
 			var id = $("#tabnum_lamp").val();
-			//alert(id);
 			$.ajax({ //стартуем аякс
 				type: 'POST', //обращаемся к скрипту методом ПОСТ
 				//data: {'check_tab_num' : check_tab_num},//если нужно передать какие-то параметры, передаем. Первое параметр в ПОСТ, второе значение. Делаю всегда одинаковые, чтобы не путаться.
-				data: {'check_tab_num': check_tab_num},
+				//data: {'check_tab_num': check_tab_num},
+				data: {'check_tab_num': check_tab_num, 'type': '2'},
 				//data: '{"check_tab_num":"' + check_tab_num + '"}',
 				url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
-				dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
+				//dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
 				error: function(req, text, error) {//обработчик, если произошла ошибка
-				console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
 				},
 				success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
-					console.log(data);
-					$("#sotruds").find("tr:gt(0)").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
-					$(data).each(function() {//так, как мы получили структуированные данные от скрипта, запускаем по ним цикл
-					//$("#sotruds").append("<tr><td>Обновил "+check_tab_num+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
-					$("#sotruds").append("<tr><td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
-					});
-					console.log("+"+$("#r"+id).html()+"+");
-					if ($("#r"+id).html() === "undefined"){
-						alert("лососни тунца, такого нет баьельного");
+					dataarr = data.split('_')
+					if (dataarr[0] != "none"){
+						//Если такой есть, тада
+						
+						//$("#tabnum_status").html("Поиск по табельному "+data);
+						//и поперли наполнять таблицу
+						$.ajax({ //стартуем аякс
+							type: 'POST', //обращаемся к скрипту методом ПОСТ
+							//data: {'check_tab_num' : check_tab_num},//если нужно передать какие-то параметры, передаем. Первое параметр в ПОСТ, второе значение. Делаю всегда одинаковые, чтобы не путаться.
+							//data: {'check_tab_num': check_tab_num},
+							data: {'type': '1'},
+							//data: '{"check_tab_num":"' + check_tab_num + '"}',
+							url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
+							dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
+							error: function(req, text, error) {//обработчик, если произошла ошибка
+							//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+							},
+							success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
+								console.log(data);
+								$("#sotruds").find("tr:gt(0)").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
+								$(data).each(function() {//так, как мы получили структуированные данные от скрипта, запускаем по ним цикл
+								//$("#sotruds").append("<tr><td>Обновил "+check_tab_num+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+								$("#sotruds").append("<tr><td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+								});
+								//console.log("+"+$("#r"+id).html()+"+");
+								console.log($("#r"+id).size());
+								if($("#r"+id).size() == 0){
+								//if ($("#r"+id).html() == ""){
+									$("#tabnum_status").html("№ "+dataarr[1]+" - Контроль не пройден");
+									//alert(dataarr[1]+" - Контроль не пройден");
+								}else{
+									if (id != ""){
+										$("#tabnum_status").html("№ "+dataarr[1]+" - Контроль пройден");
+										//$("#tabnum_status").html("Контроль пройден");
+										//$("#text_status_ansT").html(check_tab_num);							
+										//$("#r"+id).css("background-color", "red");
+										$("#r"+id).css("background", "green");
+										//console.log("#r"+id);
+									}
+								}
+							}
+						});
 					}else{
-						if (id != ""){
-							//$("#r"+id).css("background-color", "red");
-							$("#r"+id).css("background", "green");
-							console.log("#r"+id);
-						}
+						$("#tabnum_status").html("№ "+dataarr[1]+" - Такой табельный не существует");
 					}
 				}
 			});
+			/*
+			//alert(id);
+			*/
 		}
 	}
 	
@@ -97,7 +129,13 @@
 <!--Прошедшие предсменный экзаменатор-->
 
 <p style="margin-left: 20px; margin-bottom: 0px;"><span>Поиск табельного</span></p>
-<input type="text_lamp" id="tabnum_lamp" name="tabnum_lamp" onkeypress="if((event.keyCode < 48)||(event.keyCode > 57)) event.returnValue=false"/>
+
+<table>
+<tr>
+<td><input type="text_lamp" id="tabnum_lamp" name="tabnum_lamp" onkeypress="if((event.keyCode < 48)||(event.keyCode > 57)) event.returnValue=false"/></td>
+<td><span id="tabnum_status" class="status_search_tabnum"></span></td>
+<tr>
+</table>
 
 {$count = 0}
 <table id="sotruds" class="simple-little-table" cellspacing='0' style="font-size: 28px;">
