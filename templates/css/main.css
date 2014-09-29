@@ -87,7 +87,7 @@ opacity:1;
 background: url('/files/img/move_button.png') no-repeat 0 0;
 width: 210px;
 height: 100px;
-margin-top: 4%;
+/*margin-top: 4%;*/
 opacity: 0.8;
 border: 0px;
 cursor: pointer;

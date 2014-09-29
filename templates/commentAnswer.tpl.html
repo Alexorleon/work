@@ -15,16 +15,21 @@
 	<!--Если ответ не правильный, выводим комментарий и правильный ответ-->
 	{if $transitionOption neq '1'}
 	
+		<div style="margin-top: 16%; max-width: 90%;">
 		<div class="text_status_ansF"><span>Вы ответили неправильно!<span></div>
 
 		<div class="text_question_comment"><span>{$question_com}<span></div>
 
 		<div class="text_status_ansT"><span>Правильный ответ:<span></div>
 		<div class="text_question_comment"><span>{$question_ans}<span></div>
+		</div>
 		
 	{else}
-	
+		
+		<div style="margin-top: 14%;">
 		<div class="text_status_ansT"><span>Правильно!<span></div>
+		</div>
+		
 	{/if}
 
 {else} <!--контроль компетентности CC-->
@@ -74,8 +79,10 @@
 <input id="commentAns" name="commentAns" type="hidden" value="1"/>
 <!--<input type="button" onclick="transitionOption({$transitionOption})" value="{$transOption}"/>-->
 
+<div id="bottom" style="margin-bottom: 10px;">
 <input type="button" class="move_button" onclick="transitionOption({$transitionOption})" value="{if $transitionOption eq '1'}Вернуться{else}Попробовать
 еще раз{/if}"/> <!--покажу еще вариант-->
+</div>
 
 </form>
 </div>
