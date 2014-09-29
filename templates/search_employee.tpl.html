@@ -25,17 +25,19 @@ jQuery(document).ready(function(){
 {else}
 
 {$count = 0}
-<div style="max-height: 50px;">
-<table class="simple-little-table" cellspacing='0'>
+<!--<table class="simple-little-table" cellspacing='0'>-->
+<table class="scrolling-table">
 
+<thead>
 <tr>
 	<th>Фамилия</th>
 	<th>Имя</th>
 	<th>Отчество</th>
 	<th>Табельный номер</th>
-</tr><!-- Table Header -->
-
-{section name=count loop=$array_employee}	
+</tr>
+</thead>
+<tbody>	
+{section name=count loop=$array_employee}
 	<tr onclick="go_pre_examiner_fromsearch('{$array_employee[$count]['TABEL_KADR']}')" style="cursor: pointer;">
 		<td>
 		{$array_employee[{$count}]['SOTRUD_FAM']}
@@ -50,10 +52,11 @@ jQuery(document).ready(function(){
 		{$array_employee[{$count}]['TABEL_KADR']}		
 		</td>
 		{capture}{$count++}{/capture}
-	</tr>	
+	</tr>
 {/section}
+</tbody>
 </table>
-</div>
+
 {/if}
 
 <div id="bottom" style="margin-bottom: 7%;">
