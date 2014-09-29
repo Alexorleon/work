@@ -25,7 +25,6 @@ jQuery(document).ready(function(){
 {else}
 
 {$count = 0}
-<!--<table class="simple-little-table" cellspacing='0'>-->
 <table class="scrolling-table">
 
 <thead>
@@ -59,7 +58,7 @@ jQuery(document).ready(function(){
 
 {/if}
 
-<div id="bottom" style="margin-bottom: 7%;">
+<div id="bottom" style="margin-bottom: 9%;">
 <textarea type="field_employee" id="tabnum" name="tabnum" readonly></textarea>
 
 <p style="font-size:8px">
@@ -104,12 +103,12 @@ jQuery(document).ready(function(){
 </p>
 
 <p style="font-size:8px">
-<td><input type="reset" value="Очистить" id="resetnum_button"/></td>
+<td><input type="reset" value="Х" id="resetnum_button"/></td>
 <td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
 </p>
 </div>
 
-<div id="bottom" style="margin-bottom: 10px;">
+<div id="bottom" style="margin-bottom: 1%;">
 <a href="/auth.php"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 <input class="move_button" type="button" value="Найти" onclick="search_employee()"/>
 </div>

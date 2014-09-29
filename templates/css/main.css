@@ -653,7 +653,7 @@ width:860px;
 
 .scrolling-table tbody {
     display: block;
-    height: 290px;
+    height: 380px;
     width: 860px;
     overflow: hidden;
 	overflow-y: auto;   
