@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
 
+{literal}
+<script>
+	jQuery(function($) {
+		
+		setInterval(function() {
+			document.location.href= "/auth.php";
+		}, 5000);
+	});
+</script>
+{/literal}
+
 <div id="error_mess"> {$error_} </div>
 <div id="commentAnswerDiv" align="center" >
 
