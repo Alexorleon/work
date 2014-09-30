@@ -33,13 +33,13 @@
 	<!--Если ответ не правильный, выводим комментарий и правильный ответ-->
 	{if $transitionOption neq '1'}
 	
-		<div style="margin-top: 16%; max-width: 90%;">
+		<div style="margin-top: 16%;">
 		<div class="text_status_ansF"><span>Вы ответили неправильно!<span></div>
 
-		<div class="text_question_comment"><span>{$question_com}<span></div>
+		<div class="text_question_comment" style="background: #ffff99;"><div style="max-width: 90%;">{$question_com}</div></div>
 
 		<div class="text_status_ansT"><span>Правильный ответ:<span></div>
-		<div class="text_question_comment"><span>{$question_ans}<span></div>
+		<div class="text_question_comment" style="background: #A9D0F5;"><div style="max-width: 90%;">{$question_ans}</div></div>
 		</div>
 		
 	{else}
