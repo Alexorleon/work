@@ -4,6 +4,9 @@
 <link rel="stylesheet" href="{$tpl}css/main.css">
 {literal}
 <script>
+
+	//var time_delay = 5000;
+	
 	jQuery(function($) {
 		$("#tabnum_lamp").focus();
 		//var time_delay = 5;
@@ -12,10 +15,10 @@
 			//lloop++;
 			get_sotrud(0);
 			//$green.css('left', ++greenLeft);
-		}, 20000);
+		}, 5000);
 	});
 	
-/*Обновляем таблу чувачков*/
+	/*Обновляем таблу чувачков*/
 	function get_sotrud(check_tab_num) {	//создал функцию, чтобы запускать по событию, входящий параметр ggg просто, чтобы понимать, какой раз запускается функция
 		//console.log(check_tab_num);
 		
@@ -32,8 +35,12 @@
 				success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
 					//console.log(data);
 					$("#sotruds").find("tr:gt(0)").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
-					$(data).each(function() {//так, как мы получили структуированные данные от скрипта, запускаем по ним цикл
-					//$("#sotruds").append("<tr><td>Обновил "+check_tab_num+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+					/*$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
+					$("#sotruds").append("<tr><td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+					});*/
+					
+					// рисуем новую таблицу
+					$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
 					$("#sotruds").append("<tr><td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
 					});
 				}
@@ -73,7 +80,6 @@
 								console.log(data);
 								$("#sotruds").find("tr:gt(0)").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
 								$(data).each(function() {//так, как мы получили структуированные данные от скрипта, запускаем по ним цикл
-								//$("#sotruds").append("<tr><td>Обновил "+check_tab_num+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
 								$("#sotruds").append("<tr><td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
 								});
 								//console.log("+"+$("#r"+id).html()+"+");
@@ -81,14 +87,16 @@
 								if($("#r"+id).size() == 0){
 								//if ($("#r"+id).html() == ""){
 									$("#tabnum_status").html("№ "+dataarr[1]+" - Контроль не пройден");
+									$("#tabnum_status").css("color", "red");
 									//alert(dataarr[1]+" - Контроль не пройден");
 								}else{
 									if (id != ""){
 										$("#tabnum_status").html("№ "+dataarr[1]+" - Контроль пройден");
 										//$("#tabnum_status").html("Контроль пройден");
-										//$("#text_status_ansT").html(check_tab_num);							
+										//$("#text_status_ansT").html(check_tab_num);
 										//$("#r"+id).css("background-color", "red");
 										$("#r"+id).css("background", "green");
+										$("#tabnum_status").css("color", "green");
 										//console.log("#r"+id);
 									}
 								}
@@ -96,6 +104,7 @@
 						});
 					}else{
 						$("#tabnum_status").html("№ "+dataarr[1]+" - Такого табельного не существует");
+						$("#tabnum_status").css("color", "red");
 					}
 				}
 			});
@@ -111,6 +120,7 @@
 			if(e.keyCode==13){
 				get_sotrud($("#tabnum_lamp").val());
 				$("#tabnum_lamp").val('');
+				// TODO: после нажатия enter, обнулить таймер обновления.
 			}
 		});
 	});
@@ -136,8 +146,11 @@
 
 <p align="center"><span>Прошедшие предсменный контроль за последние 3 часа</span></p>
 <div id="sotruds" class="lamp_table">
-{table_foreach from=$array_sotrud item=book key=id cols=13 td_attr='bgcolor="#FFEEDD"'}{$array_sotrud[{$id}]['TABEL_KADR']}
+{table_foreach from=$array_sotrud item=book key=id cols=13}{$array_sotrud[{$id}]['TABEL_KADR']}
 {/table_foreach}
+
+<!--{table_foreach from=$array_sotrud item=book key=id cols=13 td_attr='bgcolor="#FFEEDD"'}{$array_sotrud[{$id}]['TABEL_KADR']}
+{/table_foreach}-->
 </div>
 
 </form>
