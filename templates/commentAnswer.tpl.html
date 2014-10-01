@@ -4,24 +4,6 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
 
-{literal}
-<script>
-
-	/*var js_variable = '<?php echo $transitionOption; ?>';
-	
-	jQuery(function($) {
-		
-		setInterval(function() {
-		alert(js_variable);*/
-			// если ответили правильно
-			/*if(js_variable == '1'){
-				document.location.href= "/auth.php";
-			}*/
-		/*}, 5000);
-	});*/
-</script>
-{/literal}
-
 <div id="error_mess"> {$error_} </div>
 <div id="commentAnswerDiv" align="center" >
 
@@ -47,7 +29,12 @@
 		<div style="margin-top: 14%;">
 		<div class="text_status_ansT"><span>Правильно!<span></div>
 		</div>
-		
+		<!-- Выхом по таймеру -->
+		{literal}
+		<script>
+			setTimeout(function() { window.location="./auth.php" }, 5000);
+		</script>
+		{/literal}
 	{/if}
 
 {else} <!--контроль компетентности CC-->

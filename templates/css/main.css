@@ -811,3 +811,25 @@ width:860px;
 /*
 -------------------------------------- END lamp_table --------------------------------------
 */
+
+/*
+-------------------------------------- BEGIN таймер --------------------------------------
+*/
+.time_60s {
+    background:url('/files/img/time.png') no-repeat scroll center 0 transparent;
+    display: inline-block;
+	width: 102px;
+	height: 102px;
+	float:left;
+    /*оформление текста*/
+    color:#51565b;
+    font:24px/24px roboto_condensedregular,Arial,san-serif;
+    font-size:40px; 
+}
+
+#quest_timer{
+	margin-top: 40px;
+}
+/*
+-------------------------------------- END таймер --------------------------------------
+*/

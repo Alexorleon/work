@@ -6,14 +6,19 @@
 <script>
 
 	//var time_delay = 5000;
-	
+	var may_go = 1;
 	jQuery(function($) {
 		$("#tabnum_lamp").focus();
+		
 		//var time_delay = 5;
 		//var lloop = 0;
 		setInterval(function() {
 			//lloop++;
-			get_sotrud(0);
+			if (may_go == 1){
+				get_sotrud(0);
+			}else{
+				setInterval(function() {may_go = 1;}, 5000);
+			}
 			//$green.css('left', ++greenLeft);
 		}, 5000);
 	});
@@ -39,7 +44,7 @@
 					$("#sotruds").append("<tr><td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
 					});*/
 					
-					// рисуем новую таблицу
+					// рисуем новую таблицука
 					$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
 					$("#sotruds").append("<tr><td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
 					});
@@ -120,6 +125,7 @@
 			if(e.keyCode==13){
 				get_sotrud($("#tabnum_lamp").val());
 				$("#tabnum_lamp").val('');
+				var may_go = 0;
 				// TODO: после нажатия enter, обнулить таймер обновления.
 			}
 		});
@@ -146,8 +152,30 @@
 
 <p align="center"><span>Прошедшие предсменный контроль за последние 3 часа</span></p>
 <div id="sotruds" class="lamp_table">
-{table_foreach from=$array_sotrud item=book key=id cols=13}{$array_sotrud[{$id}]['TABEL_KADR']}
-{/table_foreach}
+
+
+{$count = 0}
+<table id="sotruds" class="simple-little-table" cellspacing='0' style="font-size: 28px;">
+
+<!-- 13 под определенный экран -->
+{$num = $count_array_sotrud % 13}
+{$array_num = ($count_array_sotrud - $num) / 13}
+
+<!-- строки -->
+{section name=i start=0 loop=array_num}
+
+	<tr>
+	{section name=j start=0 loop=13}
+	<!-- столбцы -->
+			<td>
+			{$array_sotrud[$count]['TABEL_KADR']}
+			</td>
+			{capture}{$count++}{/capture}
+	{/section}
+	</tr>
+{/section}
+
+</table>
 
 <!--{table_foreach from=$array_sotrud item=book key=id cols=13 td_attr='bgcolor="#FFEEDD"'}{$array_sotrud[{$id}]['TABEL_KADR']}
 {/table_foreach}-->

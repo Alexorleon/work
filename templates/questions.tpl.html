@@ -1,5 +1,30 @@
 {extends file='index.tpl.html'}
-{block name=content}  
+{block name=content}
+<!--
+{literal}
+<script>
+
+	//var time_delay = 5000;
+	var may_go = 1;
+	jQuery(function($) {
+		$("#tabnum_lamp").focus();
+		
+		//var time_delay = 5;
+		//var lloop = 0;
+		setInterval(function() {
+			//lloop++;
+			if (may_go == 1){
+				get_sotrud(0);
+			}else{
+				setInterval(function() {may_go = 1;}, 5000);
+			}
+			//$green.css('left', ++greenLeft);
+		}, 5000);
+	});
+
+</script>
+{/literal}
+-->
 
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
@@ -29,6 +54,28 @@
 </tr>
 </table>
 <!--<div class="text_module"><span>МОДУЛЬ: {$textmodule}<span></div>-->
+
+<!-- ТАЙМЕР (начало) -->
+<div class="time_60s"><div id="quest_timer"><span id="timer" class="seconds" long="59">60</span></div></div>
+
+<script>
+	var t = setInterval(function(){
+	
+		function f(x){
+			return (x / 100).toFixed(2).substr(2)
+		}
+		
+		var o = document.getElementById('timer'), s = o.innerHTML;
+		s--;
+
+		if(s < 1){
+			window.location="./auth.php";
+			s = '00';
+		}
+		o.innerHTML = f(s);
+	}, 1000);
+</script>
+<!-- ТАЙМЕР (окончание) -->
 
 <!--TODO: Магическое число 21-->
 	{if $type_question eq 21} <!--вопрос с простой картинкой-->
