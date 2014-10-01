@@ -11,7 +11,7 @@ if ($_POST['type'] == 1){//тут массив с сотрудниками
 	$current_date = date('d.m.Y H:i:s', $period);
 		
 	$sql = <<<SQL
-	SELECT * FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K=10 AND ROWNUM < 251 ORDER BY TABEL_KADR
+	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K=10 AND ROWNUM < 251 ORDER BY TABEL_KADR
 SQL;
 	$array_sotrud = $db->go_result($sql);
 
