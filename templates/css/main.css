@@ -833,3 +833,17 @@ width:860px;
 /*
 -------------------------------------- END таймер --------------------------------------
 */
+
+.authlogo{
+	background:url('/files/img/logo.png') no-repeat scroll center 0 transparent;
+	width: 544px;
+	height: 378px;
+	margin-left: 10px;
+	margin-bottom: 40px;
+}
+
+#bottom_logo{
+position: absolute;
+bottom: 0px;
+}
+
