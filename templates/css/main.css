@@ -852,7 +852,17 @@ bottom: 0px;
 	
 }
 
-.title_kab_stat{
+.table_kab_stat{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+}
+
+.table_kab_stat tr td {
+	padding: 7px;
+	border-left: 1px solid #e0e0e0;
+}
+
+#title_kab_stat {
 	color:#51565b;
     font:24px/24px roboto_condensedregular,Arial,san-serif;
     font-size:24px; 
