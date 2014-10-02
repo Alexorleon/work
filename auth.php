@@ -28,7 +28,7 @@
 		
 		// TODO: в данный момент PREDPR_K относится к Кокс-майнинг
 		$sql = <<<SQL
-			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL and PREDPR_K=10
+			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K, TABEL_KADR from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL and PREDPR_K=10
 SQL;
 
 		//if (!$res = $db->go_result($sql)) {to_log('res', $sql);}
@@ -48,6 +48,7 @@ SQL;
 			$_SESSION['sotrud_im']=$s_res['SOTRUD_IM'];
 			$_SESSION['sotrud_otch']=$s_res['SOTRUD_OTCH'];
 			$_SESSION['sotrud_dolj']=$s_res['DOLJ_K'];
+			$_SESSION['sotrud_tabkadr']=$s_res['TABEL_KADR'];
 
 			// переход на другую страницу, вместо header используем die.
 			if($type_submit == "1"){
