@@ -19,7 +19,9 @@
 	// получаем список сотрудников прошедших предсменный экзаменатор за выбранный период
 //	select sotrud_id, TO_CHAR(ALLHISTORY.DATEEND, 'YY-mm-dd HH24:MI:SS') AS DATEEND from stat.allhistory where ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND EXAMINERTYPE=1
 	$sql = <<<SQL
-	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K=10 AND ROWNUM < 251 ORDER BY TABEL_KADR
+	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
+	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
+	EXAMINERTYPE=1) ORDER BY TABEL_KADR
 SQL;
 	$array_sotrud = $db->go_result($sql);
 

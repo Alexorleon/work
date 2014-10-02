@@ -17,10 +17,10 @@
 			if (may_go == 1){
 				get_sotrud(0);
 			}else{
-				setInterval(function() {may_go = 1;}, 5000);
+				setInterval(function() {may_go = 1;}, 15000);
 			}
 			//$green.css('left', ++greenLeft);
-		}, 5000);
+		}, 15000);
 	});
 	
 	/*Обновляем таблу чувачков*/
@@ -28,6 +28,8 @@
 		//console.log(check_tab_num);
 		
 		if(check_tab_num == 0){
+			
+			//$("#tabnum_status").html('');
 			
 			$.ajax({ //стартуем аякс
 				type: 'POST', //обращаемся к скрипту методом ПОСТ
@@ -90,13 +92,24 @@
 							//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
 							},
 							success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
-								console.log(data);
-								$("#sotruds").find("tr:gt(0)").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
-								$(data).each(function() {//так, как мы получили структуированные данные от скрипта, запускаем по ним цикл
-								$("#sotruds").append("<tr><td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td></tr>");//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+								$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
+								var tail_table = "";
+								var big_data_table = "";
+								big_data_table += "<tr>";
+								var cnt = 0;
+								var cnt2 = 1;
+								var num_cols = 14;
+								$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
+								if (cnt == (num_cols*cnt2)) {big_data_table += "</tr><tr>";cnt2++;}
+								big_data_table += "<td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td>";//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+								cnt++;
 								});
-								//console.log("+"+$("#r"+id).html()+"+");
-								console.log($("#r"+id).size());
+								//big_data_table += "</tr>";
+								for (var i = 0; i < ((num_cols * cnt2) - cnt); i++) {
+								   tail_table += "<td>&nbsp;</td>";
+								}
+								$("#sotruds tbody").append(big_data_table + tail_table + "</tr>");
+								
 								if($("#r"+id).size() == 0){
 								//if ($("#r"+id).html() == ""){
 									$("#tabnum_status").html("№ "+dataarr[1]+" - Контроль не пройден");
@@ -104,7 +117,7 @@
 									//alert(dataarr[1]+" - Контроль не пройден");
 								}else{
 									if (id != ""){
-										$("#tabnum_status").html("№ "+dataarr[1]+" - Контроль пройден");
+										$("#tabnum_status").html("№ "+dataarr[1]+" - Контроль пройден"+" : "+dataarr[2]);
 										//$("#tabnum_status").html("Контроль пройден");
 										//$("#text_status_ansT").html(check_tab_num);
 										//$("#r"+id).css("background-color", "red");
