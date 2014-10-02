@@ -35,7 +35,7 @@ jQuery(document).ready(function(){
 	<th>Табельный номер</th>
 </tr>
 </thead>
-<tbody>	
+<tbody>
 {section name=count loop=$array_employee}
 	<tr onclick="go_pre_examiner_fromsearch('{$array_employee[$count]['TABEL_KADR']}')" style="cursor: pointer;">
 		<td>
@@ -63,7 +63,7 @@ jQuery(document).ready(function(){
 
 <table>
 <tr>
-<td><p align="center"><span>Введите фамилию - </span></p></td>
+<td><p align="center"><span>Введите фамилию: </span></p></td>
 <td><textarea type="field_employee" id="tabnum" name="tabnum" readonly></textarea></td>
 </tr>
 </table>

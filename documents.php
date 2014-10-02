@@ -68,11 +68,10 @@ SQL;
 				$sql = <<<SQL
 				SELECT ID, TITLE FROM stat.ALLTRAINING WHERE ALLTRAINING.ID IN
 				(SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.TESTNAMESID IN 
-				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) 
-				AND ALLTRAINING.ALLTRAININGTYPEID=2
+				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
 				$array_instr = $db->go_result($sql);
-				
+				// AND ALLTRAINING.ALLTRAININGTYPEID=2
 				// TODO: сделать 2 запроса,с выборкой из _b. с Y и без.
 				// !!!!! заменить Y на 0 и 1, где 1 это прочитано. Тогда можно будет просто сортировать при выборке и массив 
 				// заполнится в порядке прочтения. С другой стороны, это медленне чем 2 запроса.

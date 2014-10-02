@@ -10,6 +10,13 @@
 
 <input id="type_documents" name="type_documents" type="hidden" value="1"/>
 
+<!-- Выхом по таймеру -->
+<!--{literal}
+<script>
+	setTimeout(function() { window.location="./auth.php" }, 60000);
+</script>
+{/literal}-->
+
 <!-- TODO: вывод документов-->
 {if $type_doc eq 1} <!--нормативные документы-->
 
@@ -61,10 +68,19 @@
 		<div class="top-face">Видеоинструктажи</div>
 
 		<div id="menu-holder"></div>
-
-		{section name=j loop=$array_instr}
-			<p><a href="/show_video_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
-		{/section}
+		
+		<table class="scrolling_table_docs">
+		<tbody>
+			{section name=j loop=$array_instr}
+				<!--<tr><td><p><a href="/show_video_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p></td></tr>-->
+				<tr onclick="javascript:window.location='./show_video_{$array_instr[j]['ID']}'" style="cursor: pointer;">
+					<td>
+					{$array_instr[j]['TITLE']}
+					</td>
+				</tr>
+			{/section}
+		</tbody>
+		</table>
 		
 		<div id="bottom" style="margin-bottom: 30px;">
 			<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
