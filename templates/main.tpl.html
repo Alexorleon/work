@@ -29,8 +29,8 @@
 
 <div id="menu-holder"></div>
 
-<div class="info_sotrud_kab">
-	<table class="table_kab_stat" align="left">
+<div class="info_sotrud_kab" align="left">
+	<table class="table_kab_stat">
 		<tr>
 			<td><span id="title_kab_stat">Номер:</span></td>
 			<td><span id="title_kab_stat">{$sotrud_tabkadr}</span></td>
@@ -46,28 +46,33 @@
 	</table>
 </div>
 
-<table >
-	<tr>
-		<td><input type="button" value="Нормативные документы" onclick="go_from_main(1)"/></td>
-		<td><input type="button" value="Контроль компетентности" onclick="go_from_main(2)"/></td>
+<div style="margin-top: 3%;">
+<table class="table_menu_lobby" style="width:80%;">
+	<tr style="width:100%;">
+		<!--<td><input class="quest_num" type="button" value={$count}></td>-->
+		<td><input class="choice_button" type="button" onclick="go_from_main(1)" value="Нормативные документы"/></td>
+		<td><input class="choice_button" type="button" onclick="go_from_main(2)" value="Контроль компетентности"/></td>
 	</tr>
 
-	<tr>
-		<td><input type="button" value="Видеоинструктажи" onclick="go_from_main(3)"/></td>
-		<td><input type="button" value="Предсменный экзаменатор" onclick="go_from_main(4)"/></td>
+	<tr style="width:100%;">
+		<td><input class="choice_button" type="button" onclick="go_from_main(3)" value="Видеоинструктажи"/></td>
+		<td><input class="choice_button" type="button" onclick="go_from_main(4)" value="Предсменный экзаменатор"/></td>
 	</tr>
 
-	<tr>
-		<td><input type="button" value="Компьютерные модели несчастных случаев" onclick="go_from_main(5)"/></td>
-		<td><input type="button" value="Предложения руководству" onclick="go_from_main(6)"/></td>
+	<tr style="width:100%;">
+		<td><input class="choice_button" type="button" onclick="go_from_main(5)" value="Компьютерные модели несчастных случаев"/></td>
+		<td><input class="choice_button" type="button" onclick="go_from_main(6)" value="Предложения руководству"/></td>
 	</tr>
 
-	<tr>
-		<td><input type="button" value="Личные данные" onclick="go_from_main(7)"/></td>
-		<td><input type="button" value="Выход" onclick="go_from_main(8)"/></td>
+	<tr style="width:100%;">
+		<td><input class="choice_button" type="button" onclick="go_from_main(7)" value="Личные данные"/></td>
 	</tr>
 </table>
+</div>
 
+<div id="bottom" style="margin-bottom: 30px;">
+	<input type="button" class="move_button" value="Выход" onclick="go_from_main(8)"/>
+</div>
 </form>
 
 <div id="bottom">

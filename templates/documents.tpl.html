@@ -11,13 +11,32 @@
 <input id="type_documents" name="type_documents" type="hidden" value="1"/>
 
 <!-- TODO: вывод документов-->
-{if $type_doc eq 1}
+{if $type_doc eq 1} <!--нормативные документы-->
 
 	{if !isset($smarty.get.norm_doc_id)}
+	
+		<!-- menu-holder -->
+		<div id="menu-holder"></div>
+		<!-- ENDS menu-holder -->
+
+		<div class="top-face">Нормативные документы</div>
+
+		<div id="menu-holder"></div>
+		
 		{section name=j loop=$array_instr}
 			<p><a href="/show_regulations_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
 		{/section}
+		
+		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{else}
 
 		<!--<object width="800" height="600" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
@@ -31,13 +50,32 @@
 		<a href="./lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
 	{/if}
 	
-{elseif $type_doc eq 2}
+{elseif $type_doc eq 2} <!--видеоинструктажи-->
 
 	{if !isset($smarty.get.video_id)}
+	
+		<!-- menu-holder -->
+		<div id="menu-holder"></div>
+		<!-- ENDS menu-holder -->
+
+		<div class="top-face">Видеоинструктажи</div>
+
+		<div id="menu-holder"></div>
+
 		{section name=j loop=$array_instr}
 			<p><a href="/show_video_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
 		{/section}
-		<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+		
+		<div id="bottom" style="margin-bottom: 30px;">
+			<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{else}
 		
 		<div class="img_answer">
@@ -55,13 +93,32 @@
 		<a href="./lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
 	{/if}
 	
-{elseif $type_doc eq 3}
+{elseif $type_doc eq 3} <!--компьютерные модели-->
 
 	{if !isset($smarty.get.comp_model_id)}
+	
+		<!-- menu-holder -->
+		<div id="menu-holder"></div>
+		<!-- ENDS menu-holder -->
+
+		<div class="top-face">Компьютерные модели несчастных случаев</div>
+
+		<div id="menu-holder"></div>
+		
 		{section name=j loop=$array_instr}
 			<p><a href="/show_compmodel_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
 		{/section}
-		<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+		
+		<div id="bottom" style="margin-bottom: 30px;">
+			<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{else}
 	
 		<div class="img_answer">

@@ -858,7 +858,7 @@ bottom: 0px;
 }
 
 .table_kab_stat tr td {
-	padding: 7px;
+	padding: 6px;
 	border-left: 1px solid #e0e0e0;
 }
 
@@ -866,4 +866,8 @@ bottom: 0px;
 	color:#51565b;
     font:24px/24px roboto_condensedregular,Arial,san-serif;
     font-size:24px; 
+}
+
+.table_menu_lobby td{
+	width: 400px;
 }
