@@ -45,6 +45,10 @@ function addToField(n){
 	$("#tabnum").val($("#tabnum").val()+n);
 }
 
+function delAll(){
+	$("#tabnum").val('');
+}
+
 function del(){
 	$("#tabnum").val($("#tabnum").val().substr(0,$("#tabnum").val().length-1));
 }
