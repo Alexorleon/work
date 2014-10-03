@@ -593,7 +593,7 @@ width:860px;
 
 .scrolling_table_search tbody {
     display: block;
-    height: 305px;
+    height: 430px;
     width: 100%;
     overflow: hidden;
 	overflow-y: auto;

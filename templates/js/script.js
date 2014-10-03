@@ -21,9 +21,7 @@ function go_pre_examiner(){
 // предсменный экзаменатор через поиск сотрудника
 function go_pre_examiner_fromsearch(tab){
 
-	$("#type_submit").val("2");
-	$("#tabnum").val(tab);
-	$("#auth").submit();
+	window.location="./auth.php?tab="+tab;
 }
 
 // контроль компетентности

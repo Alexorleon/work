@@ -52,7 +52,6 @@ SQL;
 
 			// переход на другую страницу, вместо header используем die.
 			if($type_submit == "1"){
-
 				die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 			}elseif ($type_submit == "2"){
 

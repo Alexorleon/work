@@ -50,7 +50,7 @@ jQuery(document).ready(function(){
 <form id="auth" name="auth" method="post">
 <table >
 <tr>
-<td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly /></td>
+<td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
 <td><button class="search_button" onclick="go_search_employee()"></button></td>
 </tr>
 </table>
