@@ -152,7 +152,24 @@ function get_post(f){
 /*
 -------------------------------------- BEGIN таймер --------------------------------------
 */
-
+	function go_timer(){
+		//console.log("go_timer");	
+		intervalId = setInterval("get_sotrud(0);", 5000);
+		//clearInterval(intervalId);
+	}
+	/*function some_func(i){
+		console.log(i);
+	}*/
+	function stop_timers(){
+		//console.log("stop_timers");
+		clearInterval(intervalId);
+	}
+	function stop_timers_to(sec){
+		//console.log("stop_timers_to_15sec");
+		clearInterval(intervalId);
+		//intervalId2 = setInterval("go_timer()", 15000);
+		setTimeout("go_timer()", sec*1000)
+	}
 /*
 -------------------------------------- END таймер --------------------------------------
 */

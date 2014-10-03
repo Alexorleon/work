@@ -5,22 +5,10 @@
 {literal}
 <script>
 
-	//var time_delay = 5000;
-	var may_go = 1;
+
 	jQuery(function($) {
 		$("#tabnum_lamp").focus();
-		console.log(may_go);
-		//var time_delay = 5;
-		//var lloop = 0;
-		setInterval(function() {
-			//lloop++;
-			if (may_go == 1){
-				get_sotrud(0);
-			}else{
-				setInterval(function() {var may_go = 1;}, 15000);
-			}
-			//$green.css('left', ++greenLeft);
-		}, 15000);
+		go_timer();
 	});
 	
 	/*Обновляем таблу чувачков*/
@@ -146,7 +134,7 @@
 			if(e.keyCode==13){
 				get_sotrud($("#tabnum_lamp").val());
 				$("#tabnum_lamp").val('');
-				var may_go = 0;
+				stop_timers_to(10);
 				// TODO: после нажатия enter, обнулить таймер обновления.
 			}
 		});
