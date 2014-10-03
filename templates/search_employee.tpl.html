@@ -20,34 +20,24 @@ jQuery(document).ready(function(){
 {else}
 {/if}-->
 
+<!-- menu-holder -->
+<div id="menu-holder"></div>
+<!-- ENDS menu-holder -->
+
 {if empty($array_employee)}
 
 {else}
 
 {$count = 0}
-<table class="scrolling-table">
+<table class="scrolling_table_search">
 
-<thead>
-<tr>
-	<th>Фамилия</th>
-	<th>Имя</th>
-	<th>Отчество</th>
-	<th>Табельный номер</th>
-</tr>
-</thead>
 <tbody>
 {section name=count loop=$array_employee}
 	<tr onclick="go_pre_examiner_fromsearch('{$array_employee[$count]['TABEL_KADR']}')" style="cursor: pointer;">
 		<td>
-		{$array_employee[{$count}]['SOTRUD_FAM']}
+		{$array_employee[{$count}]['SOTRUD_FAM']} {$array_employee[{$count}]['SOTRUD_IM']} {$array_employee[{$count}]['SOTRUD_OTCH']}
 		</td>
-		<td>		
-		{$array_employee[{$count}]['SOTRUD_IM']}		
-		</td>
-		<td>		
-		{$array_employee[{$count}]['SOTRUD_OTCH']}		
-		</td>
-		<td>		
+		<td>
 		{$array_employee[{$count}]['TABEL_KADR']}		
 		</td>
 		{capture}{$count++}{/capture}
@@ -115,12 +105,20 @@ jQuery(document).ready(function(){
 </p>
 </div>
 
-<div id="bottom" style="margin-bottom: 1%;">
+<div id="bottom" style="margin-bottom: 30px;">
 <a href="/auth.php"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 <input class="move_button" type="button" value="Найти" onclick="search_employee()"/>
 </div>
 
 </form>
+
+<div id="bottom">
+	<div id="menu-holder-light"></div>
+	<!-- menu-holder -->
+	<div id="menu-holder"></div>
+	<!-- ENDS menu-holder -->
+</div>
+
 </div>
 <script src="{$tpl}js/script.js"></script>
 
