@@ -127,22 +127,69 @@
 	
 {elseif $typetest eq 2} <!-- Меню выбора сдачи -->
     
+	<div id="menu-holder"></div>
+	
+	<div class="text_question_comment" style="background: #A9D0F5; margin-top: 12%;"><div style="max-width: 90%;">Пройдите пробное тестирование без записи в историю.<br><br>Или полное тестирование с записью.</div></div>
+	
 	<!--<input class="move_button" type="button" onclick="typeTest(1)" value="Пробное тестирование"/>-->
 	<!--<input class="move_button" type="button" onclick="typeTest(2)" value="Тестирование"/>-->
-	<button class="move_button" type="button" onclick="typeTest(1)" >Пробное<br>тестирование</button>
-	<button class="move_button" type="button" onclick="typeTest(2)" >Тестирование</button>
+	<div id="bottom" style="margin-bottom: 30px;">
+		<button class="move_button" type="button" onclick="typeTest(1)" >Пробное<br>тестирование</button>
+		<button class="move_button" type="button" onclick="typeTest(2)" ><br>Тестирование</button>
+	</div>
 	
+	<div id="bottom">
+		<div id="menu-holder-light"></div>
+		<div id="menu-holder"></div>
+	</div>
 {else} <!-- Контроль компетентности -->
 
-	<!--{$question['TEXT']}-->
-	{$question}
+<!--TODO: Магическое число 21-->
+	{if $type_question eq 21} <!--вопрос с простой картинкой-->
 
-	<p>
-	{section name=i loop=$array_answers}
-		<input class="choice_button" type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/>
-		<br>
-	{/section}
-	</p>
+		<img src="{$photo}/{$simplephoto}" alt="">
+
+		<table style="width: 100%; background: #ffff99; min-height: 100px;">
+		<tr>
+		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}<span></div></td>
+		</tr>
+		</table>
+		
+		<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+
+			{$count = 1}
+			{section name=i loop=$array_answers}
+				<tr>
+					<td><input class="quest_num" type="button" value={$count}></td>
+					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/></td>
+				</tr>
+				{capture}{$count++}{/capture}
+			{/section}
+		</table>
+		
+	{elseif $type_question eq 8} <!--текстовый вопрос-->
+		
+		<table style="width: 100%; background: #ffff99; margin-top: 16%; min-height: 100px;">
+		<tr>
+			<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}<span></div></td>
+		</tr>
+		</table>
+
+		<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+
+			{$count = 1}
+			{section name=i loop=$array_answers}
+				<tr>
+					<td><input class="quest_num" type="button" value={$count}></td>
+					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/></td>
+				</tr>
+				{capture}{$count++}{/capture}
+			{/section}
+		</table>
+		
+	{else}
+	{/if}
+	
 {/if}
 
 </form>

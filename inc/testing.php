@@ -74,7 +74,9 @@
 			$question_text = $_SESSION['question_text'];
 			$array_answers = $_SESSION['array_answers'];
 			
+			$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
 			$smarty->assign("question", $question_text);//вопрос
+			$smarty->assign("type_question", $_SESSION['type_question']);
 			$smarty->assign("array_answers", $array_answers);//ответы
 
 			$smarty->assign("title", "Пробное тестирование");
@@ -107,7 +109,9 @@
 			$question_text = $_SESSION['question_text'];
 			$array_answers = $_SESSION['array_answers'];
 			
+			$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
 			$smarty->assign("question", $question_text);//вопрос
+			$smarty->assign("type_question", $_SESSION['type_question']);
 			$smarty->assign("array_answers", $array_answers);//ответы
 
 			$smarty->assign("title", "Тестирование");
@@ -256,11 +260,12 @@ SQL;
 		$temp_testid = (int)$testid['ID'];
 
 		$sql = <<<SQL
-		SELECT TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
+		SELECT ID, TEXT, TYPEQUESTIONSID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
 		$s_res = $obj->go_result_once($sql);
 		//$temp_id = (int)$testid['ID'];
 		$question_text = $s_res['TEXT'];
+				
 		array_push($_SESSION['final_array_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 		// берем ответы к этому вопросу
@@ -273,7 +278,11 @@ SQL;
 
 		$_SESSION['counter_questions']++;
 		
+		$_SESSION['ID_question'] = $s_res['ID'];
 		$_SESSION['question_text'] = $question_text;
+		
+		// запоминаем тип вопроса
+		$_SESSION['type_question'] = $s_res['TYPEQUESTIONSID'];
 		$_SESSION['array_answers'] = $array_answers;
 		
 		// стартуем таймер
