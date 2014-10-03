@@ -30,9 +30,21 @@
 
 		<div id="menu-holder"></div>
 		
+		<table class="scrolling_table_docs">
+		<tbody>
+			{section name=j loop=$array_instr}
+				<tr onclick="javascript:window.location='./show_regulations_{$array_instr[j]['ID']}'" style="cursor: pointer;">
+					<td>
+					{$array_instr[j]['TITLE']}
+					</td>
+				</tr>
+			{/section}
+		</tbody>
+		</table>
+		<!--
 		{section name=j loop=$array_instr}
 			<p><a href="/show_regulations_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
-		{/section}
+		{/section}-->
 		
 		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
@@ -46,15 +58,25 @@
 		</div>
 	{else}
 
+		<div id="menu-holder"></div>
 		<!--<object width="800" height="600" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
 			<param name="pdfdoc" value="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" />
 			<embed width="800" height="600" type="application/x-shockwave-flash" src="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" />
 			<embed src="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" width="600" height="400" />
 		</object>-->
-		<iframe class="iframe" src="{$lhost}/storage/regulations/{$doc_instr['NAME']}" width="100%" height="70%" align="left"></iframe>
-
+		<iframe class="iframe" src="{$lhost}/storage/regulations/{$doc_instr['NAME']}" width="98%" height="96%" align="center"></iframe>
+		
+		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./regulations"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 		<a href="./lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{/if}
 	
 {elseif $type_doc eq 2} <!--видеоинструктажи-->
@@ -94,6 +116,8 @@
 		</div>
 	{else}
 		
+		<div id="menu-holder"></div>
+		<!--height="700" width="1260"-->
 		<div class="img_answer">
 			<object type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="700" width="1260">
 				<param name="wmode" value="transparent">
@@ -105,8 +129,17 @@
 			</object>				
 		</div>
 		
+		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./video_instructing"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 		<a href="./lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{/if}
 	
 {elseif $type_doc eq 3} <!--компьютерные модели-->
@@ -121,9 +154,17 @@
 
 		<div id="menu-holder"></div>
 		
-		{section name=j loop=$array_instr}
-			<p><a href="/show_compmodel_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
-		{/section}
+		<table class="scrolling_table_docs">
+		<tbody>
+			{section name=j loop=$array_instr}
+				<tr onclick="javascript:window.location='./show_compmodel_{$array_instr[j]['ID']}'" style="cursor: pointer;">
+					<td>
+					{$array_instr[j]['TITLE']}
+					</td>
+				</tr>
+			{/section}
+		</tbody>
+		</table>
 		
 		<div id="bottom" style="margin-bottom: 30px;">
 			<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
@@ -137,6 +178,8 @@
 		</div>
 	{else}
 	
+		<div id="menu-holder"></div>
+		
 		<div class="img_answer">
 			<object type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="700" width="1260">
 				<param name="wmode" value="transparent">
@@ -148,8 +191,17 @@
 			</object>				
 		</div>
 
+		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./comp_model"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 		<a href="./lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{/if}
 
 {else}

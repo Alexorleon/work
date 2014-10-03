@@ -9,7 +9,7 @@
 	var may_go = 1;
 	jQuery(function($) {
 		$("#tabnum_lamp").focus();
-		
+		console.log(may_go);
 		//var time_delay = 5;
 		//var lloop = 0;
 		setInterval(function() {
@@ -17,7 +17,7 @@
 			if (may_go == 1){
 				get_sotrud(0);
 			}else{
-				setInterval(function() {may_go = 1;}, 15000);
+				setInterval(function() {var may_go = 1;}, 15000);
 			}
 			//$green.css('left', ++greenLeft);
 		}, 15000);
