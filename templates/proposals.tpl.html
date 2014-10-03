@@ -16,6 +16,8 @@ jQuery(document).ready(function(){
 
 <form id="proposalsPage" name="proposalsPage" method="post">
 
+<div id="menu-holder"></div>
+
 {$type_color = "color:#FE2E2E"}
 
 {if $type_prop eq "view"}
@@ -72,9 +74,10 @@ jQuery(document).ready(function(){
 -->
 </table>
 
-<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
-<a href="/addproposals"><input type="button" value="Добавить" onclick=""/></a>
-
+<div id="bottom" style="margin-bottom: 30px;">
+<a href="/lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+<a href="/addproposals"><input class="move_button" type="button" value="Добавить" onclick=""/></a>
+</div>
 
 {elseif $type_prop eq "add"} <!--добавить новое предложение-->
 
@@ -141,7 +144,7 @@ jQuery(document).ready(function(){
 </p>
 
 <p style="font-size:8px">
-<td><input type="reset" value="Очистить" id="resetnum_button"/></td>
+<td><input type="reset" value="X" id="resetnum_button"/></td>
 <td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
 <td><input type="num_button" value=" " onclick="addToField(' ')" style="cursor: pointer;"/></td>
 <td><input type="num_button" value="," onclick="addToField(',')" style="cursor: pointer;"/></td>
@@ -150,16 +153,24 @@ jQuery(document).ready(function(){
 
 <input id="type_proposals" name="type_proposals" type="hidden" value="1"/>
 
+<div id="bottom" style="margin-bottom: 30px;">
 <!--<input type="num_button" value="Назад" onclick="get_proposals(0)"/>-->
 <a href="/proposals"><input class="move_button" type="move_button" value="Назад" onclick=""/></a>
 <a href="/lobby"><input class="move_button" type="move_button" value="В меню" onclick=""/></a>
 <input class="move_button" type="move_button" value="Отправить" onclick="get_proposals(1, this.form)"/>
+</div>
 
 {else}
 
 {/if}
 
 </form>
+
+<div id="bottom">
+	<div id="menu-holder-light"></div>
+	<div id="menu-holder"></div>
+</div>
+
 </div>
 <script src="{$tpl}js/script.js"></script>
 
