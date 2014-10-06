@@ -1004,6 +1004,23 @@ span.selectOption:hover {
 	overflow: hidden;
 	height: 30px;
 	margin-bottom: 10px;
-	background:  url('/files/img/tabs-divider.png') repeat-x bottom center;
+	background:  url('/files/img/tabs-divider.png') repeat-x top left;
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
+
+/*
+-------------------------- BEGIN Главное меню ---------------------------
+*/
+
+#mainmenu{
+	position:fixed;
+	left:20px;
+	top:50%;
+	border:1px solid black;
+	width:120px;
+}
+
+/*
+-------------------------- END Главное меню ---------------------------
+*/
+
