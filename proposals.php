@@ -6,7 +6,9 @@
 	$error_='';
 		
 	if ($_POST){
-		
+		/*
+		print_r($_POST);
+		die();*/
 		$type_proposals = $_POST['type_proposals'];
 
 		if ($type_proposals == 0){
@@ -40,6 +42,9 @@ SQL;
 	SELECT ID, TITLE FROM stat.PROPOSALS_TYPEMES
 SQL;
 	$array_typemes = $db->go_result($sql);
+	
+	//print_r($array_typemes);
+	//die();
 		
 	// разделим на 2 меню. статистику и добавление нового предложения.
 	if(isset($_GET['type_prop'])){

@@ -88,17 +88,23 @@ function get_personal(n){
 }
 
 // proposals
-function get_proposals(n, f){
+function get_proposals(n){
 
 	// если нажали отправить, то получаем значение сообщения из списка
 	if(n == 1){
 		
 		if($("#tabnum").val() != ""){ // не пустое сообщение
 
-			num = f.typemessage.selectedIndex;
-			num++;
+			var div = document.getElementById("span_selectBox");
+			var spans = div.getElementsByTagName("span");
 
-			$("#typemessage").val(num);
+			/*проверяем выбирали ли значение из списка*/
+			if($("#bool_typemessage").val() == 0){
+				$("#typemessage").val(1);
+			}else{
+				$("#typemessage").val();
+			}
+			
 			$("#tabnum").val();
 			
 			$("#type_proposals").val(n);
@@ -173,3 +179,33 @@ function get_post(f){
 /*
 -------------------------------------- END таймер --------------------------------------
 */
+
+/*Выпадающий список*/
+function enableSelectBoxes(){
+    $('div.selectBox').each(function(){
+        $(this).children('span.selected').html($(this).children('div.selectOptions').children('span.selectOption:first').html());
+        $(this).attr('value',$(this).children('div.selectOptions').children('span.selectOption:first').attr('value'));
+ 
+        $(this).children('span.selected,span.selectArrow').click(function(){
+            if($(this).parent().children('div.selectOptions').css('display') == 'none')
+            {
+                $(this).parent().children('div.selectOptions').css('display','block');
+            }
+            else
+            {
+                $(this).parent().children('div.selectOptions').css('display','none');
+            }
+        });
+ 
+        $(this).find('span.selectOption').click(function(){
+            $(this).parent().css('display','none');
+			
+			/*запоминаем что выбрали*/
+			$("#typemessage").val($(this).attr('value'));
+			$("#bool_typemessage").val(1);
+			
+            $(this).closest('div.selectBox').attr('value',$(this).attr('value'));
+            $(this).parent().siblings('span.selected').html($(this).html());
+        });
+    });
+}
