@@ -27,17 +27,21 @@ jQuery(document).ready(function(){
 
 {if $type_prop eq "view"}
 
+{$counttype = 0}
 <!--выводим статистику-->
-
+<div class="scrolling_tables_proposols">
 {section name=first loop=$array_statistic show=true}
-<table border="1" width="720px" class="simple-little-table" cellspacing='0'>
+<table border="1" width="720px" class="table_proposols" cellspacing='0'>
+<caption class="caption_proposolstype">{$array_typemes[$counttype]['TITLE']}</caption>
+{capture}{$counttype++}{/capture}
 <!--шапка-->
 <tr>
-	<th>дата отправки</th>
-	<th>сообщение</th>
-	<th>ответ</th>
-	<th>дата ответа</th>
+	<th style="width:10%;">дата отправки</th>
+	<th style="width:40%;">сообщение</th>
+	<th style="width:40%;">ответ</th>
+	<th style="width:10%;">дата ответа</th>
 </tr>
+<tbody>
 	{section name=second loop=$array_statistic[first]}
 	
 		<tr>
@@ -63,8 +67,10 @@ jQuery(document).ready(function(){
 		{/section}
 		</tr>
 	{/section}
+</tbody>
 </table>
 {/section}
+</div>
 
 <div id="bottom" style="margin-bottom: 30px;">
 <a href="/lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
