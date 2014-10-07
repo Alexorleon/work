@@ -1009,18 +1009,88 @@ span.selectOption:hover {
 }
 
 /*
--------------------------- BEGIN Главное меню ---------------------------
+-------------------------- BEGIN Разметка для администрирования ---------------------------
 */
+*, *:before, *:after {
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
+}
 
-#mainmenu{
-	position:fixed;
-	left:20px;
-	top:50%;
-	border:1px solid black;
-	width:120px;
+body { 
+    background-color: rgba(255,255,255);
+    font: 16px/1.42857 "Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin:0;
+}
+
+header {
+    background-color: #373737;
+    color: #fff;
+    height: 160px;
+    padding: 10px 50px;
+}
+
+figure {
+    float:left;
+}
+
+nav {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    height: 56px;
+}
+
+nav ul li {
+    float:left;
+    margin-right:22px
+}
+
+main {
+    margin: 0 auto;
+    width: 100%;
+    display: block;
+}
+
+article {
+    float: right;
+    margin-bottom: 30px;
+    padding: 0 15px;
+    width: 74%;
+    overflow: hidden;
+}
+
+section {
+    background-color:#eee;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+aside {
+    float: left;
+    padding-left: 15px;
+    width: 25%;
+    display: block;
+    overflow: hidden;
+    position:relative;
+}
+
+menu {
+    padding: 0;
+}
+
+footer {
+    background-color: #373737;
+    clear: both;
+    color: #fff;
+    padding: 50px 20px;
+}
+
+footer small a {
+    color: #eff;
 }
 
 /*
--------------------------- END Главное меню ---------------------------
+-------------------------- END Разметка для администрирования ---------------------------
 */
 

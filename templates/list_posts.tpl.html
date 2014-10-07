@@ -1,50 +1,106 @@
-{extends file='index.tpl.html'}
-{block name=content}  
-
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+<title>{$title}</title>
+<meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
 
 <div id="error_mess"> {$error_} </div>
 
-<div id="mainmenu">
-	<a href="#">ссылка 1</a>
-	<a href="#">ссылка 2</a>
-	<a href="#">ссылка 3</a>
-	<a href="#">ссылка 4</a>
-	<a href="#">ссылка 5</a>
-</div> 
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+</head>
+<body>
+<!--<form id="list_posts" name="list_posts" method="post">
+</form>-->
+<header>
+	<figure>
+		Логотип
+	</figure>
+	<h1>Название сайта</h1>
+	<h2>Описание сайта</h2>
+</header>
 
-<div id="list_postsDiv" align="center" >
+<nav>
+	<ul>
+		<li><a href="#">Главная</a></li>
+		<li><a href="#">О Нас</a></li>
+		<li><a href="#">Контакты</a></li>
+	</ul>
+</nav>
 
-<form id="list_posts" name="list_posts" method="post">
+<main>
 
-<p><span class="title-lamp">Список должностей для терминала</span></p>
+<article>
 
-<a href="/new_post"><input type="button" value="Добавить" onclick=""/></a>
+	<p>
+		<p><span class="title-lamp">Список должностей для терминала</span></p>
 
-{$count = 0}
-<table class="simple-little-table" cellspacing='0'>
+		<a href="/new_post"><input type="button" value="Добавить" onclick=""/></a>
 
-<tr>
-	<th>№</th>
-	<th>Название</th>
-</tr><!-- Table Header -->
-	
-{section name=count loop=$array_posts}	
-	<tr onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}'" style="cursor: pointer;">
-		<td>
-		{$array_posts[{$count}]['KOD']}
-		</td>
-		<td>		
-		{$array_posts[{$count}]['TEXT']}		
-		</td>
-		{capture}{$count++}{/capture}
-	</tr>	
-{/section}
-</table>
+		{$count = 0}
+		<table class="simple-little-table" cellspacing='0' style="width: 100%;">
 
-</form>
-</div>
+			<tr>
+				<th>№</th>
+				<th>Название</th>
+			</tr><!-- Table Header -->
+				
+			{section name=count loop=$array_posts}	
+				<tr onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}'" style="cursor: pointer;">
+					<td>
+					{$array_posts[{$count}]['KOD']}
+					</td>
+					<td>		
+					{$array_posts[{$count}]['TEXT']}		
+					</td>
+					{capture}{$count++}{/capture}
+				</tr>	
+			{/section}
+		</table>
+	</p>
+
+	<section>
+	<p>здесь могут быть похожие записи, слайдер, баннеры, миниатюры и т.д...</p>
+	</section>
+
+</article>
+
+<aside>
+
+	<h3>Боковая колонка</h3>
+
+	<p>боковая колонка для всего остального</p>
+
+	<h4>Меню сайта</h4>
+
+	<menu>
+		<li><a href="#">Смотреть фото</a></li>
+		<li><a href="#">Смотреть видео</a></li>
+		<li><a href="#">Слушать музыку</a></li>
+	</menu>
+
+</aside>
+
+</main>
+
+<footer>
+
+	<p>
+
+		<small>
+			<time>2004-05-24</time> © <a href="http://www.pixelcom.crimea.ua">Pixel.com</a>
+		</small>
+
+		<address>
+			<a href="mailto:js@example.com">Написать письмо</a>
+		</address>
+
+	</p>
+
+</footer>
 
 <script src="{$tpl}js/script.js"></script>
-
-{/block}
+</body>
+</html>
