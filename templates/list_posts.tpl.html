@@ -14,40 +14,48 @@
 <body>
 <!--<form id="list_posts" name="list_posts" method="post">
 </form>-->
-<header>
-	<figure>
-		Логотип
-	</figure>
-	<h1>Название сайта</h1>
-	<h2>Описание сайта</h2>
-</header>
 
-<nav>
-	<ul>
-		<li><a href="#">Главная</a></li>
-		<li><a href="#">О Нас</a></li>
-		<li><a href="#">Контакты</a></li>
-	</ul>
-</nav>
+<div id="menu-holder-light"></div>
 
 <main>
 
+<aside>
+
+	<div align="left">
+        <div class="authlogo_admin"></div>
+    </div>
+
+	<menu>
+		<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>
+	</menu>
+
+</aside>
+
 <article>
 
-	<p>
-		<p><span class="title-lamp">Список должностей для терминала</span></p>
+	<span class="title_menu_edit">Список должностей для терминала</span>
 
-		<a href="/new_post"><input type="button" value="Добавить" onclick=""/></a>
+	<div align="left"><a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить должность" onclick=""/></a></div>
+	<!-- Меню редактирования -->
+	<!--<nav>
+		<ul>
+			<li><a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить должность" onclick=""/></a></li>
+		</ul>
+	</nav>-->
 
-		{$count = 0}
-		<table class="simple-little-table" cellspacing='0' style="width: 100%;">
+	{$count = 0}
+	<!-- ограничиваем таблицу для скролинга -->
+	<!--<div class="scrolling_tables_menu">-->
+		<table class="scrolling_tables_posts">
 
 			<tr>
-				<th>№</th>
-				<th>Название</th>
+				<th style="width: 2%;">№</th>
+				<th style="width: 98%;">Название</th>
 			</tr><!-- Table Header -->
-				
-			{section name=count loop=$array_posts}	
+			
+			{section name=count loop=$array_posts}
 				<tr onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}'" style="cursor: pointer;">
 					<td>
 					{$array_posts[{$count}]['KOD']}
@@ -59,36 +67,18 @@
 				</tr>	
 			{/section}
 		</table>
-	</p>
+	<!--</div>-->
 
-	<section>
-	<p>здесь могут быть похожие записи, слайдер, баннеры, миниатюры и т.д...</p>
-	</section>
+	<!--<section>
+		<p>здесь могут быть похожие записи, слайдер, баннеры, миниатюры и т.д...</p>
+	</section>-->
 
 </article>
 
-<aside>
-
-	<h3>Боковая колонка</h3>
-
-	<p>боковая колонка для всего остального</p>
-
-	<h4>Меню сайта</h4>
-
-	<menu>
-		<li><a href="#">Смотреть фото</a></li>
-		<li><a href="#">Смотреть видео</a></li>
-		<li><a href="#">Слушать музыку</a></li>
-	</menu>
-
-</aside>
-
 </main>
 
-<footer>
-
-	<p>
-
+<footer id="bottom">
+	<!--<p>
 		<small>
 			<time>2004-05-24</time> © <a href="http://www.pixelcom.crimea.ua">Pixel.com</a>
 		</small>
@@ -96,10 +86,9 @@
 		<address>
 			<a href="mailto:js@example.com">Написать письмо</a>
 		</address>
-
-	</p>
-
+	</p>-->
 </footer>
+
 
 <script src="{$tpl}js/script.js"></script>
 </body>

@@ -320,10 +320,12 @@ opacity:1;
 /*
 -------------------------------------BEGIN ТАБЛИЦА------------------------------------
 */
-.simple-little-table tr th{
+
+/*.simple-little-table tr th{
 	min-width: 200px;
 	max-width: 200px;
-}
+}*/
+
 /* NULL */
 /*html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -383,6 +385,7 @@ quotes:"" "";
 /*End NULL*/
 
 .simple-little-table {
+	width: 96%;
 	font-family:Arial, Helvetica, sans-serif;
 	color:#666;
 	font-size:14px;
@@ -407,9 +410,9 @@ quotes:"" "";
 	border-top:1px solid #fafafa;
 	border-bottom:1px solid #e0e0e0;
 
-	background: #ededed;
-	background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));
-	background: -moz-linear-gradient(top,  #ededed,  #ebebeb);
+	background: #A9D0F5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5), to(#ebebeb));
+	background: -moz-linear-gradient(top,  #A9D0F5,  #ebebeb);
 }
 .simple-little-table th:first-child{
 	text-align: left;
@@ -859,6 +862,7 @@ bottom: 0px;
 /*
 -------------------------------------- BEGIN table_proposols --------------------------------------
 */
+
 /*
 .table_proposols tr th{
 	min-width: 200px;
@@ -1026,24 +1030,20 @@ body {
 header {
     background-color: #373737;
     color: #fff;
-    height: 160px;
+    height: 20px;
     padding: 10px 50px;
-}
-
-figure {
-    float:left;
 }
 
 nav {
     background-color: #eee;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
-    height: 56px;
+    margin-bottom: 10px;
+    height: 42px;
 }
 
 nav ul li {
     float:left;
-    margin-right:22px
+    /*margin-right:22px*/
 }
 
 main {
@@ -1055,8 +1055,8 @@ main {
 article {
     float: right;
     margin-bottom: 30px;
-    padding: 0 15px;
-    width: 74%;
+    /*padding: 0 15px;*/
+    width: 87%;
     overflow: hidden;
 }
 
@@ -1068,8 +1068,8 @@ section {
 
 aside {
     float: left;
-    padding-left: 15px;
-    width: 25%;
+    /*padding-left: 0px;*/
+    width: 12%;
     display: block;
     overflow: hidden;
     position:relative;
@@ -1080,17 +1080,218 @@ menu {
 }
 
 footer {
+/*
     background-color: #373737;
     clear: both;
     color: #fff;
-    padding: 50px 20px;
+	width: 100%;
+    padding: 10px 10px;
+	position: absolute;
+	bottom: 0px;*/
 }
 
 footer small a {
     color: #eff;
 }
 
+figure {
+	width: 218px;
+	height: 151px;
+	margin-left: 5px;
+}
+
+.authlogo_admin {
+	background:url('/files/img/logo-admin.png') no-repeat scroll center 0 transparent;
+	width: 218px;
+	height: 151px;
+	margin-left: 10px;
+	margin-top: 4px;
+}
+
+.button_menu {
+	background: #A9D0F5;
+	min-height: 30px;
+	width: 100%;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	border: 0px;
+	vertical-align: middle;
+	word-wrap: normal;
+	white-space: normal;
+	cursor: pointer;
+	text-decoration:none !important;
+	text-align: center;
+	font-size: 16px;
+	color:#190707;
+}
+
+input.set_cur {
+	background: #045FB4;
+	min-height: 30px;
+	width: 100%;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	border: 0px;
+	vertical-align: middle;
+	word-wrap: normal;
+	white-space: normal;
+	cursor: pointer;
+	text-decoration:none !important;
+	text-align: center;
+	font-size: 16px;
+	color:#EFF2FB;
+}
+
+.button_admin_edit {
+	background: #A9D0F5;
+	min-height: 40px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	border: 0px;
+	vertical-align: middle;
+	word-wrap: normal;
+	white-space: normal;
+	cursor: pointer;
+	text-decoration:none !important;
+	text-align: center;
+	font-size: 16px;
+	color:#190707;
+}
+
+.title_menu_edit {
+	font-size: 24px;
+	overflow: hidden;
+	/*height: 103px;*/
+	margin-bottom: 10px;
+	background:  url('/files/img/tabs-divider.png') repeat-x bottom center;
+	text-shadow: 1px 1px rgba(255, 255, 255, 1);
+}
+
+/*
+.scrolling_tables_menu {
+    display: block;
+	height: 790px;
+    width: 98%;
+    overflow: hidden;
+	overflow-y: auto;
+}*/
+
 /*
 -------------------------- END Разметка для администрирования ---------------------------
 */
 
+/*
+-------------------------- BEGIN таблица в администрировании ---------------------------
+*/
+
+.scrolling_tables_posts {
+	width: 99%;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#666;
+	font-size:14px;
+	/*text-shadow: 1px 1px 0px #fff;*/
+	background:#eaebec;
+	margin:2px;
+	border:#ccc 1px solid;
+	border-collapse:separate;
+
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:1px;
+
+	-moz-box-shadow: 0 1px 2px #d1d1d1;
+	-webkit-box-shadow: 0 1px 2px #d1d1d1;
+	box-shadow: 0 1px 2px #d1d1d1;
+}
+
+.scrolling_tables_posts th {
+	font-weight:bold;
+	padding:21px 25px 22px 25px;
+	border-top:1px solid #fafafa;
+	border-bottom:1px solid #e0e0e0;
+
+	background: #A9D0F5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5), to(#ebebeb));
+	background: -moz-linear-gradient(top,  #A9D0F5,  #ebebeb);
+}
+
+.scrolling_tables_posts th:first-child{
+	text-align: left;
+	padding-left:20px;
+}
+.scrolling_tables_posts tr:first-child th:first-child{
+	-moz-border-radius-topleft:3px;
+	-webkit-border-top-left-radius:3px;
+	border-top-left-radius:3px;
+}
+.scrolling_tables_posts tr:first-child th:last-child{
+	-moz-border-radius-topright:3px;
+	-webkit-border-top-right-radius:3px;
+	border-top-right-radius:3px;
+}
+
+.scrolling_tables_posts tr td:first-child{
+	text-align: left;
+	padding-left:5px;
+	border-left: 0;
+}
+
+.scrolling_tables_posts tr{
+	text-align: center;
+	padding-left:2px;
+    table-layout: fixed;
+}
+.scrolling_tables_posts tr td {
+	padding:8px;
+	border-top: 1px solid #ffffff;
+	border-bottom:1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+	
+	background: #fafafa;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+}
+
+.scrolling_tables_posts tr:nth-child(even) td{
+	background: #f6f6f6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+	background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+}
+.scrolling_tables_posts tr:last-child td{
+	border-bottom:0;
+}
+.scrolling_tables_posts tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:3px;
+	-webkit-border-bottom-left-radius:3px;
+	border-bottom-left-radius:3px;
+}
+.scrolling_tables_posts tr:last-child td:last-child{
+	-moz-border-radius-bottomright:3px;
+	-webkit-border-bottom-right-radius:3px;
+	border-bottom-right-radius:3px;
+}
+.scrolling_tables_posts tr:hover td{
+	background: #f2f2f2;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
+	background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);	
+}
+
+.scrolling_tables_posts a:link {
+	color: #666;
+	font-weight: bold;
+	text-decoration:none;
+}
+.scrolling_tables_posts a:visited {
+	color: #999999;
+	font-weight:bold;
+	text-decoration:none;
+}
+.scrolling_tables_posts a:active,
+.scrolling_tables_posts a:hover {
+	color: #bd5a35;
+	text-decoration:underline;
+}
+
+/*
+--------------------------------------- END Таблица в администрировании -------------------
+*/
