@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+</head>
+<body>
+<!--<form id="list_posts" name="list_posts" method="post">
+</form>-->
+
+<div id="menu-holder-light"></div>
+
+<main>
+
+<aside>
+
+	<menu>
+		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
+		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu set_cur" type="button" value="Сотрудники" onclick=""/></a></li>
+		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
+	</menu>
+
+</aside>
+
+<article>
+
+	<span class="title_menu_edit">Сотрудники для терминала</span>
+
+	<!-- Меню редактирования -->
+	<div align="left"><a href="/new_employees"><input class="button_admin_edit" type="button" value="Добавить сотрудника" onclick=""/></a></div>
+
+	{$count = 0}
+	<table class="scrolling_tables_posts">
+
+		<tr>
+			<th style="width: 2%;">№</th>
+			<th style="width: 98%;">Название</th>
+		</tr><!-- Table Header -->
+		
+		{section name=count loop=$array_employees}
+			<tr onclick="window.location='edit_employees?post_kod={$array_employees[{$count}]['SOTRUD_K']}'" style="cursor: pointer;">
+				<td>
+				{$array_employees[{$count}]['SOTRUD_K']}
+				</td>
+				<td>		
+				{$array_employees[{$count}]['TABEL_KADR']}		
+				</td>
+				{capture}{$count++}{/capture}
+			</tr>	
+		{/section}
+	</table>
+
+</article>
+
+</main>
+
+<footer id="bottom">
+</footer>
+
+<script src="{$tpl}js/script.js"></script>
+</body>
+</html>
