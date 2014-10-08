@@ -49,11 +49,12 @@
 	{$count = 0}
 	<!-- ограничиваем таблицу для скролинга -->
 	<!--<div class="scrolling_tables_menu">-->
-	<table class="scrolling_tables_posts">
+	<table class="edit_tables">
 
 		<tr>
 			<th style="width: 2%;">№</th>
-			<th style="width: 98%;">Название</th>
+			<th style="width: 97%;">Название</th>
+			<th style="width: 1%;"></th>
 		</tr><!-- Table Header -->
 		
 		{section name=count loop=$array_posts}
@@ -63,6 +64,9 @@
 				</td>
 				<td>		
 				{$array_posts[{$count}]['TEXT']}		
+				</td>
+				<td class="deleteInTable" style="text-align: center;">
+					<a href="#" OnClick="deleteInTable();" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	

@@ -209,3 +209,19 @@ function enableSelectBoxes(){
         });
     });
 }
+
+/* Кнопка удаления в таблице */
+function deleteInTable()
+{
+    /*if(document.pressed == 'xxx'){
+	
+        document.mydoc.action ="xxx.asp";
+    }else{
+		if (document.pressed == 'yyy'){
+		
+            document.mydoc.action ="yyy.asp";
+        }
+	}
+ 
+    return true;*/
+}
