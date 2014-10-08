@@ -211,8 +211,9 @@ function enableSelectBoxes(){
 }
 
 /* Кнопка удаления в таблице */
-function deleteInTable()
+function deleteInTable(n)
 {
+	alert(n);
     /*if(document.pressed == 'xxx'){
 	
         document.mydoc.action ="xxx.asp";

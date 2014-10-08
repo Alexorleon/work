@@ -23,9 +23,9 @@ session_start();
 	
 	$temp_ub = explode(' ', user_browser());//проверяем версию браузера
 	//print_r($temp_ub);
-	if ($temp_ub[0]=='IE' && (int)$temp_ub[1]<9){
+	/*if ($temp_ub[0]=='IE' && (int)$temp_ub[1]<9){
 		$smarty->assign('title','Ваш браузер устарел');
 		$smarty->display('old_browser.tpl.html'); 
 		die(); 
-	}
+	}*/
 ?>

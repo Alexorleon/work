@@ -58,15 +58,15 @@
 		</tr><!-- Table Header -->
 		
 		{section name=count loop=$array_posts}
-			<tr onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}'" style="cursor: pointer;">
+			<tr>
 				<td>
 				{$array_posts[{$count}]['KOD']}
 				</td>
-				<td>		
+				<td onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}'" style="cursor: pointer;">		
 				{$array_posts[{$count}]['TEXT']}		
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
-					<a href="#" OnClick="deleteInTable();" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+					<a href="" onclick="deleteInTable({$array_posts[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	
