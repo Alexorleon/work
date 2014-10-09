@@ -23,8 +23,8 @@
 
 	<menu>
 		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
-		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
-		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu set_cur" type="button" value="Сотрудники" onclick=""/></a></li>
 		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
 	</menu>
 
@@ -33,29 +33,42 @@
 <article>
 <form id="edit_employee" name="edit_employee" method="employee">
 
-	<p><span class="title-lamp">Редактирование сотрудника</span></p>
+	<span class="title_menu_edit">Редактирование сотрудника</span>
 
+	<div align="left">
+		<a href="/list_employees"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+		<!--в зависимости от статуса добавляем или редактируем-->
+		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_post('employee', this.form)"/>
+	</div>
+	
 	<table>
 		<tr>
-			<td>Название должности:</td>
+			<td>Фамилия:</td>
 			<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
 		</tr>
-		
 		<tr>
-			<td>Название теста:</td>
+			<td>Имя:</td>
+			<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
+		</tr>
+		<tr>
+			<td>Отчество:</td>
+			<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
+		</tr>
+		<tr>
+			<td>Должность:</td>
 			<td>
-				<p style="font-size:8px"><select name="type_specialty" id="type_specialty">
-				{section name=j loop=$array_testnames}
-					<option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
+				<p style="font-size:14px"><select name="type_doljnost" id="type_doljnost">
+				{section name=j loop=$array_posts}
+					<option value="{$array_posts[j]['KOD']}">{$array_posts[j]['TEXT']}</option>
 				{/section}
 				</select></p>
 			</td>
+		</tr>		
+		<tr>
+			<td>Табельный:</td>
+			<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
 		</tr>
 	</table>
-	
-	<a href="/list_employees"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
-	<!--в зависимости от статуса добавляем или редактируем-->
-	<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_post(this.form)"/>
 
 </form>
 

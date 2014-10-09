@@ -139,19 +139,23 @@ function get_documents(n, t){
 }
 
 // add or edit posts
-function get_post(f){
+function get_post(type, f){
 
-	if($("#postname").val() != ""){ // не пустое сообщение
+	if(type == 'post'){
+		if($("#postname").val() != ""){ // не пустое сообщение
 
-		num = f.type_specialty.selectedIndex;
-		post_id = f.type_specialty.options[num].value;
+			num = f.type_specialty.selectedIndex;
+			post_id = f.type_specialty.options[num].value;
 
-		$("#type_specialty").val(post_id);
-		$("#postname").val();
-		$("#edit_post").submit();
+			$("#type_specialty").val(post_id);
+			$("#postname").val();
+			$("#edit_post").submit();
+		}else{
+			
+			alert("Введите название должности!");
+		}
 	}else{
-		
-		alert("Введите название должности!");
+
 	}
 }
 

@@ -42,16 +42,37 @@
 
 		<tr>
 			<th style="width: 2%;">№</th>
-			<th style="width: 98%;">Название</th>
-		</tr><!-- Table Header -->
+			<th style="width: 16%;">Фамилия</th>
+			<th style="width: 15%;">Имя</th>
+			<th style="width: 16%;">Отчество</th>
+			<th style="width: 43%;">Должность</th>
+			<th style="width: 8%;">Табельный</th>
+			<th style="width: 1%;"></th>
+		</tr>
 		
 		{section name=count loop=$array_employees}
 			<tr onclick="window.location='edit_employees?post_kod={$array_employees[{$count}]['SOTRUD_K']}'" style="cursor: pointer;">
 				<td>
 				{$array_employees[{$count}]['SOTRUD_K']}
 				</td>
-				<td>		
-				{$array_employees[{$count}]['TABEL_KADR']}		
+				<td>
+				{$array_employees[{$count}]['SOTRUD_FAM']}
+				</td>
+				<td>
+				{$array_employees[{$count}]['SOTRUD_IM']}
+				</td>
+				<td>
+				{$array_employees[{$count}]['SOTRUD_OTCH']}
+				</td>
+				<td>
+				{$array_employees[{$count}]['TEXT']}
+				</td>
+				<td>
+				{$array_employees[{$count}]['TABEL_KADR']}
+				</td>
+				<td class="deleteInTable" style="text-align: center;">
+					<!--<a href="/list_posts?del_postid={$array_employees[{$count}]['SOTRUD_K']}" onclick="deleteInTable({$array_employees[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
+					<a href="/list_employees?del_employeeid={$array_employees[{$count}]['SOTRUD_K']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	
