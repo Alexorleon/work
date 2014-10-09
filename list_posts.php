@@ -8,9 +8,22 @@
 	
 	// инициализация
 	$_SESSION['add_or_edit_post'] = 0; // добавление
+	
+	if($_GET){
 		
-	if ($_POST){
+		if($_GET['del_postid']){
 		
+			if($_GET['del_postid'] != ''){
+			
+				$del_postid = $_GET['del_postid']; // id должности
+				
+				// удаляем должность
+				$sql = <<<SQL
+				DELETE FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$del_postid'
+SQL;
+				$db->go_query($sql);
+			}
+		}
 	}
 	
 	// получаем список всех должностей. 10 - кокс-майнинг

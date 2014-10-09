@@ -36,9 +36,21 @@ SQL;
 		if($_GET['posttype'] == 0){ // это добавление нового
 		
 			$_SESSION['add_or_edit_post'] = 0;
+			
+			// чистые значения
+			//$smarty->assign("cur_post_kod", );
+			$smarty->assign("cur_post_name", '');
+			
 		}else if($_GET['posttype'] == 1){ // это редактирование
 	
 			$_SESSION['add_or_edit_post'] = 1;
+
+			// получаем значения для задания их по умолчанию
+			$post_kod = $_GET['post_kod']; // id должности
+			$post_name = $_GET['post_name']; // название должности
+			
+			$smarty->assign("cur_post_kod", $post_kod);
+			$smarty->assign("cur_post_name", $post_name);
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -51,6 +63,11 @@ SQL;
 SQL;
 	$array_testnames = $db->go_result($sql);
 	
+	// получаем список тестов к должности
+	/*$sql = <<<SQL
+	SELECT ID, TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$post_kod'
+SQL;
+	$array_testnames = $db->go_result($sql);*/
 	
 	$smarty->assign("error_", $error_);
 	

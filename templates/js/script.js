@@ -110,7 +110,7 @@ function get_proposals(n){
 			$("#type_proposals").val(n);
 			$("#proposalsPage").submit();
 		}else{
-			alert("Введите сообщение");
+			alert("Введите сообщение!");
 		}
 	}else{
 
@@ -127,7 +127,7 @@ function search_employee(){
 
 		$("#search_employeePage").submit();
 	}else{
-		alert("Введите сообщение");
+		alert("Введите сообщение!");
 	}
 }
 
@@ -151,7 +151,7 @@ function get_post(f){
 		$("#edit_post").submit();
 	}else{
 		
-		alert("Введите сообщение");
+		alert("Введите название должности!");
 	}
 }
 
@@ -213,7 +213,9 @@ function enableSelectBoxes(){
 /* Кнопка удаления в таблице */
 function deleteInTable(n)
 {
-	alert(n);
+	//$("#del_postid").val();
+	//$("#list_posts").submit();
+	
     /*if(document.pressed == 'xxx'){
 	
         document.mydoc.action ="xxx.asp";

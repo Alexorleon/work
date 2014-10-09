@@ -62,11 +62,12 @@
 				<td>
 				{$array_posts[{$count}]['KOD']}
 				</td>
-				<td onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}'" style="cursor: pointer;">		
+				<td onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}&post_name={$array_posts[{$count}]['TEXT']}'" title="Редактировать" style="cursor: pointer;">		
 				{$array_posts[{$count}]['TEXT']}		
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
-					<a href="" onclick="deleteInTable({$array_posts[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+					<!--<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" onclick="deleteInTable({$array_posts[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
+					<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	

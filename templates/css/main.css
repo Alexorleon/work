@@ -1168,6 +1168,11 @@ input.set_cur {
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
 
+.field_postname {
+	width: 100%;
+	font-size: 14px;
+}
+
 /*
 .scrolling_tables_menu {
     display: block;
