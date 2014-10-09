@@ -22,6 +22,8 @@
 				DELETE FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$del_postid'
 SQL;
 				$db->go_query($sql);
+				
+				//unset($_GET['del_postid']);
 			}
 		}
 	}

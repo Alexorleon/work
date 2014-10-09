@@ -33,8 +33,14 @@
 <article>
 <form id="edit_post" name="edit_post" method="post">
 
-	<p><span class="title-lamp">Редактирование должности</span></p>
-
+	<span class="title_menu_edit">Редактирование должности</span>
+	
+	<div align="left">
+		<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+		<!--в зависимости от статуса добавляем или редактируем-->
+		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_post(this.form)"/>
+	</div>
+	
 	<table>
 		<tr>
 			<td>Название должности:</td>
@@ -54,10 +60,38 @@
 		</tr>
 	</table>
 	
-	<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
-	<!--в зависимости от статуса добавляем или редактируем-->
-	<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_post(this.form)"/>
+{if $add_or_edit_post eq 0}
 
+{else}
+
+	{$count = 0}
+	<!-- Таблица тестов для данной должности -->
+	<table class="edit_tables">
+
+		<tr>
+			<!--<th style="width: 2%;">№</th>-->
+			<th style="width: 99%;">Название</th>
+			<th style="width: 1%;"></th>
+		</tr><!-- Table Header -->
+		
+		{section name=count loop=$array_test_added}
+			<tr>
+				<!--<td>
+				{$array_test_added[{$count}]['ID']}
+				</td>-->
+				<td>		
+				{$array_test_added[{$count}]['TITLE']}		
+				</td>
+				<td class="deleteInTable" style="text-align: center;">
+					<!--<a href="/list_posts?del_postid={$array_test_added[{$count}]['KOD']}" onclick="deleteInTable({$array_posts[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
+					<a href="/edit_post?del_postid={$array_test_added[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				</td>
+				{capture}{$count++}{/capture}
+			</tr>	
+		{/section}
+	</table>
+{/if}
+	
 </form>
 
 </article>

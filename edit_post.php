@@ -57,21 +57,30 @@ SQL;
 		}
 	}
 	
-	// получаем список всех специальностей
+	// получаем список всех тестов
 	$sql = <<<SQL
 	SELECT ID, TITLE FROM stat.TESTNAMES WHERE TESTNAMES.ACTIVE='Y'
 SQL;
 	$array_testnames = $db->go_result($sql);
 	
-	// получаем список тестов к должности
-	/*$sql = <<<SQL
-	SELECT ID, TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$post_kod'
+	if($_SESSION['add_or_edit_post'] == 1){
+		
+		// получаем список тестов к должности
+		$sql = <<<SQL
+		SELECT SPECIALITY_B.ID AS ID, SPECIALITY_B.TESTNAMESID AS TESTID, TESTNAMES.TITLE AS TITLE 
+		FROM stat.SPECIALITY_B, stat.TESTNAMES WHERE 
+		SPECIALITY_B.DOLJNOSTKOD='$post_kod' AND SPECIALITY_B.TESTNAMESID=TESTNAMES.ID
 SQL;
-	$array_testnames = $db->go_result($sql);*/
+		$array_test_added = $db->go_result($sql);
+		
+		$smarty->assign("array_test_added", $array_test_added);
+	}
 	
 	$smarty->assign("error_", $error_);
 	
 	$smarty->assign("array_testnames", $array_testnames);
+	
+	$smarty->assign("add_or_edit_post", $_SESSION['add_or_edit_post']);
 
 	// TODO: через ИФ режактирование или создание новой
 	$smarty->assign("title", "Редактирование должности");
