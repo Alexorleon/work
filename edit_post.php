@@ -8,13 +8,20 @@
 		
 	if ($_POST){
 		
-		$id_specialty = $_POST['type_specialty']; // id должности
+		$id_specialty = $_POST['type_specialty']; // id теста
 		$postname = $_POST['postname']; // id должности
+		
+		//print_r($_POST);
+		//die();
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_post'] == 0){ // это добавление нового
 		
-			
+			$sql = <<<SQL
+			INSERT INTO stat.DOLJNOST (TEXT, PREDPR_K) VALUES ('$postname', 10)
+SQL;
+		$db->go_query($sql);
+		
 		}else if($_SESSION['add_or_edit_post'] == 1){ // это редактирование
 	
 			
