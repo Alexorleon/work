@@ -32,7 +32,8 @@ SQL;
 				$db->go_query($sql);
 			
 			}else{ // иначе говорим что такой табельный уже есть
-			
+				
+				// TODO: как то сказать die('<script>document.location.href= "'.lhost.'/"</script>');
 			}
 		
 		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
@@ -51,8 +52,11 @@ SQL;
 			$_SESSION['add_or_edit_employee'] = 0;
 			
 			// чистые значения
-			//$smarty->assign("cur_post_kod", );
-			//$smarty->assign("cur_post_name", '');
+			$smarty->assign("cur_employee_cur", '');
+			$smarty->assign("cur_employee_name", '');
+			$smarty->assign("cur_employee_pat", '');
+			$smarty->assign("cur_employee_tabel", '');
+			$smarty->assign("cur_dolj_kod", '');
 		}else if($_GET['posttype'] == 1){ // это редактирование
 	
 			$_SESSION['add_or_edit_employee'] = 1;
