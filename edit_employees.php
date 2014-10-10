@@ -58,11 +58,17 @@ SQL;
 			$_SESSION['add_or_edit_employee'] = 1;
 			
 			// получаем значения для задания их по умолчанию
-			/*$post_kod = $_GET['post_kod']; // id должности
-			$post_name = $_GET['post_name']; // название должности
+			$employee_cur = $_GET['employee_cur']; // фамилия
+			$employee_name = $_GET['employee_name']; // имя
+			$employee_pat = $_GET['employee_pat']; // отчество
+			$employee_tabel = $_GET['employee_tabel']; // табельный
+			$dolj_kod = $_GET['dolj']; // табельный
 			
-			$smarty->assign("cur_post_kod", $post_kod);
-			$smarty->assign("cur_post_name", $post_name);*/
+			$smarty->assign("cur_employee_cur", $employee_cur);
+			$smarty->assign("cur_employee_name", $employee_name);
+			$smarty->assign("cur_employee_pat", $employee_pat);
+			$smarty->assign("cur_employee_tabel", $employee_tabel);
+			$smarty->assign("cur_dolj_kod", $dolj_kod);
 		}else{
 			
 			die("У меня не прописано, что делать");

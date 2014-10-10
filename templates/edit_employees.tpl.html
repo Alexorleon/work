@@ -44,29 +44,33 @@
 	<table>
 		<tr>
 			<td>Фамилия:</td>
-			<td><input  type="field_text_edit" id="employeesur" name="employeesur"></textarea></td>
+			<td><input  type="field_text_edit" id="employeesur" name="employeesur" value="{$cur_employee_cur}"></textarea></td>
 		</tr>
 		<tr>
 			<td>Имя:</td>
-			<td><input  type="field_text_edit" id="employeename" name="employeename"></textarea></td>
+			<td><input  type="field_text_edit" id="employeename" name="employeename" value="{$cur_employee_name}"></textarea></td>
 		</tr>
 		<tr>
 			<td>Отчество:</td>
-			<td><input  type="field_text_edit" id="employeepat" name="employeepat"></textarea></td>
+			<td><input  type="field_text_edit" id="employeepat" name="employeepat" value="{$cur_employee_pat}"></textarea></td>
 		</tr>
 		<tr>
 			<td>Должность:</td>
 			<td>
 				<p style="font-size:14px"><select name="type_doljnost" id="type_doljnost">
 				{section name=j loop=$array_posts}
-					<option value="{$array_posts[j]['KOD']}">{$array_posts[j]['TEXT']}</option>
+					{if $cur_dolj_kod eq $array_posts[j]['KOD']} <!-- ищем в списке нужный -->
+						<option value="{$array_posts[j]['KOD']}" selected="selected">{$array_posts[j]['TEXT']}</option>
+					{else}
+						<option value="{$array_posts[j]['KOD']}">{$array_posts[j]['TEXT']}</option>
+					{/if}
 				{/section}
 				</select></p>
 			</td>
 		</tr>
 		<tr>
 			<td>Табельный:</td>
-			<td><input  type="field_text_edit" id="employeetabel" name="employeetabel"></textarea></td>
+			<td><input  type="field_text_edit" id="employeetabel" name="employeetabel" value="{$cur_employee_tabel}"></textarea></td>
 		</tr>
 	</table>
 
