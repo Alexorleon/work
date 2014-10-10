@@ -9,40 +9,38 @@
 <script>
 
 	// добавляем тесты к должности
-	/*function get_sotrud(check_tab_num) {
-	
-		$.ajax({ //стартуем аякс
+	function insert_row(){
+		//$(".edit_tables").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
+		var dolj_id = $("#dolj_id").val();
+		var test_id = $("#type_specialty").val();
 		
-			type: 'POST', //обращаемся к скрипту методом ПОСТ
-			data: {'type': '1'},
-			url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
-			dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
-			error: function(req, text, error) {//обработчик, если произошла ошибка
-			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
-			},
-			success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
-				//console.log(data);
-				$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
-				var tail_table = "";
-				var big_data_table = "";
-				big_data_table += "<tr>";
-				var cnt = 0;
-				var cnt2 = 1;
-				var num_cols = 14;
-				$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
-				if (cnt == (num_cols*cnt2)) {big_data_table += "</tr><tr>";cnt2++;}
-				big_data_table += "<td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td>";//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
-				cnt++;
-				});
-				//big_data_table += "</tr>";
-				for (var i = 0; i < ((num_cols * cnt2) - cnt); i++) {
-				   tail_table += "<td>&nbsp;</td>";
+		//console.log(dolj_id+"fdfds"+test_id);
+		if (dolj_id != "" && test_id != ""){//на всякий, чтоб на новой не запустили)
+			//скопируй сюда любой код аякса
+			$.ajax({ 
+				type: 'POST', 
+				data: {'dolj_id': dolj_id, 'test_id': test_id},
+				url: "./inc/ajax.insert_rows.employee.php",
+				//dataType: 'json',
+				error: function(req, text, error) {
+				//console.log('Ошибка AJAX: ' + text + ' | ' + error);
+				},
+				success: function (data) {
+					console.log(data);
+					if (data == "0"){
+						console.log("Ащипка!");
+					}else{
+						var arr_ans = data.split('_');
+						var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
+						$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_postid="+arr_ans[0]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
+						//console.log(arr_ans[1]);
+					}
 				}
-				$("#sotruds tbody").append(big_data_table + tail_table + "</tr>");
-			}
-		});
-	}*/
-
+			});
+		}
+		
+	}
+	
 </script>
 {/literal}
 
@@ -72,6 +70,7 @@
 </aside>
 
 <article>
+<b onclick="insert_row();">Click me plzzzzz</b>
 <form id="edit_post" name="edit_post" method="post">
 
 	<span class="title_menu_edit">Редактирование должности</span>
@@ -86,7 +85,8 @@
 		<tr>
 			<td>Название должности:</td>
 			<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
-			<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>
+			<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
+			<input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
 		</tr>
 		
 		<tr>

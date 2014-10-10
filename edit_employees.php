@@ -8,11 +8,11 @@
 		
 	if ($_POST){
 		
-		$employeesur = $_POST['employeesur']; // id должности
-		$employeename = $_POST['employeename']; // id должности
-		$employeepat = $_POST['employeepat']; // id должности
-		$type_doljnost = $_POST['type_doljnost']; // id должности
-		$employeetabel = $_POST['employeetabel']; // id должности
+		$employeesur = $_POST['employeesur']; // id забыл))а я втыкаю и понять не могу)))
+		$employeename = $_POST['employeename']; // id 
+		$employeepat = $_POST['employeepat']; // id 
+		$type_doljnost = $_POST['type_doljnost']; // id 
+		$employeetabel = $_POST['employeetabel']; // id 
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_employee'] == 0){ // это добавление нового
@@ -24,7 +24,8 @@ SQL;
 			$check_employees_tabel = $db->go_result_once($sql);
 
 			if(empty($check_employees_tabel)){ // если пусто, то все гуд, такого табельного нет. добовляем.
-				
+				$error_='';//нулим ошибку,если повторно будет
+				$smarty->assign("employeename", "");
 				$sql = <<<SQL
 				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_KADR) 
 				VALUES ('$employeesur', '$employeename', '$employeepat', 10, '$type_doljnost', '$employeetabel')
@@ -33,7 +34,12 @@ SQL;
 			
 			}else{ // иначе говорим что такой табельный уже есть
 				
+				//Во первых, нужно вывести ошибку, точнее текст ошибки
+				$error_ = "Такой табельный уже есть, сорри бро=)";
+				$smarty->assign("employeename", $employeename);
+				
 				// TODO: как то сказать die('<script>document.location.href= "'.lhost.'/"</script>');
+				
 			}
 		
 		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
@@ -85,7 +91,7 @@ SQL;
 SQL;
 	$array_posts = $db->go_result($sql);	
 	
-	$smarty->assign("error_", $error_);
+	$smarty->assign("error_", $error_);//все, оказывается, уже есть)))
 	
 	$smarty->assign("array_posts", $array_posts);
 

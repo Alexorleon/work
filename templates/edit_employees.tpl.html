@@ -48,7 +48,7 @@
 		</tr>
 		<tr>
 			<td>Имя:</td>
-			<td><input  type="field_text_edit" id="employeename" name="employeename" value="{$cur_employee_name}"></textarea></td>
+			<td><input  type="field_text_edit" id="employeename" name="employeename" value="{if !empty($employeename)}{$employeename}{else}{$cur_employee_name}{/if}"></textarea></td>
 		</tr>
 		<tr>
 			<td>Отчество:</td>

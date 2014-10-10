@@ -39,8 +39,7 @@ SQL;
 			
 			// чистые значения
 			//$smarty->assign("cur_post_kod", );
-			$smarty->assign("cur_post_name", '');
-			
+			$smarty->assign("cur_post_name", '');			
 		}else if($_GET['posttype'] == 1){ // это редактирование
 	
 			$_SESSION['add_or_edit_post'] = 1;
@@ -74,6 +73,8 @@ SQL;
 		$array_test_added = $db->go_result($sql);
 		
 		$smarty->assign("array_test_added", $array_test_added);
+	}else{
+		
 	}
 	
 	$smarty->assign("error_", $error_);

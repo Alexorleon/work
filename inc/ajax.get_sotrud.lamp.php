@@ -1,5 +1,8 @@
 <?php
-	unset($_SESSION);
+	if ((!isset($_SESSION['sotrud_id'])) or (empty($_SESSION['sotrud_id'])))
+	{
+		die('not login');	
+	}else{
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 	
 	$db = new db;
@@ -60,5 +63,6 @@ SQL;
 		die("none_".$check_tab_num);
 	}
 	
+}
 }
 ?>
