@@ -9,7 +9,7 @@
 	// инициализация
 	$_SESSION['add_or_edit_employee'] = 0; // добавление
 		
-	/*if($_GET){
+	if($_GET){
 		
 		if($_GET['del_employeeid']){
 		
@@ -17,16 +17,16 @@
 			
 				$del_employeeid = $_GET['del_employeeid']; // id должности
 				
-				// удаляем должность
+				// удаляем сотрудника
 				$sql = <<<SQL
-				DELETE FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$del_employeeid'
+				DELETE FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$del_employeeid'
 SQL;
 				$db->go_query($sql);
 				
 				//unset($_GET['del_employeeid']);
 			}
 		}
-	}*/
+	}
 	
 	// получаем список всех сотрудников. 10 - кокс-майнинг
 	$sql = <<<SQL
