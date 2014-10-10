@@ -79,14 +79,14 @@
 	<div align="left">
 		<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 		<!--в зависимости от статуса добавляем или редактируем-->
-		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_post('post', this.form)"/>
+		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_post(this.form)"/>
 	</div>
 	
 	<table>
 		<tr>
 			<td>Название должности:</td>
-			<!--<td><input  type="field_postname" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
-			<td><input  class="field_postname" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>
+			<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
+			<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>
 		</tr>
 		
 		<tr>
@@ -101,7 +101,7 @@
 		</tr>
 	</table>
 	
-{if $add_or_edit_post eq 0}
+{if $add_or_edit_post eq 0} <!-- новая должность -->
 
 	<!-- Таблица тестов для данной должности -->
 	<table class="edit_tables">

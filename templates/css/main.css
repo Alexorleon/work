@@ -293,11 +293,11 @@ text-align: center;
 }
 
 /*строка ввода для редактирования названия должности*/
-input[type="field_postname"]{
+/*input[type="field_postname"]{
 font-size: 14px;
 height:18px;
 width:120px;
-}
+}*/
 
 textarea[type="field_proposol"]{
 background:#f6f6f6;
@@ -1168,9 +1168,8 @@ input.set_cur {
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
 
-.field_postname {
-	width: 100%;
-	font-size: 14px;
+.field_text_edit {
+	
 }
 
 /*

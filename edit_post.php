@@ -8,8 +8,8 @@
 		
 	if ($_POST){
 		
-		$id_specialty = $_POST['type_specialty']; // id теста
-		$postname = $_POST['postname']; // id должности
+		//$id_specialty = $_POST['type_specialty']; // id теста TODO: должен быть массив
+		$postname = $_POST['postname']; // название должности
 		
 		//print_r($_POST);
 		//die();

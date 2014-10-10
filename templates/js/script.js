@@ -139,23 +139,39 @@ function get_documents(n, t){
 }
 
 // add or edit posts
-function get_post(type, f){
+function get_post(f){
 
-	if(type == 'post'){
-		if($("#postname").val() != ""){ // не пустое сообщение
+	if($("#postname").val() != ""){ // не пустое сообщение
 
-			num = f.type_specialty.selectedIndex;
-			post_id = f.type_specialty.options[num].value;
+		num = f.type_specialty.selectedIndex;
+		post_id = f.type_specialty.options[num].value;
 
-			$("#type_specialty").val(post_id);
-			$("#postname").val();
-			$("#edit_post").submit();
-		}else{
-			
-			alert("Введите название должности!");
-		}
+		/*$("#type_specialty").val(post_id);*/
+		$("#postname").val();
+		$("#edit_post").submit();
 	}else{
+		
+		alert("Введите название должности!");
+	}
+}
 
+// add or edit employees
+function get_employee(f){
+
+	if(($("#employeesur").val() == "") || ($("#employeename").val() == "") || ($("#employeepat").val() == "") || ($("#employeetabel").val() == "")){ // не пустые значения
+
+		alert("Введите все данные!");		
+	}else{
+	
+		num = f.type_doljnost.selectedIndex;
+		post_id = f.type_doljnost.options[num].value;
+
+		$("#employeesur").val();
+		$("#employeename").val();
+		$("#employeepat").val();
+		$("#type_doljnost").val(post_id);
+		$("#employeetabel").val();
+		$("#edit_employee").submit();
 	}
 }
 

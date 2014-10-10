@@ -31,28 +31,28 @@
 </aside>
 
 <article>
-<form id="edit_employee" name="edit_employee" method="employee">
+<form id="edit_employee" name="edit_employee" method="post">
 
 	<span class="title_menu_edit">Редактирование сотрудника</span>
 
 	<div align="left">
 		<a href="/list_employees"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 		<!--в зависимости от статуса добавляем или редактируем-->
-		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_post('employee', this.form)"/>
+		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_employee(this.form)"/>
 	</div>
 	
 	<table>
 		<tr>
 			<td>Фамилия:</td>
-			<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
+			<td><input  type="field_text_edit" id="employeesur" name="employeesur"></textarea></td>
 		</tr>
 		<tr>
 			<td>Имя:</td>
-			<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
+			<td><input  type="field_text_edit" id="employeename" name="employeename"></textarea></td>
 		</tr>
 		<tr>
 			<td>Отчество:</td>
-			<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
+			<td><input  type="field_text_edit" id="employeepat" name="employeepat"></textarea></td>
 		</tr>
 		<tr>
 			<td>Должность:</td>
@@ -63,10 +63,10 @@
 				{/section}
 				</select></p>
 			</td>
-		</tr>		
+		</tr>
 		<tr>
 			<td>Табельный:</td>
-			<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
+			<td><input  type="field_text_edit" id="employeetabel" name="employeetabel"></textarea></td>
 		</tr>
 	</table>
 

@@ -8,19 +8,33 @@
 		
 	if ($_POST){
 		
-		$id_specialty = $_POST['type_specialty']; // id теста
-		$postname = $_POST['postname']; // id должности
-		
-		//print_r($_POST);
-		//die();
+		$employeesur = $_POST['employeesur']; // id должности
+		$employeename = $_POST['employeename']; // id должности
+		$employeepat = $_POST['employeepat']; // id должности
+		$type_doljnost = $_POST['type_doljnost']; // id должности
+		$employeetabel = $_POST['employeetabel']; // id должности
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_employee'] == 0){ // это добавление нового
 		
-			/*$sql = <<<SQL
-			INSERT INTO stat.DOLJNOST (TEXT, PREDPR_K) VALUES ('$postname', 10)
+			// проверяем табельный номер
+			$sql = <<<SQL
+			SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$employeetabel'
 SQL;
-		$db->go_query($sql);*/
+			$check_employees_tabel = $db->go_result_once($sql);
+
+			if(empty($check_employees_tabel)){ // если пусто, то все гуд, такого табельного нет. добовляем.
+				
+				$sql = <<<SQL
+				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_KADR) 
+				VALUES ('$employeesur', '$employeename', '$employeepat', 10, '$type_doljnost', '$employeetabel')
+SQL;
+				$db->go_query($sql);
+			
+			}else{ // иначе говорим что такой табельный уже есть
+			
+			}
+		
 		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
 	
 			
@@ -66,7 +80,7 @@ SQL;
 	$smarty->assign("array_posts", $array_posts);
 
 	// TODO: через ИФ режактирование или создание новой
-	$smarty->assign("title", "Редактирование должности");
+	$smarty->assign("title", "Редактирование сотрудников");
 	$smarty->display("edit_employees.tpl.html");
 
 	// --- ФУНКЦИИ ---
