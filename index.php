@@ -18,6 +18,8 @@
 			die('<script>document.location.href= "'.lhost.'/documents.php?type_doc=1"</script>');
 		}elseif ($type_submit == 2){ // контроль компетентности
 			
+			set_numquestions($db);
+			
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=2"</script>');
 		}elseif ($type_submit == 3){ // видеоинструктажи
 
@@ -58,4 +60,19 @@ SQL;
 	$smarty->assign("title", "Главная");
 
 	$smarty->display('main.tpl.html');
+	
+	// --- ФУНКЦИИ ---
+	
+	// узнаем сколько должно быть вопросов в тесте
+	function set_numquestions(&$obj){
+
+		$sql = <<<SQL
+		SELECT NUMQUESTIONS FROM stat.ADMININFO
+SQL;
+		$numq_res = $obj->go_result_once($sql);
+
+		// запоминаем количество задаваемых вопросов
+		$_SESSION['numquestions'] = $numq_res['NUMQUESTIONS'];
+
+	}
 ?>

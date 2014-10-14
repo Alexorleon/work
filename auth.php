@@ -30,15 +30,10 @@
 		$sql = <<<SQL
 			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K, TABEL_KADR from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL and PREDPR_K=10
 SQL;
-
-		//if (!$res = $db->go_result($sql)) {to_log('res', $sql);}
 		$s_res = $db->go_result_once($sql);
 
 		if((empty($s_res))){
-		//if( !$s_res){
-			// показать пользователю, что такого номера нет, можно просто сделать редирект или так
-			//$error_='такого номера нет';
-			// TODO: здесь нужно убрать выпадение ошибки
+
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}else{
 

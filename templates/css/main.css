@@ -305,7 +305,8 @@ outline: none;
 resize: none;
 font-size: 36px;
 height:140px;
-width:1260px;
+width:1024px;
+margin-bottom: 10px;
 }
 
 input:hover{

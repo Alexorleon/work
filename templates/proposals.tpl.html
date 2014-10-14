@@ -80,20 +80,21 @@ jQuery(document).ready(function(){
 {elseif $type_prop eq "add"} <!--добавить новое предложение-->
 
 <!--выпадающий список-->
-<ul class="dropdown">
-	<li>
+<ul>
+	<li style="list-style-type: none;">
 		<div class='selectBox'>
-		<span class='selected'></span>
-		<span class='selectArrow'>▼</span>
-		<div class="selectOptions" id="span_selectBox">
-			{section name=j loop=$array_typemes}
-				<span class="selectOption" value="{$array_typemes[j]['ID']}">{$array_typemes[j]['TITLE']}</span>
-			{/section}
-		</div>
+			<span class='selected'></span>
+			<span class='selectArrow'>▼</span>
+			<div class="selectOptions" id="span_selectBox">
+				{section name=j loop=$array_typemes}
+					<span class="selectOption" value="{$array_typemes[j]['ID']}">{$array_typemes[j]['TITLE']}</span>
+				{/section}
+			</div>
 		</div>
 	</li>
-	<li><textarea  type="field_proposol" id="tabnum" name="tabnum" readonly></textarea></li>
 </ul>
+<textarea type="field_proposol" id="tabnum" name="tabnum" readonly></textarea>
+
 <input type="hidden" name="typemessage" id="typemessage" value="">
 <!-- bool для определения выбирали ли чего из списка -->
 <input type="hidden" name="bool_typemessage" id="bool_typemessage" value="0">

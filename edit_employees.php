@@ -8,22 +8,22 @@
 		
 	if ($_POST){
 		
-		$employeesur = $_POST['employeesur']; // id забыл))а я втыкаю и понять не могу)))
-		$employeename = $_POST['employeename']; // id 
-		$employeepat = $_POST['employeepat']; // id 
-		$type_doljnost = $_POST['type_doljnost']; // id 
-		$employeetabel = $_POST['employeetabel']; // id 
+		$employeesur = iconv("utf-8", "windows-1251", $_POST['employeesur']); // фамилия
+		$employeename = iconv("utf-8", "windows-1251", $_POST['employeename']); // имя
+		$employeepat = iconv("utf-8", "windows-1251", $_POST['employeepat']); // отчество
+		$type_doljnost = $_POST['type_doljnost']; // должность
+		$employeetabel = $_POST['employeetabel']; // табельный
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_employee'] == 0){ // это добавление нового
 		
 			// проверяем табельный номер
 			$sql = <<<SQL
-			SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$employeetabel'
+			SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K=10 AND SOTRUD.TABEL_KADR='$employeetabel'
 SQL;
 			$check_employees_tabel = $db->go_result_once($sql);
 
-			if(empty($check_employees_tabel)){ // если пусто, то все гуд, такого табельного нет. добовляем.
+			if(empty($check_employees_tabel)){ // если пусто, то такого табельного нет. добовляем.
 				$error_='';//нулим ошибку,если повторно будет
 				$smarty->assign("employeename", "");
 				$sql = <<<SQL
@@ -35,11 +35,8 @@ SQL;
 			}else{ // иначе говорим что такой табельный уже есть
 				
 				//Во первых, нужно вывести ошибку, точнее текст ошибки
-				$error_ = "Такой табельный уже есть, сорри бро=)";
+				$error_ = "Такой табельный уже есть!";
 				$smarty->assign("employeename", $employeename);
-				
-				// TODO: как то сказать die('<script>document.location.href= "'.lhost.'/"</script>');
-				
 			}
 		
 		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
