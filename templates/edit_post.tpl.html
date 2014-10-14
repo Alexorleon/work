@@ -38,7 +38,6 @@
 				}
 			});
 		}
-		
 	}
 	
 </script>
@@ -70,7 +69,7 @@
 </aside>
 
 <article>
-<b onclick="insert_row();">Click me plzzzzz</b>
+
 <form id="edit_post" name="edit_post" method="post">
 
 	<span class="title_menu_edit">Редактирование должности</span>
@@ -79,6 +78,8 @@
 		<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 		<!--в зависимости от статуса добавляем или редактируем-->
 		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_post(this.form)"/>
+		<!-- Добавить тест к должности -->
+		<input class="button_admin_edit" type="button" onclick="insert_row();" value="Добавить"</input>
 	</div>
 	
 	<table>
