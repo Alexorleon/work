@@ -1,8 +1,8 @@
 <?php
 function user_browser() {
 	$agent = $_SERVER['HTTP_USER_AGENT'];
-	preg_match("/(MSIE|Opera|Firefox|Chrome|Version|Opera Mini|Netscape|Konqueror|SeaMonkey|Camino|Minefield|Iceweasel|K-Meleon|Maxthon)(?:\/| )([0-9.]+)/", $agent, $browser_info);
-	list(,$browser,$version) = $browser_info;
+	preg_match("/(MSIE|Opera|Firefox|Chrome|Version|Opera Mini|Netscape|Konqueror|SeaMonkey|Camino|Minefield|Iceweasel|K-Meleon|Maxthon|WebKit)(?:\/| )([0-9.]+)/", $agent, $browser_info);
+	list($browser,$version) = $browser_info;
 	if (preg_match("/Opera ([0-9.]+)/i", $agent, $opera)) return 'Opera '.$opera[1];
 	if ($browser == 'MSIE') {
 		preg_match("/(Maxthon|Avant Browser|MyIE2)/i", $agent, $ie);
