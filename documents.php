@@ -56,9 +56,10 @@ SQL;
 SQL;
 				$video_instr = $db->go_result_once($sql);
 				
-				$smarty->assign("video_instr", $video_instr);
-				//print_r($video_instr['NAME']);
+				//print_r(iconv ('utf-8', 'windows-1251', $video_instr['NAME']));
 				//die();
+				//$smarty->assign("video_instr", $video_instr);
+				$smarty->assign("video_instr", iconv ('windows-1251', 'utf-8', $video_instr['NAME']));
 				
 			}else{
 				
