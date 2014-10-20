@@ -27,13 +27,16 @@
 				},
 				success: function (data) {
 					console.log(data);
-					if (data == "0"){
-						console.log("Ошибка!");
+					if(data == "not"){ // ничего не делаем
 					}else{
-						var arr_ans = data.split('_');
-						var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
-						$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_postid="+arr_ans[0]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
-						//console.log(arr_ans[1]);
+						if (data == "0"){
+							console.log("Ошибка!");
+						}else{
+							var arr_ans = data.split('_');
+							var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
+							$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_postid="+arr_ans[0]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
+							//console.log(arr_ans[1]);
+						}
 					}
 				}
 			});
