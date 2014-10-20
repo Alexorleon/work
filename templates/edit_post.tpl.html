@@ -84,7 +84,7 @@
 		{else}
 			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Завершить" onclick=""/></a>
 			<!--в зависимости от статуса добавляем или редактируем-->
-			<input class="button_admin_edit" type="button" value="Изменить должность" onclick="get_post(1, this.form, {$smarty.get.post_kod})"/>
+			<input class="button_admin_edit" type="button" value="Изменить должность" onclick="get_post(1, this.form)"/>
 			<!-- Добавить тест к должности -->
 			<input class="button_admin_edit" type="button" onclick="insert_row();" value="Добавить тест"</input>
 		{/if}
@@ -105,7 +105,7 @@
 				<td>Название должности:</td>
 				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
 				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
-				<input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+				<input type="hidden" id="dolj_id" name="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
 			</tr>
 			<tr>
 				<td>Название теста:</td>

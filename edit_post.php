@@ -8,12 +8,11 @@
 		
 	if ($_POST){
 		
-		//$id_specialty = $_POST['type_specialty']; // id теста TODO: должен быть массив
 		$postname = $_POST['postname']; // название должности
-		//$dolj_kod_edit = $_POST['dolj_kod_edit']; // название должности
+		$dolj_id = $_POST['dolj_id']; // название должности
 		
-		print_r($_POST);
-		die();
+		//print_r($_POST);
+		//die();
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_post'] == 0){ // это добавление нового
@@ -24,13 +23,14 @@ SQL;
 			$db->go_query($sql);
 		
 		}else if($_SESSION['add_or_edit_post'] == 1){ // это редактирование
-			/*
+			
 			$sql = <<<SQL
 			UPDATE stat.DOLJNOST SET TEXT='$postname' WHERE 
-			DOLJNOST.PREDPR_K=10 AND DOLJNOST.KOD='$dolj_kod_edit'
+			DOLJNOST.PREDPR_K=10 AND DOLJNOST.KOD='$dolj_id'
 SQL;
-			$db->go_query($sql);*/
-		
+			$db->go_query($sql);
+			
+			$_GET['post_name'] = $postname;
 		}else{
 			
 			die("У меня не прописано, что делать");
