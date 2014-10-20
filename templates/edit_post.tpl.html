@@ -10,13 +10,13 @@
 
 	// добавляем тесты к должности
 	function insert_row(){
-		//$(".edit_tables").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
+		//$(".edit_tables").find("tr").remove();	// удаляем все, кроме первой строки таблицы(заголовок)
 		var dolj_id = $("#dolj_id").val();
 		var test_id = $("#type_specialty").val();
 		
 		//console.log(dolj_id+"fdfds"+test_id);
-		if (dolj_id != "" && test_id != ""){//на всякий, чтоб на новой не запустили)
-			//скопируй сюда любой код аякса
+		if (dolj_id != "" && test_id != ""){// на всякий, чтоб на новой не запустили
+
 			$.ajax({ 
 				type: 'POST', 
 				data: {'dolj_id': dolj_id, 'test_id': test_id},
@@ -28,7 +28,7 @@
 				success: function (data) {
 					console.log(data);
 					if (data == "0"){
-						console.log("Ащипка!");
+						console.log("Ошибка!");
 					}else{
 						var arr_ans = data.split('_');
 						var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
@@ -64,6 +64,7 @@
 		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
 		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
 		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
+		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Помощь" onclick=""/></a></li>-->
 	</menu>
 
 </aside>
@@ -75,45 +76,61 @@
 	<span class="title_menu_edit">Редактирование должности</span>
 	
 	<div align="left">
-		<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
-		<!--в зависимости от статуса добавляем или редактируем-->
-		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_post(this.form)"/>
-		<!-- Добавить тест к должности -->
-		<input class="button_admin_edit" type="button" onclick="insert_row();" value="Добавить"</input>
+		{if $add_or_edit_post eq 0} <!-- новая должность -->
+			
+			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+			<!--в зависимости от статуса добавляем или редактируем-->
+			<input class="button_admin_edit" type="button" value="Добавить должность" onclick="get_post(0, this.form, -1)"/>
+		{else}
+			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Завершить" onclick=""/></a>
+			<!--в зависимости от статуса добавляем или редактируем-->
+			<input class="button_admin_edit" type="button" value="Изменить должность" onclick="get_post(1, this.form, {$smarty.get.post_kod})"/>
+			<!-- Добавить тест к должности -->
+			<input class="button_admin_edit" type="button" onclick="insert_row();" value="Добавить тест"</input>
+		{/if}
 	</div>
 	
-	<table>
-		<tr>
-			<td>Название должности:</td>
-			<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
-			<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
-			<input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
-		</tr>
-		
-		<tr>
-			<td>Название теста:</td>
-			<td>
-				<p style="font-size:14px"><select style="font-size:14px" name="type_specialty" id="type_specialty">
-				{section name=j loop=$array_testnames}
-					<option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
-				{/section}
-				</select></p>
-			</td>
-		</tr>
-	</table>
+	{if $add_or_edit_post eq 0} <!-- новая должность -->
+		<table>
+			<tr>
+				<td>Название должности:</td>
+				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
+				<input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+			</tr>
+		</table>
+	{else}
+		<table>
+			<tr>
+				<td>Название должности:</td>
+				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
+				<input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+			</tr>
+			<tr>
+				<td>Название теста:</td>
+				<td>
+					<p style="font-size:14px"><select style="font-size:14px" name="type_specialty" id="type_specialty">
+					{section name=j loop=$array_testnames}
+						<option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
+					{/section}
+					</select></p>
+				</td>
+			</tr>
+		</table>
+	{/if}
 	
 {if $add_or_edit_post eq 0} <!-- новая должность -->
 
 	<!-- Таблица тестов для данной должности -->
-	<table class="edit_tables">
+	<!--<table class="edit_tables">
 
 		<tr>
-			<!--<th style="width: 2%;">№</th>-->
 			<th style="width: 99%;">Название</th>
 			<th style="width: 1%;"></th>
 		</tr>
 		
-	</table>
+	</table>-->
 {else}
 
 	{$count = 0}

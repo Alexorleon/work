@@ -139,14 +139,19 @@ function get_documents(n, t){
 }
 
 // add or edit posts
-function get_post(f){
+function get_post(add_edit, f, dolj_kod){
 
 	if($("#postname").val() != ""){ // не пустое сообщение
 
-		num = f.type_specialty.selectedIndex;
-		post_id = f.type_specialty.options[num].value;
+		if(add_edit == 0){ // новая должность
+		
+		}else{
+		
+			num = f.type_specialty.selectedIndex;
+			post_id = f.type_specialty.options[num].value;
+		}
 
-		/*$("#type_specialty").val(post_id);*/
+		//$("#type_specialty").val(post_id);
 		$("#postname").val();
 		$("#edit_post").submit();
 	}else{
