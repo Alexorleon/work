@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+
+<!--
+{literal}
+<script>
+
+	jQuery(function($) {
+		
+		setInterval(function() {
+			document.location.href= "/register.php";
+		}, 180000);
+	});
+</script>
+{/literal}-->
+
+</head>
+<body>
+<div id="error_mess"> {$error_} </div>
+
+<div id="mainDiv" align="center" >
+
+<!-- menu-holder -->
+<div id="menu-holder"></div>
+<!-- ENDS menu-holder -->
+
+<div id="menu-holder" style="height: 4px;"></div>
+
+<form id="register" name="register" method="POST">
+
+	Логин <input name="login"><br>
+	Пароль <input name="password" type="password"><br>
+	Не прикреплять к IP(не безопасно) <input type="checkbox" name="not_attach_ip"><br>
+
+	<input name="submit" type="submit" value="Войти">
+</form>
+
+<div id="bottom">
+	<div id="menu-holder-light"></div>
+	<!-- menu-holder -->
+	<div id="menu-holder"></div>
+	<!-- ENDS menu-holder -->
+</div>
+
+</div>
+<script src="{$tpl}js/script.js"></script>
+</body>
+</html>

@@ -36,4 +36,8 @@ RewriteRule ^edit_employees$ /edit_employees.php?posttype=1 [L,QSA]
 
 RewriteRule ^search_employee$ /search_employee.php [L,QSA]
 
+RewriteRule ^register$ /register.php [L,QSA]
+RewriteRule ^login$ /login.php [L,QSA]
+RewriteRule ^check$ /check.php [L,QSA]
+
 ErrorDocument 404 /404.php
