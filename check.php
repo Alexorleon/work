@@ -1,5 +1,5 @@
 <?php	
-	unset($_SESSION);
+	session_start(); // TODO: нужно ли тут?
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 	
 	$db = new db;
@@ -24,8 +24,9 @@ SQL;
 			print "Хм, что-то не получилось";
 		}else{
 
-			//print "Привет, ".$userdata['LOGIN'].". Всё работает!";
-			print(iconv ('utf-8', 'windows-1251', "Привет, ").$userdata['LOGIN']);
+			// разрешаем вход в кабинет
+			$_SESSION['admin_access'] = TRUE;
+			die('<script>document.location.href= "'.lhost.'/list_posts"</script>');
 		}
 	}else{
 

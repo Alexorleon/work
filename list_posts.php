@@ -1,6 +1,12 @@
 <?php	
-	unset($_SESSION);
+	//unset($_SESSION);
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
+	
+	if( !isset($_SESSION['admin_access'])){
+	
+		die('<script>document.location.href= "'.lhost.'/login"</script>');
+	}
+	//unset($_SESSION['admin_access']);
 	
 	$db = new db;
 	$db->GetConnect();

@@ -33,6 +33,8 @@
 		}
 
 		// TODO: экранируем
+		/*$login = stripslashes($login);
+		$login = htmlspecialchars($login);*/
 		//$good_login = mysql_real_escape_string($_POST['login']);
 		$good_login = $_POST['login'];
 		$good_password = $_POST['password'];
