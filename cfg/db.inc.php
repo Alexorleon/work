@@ -6,5 +6,9 @@ define ( 'db_db', 'localhost/XE' );
 $user = db_user;
 $pass = db_pass;
 $db = db_db;
-if (!@$c = OCILogon($user, $pass, $db, 'CL8MSWIN1251')) {}
+if (!@$c = OCILogon($user, $pass, $db, 'CL8MSWIN1251')) {
+	$smarty->assign('title','Нет связи');
+	$smarty->display('not_connect.tpl.html'); 
+	die(); 
+}
 ?>

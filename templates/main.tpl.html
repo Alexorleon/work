@@ -1,10 +1,9 @@
 {extends file='index.tpl.html'}
 {block name=content}  
 	
-	<title>{$title}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
-<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>
 </head>
 <body>
 <div id="error_mess"> {$error_} </div>
@@ -13,31 +12,76 @@
 
 <form id="mainpage" name="mainpage" method="post">
 
+<!-- Выхом по таймеру -->
+{literal}
+<script>
+	setTimeout(function() { window.location="./auth.php" }, 60000);
+</script>
+{/literal}
+
 <input id="type_submit_main" name="type_submit_main" type="hidden" value="1"/>
-<table >
 
-<tr>
-<td><input type="button" value="Нормативные документы" onclick="go_from_main(1)"/></td>
-<td><input type="button" value="Контроль компетентности" onclick="go_from_main(2)"/></td>
-</tr>
+<!-- menu-holder -->
+<div id="menu-holder"></div>
+<!-- ENDS menu-holder -->
 
-<tr>
-<td><input type="button" value="Видеоинструктажи" onclick="go_from_main(3)"/></td>
-<td><input type="button" value="Предсменный экзаменатор" onclick="go_from_main(4)"/></td>
-</tr>
+<div class="top-face">Личный кабинет</div>
 
-<tr>
-<td><input type="button" value="Компьютерные модели несчастных случаев" onclick="go_from_main(5)"/></td>
-<td><input type="button" value="Предложения руководству" onclick="go_from_main(6)"/></td>
-</tr>
+<div id="menu-holder"></div>
 
-<tr>
-<td><input type="button" value="Личные данные" onclick="go_from_main(7)"/></td>
-<td><input type="button" value="Выход" onclick="go_from_main(8)"/></td>
-</tr>
+<div class="info_sotrud_kab" align="left">
+	<table class="table_kab_stat">
+		<tr>
+			<td><span id="title_kab_stat">Номер:</span></td>
+			<td><span id="title_kab_stat">{$sotrud_tabkadr}</span></td>
+		<tr>
+		<tr>
+			<td><span id="title_kab_stat">Ваше имя:</span></td>
+			<td><span id="title_kab_stat">{$sotrud_fam} {$sotrud_im} {$sotrud_otch}</span></td>
+		<tr>
+		<tr>
+			<td><span id="title_kab_stat">Должность:</span></td>
+			<td><span id="title_kab_stat">{$sotrud_dolj}</span></td>
+		<tr>
+	</table>
+</div>
+
+<div style="margin-top: 3%;">
+<table class="table_menu_lobby" style="width:80%;">
+	<tr style="width:100%;">
+		<!--<td><input class="quest_num" type="button" value={$count}></td>-->
+		<td><input class="choice_button" type="button" onclick="go_from_main(1)" value="Нормативные документы"/></td>
+		<td><input class="choice_button" type="button" onclick="go_from_main(2)" value="Контроль компетентности"/></td>
+	</tr>
+
+	<tr style="width:100%;">
+		<td><input class="choice_button" type="button" onclick="go_from_main(3)" value="Видеоинструктажи"/></td>
+		<td><input class="choice_button" type="button" onclick="go_from_main(4)" value="Предсменный экзаменатор"/></td>
+	</tr>
+
+	<tr style="width:100%;">
+		<td><input class="choice_button" type="button" onclick="go_from_main(5)" value="Компьютерные модели несчастных случаев"/></td>
+		<td><input class="choice_button" type="button" onclick="go_from_main(6)" value="Предложения руководству"/></td>
+	</tr>
+
+	<tr style="width:100%;">
+		<td><input class="choice_button" type="button" onclick="go_from_main(7)" value="Личные данные"/></td>
+	</tr>
 </table>
+</div>
 
+<div id="bottom" style="margin-bottom: 30px;">
+	<input type="button" class="move_button" value="Выход" onclick="go_from_main(8)"/>
+</div>
 </form>
+
+<div id="bottom">
+	<div id="menu-holder-light"></div>
+	<!-- menu-holder -->
+	<div id="menu-holder"></div>
+	<!-- ENDS menu-holder -->
+</div>
+
 </div>
 <script src="{$tpl}js/script.js"></script>
 	

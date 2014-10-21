@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>{$title}</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	
+	<link rel="stylesheet" href="{$tpl}css/style.css" type="text/css"/>  
+	<link rel="stylesheet" href="{$tpl}css/main.css" type="text/css"/> 
+	<link rel="stylesheet" href="{$tpl}css/base/jquery.ui.all.css" type="text/css" media="screen" />	
+{literal}
+<style type="text/css">
+	html{
+		padding: 150px 0px;
+		background: #fff;
+	}
+	body{
+		margin: 0 auto;
+		padding: 10px;
+		border: 1px solid black;
+		border-radius: 15px;
+		background: #f2f2f3;
+		width: 1200px;
+		height: 380px;
+	}
+	
+</style>
+{/literal}
+<body>
+	<table>
+		<tr>
+			<td>
+				<img src="{$picture}/grumpy.png">
+			</td>
+			<td>
+				<p><h1 style="color: #321; font: bold italic 50px Verdana;">Ваш браузер устарел!</h1></p>
+				<p><h1 style="color: #321; font: bold italic 15px Verdana;float:left;margin:20px 0px 0px 0px;width: 800px;">Для работы необходимо установить версию Internet Explorer 9 и выше. <a href="http://windows.microsoft.com/ru-ru/internet-explorer/download-ie">Скачать ее можно с официального сайта Microsoft</a></h1></p>
+				<p><h1 style="color: #321; font: bold italic 15px Verdana;float:left;margin:20px 0px 0px 0px;width: 800px;">Рекомендуемые браузеры <a href="http://www.google.ru/chrome/browser/">Chrome</a> и <a href="https://www.mozilla.org/ru/firefox/new/">Mozilla FireFox</a></h1></p>
+				<!--<p><h1 style="color: #321; font: bold italic 15px Verdana;float:left;margin:20px 0px 0px 0px;width: 800px;">Если же, у Вас нет выхода в интернет, скачать можно локально <a href="{$lhost}/files/distr/Firefox_28.rar">Mozilla FireFox</a></h1></p>-->
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

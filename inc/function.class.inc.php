@@ -86,11 +86,12 @@ if (!$this->connect) $this->GetConnect();
 		die("Oracle Error [".$e['message']."]");
 	}
 	$out = Array();
-	$res = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS);
-    foreach ($res as $key=>$item) {
-		$item = iconv( 'cp1251', 'utf-8', $item);
-		$out[$key] = ($item !== null ? htmlentities($item, ENT_QUOTES) : "0");						
-    }	
+	if ($res = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)){
+		foreach ($res as $key=>$item) {
+			$item = iconv( 'cp1251', 'utf-8', $item);
+			$out[$key] = ($item !== null ? htmlentities($item, ENT_QUOTES) : "0");						
+		}	
+	}
 	return $out;
 }
 

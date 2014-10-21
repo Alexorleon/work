@@ -1,43 +1,210 @@
-{extends file='index.tpl.html'}
-{block name=content}  
-
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
 <title>{$title}</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
 
+{literal}
+<script>
+
+	// добавляем тесты к должности
+	function insert_row(){
+		//$(".edit_tables").find("tr").remove();	// удаляем все, кроме первой строки таблицы(заголовок)
+		var dolj_id = $("#dolj_id").val();
+		var test_id = $("#type_specialty").val();
+		
+		//console.log(dolj_id+"fdfds"+test_id);
+		if (dolj_id != "" && test_id != ""){// на всякий, чтоб на новой не запустили
+
+			$.ajax({ 
+				type: 'POST', 
+				data: {'dolj_id': dolj_id, 'test_id': test_id},
+				url: "./inc/ajax.insert_rows.posts.php",
+				//dataType: 'json',
+				error: function(req, text, error) {
+				//console.log('Ошибка AJAX: ' + text + ' | ' + error);
+				},
+				success: function (data) {
+					console.log(data);
+					if(data == "not"){ // ничего не делаем
+					}else{
+						if (data == "0"){
+							console.log("Ошибка!");
+						}else{
+							var arr_ans = data.split('_');
+							var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
+							$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
+							//console.log(arr_ans[1]);
+						}
+					}
+				}
+			});
+		}
+	}
+	
+	// удаляем тесты из должности
+	/*function delete_row(){
+		//$(".table_edit_tests").find("tr").remove();	// удаляем все, кроме первой строки таблицы(заголовок)
+		
+		//console.log(dolj_id+"fdfds"+test_id);
+		$.ajax({ 
+			type: 'POST', 
+			data: {},
+			url: "./inc/ajax.delete_rows.tests.php",
+			//dataType: 'json',
+			error: function(req, text, error) {
+			//console.log('Ошибка AJAX: ' + text + ' | ' + error);
+			},
+			success: function (data) {
+				console.log(data);
+				if(data == "not"){ // ничего не делаем
+				}else{
+					if (data == "0"){
+						console.log("Ошибка!");
+					}else{
+						var arr_ans = data.split('_');
+						var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
+						$(".table_edit_tests tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
+						//console.log(arr_ans[1]);
+					}
+				}
+			}
+		});
+	}*/
+	
+</script>
+{/literal}
+
 <div id="error_mess"> {$error_} </div>
-<div id="edit_postDiv" align="center" >
+
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+</head>
+<body>
+<!--<form id="list_posts" name="list_posts" method="post">
+</form>-->
+
+<div id="menu-holder-light"></div>
+
+<main>
+
+<aside>
+
+	<menu>
+		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
+		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
+		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
+		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Помощь" onclick=""/></a></li>-->
+	</menu>
+
+</aside>
+
+<article>
 
 <form id="edit_post" name="edit_post" method="post">
 
-<p><span class="title-lamp">Редактирование должности</span></p>
-
-<table>
-	<tr>
-		<td>Название должности:</td>
-		<td><input  type="field_postname" id="postname" name="postname"></textarea></td>
-	</tr>
+	<span class="title_menu_edit">Редактирование должности</span>
 	
-	<tr>
-		<td>Название теста:</td>
-		<td>
-			<p style="font-size:8px"><select name="type_specialty" id="type_specialty">
-			{section name=j loop=$array_testnames}
-			<option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
-			{/section}
-			</select></p>
-		</td>
-	</tr>
-</table>
+	<div align="left">
+		{if $add_or_edit_post eq 0} <!-- новая должность -->
+			
+			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+			<!--в зависимости от статуса добавляем или редактируем-->
+			<input class="button_admin_edit" type="button" value="Добавить должность" onclick="get_post(0, this.form, -1)"/>
+		{else}
+			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Завершить" onclick=""/></a>
+			<!--в зависимости от статуса добавляем или редактируем-->
+			<input class="button_admin_edit" type="button" value="Изменить должность" onclick="get_post(1, this.form)"/>
+			<!-- Добавить тест к должности -->
+			<input class="button_admin_edit" type="button" onclick="insert_row();" value="Добавить тест"</input>
+		{/if}
+	</div>
+	
+	{if $add_or_edit_post eq 0} <!-- новая должность -->
+		<table>
+			<tr>
+				<td>Название должности:</td>
+				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
+				<input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+			</tr>
+		</table>
+	{else}
+		<table>
+			<tr>
+				<td>Название должности:</td>
+				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
+				<input type="hidden" id="dolj_id" name="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+			</tr>
+			<tr>
+				<td>Название теста:</td>
+				<td>
+					<p style="font-size:14px"><select style="font-size:14px" name="type_specialty" id="type_specialty">
+					{section name=j loop=$array_testnames}
+						<option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
+					{/section}
+					</select></p>
+				</td>
+			</tr>
+		</table>
+	{/if}
+	
+{if $add_or_edit_post eq 0} <!-- новая должность -->
 
-<a href="/list_posts"><input type="button" value="Назад" onclick=""/></a>
-<!--в зависимости от статуса добавляем или редактируем-->
-<input type="button" value="Сохранить" onclick="get_post(this.form)"/>
+	<!-- Таблица тестов для данной должности -->
+	<!--<table class="edit_tables">
 
+		<tr>
+			<th style="width: 99%;">Название</th>
+			<th style="width: 1%;"></th>
+		</tr>
+		
+	</table>-->
+{else}
+
+	{$count = 0}
+	<!-- Таблица тестов для данной должности -->
+	<table id="table_edit_tests" class="edit_tables">
+
+		<tr>
+			<!--<th style="width: 2%;">№</th>-->
+			<th style="width: 99%;">Название</th>
+			<th style="width: 1%;"></th>
+		</tr><!-- Table Header -->
+		
+		{section name=count loop=$array_test_added}
+			<tr>
+				<!--<td>
+				{$array_test_added[{$count}]['ID']}
+				</td>-->
+				<td>		
+				{$array_test_added[{$count}]['TITLE']}		
+				</td>
+				<td class="deleteInTable" style="text-align: center;">
+					<!--<a href="/list_posts?del_postid={$array_test_added[{$count}]['KOD']}" onclick="deleteInTable({$array_posts[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
+					<a href="/edit_post?del_testid={$array_test_added[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				</td>
+				{capture}{$count++}{/capture}
+			</tr>	
+		{/section}
+	</table>
+{/if}
+	
 </form>
 
-</div>
+</article>
+
+</main>
+
+<footer id="bottom">
+
+</footer>
+
 
 <script src="{$tpl}js/script.js"></script>
-
-{/block}
+</body>
+</html>

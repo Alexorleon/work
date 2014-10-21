@@ -14,8 +14,18 @@ session_start();
 	$smarty->assign('lhost','http://'.$_SERVER['HTTP_HOST']);
 	$smarty->assign('tpl','http://'.$_SERVER['HTTP_HOST'].'/templates/');
 	$smarty->assign('js','http://'.$_SERVER['HTTP_HOST'].'/templates/js/');
+	$smarty->assign('photo','http://'.$_SERVER['HTTP_HOST'].'/storage/photo/');
+	$smarty->assign('picture','http://'.$_SERVER['HTTP_HOST'].'/files/img/');
 	zray_disable();
     require "/db.inc.php";
-	//require_once(INC_DIR."functions.inc.php");//функции
+	require_once(INC_DIR."functions.inc.php");//функции
 	require (INC_DIR."function.class.inc.php");//классы
+	
+	$temp_ub = explode(' ', user_browser());//проверяем версию браузера
+	//print_r($temp_ub);
+	if ($temp_ub[0]=='IE' && (int)$temp_ub[1]<9){
+		$smarty->assign('title','Ваш браузер устарел');
+		$smarty->display('old_browser.tpl.html'); 
+		die(); 
+	}
 ?>

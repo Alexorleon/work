@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+</head>
+<body>
+<!--<form id="list_posts" name="list_posts" method="post">
+</form>-->
+
+<div id="menu-holder-light"></div>
+
+<main>
+
+<aside>
+
+	<menu>
+		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
+		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu set_cur" type="button" value="Сотрудники" onclick=""/></a></li>
+		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
+	</menu>
+
+</aside>
+
+<article>
+<form id="edit_employee" name="edit_employee" method="post">
+
+	<span class="title_menu_edit">Редактирование сотрудника</span>
+
+	<div align="left">
+		<a href="/list_employees"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+		<!--в зависимости от статуса добавляем или редактируем-->
+		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_employee(this.form)"/>
+	</div>
+	
+	<table>
+		<tr>
+			<td>Фамилия:</td>
+			<td><input type="field_text_edit" id="employeesur" name="employeesur" value="{$cur_employee_cur}"></textarea></td>
+		</tr>
+		<tr>
+			<td>Имя:</td>
+			<td><input type="field_text_edit" id="employeename" name="employeename" value="{if !empty($employeename)}{$employeename}{else}{$cur_employee_name}{/if}"></textarea></td>
+		</tr>
+		<tr>
+			<td>Отчество:</td>
+			<td><input type="field_text_edit" id="employeepat" name="employeepat" value="{$cur_employee_pat}"></textarea></td>
+		</tr>
+		<tr>
+			<td>Должность:</td>
+			<td>
+				<p style="font-size:14px"><select name="type_doljnost" id="type_doljnost">
+				{section name=j loop=$array_posts}
+					{if $cur_dolj_kod eq $array_posts[j]['KOD']} <!-- ищем в списке нужный -->
+						<option value="{$array_posts[j]['KOD']}" selected="selected">{$array_posts[j]['TEXT']}</option>
+					{else}
+						<option value="{$array_posts[j]['KOD']}">{$array_posts[j]['TEXT']}</option>
+					{/if}
+				{/section}
+				</select></p>
+			</td>
+		</tr>
+		<tr>
+			<td>Табельный:</td>
+			<td><input  type="field_text_edit" id="employeetabel" name="employeetabel" value="{$cur_employee_tabel}"></textarea></td>
+		</tr>
+	</table>
+	
+	<!--  -->
+	<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></textarea></td>
+
+</form>
+
+</article>
+
+</main>
+
+<footer id="bottom">
+
+</footer>
+
+
+<script src="{$tpl}js/script.js"></script>
+</body>
+</html>

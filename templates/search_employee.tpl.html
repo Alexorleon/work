@@ -20,42 +20,43 @@ jQuery(document).ready(function(){
 {else}
 {/if}-->
 
+<!-- menu-holder -->
+<div id="menu-holder"></div>
+<!-- ENDS menu-holder -->
+
 {if empty($array_employee)}
 
 {else}
 
 {$count = 0}
-<table class="simple-little-table" cellspacing='0'>
+<table class="scrolling_table_search">
 
-<tr>
-	<th>Фамилия</th>
-	<th>Имя</th>
-	<th>Отчество</th>
-	<th>Табельный номер</th>
-</tr><!-- Table Header -->
-
-{section name=count loop=$array_employee}	
+<tbody>
+{section name=count loop=$array_employee}
 	<tr onclick="go_pre_examiner_fromsearch('{$array_employee[$count]['TABEL_KADR']}')" style="cursor: pointer;">
 		<td>
-		{$array_employee[{$count}]['SOTRUD_FAM']}
+		{$array_employee[{$count}]['SOTRUD_FAM']} {$array_employee[{$count}]['SOTRUD_IM']} {$array_employee[{$count}]['SOTRUD_OTCH']}
 		</td>
-		<td>		
-		{$array_employee[{$count}]['SOTRUD_IM']}		
-		</td>
-		<td>		
-		{$array_employee[{$count}]['SOTRUD_OTCH']}		
-		</td>
-		<td>		
+		<td>
 		{$array_employee[{$count}]['TABEL_KADR']}		
 		</td>
 		{capture}{$count++}{/capture}
-	</tr>	
+	</tr>
 {/section}
+</tbody>
 </table>
 
 {/if}
 
-<textarea  type="field_employee" id="tabnum" name="tabnum" readonly></textarea>
+
+<div id="bottom" style="margin-bottom: 9%;">
+
+<table>
+<tr>
+<td><p align="center"><span>Введите фамилию: </span></p></td>
+<td><textarea type="field_employee" id="tabnum" name="tabnum" readonly></textarea></td>
+</tr>
+</table>
 
 <p style="font-size:8px">
 <td><input type="num_button" value="Й" onclick="addToField('Й')" style="cursor: pointer;"/></td>
@@ -98,14 +99,26 @@ jQuery(document).ready(function(){
 <td><input type="num_button" value="Ю" onclick="addToField('Ю')" style="cursor: pointer;"/></td>
 </p>
 
-<p style="font-size:8px">
-<td><input type="reset" value="Очистить" id="resetnum_button"/></td>
+<div style="font-size:8px; margin-bottom: 12px;">
+<td><input type="reset" value="Х" id="resetnum_button"/></td>
 <td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
-</p>
+</div>
+</div>
 
+<div id="bottom" style="margin-bottom: 30px;">
 <a href="/auth.php"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 <input class="move_button" type="button" value="Найти" onclick="search_employee()"/>
+</div>
+
 </form>
+
+<div id="bottom">
+	<div id="menu-holder-light"></div>
+	<!-- menu-holder -->
+	<div id="menu-holder"></div>
+	<!-- ENDS menu-holder -->
+</div>
+
 </div>
 <script src="{$tpl}js/script.js"></script>
 

@@ -1,43 +1,101 @@
-{extends file='index.tpl.html'}
-{block name=content}  
-
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
 <title>{$title}</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
 
 <div id="error_mess"> {$error_} </div>
-<div id="list_postsDiv" align="center" >
 
-<form id="list_posts" name="list_posts" method="post">
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+</head>
+<body>
+<!--<form id="list_posts" name="list_posts" method="post">
+</form>-->
 
-<p><span class="title-lamp">Список должностей для терминала</span></p>
+<div id="menu-holder-light"></div>
 
-<a href="/new_post"><input type="button" value="Добавить" onclick=""/></a>
+<main>
 
-{$count = 0}
-<table class="simple-little-table" cellspacing='0'>
+<aside>
 
-<tr>
-	<th>№</th>
-	<th>Название</th>
-</tr><!-- Table Header -->
-	
-{section name=count loop=$array_posts}	
-	<tr onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}'" style="cursor: pointer;">
-		<td>
-		{$array_posts[{$count}]['KOD']}
-		</td>
-		<td>		
-		{$array_posts[{$count}]['TEXT']}		
-		</td>
-		{capture}{$count++}{/capture}
-	</tr>	
-{/section}
-</table>
+	<!--<div align="left">
+        <div class="authlogo_admin"></div>
+    </div>-->
 
-</form>
-</div>
+	<menu>
+		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
+		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
+		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
+	</menu>
+
+</aside>
+
+<article>
+
+	<span class="title_menu_edit">Список должностей для терминала</span>
+
+	<div align="left"><a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить должность" onclick=""/></a></div>
+	<!-- Меню редактирования -->
+	<!--<nav>
+		<ul>
+			<li><a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить должность" onclick=""/></a></li>
+		</ul>
+	</nav>-->
+
+	{$count = 0}
+	<!-- ограничиваем таблицу для скролинга -->
+	<!--<div class="scrolling_tables_menu">-->
+	<table class="edit_tables">
+
+		<tr>
+			<th style="width: 2%;">№</th>
+			<th style="width: 97%;">Название</th>
+			<th style="width: 1%;"></th>
+		</tr><!-- Table Header -->
+		
+		{section name=count loop=$array_posts}
+			<tr>
+				<td>
+				{$array_posts[{$count}]['KOD']}
+				</td>
+				<td onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}&post_name={$array_posts[{$count}]['TEXT']}'" title="Редактировать" style="cursor: pointer;">		
+				{$array_posts[{$count}]['TEXT']}		
+				</td>
+				<td class="deleteInTable" style="text-align: center;">
+					<!--<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" onclick="deleteInTable({$array_posts[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
+					<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				</td>
+				{capture}{$count++}{/capture}
+			</tr>	
+		{/section}
+	</table>
+	<!--</div>-->
+
+	<!--<section>
+		<p>здесь могут быть похожие записи, слайдер, баннеры, миниатюры и т.д...</p>
+	</section>-->
+
+</article>
+
+</main>
+
+<footer id="bottom">
+	<!--<p>
+		<small>
+			<time>2004-05-24</time> © <a href="http://www.pixelcom.crimea.ua">Pixel.com</a>
+		</small>
+
+		<address>
+			<a href="mailto:js@example.com">Написать письмо</a>
+		</address>
+	</p>-->
+</footer>
+
 
 <script src="{$tpl}js/script.js"></script>
-
-{/block}
+</body>
+</html>

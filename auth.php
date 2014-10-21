@@ -28,15 +28,12 @@
 		
 		// TODO: в данный момент PREDPR_K относится к Кокс-майнинг
 		$sql = <<<SQL
-			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL and PREDPR_K=10
+			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K, TABEL_KADR from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL and PREDPR_K=10
 SQL;
-
-		//if (!$res = $db->go_result($sql)) {to_log('res', $sql);}
 		$s_res = $db->go_result_once($sql);
+
 		if((empty($s_res))){
-			// показать пользователю, что такого номера нет, можно просто сделать редирект или так
-			//$error_='такого номера нет';
-			// TODO: здесь нужно убрать выпадение ошибки
+
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}else{
 
@@ -46,10 +43,10 @@ SQL;
 			$_SESSION['sotrud_im']=$s_res['SOTRUD_IM'];
 			$_SESSION['sotrud_otch']=$s_res['SOTRUD_OTCH'];
 			$_SESSION['sotrud_dolj']=$s_res['DOLJ_K'];
+			$_SESSION['sotrud_tabkadr']=$s_res['TABEL_KADR'];
 
 			// переход на другую страницу, вместо header используем die.
-			if ($type_submit == "1"){
-
+			if($type_submit == "1"){
 				die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 			}elseif ($type_submit == "2"){
 

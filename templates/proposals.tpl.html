@@ -6,7 +6,12 @@
 
 <script>
 jQuery(document).ready(function(){
-	$('#proposalsPage').disableTextSelect(); 
+	//$('#proposalsPage').disableTextSelect();
+	$('#tabnum').disableTextSelect();
+	$('#not_select').disableTextSelect();
+	
+	<!--Выпадающий список-->
+	enableSelectBoxes();
 });
 </script>
 
@@ -16,21 +21,27 @@ jQuery(document).ready(function(){
 
 <form id="proposalsPage" name="proposalsPage" method="post">
 
+<div id="menu-holder"></div>
+
 {$type_color = "color:#FE2E2E"}
 
 {if $type_prop eq "view"}
 
+{$counttype = 0}
 <!--выводим статистику-->
-
+<div class="scrolling_tables_proposols">
 {section name=first loop=$array_statistic show=true}
-<table border="1" width="720px" class="simple-little-table" cellspacing='0'>
+<table border="1" width="720px" class="table_proposols" cellspacing='0'>
+<caption class="caption_proposolstype">{$array_typemes[$counttype]['TITLE']}</caption>
+{capture}{$counttype++}{/capture}
 <!--шапка-->
 <tr>
-	<th>дата отправки</th>
-	<th>сообщение</th>
-	<th>ответ</th>
-	<th>дата ответа</th>
+	<th style="width:10%;">Дата отправки</th>
+	<th style="width:40%;">Сообщение</th>
+	<th style="width:40%;">Ответ</th>
+	<th style="width:10%;">Дата ответа</th>
 </tr>
+<tbody>
 	{section name=second loop=$array_statistic[first]}
 	
 		<tr>
@@ -56,36 +67,47 @@ jQuery(document).ready(function(){
 		{/section}
 		</tr>
 	{/section}
+</tbody>
 </table>
 {/section}
-<!--{$array_statistic[first][second][third]} <br>
+</div>
 
-{foreach from=$array_statistic item=i_1 name=first key=k_1}
-	{foreach from=$array_statistic[i_1] item=i_2 name=second key=k_2}
-		<tr>
-			<td>
-			{$array_statistic[i_1][i_2]}
-			</td>
-		</tr>
-	{/foreach}
-{/foreach}
--->
-</table>
-
-<a href="/lobby"><input type="button" value="Назад" onclick=""/></a>
-<a href="/addproposals"><input type="button" value="Добавить" onclick=""/></a>
-
+<div id="bottom" style="margin-bottom: 30px;">
+<a href="/lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+<a href="/addproposals"><input class="move_button" type="button" value="Добавить" onclick=""/></a>
+</div>
 
 {elseif $type_prop eq "add"} <!--добавить новое предложение-->
 
-<textarea  type="field_proposol" id="tabnum" name="tabnum" readonly></textarea>
- 
-<p style="font-size:8px"><select name="typemessage" id="typemessage">
-{section name=j loop=$array_typemes}
-	<option value="{$array_typemes[j]['ID']}">{$array_typemes[j]['TITLE']}</option>
-{/section}
-</select></p>
+<!--выпадающий список-->
+<ul>
+	<li style="list-style-type: none;">
+		<div class='selectBox'>
+			<span class='selected'></span>
+			<span class='selectArrow'>▼</span>
+			<div class="selectOptions" id="span_selectBox">
+				{section name=j loop=$array_typemes}
+					<span class="selectOption" value="{$array_typemes[j]['ID']}">{$array_typemes[j]['TITLE']}</span>
+				{/section}
+			</div>
+		</div>
+	</li>
+</ul>
+<textarea type="field_proposol" id="tabnum" name="tabnum" readonly></textarea>
 
+<input type="hidden" name="typemessage" id="typemessage" value="">
+<!-- bool для определения выбирали ли чего из списка -->
+<input type="hidden" name="bool_typemessage" id="bool_typemessage" value="0">
+
+<!--<div class="select_proposals">
+<select name="typemessage1" id="typemessage1">
+	{section name=j loop=$array_typemes}
+		<option value="{$array_typemes[j]['ID']}">{$array_typemes[j]['TITLE']}</option>
+	{/section}
+</select>
+</div>-->
+
+<div id="not_select">
 <td><input type="num_button" value="1" onclick="addToField(1)" style="cursor: pointer;"/></td>
 <td><input type="num_button" value="2" onclick="addToField(2)" style="cursor: pointer;"/></td>
 <td><input type="num_button" value="3" onclick="addToField(3)" style="cursor: pointer;"/></td>
@@ -141,7 +163,7 @@ jQuery(document).ready(function(){
 </p>
 
 <p style="font-size:8px">
-<td><input type="reset" value="Очистить" id="resetnum_button"/></td>
+<td><input type="reset" value="X" id="resetnum_button"/></td>
 <td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
 <td><input type="num_button" value=" " onclick="addToField(' ')" style="cursor: pointer;"/></td>
 <td><input type="num_button" value="," onclick="addToField(',')" style="cursor: pointer;"/></td>
@@ -150,16 +172,25 @@ jQuery(document).ready(function(){
 
 <input id="type_proposals" name="type_proposals" type="hidden" value="1"/>
 
+<div id="bottom" style="margin-bottom: 30px;">
 <!--<input type="num_button" value="Назад" onclick="get_proposals(0)"/>-->
 <a href="/proposals"><input class="move_button" type="move_button" value="Назад" onclick=""/></a>
 <a href="/lobby"><input class="move_button" type="move_button" value="В меню" onclick=""/></a>
-<input class="move_button" type="move_button" value="Отправить" onclick="get_proposals(1, this.form)"/>
+<input class="move_button" type="move_button" value="Отправить" onclick="get_proposals(1)"/>
+</div>
 
 {else}
 
 {/if}
 
+</div> <!-- div not_select -->
 </form>
+
+<div id="bottom">
+	<div id="menu-holder-light"></div>
+	<div id="menu-holder"></div>
+</div>
+
 </div>
 <script src="{$tpl}js/script.js"></script>
 

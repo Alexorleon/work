@@ -21,9 +21,7 @@ function go_pre_examiner(){
 // предсменный экзаменатор через поиск сотрудника
 function go_pre_examiner_fromsearch(tab){
 
-	$("#type_submit").val("2");
-	$("#tabnum").val(tab);
-	$("#auth").submit();
+	window.location="./auth.php?tab="+tab;
 }
 
 // контроль компетентности
@@ -45,6 +43,10 @@ function go_search_employee(){
 
 function addToField(n){
 	$("#tabnum").val($("#tabnum").val()+n);
+}
+
+function delAll(){
+	$("#tabnum").val('');
 }
 
 function del(){
@@ -86,23 +88,29 @@ function get_personal(n){
 }
 
 // proposals
-function get_proposals(n, f){
+function get_proposals(n){
 
 	// если нажали отправить, то получаем значение сообщения из списка
 	if(n == 1){
 		
 		if($("#tabnum").val() != ""){ // не пустое сообщение
 
-			num = f.typemessage.selectedIndex;
-			num++;
+			var div = document.getElementById("span_selectBox");
+			var spans = div.getElementsByTagName("span");
 
-			$("#typemessage").val(num);
+			/*проверяем выбирали ли значение из списка*/
+			if($("#bool_typemessage").val() == 0){
+				$("#typemessage").val(1);
+			}else{
+				$("#typemessage").val();
+			}
+			
 			$("#tabnum").val();
 			
 			$("#type_proposals").val(n);
 			$("#proposalsPage").submit();
 		}else{
-			alert("Введите сообщение");
+			alert("Введите сообщение!");
 		}
 	}else{
 
@@ -119,7 +127,7 @@ function search_employee(){
 
 		$("#search_employeePage").submit();
 	}else{
-		alert("Введите сообщение");
+		alert("Введите сообщение!");
 	}
 }
 
@@ -131,18 +139,117 @@ function get_documents(n, t){
 }
 
 // add or edit posts
-function get_post(f){
+function get_post(add_edit, f){
 
 	if($("#postname").val() != ""){ // не пустое сообщение
 
-		num = f.type_specialty.selectedIndex;
-		post_id = f.type_specialty.options[num].value;
+		if(add_edit == 0){ // новая должность
+		
+		}else{
+		
+			//num = f.type_specialty.selectedIndex;
+			//post_id = f.type_specialty.options[num].value;
+		}
 
-		$("#type_specialty").val(post_id);
 		$("#postname").val();
 		$("#edit_post").submit();
 	}else{
 		
-		alert("Введите сообщение");
+		alert("Введите название должности!");
 	}
+}
+
+// add or edit employees
+function get_employee(f){
+
+	if(($("#employeesur").val() == "") || ($("#employeename").val() == "") || ($("#employeepat").val() == "") || ($("#employeetabel").val() == "")){ // не пустые значения
+
+		alert("Введите все данные!");		
+	}else{
+	
+		num = f.type_doljnost.selectedIndex;
+		post_id = f.type_doljnost.options[num].value;
+
+		$("#employee_hidden_id").val();
+		$("#employeesur").val();
+		$("#employeename").val();
+		$("#employeepat").val();
+		$("#type_doljnost").val(post_id);
+		$("#employeetabel").val();
+		$("#edit_employee").submit();
+	}
+}
+
+/*
+-------------------------------------- BEGIN таймер --------------------------------------
+*/
+	function go_timer(){
+		//console.log("go_timer");	
+		intervalId = setInterval("get_sotrud(0);", 5000);
+		//clearInterval(intervalId);
+	}
+	/*function some_func(i){
+		console.log(i);
+	}*/
+	function stop_timers(){
+		//console.log("stop_timers");
+		clearInterval(intervalId);
+	}
+	function stop_timers_to(sec){
+		//console.log("stop_timers_to_15sec");
+		clearInterval(intervalId);
+		//intervalId2 = setInterval("go_timer()", 15000);
+		setTimeout("go_timer()", sec*1000)
+	}
+/*
+-------------------------------------- END таймер --------------------------------------
+*/
+
+/*Выпадающий список*/
+function enableSelectBoxes(){
+    $('div.selectBox').each(function(){
+        $(this).children('span.selected').html($(this).children('div.selectOptions').children('span.selectOption:first').html());
+        $(this).attr('value',$(this).children('div.selectOptions').children('span.selectOption:first').attr('value'));
+ 
+        $(this).children('span.selected,span.selectArrow').click(function(){
+            if($(this).parent().children('div.selectOptions').css('display') == 'none')
+            {
+                $(this).parent().children('div.selectOptions').css('display','block');
+            }
+            else
+            {
+                $(this).parent().children('div.selectOptions').css('display','none');
+            }
+        });
+ 
+        $(this).find('span.selectOption').click(function(){
+            $(this).parent().css('display','none');
+			
+			/*запоминаем что выбрали*/
+			$("#typemessage").val($(this).attr('value'));
+			$("#bool_typemessage").val(1);
+			
+            $(this).closest('div.selectBox').attr('value',$(this).attr('value'));
+            $(this).parent().siblings('span.selected').html($(this).html());
+        });
+    });
+}
+
+/* Кнопка удаления в таблице */
+function deleteInTable(n)
+{
+	//$("#del_postid").val();
+	//$("#list_posts").submit();
+	
+    /*if(document.pressed == 'xxx'){
+	
+        document.mydoc.action ="xxx.asp";
+    }else{
+		if (document.pressed == 'yyy'){
+		
+            document.mydoc.action ="yyy.asp";
+        }
+	}
+ 
+    return true;*/
 }

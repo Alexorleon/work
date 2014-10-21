@@ -77,15 +77,16 @@ SQL;
 		// 1. получаем все тесты для определенной должности.
 		// 2. получаем все вопросы по выбранным тестам.
 		// 3. получаем один случайный текстовый вопрос по модулю знания из выбранных вопросов.
+		//AND ALLQUESTIONS.TYPEQUESTIONSID='8'
 		$sql = <<<SQL
-		SELECT ID, TEXT FROM 
-		(SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
+		SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM 
+		(SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.ID IN 
 		(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 		(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) ORDER BY dbms_random.value) WHERE rownum=1
 SQL;
 
 		$s_res = $db->go_result_once($sql);
-		
+
 		if(empty($s_res)){
 		
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
@@ -93,7 +94,13 @@ SQL;
 
 		// запоминаем ID вопроса если потребуется отвечать на него снова
 		$_SESSION['ID_question'] = $s_res['ID'];
-
+		
+		// запоминаем тип вопроса
+		$_SESSION['type_question'] = $s_res['TYPEQUESTIONSID'];
+		
+		// запоминаем имя картинки
+		$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
+		
 		$temp_id = $_SESSION['ID_question'];
 		
 		//$question_text = $s_res['TEXT']; TODO: вроде и не нужно
@@ -104,6 +111,21 @@ SQL;
 	SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
 SQL;
 	$array_answers = $db->go_result($sql);
+	
+	// получаем название должности
+	$temp_doljkod = $_SESSION['sotrud_dolj'];
+	$sql = <<<SQL
+	SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$temp_doljkod'
+SQL;
+	$sm_sotrud_dolj = $db->go_result_once($sql);
+	
+	// получаем табельный
+	// TODO: задано жестко для кокс-майнинг
+	$temp_sotrud_id = $_SESSION['sotrud_id'];
+	$sql = <<<SQL
+	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='$temp_sotrud_id'
+SQL;
+	$sm_sotrud_tabel = $db->go_result_once($sql);
 	
 	/*резерв
 	$sql = <<<SQL
@@ -122,7 +144,13 @@ SQL;*/
 	// FIO
 	$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
 	$smarty->assign("sm_sotrud_im", $_SESSION['sotrud_im']);
-	$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);
+	$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);	
+	$smarty->assign("sm_sotrud_dolj", $sm_sotrud_dolj);
+	$smarty->assign("sm_sotrud_tabel", $sm_sotrud_tabel);
+	$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
+	
+	$smarty->assign("type_question", $_SESSION['type_question']);
+	$smarty->assign("simplephoto", $_SESSION['simplephoto']);
 
 	$smarty->assign("typetest", $typetest);
 	$smarty->assign("title", "Предсменный экзаменатор");

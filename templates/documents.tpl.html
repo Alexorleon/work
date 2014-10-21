@@ -2,6 +2,13 @@
 {block name=content}  
 
 <link rel="stylesheet" href="{$tpl}css/main.css">
+<link href="{$tpl}../libs/video-js/video-js.css" rel="stylesheet" type="text/css">
+<script src="{$tpl}../libs/video-js/video.js"></script>
+
+<script>
+	videojs.options.flash.swf = "{$tpl}../libs/video-js/video-js.swf";
+</script>
+  
 <div id="error_mess"> {$error_} </div>
 
 <div id="mainDiv" align="center" >
@@ -10,60 +17,183 @@
 
 <input id="type_documents" name="type_documents" type="hidden" value="1"/>
 
+<!-- Выхом по таймеру -->
+<!--{literal}
+<script>
+	setTimeout(function() { window.location="./auth.php" }, 60000);
+</script>
+{/literal}-->
+
 <!-- TODO: вывод документов-->
-{if $type_doc eq 1}
+{if $type_doc eq 1} <!--нормативные документы-->
 
 	{if !isset($smarty.get.norm_doc_id)}
+	
+		<!-- menu-holder -->
+		<div id="menu-holder"></div>
+		<!-- ENDS menu-holder -->
+
+		<div class="top-face">Нормативные документы</div>
+
+		<div id="menu-holder"></div>
+		
+		<table class="scrolling_table_docs">
+		<tbody>
+			{section name=j loop=$array_instr}
+				<tr onclick="javascript:window.location='./show_regulations_{$array_instr[j]['ID']}'" style="cursor: pointer;">
+					<td>
+					{$array_instr[j]['TITLE']}
+					</td>
+				</tr>
+			{/section}
+		</tbody>
+		</table>
+		<!--
 		{section name=j loop=$array_instr}
 			<p><a href="/show_regulations_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
-		{/section}
+		{/section}-->
+		
+		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{else}
 
+		<div id="menu-holder"></div>
 		<!--<object width="800" height="600" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
 			<param name="pdfdoc" value="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" />
 			<embed width="800" height="600" type="application/x-shockwave-flash" src="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" />
 			<embed src="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" width="600" height="400" />
 		</object>-->
-		<iframe class="iframe" src="{$lhost}/storage/regulations/{$doc_instr['NAME']}" width="100%" height="70%" align="left"></iframe>
-
+		<iframe class="iframe" src="{$lhost}/storage/regulations/{$doc_instr['NAME']}" width="98%" height="96%" align="center"></iframe>
+		
+		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./regulations"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 		<a href="./lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{/if}
 	
-{elseif $type_doc eq 2}
+{elseif $type_doc eq 2} <!--видеоинструктажи-->
 
 	{if !isset($smarty.get.video_id)}
-		{section name=j loop=$array_instr}
-			<p><a href="/show_video_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
-		{/section}
-		<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+	
+		<!-- menu-holder -->
+		<div id="menu-holder"></div>
+		<!-- ENDS menu-holder -->
+
+		<div class="top-face">Видеоинструктажи</div>
+
+		<div id="menu-holder"></div>
+		
+		<table class="scrolling_table_docs">
+		<tbody>
+			{section name=j loop=$array_instr}
+				<!--<tr><td><p><a href="/show_video_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p></td></tr>-->
+				<tr onclick="javascript:window.location='./show_video_{$array_instr[j]['ID']}'" style="cursor: pointer;">
+					<td>
+					{$array_instr[j]['TITLE']}
+					</td>
+				</tr>
+			{/section}
+		</tbody>
+		</table>
+		
+		<div id="bottom" style="margin-bottom: 30px;">
+			<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{else}
 		
+		<div id="menu-holder"></div>
+		<!--height="700" width="1260"-->
 		<div class="img_answer">
 			<object type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="700" width="1260">
 				<param name="wmode" value="transparent">
 				<param name="allowFullScreen" value="true">
 				<param name="allowScriptAccess" value="always">
 				<param name="movie" value="{$lhost}/libs/uppod.swf">
-<!--				<param name="FlashVars" value="way={$lhost}/storage/video/{$video_instr['NAME']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=22AEcBaJNjOk0Tv1XAjOkisQrN9mwtzC5kisNtXHv1l1fwcpsQNkbk18=xYTcSfYI=j1l1CQV8Yv1X=jOkedQBVhdwf9vwjzCh5beJal1CMkbtSal1SQopBwntQv1X1Ca4Hj1nl1k0nTWwjG3QNXzBGDY31X1dSGfzkOk03whTT31X=jOkZsNk6HsQfzC5k1kQOkaBwnzBGDR9WNkbSal1f0LbFWGXF2Qi6dM8kbk13Q3Q3Q33Qktj1fRdwnYeWQkzC5k42QiN63Gktj1ozfUrF">-->
-				<param name="FlashVars" value="way={$lhost}/storage/video/{$video_instr['NAME']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=61ARHjYNf=jOk0v1yX1SGfzkO2k03whT317XAjOkisQ7r9mwtzC55I1jOkZBMiv62Qt9sG7nT30cLWNYkbk1WNxORL1kOk1mwdXRWNXzBGYDY31X1SQFD6dwyL2GAfTk06Q3QSIzd56L2MHXzkOkaBwdnzBGDRWNHkbSal1CGrhpd06zv1SXej5btj1Rhhd0XFdwkf9vwjzC5ebAJYl1CMykbCal1kweVG30hIdwRf9vwjzC5bTtj1cpmwyXzBGDY317X1kQ3Q3QE3Q31l1k0RnTWwjG3NRkbk13Q3QA3Q3Qktj16fRdwnY2UYiR3Nkbk1aJZxaoZuahf1kOkZ2MGJzC5f8Sa4l1SQl6W0aXzBGDY31iX1kQ3Q3QR3Q31l1k0dnTWwjL2Q76zmNJzC5yk42Qi63Ghktj1ozfUrD">
-			</object>				
+				<param name="FlashVars" value="way={$lhost}/storage/video/{$video_instr}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1260&amp;h=700&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=61ARHjYNf=jOk0v1yX1SGfzkO2k03whT317XAjOkisQ7r9mwtzC55I1jOkZBMiv62Qt9sG7nT30cLWNYkbk1WNxORL1kOk1mwdXRWNXzBGYDY31X1SQFD6dwyL2GAfTk06Q3QSIzd56L2MHXzkOkaBwdnzBGDRWNHkbSal1CGrhpd06zv1SXej5btj1Rhhd0XFdwkf9vwjzC5ebAJYl1CMykbCal1kweVG30hIdwRf9vwjzC5bTtj1cpmwyXzBGDY317X1kQ3Q3QE3Q31l1k0RnTWwjG3NRkbk13Q3QA3Q3Qktj16fRdwnY2UYiR3Nkbk1aJZxaoZuahf1kOkZ2MGJzC5f8Sa4l1SQl6W0aXzBGDY31iX1kQ3Q3QR3Q31l1k0dnTWwjL2Q76zmNJzC5yk42Qi63Ghktj1ozfUrD">
+			</object>
 		</div>
+		<!--<video width="1260" height="700" controls="controls">
+			<source src="{$lhost}/storage/video/przenosnik.avi" type='video/avi;'></source>
+		</video>-->
 		
+		<!--<video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" autoplay="true" width="1260" height="700">
+			<source src="{$lhost}/storage/video/{$video_instr}" type='video/mp4' />
+			<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+		</video>-->
+		
+		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./video_instructing"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 		<a href="./lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{/if}
 	
-{elseif $type_doc eq 3}
+{elseif $type_doc eq 3} <!--компьютерные модели-->
 
 	{if !isset($smarty.get.comp_model_id)}
-		{section name=j loop=$array_instr}
-			<p><a href="/show_compmodel_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
-		{/section}
-		<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+	
+		<!-- menu-holder -->
+		<div id="menu-holder"></div>
+		<!-- ENDS menu-holder -->
+
+		<div class="top-face">Компьютерные модели несчастных случаев</div>
+
+		<div id="menu-holder"></div>
+		
+		<table class="scrolling_table_docs">
+		<tbody>
+			{section name=j loop=$array_instr}
+				<tr onclick="javascript:window.location='./show_compmodel_{$array_instr[j]['ID']}'" style="cursor: pointer;">
+					<td>
+					{$array_instr[j]['TITLE']}
+					</td>
+				</tr>
+			{/section}
+		</tbody>
+		</table>
+		
+		<div id="bottom" style="margin-bottom: 30px;">
+			<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{else}
 	
+		<div id="menu-holder"></div>
+		
 		<div class="img_answer">
 			<object type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="700" width="1260">
 				<param name="wmode" value="transparent">
@@ -75,8 +205,17 @@
 			</object>				
 		</div>
 
+		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./comp_model"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 		<a href="./lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
+		</div>
+		
+		<div id="bottom">
+			<div id="menu-holder-light"></div>
+			<!-- menu-holder -->
+			<div id="menu-holder"></div>
+			<!-- ENDS menu-holder -->
+		</div>
 	{/if}
 
 {else}
