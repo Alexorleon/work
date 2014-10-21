@@ -8,11 +8,10 @@
 		
 	if ($_POST){
 		
-		$postname = $_POST['postname']; // название должности
-		$dolj_id = $_POST['dolj_id']; // название должности
-		
 		//print_r($_POST);
 		//die();
+		
+		$postname = $_POST['postname']; // название должности
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_post'] == 0){ // это добавление нового
@@ -24,9 +23,11 @@ SQL;
 		
 		}else if($_SESSION['add_or_edit_post'] == 1){ // это редактирование
 			
+			$dolj_id = $_POST['dolj_id']; // название должности
+			
 			$sql = <<<SQL
-			UPDATE stat.DOLJNOST SET TEXT='$postname' WHERE 
-			DOLJNOST.PREDPR_K=10 AND DOLJNOST.KOD='$dolj_id'
+				UPDATE stat.DOLJNOST SET TEXT='$postname' WHERE 
+				DOLJNOST.PREDPR_K=10 AND DOLJNOST.KOD='$dolj_id'
 SQL;
 			$db->go_query($sql);
 			
@@ -37,7 +38,7 @@ SQL;
 		}
 	}
 	
-	if(isset($_GET['posttype'])){
+	if($_GET){
 
 		if($_GET['posttype'] == 0){ // это добавление нового
 		

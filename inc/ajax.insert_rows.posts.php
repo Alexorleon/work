@@ -9,6 +9,7 @@
 		$error_='';
 		
 	if ($_POST){
+	
 		//print_r($_POST);
 		$dolj_id = $_POST['dolj_id'];
 		$test_id = $_POST['test_id'];
@@ -24,8 +25,21 @@ SQL;
 			$sql = <<<SQL
 				insert into stat.speciality_b (TESTNAMESID, DOLJNOSTKOD) VALUES('$test_id', '$dolj_id')
 SQL;
-			$ans = ($db->go_query($sql))?"0":$dolj_id."_".$test_id;
-			die($ans);
+			if( !$db->go_query($sql)){
+				
+				// получаем номер последнего ID после вставки. нужен для таблицы.
+				$sql = <<<SQL
+					SELECT Max(ID) AS "max" FROM stat.speciality_b
+SQL;
+				$s_res = $db->go_result_once($sql);
+				
+				$ans = $dolj_id."_".$test_id."_".$s_res['max'];
+				die($ans);
+			}else{
+				$ans = "0";
+				die($ans);
+			}
+			//$ans = ($db->go_query($sql))?"0":$dolj_id."_".$test_id;
 		}else{
 			$ans = "not";
 			die($ans);

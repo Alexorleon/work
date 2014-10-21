@@ -41,7 +41,20 @@ SQL;
 		
 		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
 	
+			//print_r($_POST);
 			
+			$sql = <<<SQL
+				UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
+				SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='3809'
+SQL;
+			$db->go_query($sql);
+			
+			// обновляем данные в полях
+			$_GET['employee_cur'] = $employeesur; // фамилия
+			$_GET['employee_name'] = $employeename; // имя
+			$_GET['employee_pat'] = $employeepat; // отчество
+			$_GET['employee_tabel'] = $employeetabel; // табельный
+			$_GET['dolj'] = $type_doljnost; // ID должности
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -65,12 +78,14 @@ SQL;
 			$_SESSION['add_or_edit_employee'] = 1;
 			
 			// получаем значения для задания их по умолчанию
+			$employee_id = $_GET['employee_id']; // id сотрудника
 			$employee_cur = $_GET['employee_cur']; // фамилия
 			$employee_name = $_GET['employee_name']; // имя
 			$employee_pat = $_GET['employee_pat']; // отчество
 			$employee_tabel = $_GET['employee_tabel']; // табельный
-			$dolj_kod = $_GET['dolj']; // табельный
+			$dolj_kod = $_GET['dolj']; // ID должности
 			
+			$smarty->assign("cur_employee_id", $employee_id);
 			$smarty->assign("cur_employee_cur", $employee_cur);
 			$smarty->assign("cur_employee_name", $employee_name);
 			$smarty->assign("cur_employee_pat", $employee_pat);

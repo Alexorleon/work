@@ -170,6 +170,7 @@ function get_employee(f){
 		num = f.type_doljnost.selectedIndex;
 		post_id = f.type_doljnost.options[num].value;
 
+		$("#employee_hidden_id").val();
 		$("#employeesur").val();
 		$("#employeename").val();
 		$("#employeepat").val();

@@ -20,7 +20,7 @@
 			$.ajax({ 
 				type: 'POST', 
 				data: {'dolj_id': dolj_id, 'test_id': test_id},
-				url: "./inc/ajax.insert_rows.employee.php",
+				url: "./inc/ajax.insert_rows.posts.php",
 				//dataType: 'json',
 				error: function(req, text, error) {
 				//console.log('Ошибка AJAX: ' + text + ' | ' + error);
@@ -34,7 +34,7 @@
 						}else{
 							var arr_ans = data.split('_');
 							var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
-							$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_postid="+arr_ans[0]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
+							$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
 							//console.log(arr_ans[1]);
 						}
 					}
@@ -42,6 +42,36 @@
 			});
 		}
 	}
+	
+	// удаляем тесты из должности
+	/*function delete_row(){
+		//$(".table_edit_tests").find("tr").remove();	// удаляем все, кроме первой строки таблицы(заголовок)
+		
+		//console.log(dolj_id+"fdfds"+test_id);
+		$.ajax({ 
+			type: 'POST', 
+			data: {},
+			url: "./inc/ajax.delete_rows.tests.php",
+			//dataType: 'json',
+			error: function(req, text, error) {
+			//console.log('Ошибка AJAX: ' + text + ' | ' + error);
+			},
+			success: function (data) {
+				console.log(data);
+				if(data == "not"){ // ничего не делаем
+				}else{
+					if (data == "0"){
+						console.log("Ошибка!");
+					}else{
+						var arr_ans = data.split('_');
+						var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
+						$(".table_edit_tests tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
+						//console.log(arr_ans[1]);
+					}
+				}
+			}
+		});
+	}*/
 	
 </script>
 {/literal}
@@ -138,7 +168,7 @@
 
 	{$count = 0}
 	<!-- Таблица тестов для данной должности -->
-	<table class="edit_tables">
+	<table id="table_edit_tests" class="edit_tables">
 
 		<tr>
 			<!--<th style="width: 2%;">№</th>-->
@@ -156,7 +186,7 @@
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
 					<!--<a href="/list_posts?del_postid={$array_test_added[{$count}]['KOD']}" onclick="deleteInTable({$array_posts[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
-					<a href="/edit_post?del_postid={$array_test_added[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+					<a href="/edit_post?del_testid={$array_test_added[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	
