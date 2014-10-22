@@ -26,22 +26,46 @@
 <body>
 <div id="error_mess"> {$error_} </div>
 
-<div id="mainDiv" align="center" >
-
 <!-- menu-holder -->
 <div id="menu-holder"></div>
 <!-- ENDS menu-holder -->
 
 <div id="menu-holder" style="height: 4px;"></div>
 
-<form id="register" name="register" method="POST">
+<main>
 
-	Логин <input name="login"><br>
-	Пароль <input name="password" type="password"><br>
-	Не прикреплять к IP(не безопасно) <input type="checkbox" name="not_attach_ip"><br>
+<aside>
 
-	<input name="submit" type="submit" value="Войти">
+	<menu>
+		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
+	</menu>
+
+</aside>
+
+<article>
+
+<form id="register" name="register" method="post">
+
+	<span class="title_menu_edit">Авторизация</span>
+
+	<div align="left">
+		<input class="button_admin_edit" name="submit" type="submit" value="Войти">
+	</div>	
+
+	<table>
+		<tr>
+			<td>Логин:</td>
+			<td><input name="login"></textarea></td>
+		</tr>
+		<tr>
+			<td>Пароль:</td>
+			<td><input type="password" name="password"></textarea></td>
+		</tr>
+	</table>
 </form>
+</article>
+
+</main>
 
 <div id="bottom">
 	<div id="menu-holder-light"></div>
@@ -50,7 +74,6 @@
 	<!-- ENDS menu-holder -->
 </div>
 
-</div>
 <script src="{$tpl}js/script.js"></script>
 </body>
 </html>

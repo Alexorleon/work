@@ -22,39 +22,41 @@ SQL;
 		// , ip=INET_ATON('192.168.1.80')
 		
 		// Сравниваем пароли
-		if($data['PASSWORD'] === md5(md5($good_password))){
+		if( !empty($data['PASSWORD'])){
+			if($data['PASSWORD'] === md5(md5($good_password))){
 
-			// Генерируем случайное число и шифруем его
-			$hash = md5(generateCode(10));
+				// Генерируем случайное число и шифруем его
+				$hash = md5(generateCode(10));
 
-			$insip = 0;
-			
-			if(!@$_POST['not_attach_ip']){
+				$insip = 0;
+				
+				if(!@$_POST['not_attach_ip']){
 
-				// Если пользователь выбрал привязку к IP
-				// Переводим IP в строку
-				//$insip = ", ip=INET_ATON('".$_SERVER['REMOTE_ADDR']."')";
-				$origin_ip = $_SERVER['REMOTE_ADDR'];
-				// $insip = 
-			}
+					// Если пользователь выбрал привязку к IP
+					// Переводим IP в строку
+					//$insip = ", ip=INET_ATON('".$_SERVER['REMOTE_ADDR']."')";
+					$origin_ip = $_SERVER['REMOTE_ADDR'];
+					// $insip = 
+				}
 
-			$id = $data['ID'];
-			
-			// Записываем в БД новый хеш авторизации и IP
-			$sql = <<<SQL
-				UPDATE stat.ADMINREG SET HASH='$hash', IP='$insip' WHERE ADMINREG.ID='$id'
+				$id = $data['ID'];
+				
+				// Записываем в БД новый хеш авторизации и IP
+				$sql = <<<SQL
+					UPDATE stat.ADMINREG SET HASH='$hash', IP='$insip' WHERE ADMINREG.ID='$id'
 SQL;
-			$db->go_query($sql);
-			
-			// Ставим куки
-			setcookie("register_id", $data['ID'], time()+60*60*24*30);
-			setcookie("register_hash", $hash, time()+60*60*24*30);
+				$db->go_query($sql);
+				
+				// Ставим куки
+				setcookie("register_id", $data['ID'], time()+60*60*24*30);
+				setcookie("register_hash", $hash, time()+60*60*24*30);
 
-			// Переадресовываем браузер на страницу проверки нашего скрипта
-			die('<script>document.location.href= "'.lhost.'/check"</script>');
-		}else{
+				// Переадресовываем браузер на страницу проверки нашего скрипта
+				die('<script>document.location.href= "'.lhost.'/check"</script>');
+			}else{
 
-			print "Вы ввели неправильный логин/пароль";
+				print "Вы ввели неправильный логин/пароль";
+			}
 		}
 	}
 

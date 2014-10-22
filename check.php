@@ -1,5 +1,4 @@
-<?php	
-	session_start(); // TODO: нужно ли тут?
+<?php
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 	
 	$db = new db;

@@ -36,7 +36,6 @@ SQL;
 				
 				//Во первых, нужно вывести ошибку, точнее текст ошибки
 				$error_ = "Такой табельный уже есть!";
-				$smarty->assign("employeename", $employeename);
 			}
 		
 		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
