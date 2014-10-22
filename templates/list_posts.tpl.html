@@ -36,7 +36,6 @@
 </aside>
 
 <article>
-
 	<span class="title_menu_edit">Список должностей для терминала</span>
 
 	<div align="left"><a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить должность" onclick=""/></a></div>
@@ -67,7 +66,7 @@
 				{$array_posts[{$count}]['TEXT']}		
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
-					<!--<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" onclick="deleteInTable({$array_posts[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
+					
 					<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}

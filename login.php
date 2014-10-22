@@ -1,13 +1,13 @@
 <?php	
-	unset($_SESSION);
+//убиваем куки, чтобы воткнуть новые, знач сессии удалять надо каждую отдельно, конкретно указывая какую
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 	
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
-
-	if(isset($_POST['submit'])){
+	//print_r($_SESSION);
 	
+	if(isset($_POST['submit'])){
 		// TODO: экранируем
 		//$good_login = mysql_real_escape_string($_POST['login']);
 		$good_login = $_POST['login'];
@@ -51,13 +51,18 @@ SQL;
 				setcookie("register_id", $data['ID'], time()+60*60*24*30);
 				setcookie("register_hash", $hash, time()+60*60*24*30);
 
+				$_SESSION["register_id"] = $data['ID']; //запоминаем айди и хэш нашего авторизовавшегося юзера
+				$_SESSION["register_hash"] = $hash;
 				// Переадресовываем браузер на страницу проверки нашего скрипта
 				die('<script>document.location.href= "'.lhost.'/check"</script>');
+				//die('<script>document.location.href= "'.lhost.'/list_posts"</script>');
 			}else{
 
 				print "Вы ввели неправильный логин/пароль";
 			}
 		}
+	}else{
+		session_destroy();
 	}
 
 	$smarty->assign("error_", $error_);

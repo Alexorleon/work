@@ -72,8 +72,7 @@
 				{$array_employees[{$count}]['TABEL_KADR']}
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
-					<!--<a href="/list_posts?del_postid={$array_employees[{$count}]['SOTRUD_K']}" onclick="deleteInTable({$array_employees[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
-					<a href="/list_employees?del_employeeid={$array_employees[{$count}]['SOTRUD_K']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				<a href="/list_employees?del_employeeid={$array_employees[{$count}]['SOTRUD_K']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	

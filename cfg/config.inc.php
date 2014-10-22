@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start();//чтобы работать с сессиями, на каждой странице их надо стартануть, поэтому они в общем файле, который вяжется к каждому файлигу
 	require $_SERVER['DOCUMENT_ROOT']."/libs/Smarty.class.php";
 	$smarty = new Smarty;
 	

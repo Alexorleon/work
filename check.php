@@ -20,7 +20,7 @@ SQL;
 			setcookie("register_id", "", time() - 3600*24*30*12, "/");
 			setcookie("register_hash", "", time() - 3600*24*30*12, "/");
 
-			print "Хм, что-то не получилось";
+			$_SESSION['admin_access'] = FALSE;
 		}else{
 
 			// разрешаем вход в кабинет

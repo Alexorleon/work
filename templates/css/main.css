@@ -1053,11 +1053,13 @@ main {
 }
 
 article {
-    float: right;
-    margin-bottom: 30px;
+    float: left;
+    margin: 0 0 30px 240px;
+	z-index: 2;
+	position:relative;
     /*padding: 0 15px;*/
-    width: 87%;
-    overflow: hidden;
+   /* width: 87%;
+    overflow: hidden;*/
 }
 
 section {
@@ -1067,13 +1069,13 @@ section {
 }
 
 aside {
-    float: left;
-    /*padding-left: 0px;*/
-    width: 12%;
-	/*width: 230px; сдвигается правый блок*/
-    display: block;
-    overflow: hidden;
-    position:relative;
+    /*float: left;
+    padding-left: 0px;*/
+	width: 230px;
+    /*display: block;
+    overflow: hidden;*/
+    position:fixed;
+	z-index: 1;
 }
 
 menu {
