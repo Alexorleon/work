@@ -1,5 +1,5 @@
 <?php	
-	unset($_SESSION);
+	/*unset($_SESSION);
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 	
 	$db = new db;
@@ -33,9 +33,6 @@
 		}
 
 		// TODO: экранируем
-		/*$login = stripslashes($login);
-		$login = htmlspecialchars($login);*/
-		//$good_login = mysql_real_escape_string($_POST['login']);
 		$good_login = $_POST['login'];
 		$good_password = $_POST['password'];
 		
@@ -79,7 +76,7 @@ SQL;
 	$smarty->assign("error_", $error_);
 
 	$smarty->assign("title", "Авторизация");
-	$smarty->display("register.tpl.html");
+	$smarty->display("register.tpl.html");*/
 
 	// --- ФУНКЦИИ ---
 

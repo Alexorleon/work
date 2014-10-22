@@ -33,10 +33,4 @@ SQL;
 	}
 
 	$smarty->assign("error_", $error_);
-
-	//$smarty->assign("title", "Авторизация");
-	//$smarty->display("register.tpl.html");
-
-	// --- ФУНКЦИИ ---
-
   ?>

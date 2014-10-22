@@ -1070,6 +1070,7 @@ aside {
     float: left;
     /*padding-left: 0px;*/
     width: 12%;
+	/*width: 230px; сдвигается правый блок*/
     display: block;
     overflow: hidden;
     position:relative;
