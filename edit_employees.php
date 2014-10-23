@@ -46,11 +46,13 @@ SQL;
 		
 		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
 	
+			$employee_id_hidden = $_POST['employee_hidden_id'];
 			//print_r($_POST);
+			//die();
 			
 			$sql = <<<SQL
 				UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
-				SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='3809'
+				SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 			$db->go_query($sql);
 			
