@@ -1,14 +1,12 @@
 <?php	
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
 	
-	if( !isset($_SESSION['register_id'])){// к примеру пока проверим не на админа, а просто на авторизовавшегося, поле админ можно добавить в узерах, точнее USER_GROUP_ACCESS, если 1 - юзер, если 2 - админ, к примеру
-	//так же проверить надо еще, чтобы был хеш и прочая шняга, ну эт понятно
+	// проверка доступа к странице
+	if( isset($_SESSION['admin_access']) && $_SESSION['admin_access'] === TRUE){
+	}else{
 		//если не авторизованы, то выкидываем на ивторизацию
 		die('<script>document.location.href= "'.lhost.'/login"</script>');
-	}else{//если все огонь, то отправляем на куда надо, например на хер)
-		die("Привет друг-админ, сегодня не твой день и админить не удасться, пАкА!!!!");
 	}
-	//unset($_SESSION['admin_access']);
 	
 	$db = new db;
 	$db->GetConnect();

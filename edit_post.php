@@ -1,11 +1,17 @@
-<?php	
-	unset($_SESSION);
+<?php
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
+	
+	// проверка доступа к странице
+	if( isset($_SESSION['admin_access']) && $_SESSION['admin_access'] === TRUE){
+	}else{
+		//если не авторизованы, то выкидываем на ивторизацию
+		die('<script>document.location.href= "'.lhost.'/login"</script>');
+	}
 	
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
-	$array_test_added = Array();	
+	//$array_test_added = Array();	
 	$smarty->assign("cur_post_name", '');
 	
 	if ($_POST){
@@ -66,6 +72,10 @@ SQL;
 				SPECIALITY_B.DOLJNOSTKOD='$post_kod' AND SPECIALITY_B.TESTNAMESID=TESTNAMES.ID
 SQL;
 				$array_test_added = $db->go_result($sql);
+				
+				$smarty->assign("array_test_added", $array_test_added);
+				$smarty->assign("cur_post_kod", $post_kod);
+				$smarty->assign("cur_post_name", $post_name);
 			}else{
 			
 				$post_kod = 0; // id должности
@@ -78,13 +88,12 @@ SQL;
 				SPECIALITY_B.DOLJNOSTKOD='$post_kod' AND SPECIALITY_B.TESTNAMESID=TESTNAMES.ID
 SQL;
 				$array_test_added = $db->go_result($sql);
-				print_r("fsdfsdfdfsadf");
+				$smarty->assign("array_test_added", $array_test_added);
+				$smarty->assign("cur_post_kod", $post_kod);
+				$smarty->assign("cur_post_name", $post_name);
 			}
 			
-			$smarty->assign("array_test_added", $array_test_added);
 			
-			$smarty->assign("cur_post_kod", $post_kod);
-			$smarty->assign("cur_post_name", $post_name);
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -127,7 +136,7 @@ SQL;
 	}*/
 	
 	$smarty->assign("error_", $error_);
-	$smarty->assign("array_test_added", $array_test_added);	
+	//$smarty->assign("array_test_added", $array_test_added);	
 	$smarty->assign("array_testnames", $array_testnames);
 	
 	$smarty->assign("add_or_edit_post", $_SESSION['add_or_edit_post']);

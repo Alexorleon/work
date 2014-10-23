@@ -1,6 +1,12 @@
-<?php	
-	unset($_SESSION);
+<?php
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
+	
+	// проверка доступа к странице
+	if( isset($_SESSION['admin_access']) && $_SESSION['admin_access'] === TRUE){
+	}else{
+		//если не авторизованы, то выкидываем на ивторизацию
+		die('<script>document.location.href= "'.lhost.'/login"</script>');
+	}
 	
 	$db = new db;
 	$db->GetConnect();
