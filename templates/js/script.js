@@ -175,22 +175,15 @@ function get_employee(f){
 // add or edit tests
 function get_test(f){
 
-	/*if(($("#employeesur").val() == "") || ($("#employeename").val() == "") || ($("#employeepat").val() == "") || ($("#employeetabel").val() == "")){ // не пустые значения
+	if(($("#testname").val() == "") || ($("#testpenalty").val() == "")){ // не пустые значения
 
 		alert("Введите все данные!");		
 	}else{
 	
-		num = f.type_doljnost.selectedIndex;
-		post_id = f.type_doljnost.options[num].value;
-
-		$("#employee_hidden_id").val();
-		$("#employeesur").val();
-		$("#employeename").val();
-		$("#employeepat").val();
-		$("#type_doljnost").val(post_id);
-		$("#employeetabel").val();
-		$("#edit_employee").submit();
-	}*/
+		$("#testname").val();
+		$("#testpenalty").val();
+		$("#edit_test").submit();
+	}
 }
 
 /*

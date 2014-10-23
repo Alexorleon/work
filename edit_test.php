@@ -14,35 +14,16 @@
 		
 	if ($_POST){
 		
-		$employeesur = iconv("utf-8", "windows-1251", $_POST['employeesur']); // фамилия
-		$employeename = iconv("utf-8", "windows-1251", $_POST['employeename']); // имя
-		$employeepat = iconv("utf-8", "windows-1251", $_POST['employeepat']); // отчество
-		$type_doljnost = $_POST['type_doljnost']; // должность
-		$employeetabel = $_POST['employeetabel']; // табельный
-		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_test'] == 0){ // это добавление нового
 		
-			// проверяем табельный номер
-			$sql = <<<SQL
-			SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K=10 AND SOTRUD.TABEL_KADR='$employeetabel'
-SQL;
-			$check_employees_tabel = $db->go_result_once($sql);
-
-			if(empty($check_employees_tabel)){ // если пусто, то такого табельного нет. добовляем.
-				$error_='';//нулим ошибку,если повторно будет
-				$smarty->assign("employeename", "");
-				$sql = <<<SQL
-				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_KADR) 
-				VALUES ('$employeesur', '$employeename', '$employeepat', 10, '$type_doljnost', '$employeetabel')
-SQL;
-				$db->go_query($sql);
+			$testname = $_POST['testname'];
+			$testpenalty = $_POST['testpenalty'];
 			
-			}else{ // иначе говорим что такой табельный уже есть
-				
-				//Во первых, нужно вывести ошибку, точнее текст ошибки
-				$error_ = "Такой табельный уже есть!";
-			}
+			$sql = <<<SQL
+			INSERT INTO stat.TESTNAMES (TITLE, PENALTYPOINTS, ACTIVE) VALUES ('$testname', '$testpenalty', 'Y')
+SQL;
+			$db->go_query($sql);
 		
 		}else if($_SESSION['add_or_edit_test'] == 1){ // это редактирование
 	
