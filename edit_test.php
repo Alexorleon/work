@@ -21,7 +21,7 @@
 		$employeetabel = $_POST['employeetabel']; // табельный
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
-		if($_SESSION['add_or_edit_employee'] == 0){ // это добавление нового
+		if($_SESSION['add_or_edit_test'] == 0){ // это добавление нового
 		
 			// проверяем табельный номер
 			$sql = <<<SQL
@@ -44,7 +44,7 @@ SQL;
 				$error_ = "Такой табельный уже есть!";
 			}
 		
-		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
+		}else if($_SESSION['add_or_edit_test'] == 1){ // это редактирование
 	
 			//print_r($_POST);
 			
@@ -66,55 +66,47 @@ SQL;
 		}
 	}
 	
-	if(isset($_GET['posttype'])){
+	if(isset($_GET['testtype'])){
 
-		if($_GET['posttype'] == 0){ // это добавление нового
+		if($_GET['testtype'] == 0){ // это добавление нового
 		
-			$_SESSION['add_or_edit_employee'] = 0;
+			$_SESSION['add_or_edit_test'] = 0;
 			
 			// чистые значения
-			$smarty->assign("cur_employee_cur", '');
-			$smarty->assign("cur_employee_name", '');
-			$smarty->assign("cur_employee_pat", '');
-			$smarty->assign("cur_employee_tabel", '');
-			$smarty->assign("cur_dolj_kod", '');
-		}else if($_GET['posttype'] == 1){ // это редактирование
+			$smarty->assign("cur_test_id", '');
+			$smarty->assign("cur_test_name", '');
+			$smarty->assign("cur_test_penalty", '');
+		}else if($_GET['testtype'] == 1){ // это редактирование
 	
-			$_SESSION['add_or_edit_employee'] = 1;
+			$_SESSION['add_or_edit_test'] = 1;
 			
 			// получаем значения для задания их по умолчанию
-			$employee_id = $_GET['employee_id']; // id сотрудника
-			$employee_cur = $_GET['employee_cur']; // фамилия
-			$employee_name = $_GET['employee_name']; // имя
-			$employee_pat = $_GET['employee_pat']; // отчество
-			$employee_tabel = $_GET['employee_tabel']; // табельный
-			$dolj_kod = $_GET['dolj']; // ID должности
+			$test_id = $_GET['test_id']; // id теста
+			$test_title = $_GET['test_title']; // название
+			$test_penalty = $_GET['test_penalty']; // штрафные баллы
 			
-			$smarty->assign("cur_employee_id", $employee_id);
-			$smarty->assign("cur_employee_cur", $employee_cur);
-			$smarty->assign("cur_employee_name", $employee_name);
-			$smarty->assign("cur_employee_pat", $employee_pat);
-			$smarty->assign("cur_employee_tabel", $employee_tabel);
-			$smarty->assign("cur_dolj_kod", $dolj_kod);
+			$smarty->assign("cur_test_id", '');
+			$smarty->assign("cur_test_name", '');
+			$smarty->assign("cur_test_penalty", '');
 		}else{
 			
 			die("У меня не прописано, что делать");
 		}
-	}
-	
-	// получаем список всех должностей. 10 - кокс-майнинг
-	$sql = <<<SQL
-	SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K=10
-SQL;
-	$array_posts = $db->go_result($sql);	
+	}	
 	
 	$smarty->assign("error_", $error_);
-	
-	$smarty->assign("array_posts", $array_posts);
 
-	// TODO: через ИФ режактирование или создание новой
-	$smarty->assign("title", "Редактирование сотрудников");
-	$smarty->display("edit_employees.tpl.html");
+	// редактирование или создание
+	if($_SESSION['add_or_edit_test'] == 0){
+	
+		$smarty->assign("title", "Создание теста");
+	}else{
+	
+		$smarty->assign("title", "Редактирование теста");
+	}
+	
+	$smarty->assign("add_or_edit_test", $_SESSION['add_or_edit_test']);
+	$smarty->display("edit_test.tpl.html");
 
 	// --- ФУНКЦИИ ---
 

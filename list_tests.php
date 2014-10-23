@@ -13,7 +13,7 @@
 	$error_='';
 	
 	// инициализация
-	$_SESSION['add_or_edit_post'] = 0; // добавление
+	$_SESSION['add_or_edit_test'] = 0; // добавление
 	
 	if($_GET){
 		

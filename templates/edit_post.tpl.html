@@ -113,11 +113,11 @@
 			
 			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 			<!--в зависимости от статуса добавляем или редактируем-->
-			<input class="button_admin_edit" type="button" value="Добавить должность" onclick="get_post(0, this.form, -1)"/>
+			<input class="button_admin_edit" type="button" value="Добавить должность" onclick="get_post(this.form)"/>
 		{else}
-			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Завершить" onclick=""/></a>
+			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 			<!--в зависимости от статуса добавляем или редактируем-->
-			<input class="button_admin_edit" type="button" value="Изменить должность" onclick="get_post(1, this.form)"/>
+			<input class="button_admin_edit" type="button" value="Изменить должность" onclick="get_post(this.form)"/>
 			<!-- Добавить тест к должности -->
 			<input class="button_admin_edit" type="button" onclick="insert_row();" value="Добавить тест"</input>
 		{/if}

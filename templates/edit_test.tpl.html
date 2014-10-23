@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+</head>
+<body>
+<!--<form id="list_posts" name="list_posts" method="post">
+</form>-->
+
+<div id="menu-holder-light"></div>
+
+<main>
+
+<aside>
+
+	<menu>
+		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
+		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/>
+		<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu set_cur" type="button" value="Тесты" onclick=""/></a></li></a></li>
+		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
+	</menu>
+
+</aside>
+
+<article>
+<form id="edit_test" name="edit_test" method="post">
+
+	<div style="margin-left: 2px;" align="left">
+		<!--в зависимости от статуса добавляем или редактируем-->
+		{if $add_or_edit_test eq 0} <!-- новый тест -->
+		
+			<span class="title_menu_edit">Создание теста</span>
+			
+			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+			<input class="button_admin_edit" type="button" value="Добавить тест" onclick="get_test(this.form)"/>
+		{else} <!-- редактирование -->
+		
+			<span class="title_menu_edit">Редактирование теста</span>
+			
+			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+			<input class="button_admin_edit" type="button" value="Изменить тест" onclick="get_test(this.form)"/>
+		{/if}
+	</div>
+	
+	{if $add_or_edit_test eq 0}
+		<!--<table>
+			<tr>
+				<td>Название должности:</td>
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{if ($cur_post_name)}{$cur_post_name}{/if}"></textarea>
+				<input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+			</tr>
+		</table>-->
+	{else}
+		<!--<table>
+			<tr>
+				<td>Название должности:</td>
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
+				<input type="hidden" id="dolj_id" name="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+			</tr>
+			<tr>
+				<td>Название теста:</td>
+				<td>
+					<p style="font-size:14px"><select style="font-size:14px" name="type_specialty" id="type_specialty">
+					{section name=j loop=$array_testnames}
+						<option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
+					{/section}
+					</select></p>
+				</td>
+			</tr>
+		</table>-->
+	{/if}
+	
+	<!--  -->
+	<!--<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></textarea></td>-->
+
+</form>
+
+</article>
+
+</main>
+
+<footer id="bottom">
+
+</footer>
+
+
+<script src="{$tpl}js/script.js"></script>
+</body>
+</html>

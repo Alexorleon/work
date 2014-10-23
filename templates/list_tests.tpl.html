@@ -38,7 +38,7 @@
 <article>
 	<span class="title_menu_edit">Список тестов</span>
 
-	<div style="margin-left: 2px;" align="left"><a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить тест" onclick=""/></a></div>
+	<div style="margin-left: 2px;" align="left"><a href="/new_test"><input class="button_admin_edit" type="button" value="Добавить тест" onclick=""/></a></div>
 	<!-- Меню редактирования -->
 	<!--<nav>
 		<ul>
@@ -63,7 +63,7 @@
 				<td>
 				{$array_tests[{$count}]['ID']}
 				</td>
-				<td onclick="window.location='edit_test?test_id={$array_tests[{$count}]['ID']}&test_title={$array_tests[{$count}]['TITLE']}'&test_penalty={$array_tests[{$count}]['PENALTYPOINTS']}'" title="Редактировать" style="cursor: pointer;">		
+				<td onclick="window.location='edit_test?test_id={$array_tests[{$count}]['ID']}&test_title={$array_tests[{$count}]['TITLE']}&test_penalty={$array_tests[{$count}]['PENALTYPOINTS']}'" title="Редактировать" style="cursor: pointer;">		
 				{$array_tests[{$count}]['TITLE']}		
 				</td>
 				<td>
