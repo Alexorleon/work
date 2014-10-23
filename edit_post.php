@@ -47,7 +47,7 @@ SQL;
 	}
 	
 	if($_GET){
-
+		
 		if($_GET['posttype'] == 0){ // это добавление нового
 		
 			$_SESSION['add_or_edit_post'] = 0;
@@ -88,12 +88,11 @@ SQL;
 				SPECIALITY_B.DOLJNOSTKOD='$post_kod' AND SPECIALITY_B.TESTNAMESID=TESTNAMES.ID
 SQL;
 				$array_test_added = $db->go_result($sql);
+				
 				$smarty->assign("array_test_added", $array_test_added);
 				$smarty->assign("cur_post_kod", $post_kod);
 				$smarty->assign("cur_post_name", $post_name);
 			}
-			
-			
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -102,6 +101,9 @@ SQL;
 		if(isset($_GET['del_testid']) && !empty($_GET['del_testid']) && $_GET['del_testid']){
 
 			$del_testid = $_GET['del_testid']; // id теста
+
+			$post_kod = $_GET['post_kod']; // id должности
+			$post_name = $_GET['post_name']; // название должности
 			
 			// удаляем должность
 			$sql = <<<SQL
@@ -109,7 +111,7 @@ SQL;
 SQL;
 			$db->go_query($sql);
 			
-			die('<script>document.location.href= "'.lhost.'/edit_post"</script>');
+			die('<script>document.location.href= "'.lhost.'/edit_post?post_kod='.$post_kod.'&post_name='.$post_name.'"</script>');
 			//unset($_GET['del_testid']);
 		}
 	}

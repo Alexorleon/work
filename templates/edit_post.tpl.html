@@ -13,6 +13,7 @@
 		//$(".edit_tables").find("tr").remove();	// удаляем все, кроме первой строки таблицы(заголовок)
 		var dolj_id = $("#dolj_id").val();
 		var test_id = $("#type_specialty").val();
+		var title_post = $("#title_post").val();
 		
 		//console.log(dolj_id+"fdfds"+test_id);
 		if (dolj_id != "" && test_id != ""){// на всякий, чтоб на новой не запустили
@@ -34,7 +35,7 @@
 						}else{
 							var arr_ans = data.split('_');
 							var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
-							$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
+							$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"&post_kod="+arr_ans[0]+"&post_name="+title_post+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
 							//console.log(arr_ans[1]);
 						}
 					}
@@ -42,36 +43,6 @@
 			});
 		}
 	}
-	
-	// удаляем тесты из должности
-	/*function delete_row(){
-		//$(".table_edit_tests").find("tr").remove();	// удаляем все, кроме первой строки таблицы(заголовок)
-		
-		//console.log(dolj_id+"fdfds"+test_id);
-		$.ajax({ 
-			type: 'POST', 
-			data: {},
-			url: "./inc/ajax.delete_rows.tests.php",
-			//dataType: 'json',
-			error: function(req, text, error) {
-			//console.log('Ошибка AJAX: ' + text + ' | ' + error);
-			},
-			success: function (data) {
-				console.log(data);
-				if(data == "not"){ // ничего не делаем
-				}else{
-					if (data == "0"){
-						console.log("Ошибка!");
-					}else{
-						var arr_ans = data.split('_');
-						var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
-						$(".table_edit_tests tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
-						//console.log(arr_ans[1]);
-					}
-				}
-			}
-		});
-	}*/
 	
 </script>
 {/literal}
@@ -184,13 +155,16 @@
 				{$array_test_added[{$count}]['TITLE']}		
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
-				<a href="/edit_post?posttype=1&del_testid={$array_test_added[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				<a href="/edit_post?posttype=1&del_testid={$array_test_added[{$count}]['ID']}&post_kod={$smarty.get.post_kod}&post_name={$smarty.get.post_name}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	
 		{/section}
 	</table>
 {/if}
+	
+	<!--  -->
+	<input type="hidden" id="title_post" name="title_post" value="{$smarty.get.post_name}"></textarea></td>
 	
 </form>
 
