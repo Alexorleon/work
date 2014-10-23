@@ -96,9 +96,8 @@
 		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
 		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
 		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>
 		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
-		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
-		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Помощь" onclick=""/></a></li>-->
 	</menu>
 
 </aside>
@@ -107,9 +106,9 @@
 
 <form id="edit_post" name="edit_post" method="post">
 
-	<span class="title_menu_edit">Редактирование должности</span>
+	<span class="title_menu_edit" style="margin-left: 2px;">Редактирование должности</span>
 	
-	<div align="left">
+	<div style="margin-left: 2px;" align="left">
 		{if $add_or_edit_post eq 0} <!-- новая должность -->
 			
 			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>

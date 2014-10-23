@@ -25,8 +25,8 @@
 		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
 		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
 		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>
 		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu set_cur" type="button" value="Настройки" onclick=""/></a></li>
-		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
 	</menu>
 
 </aside>
@@ -35,10 +35,10 @@
 
 <form id="register" name="register" method="post">
 
-	<span class="title_menu_edit">Настройки</span>
+	<span class="title_menu_edit" style="margin-left: 2px;">Настройки</span>
 
-	<p><span>Изменение параметров авторизации</span></p>
-	<table>
+	<p style="margin-left: 2px;"><span>Изменение параметров авторизации</span></p>
+	<table style="margin-left: 2px;">
 		<tr>
 			<td>Логин:</td>
 			<td><input name="login"></textarea></td>
@@ -53,7 +53,7 @@
 		</tr>
 	</table>
 
-	<div align="left">
+	<div align="left" style="margin-left: 2px;">
 		<input class="button_admin_edit" name="submit" type="submit" value="Изменить">
 	</div>	
 </form>
