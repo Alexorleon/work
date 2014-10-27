@@ -20,12 +20,52 @@
 			$testname = $_POST['testname'];
 			$testpenalty = $_POST['testpenalty'];
 			
+			// TODO: по хорошему тут обязательно нужна транзакция
+			
 			$sql = <<<SQL
 			INSERT INTO stat.TESTNAMES (TITLE, PENALTYPOINTS, ACTIVE) VALUES ('$testname', '$testpenalty', 'Y')
 SQL;
 			$db->go_query($sql);
 			
+			// получаем номер последнего ID после вставки.
+			$sql = <<<SQL
+				SELECT Max(ID) AS "max" FROM stat.TESTNAMES
+SQL;
+			$s_res = $db->go_result_once($sql);
+			
+			$last_testid = (int)$s_res['max'];
+			
+			// получаем все модули
+			$sql = <<<SQL
+				SELECT ID FROM stat.MODULE
+SQL;
+			$all_modules = $db->go_result($sql);
+			
+			// получаем все типы вопросов
+			$sql = <<<SQL
+				SELECT ID FROM stat.TYPEQUESTIONS
+SQL;
+			$all_types_ques = $db->go_result($sql);
+			
+			// записываем параметры по умолчанию
+			for($mod = 0; $mod < count($all_modules); $mod++){
+			
+				$int_all_mod = (int)$all_modules[$mod]['ID'];
+				
+				for($typ = 0; $typ < count($all_types_ques); $typ++){
+			
+					// COEFFICIENT по умолчанию равен 50. Это 50%. Т.е. распределять равномерно.
+					$int_all_typ = (int)$all_types_ques[$typ]['ID'];
+					$sql = <<<SQL
+					INSERT INTO stat.TESTPARAMETERS (ACTIVE, COEFFICIENT, TESTNAMESID, TYPEQUESTIONSID, MODULEID) 
+					VALUES ('', 50, '$last_testid', '$int_all_typ', '$int_all_mod')
+SQL;
+					$db->go_query($sql);
+				}
+			}
+			
 			// TODO: после успешной записи запомнить ID. и активировать кнопку редактирования последней этой записи.
+			
 		
 		}else if($_SESSION['add_or_edit_test'] == 1){ // это редактирование
 	
