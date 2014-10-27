@@ -60,7 +60,7 @@
 		<table>
 			<tr>
 				<td>Название:</td>
-				<td><input class="field_text_edit" id="testname" name="testname" value="{if ($cur_test_name)}{$cur_test_name}{/if}"></textarea>
+				<td><input class="field_text_edit" id="testname" name="testname" value="{if ($cur_test_title)}{$cur_test_title}{/if}"></textarea>
 			</tr>
 			<tr>
 				<td>Штрафные баллы:</td>
@@ -68,7 +68,7 @@
 			</tr>
 		</table>
 		
-		<table class="edit_tables_typeques">
+		<!--<table class="edit_tables_typeques">
 			<tr>
 				<th style="width: 25%;"></th>
 				<th style="width: 25%;">Проверка знаний</th>
@@ -145,12 +145,12 @@
 					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_experience"/>
 				</td>
 			</tr>
-		</table>
+		</table>-->
 	{else} <!-- редактирование -->
 		<table>
 			<tr>
 				<td>Название:</td>
-				<td><input class="field_text_edit" id="testname" name="testname" value="{if ($cur_test_name)}{$cur_test_name}{/if}"></textarea>
+				<td><input class="field_text_edit" id="testname" name="testname" value="{if ($cur_test_title)}{$cur_test_title}{/if}"></textarea>
 			</tr>
 			<tr>
 				<td>Штрафные баллы:</td>

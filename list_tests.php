@@ -38,7 +38,7 @@ SQL;
 	$sql = <<<SQL
 	SELECT ID, TITLE, PENALTYPOINTS FROM stat.TESTNAMES
 SQL;
-	$array_tests = $db->go_result($sql);	
+	$array_tests = $db->go_result($sql);
 	
 	$smarty->assign("error_", $error_);
 	
