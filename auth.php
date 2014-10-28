@@ -45,6 +45,21 @@ SQL;
 			$_SESSION['sotrud_dolj']=$s_res['DOLJ_K'];
 			$_SESSION['sotrud_tabkadr']=$s_res['TABEL_KADR'];
 			
+			// если у этой дожности нет теста, назначим ей общий
+			$temp_dolj_kod = $s_res['DOLJ_K'];
+			$sql = <<<SQL
+				SELECT ID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$temp_dolj_kod'
+SQL;
+			$test_availabilty = $db->go_result_once($sql);
+			
+			// TODO: магическое число. общие вопросы 63.
+			if(empty($test_availabilty)){
+
+				$sql = <<<SQL
+					INSERT INTO stat.SPECIALITY_B (TESTNAMESID, DOLJNOSTKOD) VALUES('63', '$temp_dolj_kod')
+SQL;
+				$db->go_query($sql);
+			}
 			// переход на другую страницу, вместо header используем die.
 			if($type_submit == "1"){
 				die('<script>document.location.href= "'.lhost.'/index.php"</script>');
