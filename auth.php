@@ -26,9 +26,8 @@
 		
 		$tabnum = trim(stripslashes(htmlspecialchars($tabnum)));
 		
-		// TODO: в данный момент PREDPR_K относится к Кокс-майнинг  and PREDPR_K=10
 		$sql = <<<SQL
-			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K, TABEL_KADR from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL $predpr_k_sql
+			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K, TABEL_KADR from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL and predpr_k=$predpr_k_glob
 SQL;
 		$s_res = $db->go_result_once($sql);
 

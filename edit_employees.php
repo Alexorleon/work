@@ -25,7 +25,7 @@
 		
 			// проверяем табельный номер
 			$sql = <<<SQL
-			SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K=10 AND SOTRUD.TABEL_KADR='$employeetabel'
+			SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_KADR='$employeetabel'
 SQL;
 			$check_employees_tabel = $db->go_result_once($sql);
 
@@ -34,7 +34,7 @@ SQL;
 				$smarty->assign("employeename", "");
 				$sql = <<<SQL
 				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_KADR) 
-				VALUES ('$employeesur', '$employeename', '$employeepat', 10, '$type_doljnost', '$employeetabel')
+				VALUES ('$employeesur', '$employeename', '$employeepat', '$predpr_k_glob', '$type_doljnost', '$employeetabel')
 SQL;
 				$db->go_query($sql);
 			
@@ -54,7 +54,7 @@ SQL;
 			if($_SESSION['check_employee_tabel'] != $employeetabel){
 
 				$sql = <<<SQL
-				SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K=10 AND SOTRUD.TABEL_KADR='$employeetabel'
+				SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_KADR='$employeetabel'
 SQL;
 				$check_employees_tabel = $db->go_result_once($sql);
 
@@ -62,7 +62,7 @@ SQL;
 
 					$sql = <<<SQL
 					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
-					SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='$employee_id_hidden'
+					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 					$db->go_query($sql);
 					
@@ -84,7 +84,7 @@ SQL;
 			
 				$sql = <<<SQL
 					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
-					SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='$employee_id_hidden'
+					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 				$db->go_query($sql);
 				
@@ -142,7 +142,7 @@ SQL;
 	
 	// получаем список всех должностей. 10 - кокс-майнинг
 	$sql = <<<SQL
-	SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K=10
+	SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K='$predpr_k_glob'
 SQL;
 	$array_posts = $db->go_result($sql);	
 	

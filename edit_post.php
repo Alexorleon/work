@@ -28,14 +28,14 @@
 			
 			// проверяем, есть ли уже такая должность
 			$sql = <<<SQL
-			SELECT KOD FROM stat.DOLJNOST WHERE upper(RTRIM(DOLJNOST.TEXT))=upper(RTRIM('$temppost')) and DEL IS NULL and PREDPR_K=10
+			SELECT KOD FROM stat.DOLJNOST WHERE upper(RTRIM(DOLJNOST.TEXT))=upper(RTRIM('$temppost')) and DEL IS NULL and PREDPR_K=$predpr_k_glob
 SQL;
 			$check_post = $db->go_result_once($sql);
 
 			if(empty($check_post)){ // если пусто, то такой должности нет. добовляем.
 
 				$sql = <<<SQL
-				INSERT INTO stat.DOLJNOST (TEXT, PREDPR_K) VALUES ('$postname', 10)
+				INSERT INTO stat.DOLJNOST (TEXT, PREDPR_K) VALUES ('$postname', '$predpr_k_glob')
 SQL;
 				$db->go_query($sql);
 			}else{
@@ -52,7 +52,7 @@ SQL;
 			
 			// проверяем, есть ли уже такая должность
 			$sql = <<<SQL
-			SELECT KOD FROM stat.DOLJNOST WHERE upper(RTRIM(DOLJNOST.TEXT))=upper(RTRIM('$temppost')) and DEL IS NULL and PREDPR_K=10
+			SELECT KOD FROM stat.DOLJNOST WHERE upper(RTRIM(DOLJNOST.TEXT))=upper(RTRIM('$temppost')) and DEL IS NULL and PREDPR_K=$predpr_k_glob
 SQL;
 			$check_post = $db->go_result_once($sql);
 
@@ -60,7 +60,7 @@ SQL;
 
 				$sql = <<<SQL
 				UPDATE stat.DOLJNOST SET TEXT='$postname' WHERE 
-				DOLJNOST.PREDPR_K=10 AND DOLJNOST.KOD='$dolj_id'
+				DOLJNOST.PREDPR_K='$predpr_k_glob' AND DOLJNOST.KOD='$dolj_id'
 SQL;
 				$db->go_query($sql);
 			

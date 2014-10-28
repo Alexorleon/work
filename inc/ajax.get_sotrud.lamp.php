@@ -26,7 +26,7 @@ SQL;
 		$temp_sotrudid = $array_sotrud[$i]['SOTRUD_ID'];
 				
 		$sql = <<<SQL
-		SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$temp_sotrudid' AND PREDPR_K=10
+		SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$temp_sotrudid' AND PREDPR_K=$predpr_k_glob
 SQL;
 		$temp_tabkadr = $db->go_result_once($sql);
 		
@@ -41,7 +41,7 @@ SQL;
 	$check_tab_num = $_POST['check_tab_num'];
 		
 	$sql = <<<SQL
-	SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$check_tab_num' AND PREDPR_K=10
+	SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$check_tab_num' AND PREDPR_K=$predpr_k_glob
 SQL;
 	$bool_sotrud = $db->go_result_once($sql);
 

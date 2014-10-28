@@ -34,9 +34,9 @@ SQL;
 		}
 	}
 	
-	// получаем список всех должностей. 10 - кокс-майнинг
+	// получаем список всех должностей.
 	$sql = <<<SQL
-	SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K=10
+	SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K=$predpr_k_glob
 SQL;
 	$array_posts = $db->go_result($sql);
 	
