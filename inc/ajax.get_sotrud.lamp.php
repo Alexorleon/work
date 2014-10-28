@@ -1,10 +1,10 @@
 <?php
-	if ((!isset($_SESSION['sotrud_id'])) or (empty($_SESSION['sotrud_id'])))
+	//die("Где то тут ошибка");
+	/*if ((!isset($_SESSION['sotrud_id'])) or (empty($_SESSION['sotrud_id'])))
 	{
 		die('not login');	
-	}else{
-	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
-	
+	}else{*/
+	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");	
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
@@ -64,5 +64,5 @@ SQL;
 	}
 	
 }
-}
+//}
 ?>
