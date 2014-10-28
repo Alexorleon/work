@@ -15,6 +15,7 @@
 		upper(SOTRUD.SOTRUD_FAM) LIKE upper('%$surname%') and DEL IS NULL and PREDPR_K=10
 SQL;
 		$array_employee = $db->go_result($sql);
+		
 		$smarty->assign("array_employee", $array_employee);
 	}
 	

@@ -50,18 +50,51 @@ SQL;
 			//print_r($_POST);
 			//die();
 			
-			$sql = <<<SQL
-				UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
-				SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='$employee_id_hidden'
+			// проверяем табельный номер. но если это тот же, то все норм.
+			if($_SESSION['check_employee_tabel'] != $employeetabel){
+
+				$sql = <<<SQL
+				SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K=10 AND SOTRUD.TABEL_KADR='$employeetabel'
 SQL;
-			$db->go_query($sql);
+				$check_employees_tabel = $db->go_result_once($sql);
+
+				if(empty($check_employees_tabel)){ // если пусто, то такого табельного нет. добовляем.
+
+					$sql = <<<SQL
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
+					SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='$employee_id_hidden'
+SQL;
+					$db->go_query($sql);
+					
+					// обновляем данные в полях
+					$_GET['employee_cur'] = $employeesur; // фамилия
+					$_GET['employee_name'] = $employeename; // имя
+					$_GET['employee_pat'] = $employeepat; // отчество
+					$_GET['employee_tabel'] = $employeetabel; // табельный
+					$_GET['dolj'] = $type_doljnost; // ID должности
+					
+					// запоминаем новый табельный
+					$_SESSION['check_employee_tabel'] = $employeetabel;
+				}else{ // иначе говорим что такой табельный уже есть
+					
+					//Во первых, нужно вывести ошибку, точнее текст ошибки
+					$error_ = "Такой табельный уже есть!";
+				}
+			}else{
 			
-			// обновляем данные в полях
-			$_GET['employee_cur'] = $employeesur; // фамилия
-			$_GET['employee_name'] = $employeename; // имя
-			$_GET['employee_pat'] = $employeepat; // отчество
-			$_GET['employee_tabel'] = $employeetabel; // табельный
-			$_GET['dolj'] = $type_doljnost; // ID должности
+				$sql = <<<SQL
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
+					SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='$employee_id_hidden'
+SQL;
+				$db->go_query($sql);
+				
+				// обновляем данные в полях
+				$_GET['employee_cur'] = $employeesur; // фамилия
+				$_GET['employee_name'] = $employeename; // имя
+				$_GET['employee_pat'] = $employeepat; // отчество
+				$_GET['employee_tabel'] = $employeetabel; // табельный
+				$_GET['dolj'] = $type_doljnost; // ID должности
+			}
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -91,6 +124,9 @@ SQL;
 			$employee_pat = $_GET['employee_pat']; // отчество
 			$employee_tabel = $_GET['employee_tabel']; // табельный
 			$dolj_kod = $_GET['dolj']; // ID должности
+			
+			// запоминаем табельный
+			$_SESSION['check_employee_tabel'] = $employee_tabel;
 			
 			$smarty->assign("cur_employee_id", $employee_id);
 			$smarty->assign("cur_employee_cur", $employee_cur);

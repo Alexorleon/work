@@ -24,22 +24,51 @@
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_post'] == 0){ // это добавление нового
 		
+			$temppost = iconv("utf-8", "windows-1251", $postname);
+			
+			// проверяем, есть ли уже такая должность
 			$sql = <<<SQL
-			INSERT INTO stat.DOLJNOST (TEXT, PREDPR_K) VALUES ('$postname', 10)
+			SELECT KOD FROM stat.DOLJNOST WHERE upper(RTRIM(DOLJNOST.TEXT))=upper(RTRIM('$temppost')) and DEL IS NULL and PREDPR_K=10
 SQL;
-			$db->go_query($sql);
+			$check_post = $db->go_result_once($sql);
+
+			if(empty($check_post)){ // если пусто, то такой должности нет. добовляем.
+
+				$sql = <<<SQL
+				INSERT INTO stat.DOLJNOST (TEXT, PREDPR_K) VALUES ('$postname', 10)
+SQL;
+				$db->go_query($sql);
+			}else{
+				
+				$error_ = "Возможно такая должность уже есть!";
+			}
 		
 		}else if($_SESSION['add_or_edit_post'] == 1){ // это редактирование
 			
 			$dolj_id = $_POST['dolj_id']; // название должности
+			$postname = $_POST['postname'];
 			
+			$temppost = iconv("utf-8", "windows-1251", $postname);
+			
+			// проверяем, есть ли уже такая должность
 			$sql = <<<SQL
+			SELECT KOD FROM stat.DOLJNOST WHERE upper(RTRIM(DOLJNOST.TEXT))=upper(RTRIM('$temppost')) and DEL IS NULL and PREDPR_K=10
+SQL;
+			$check_post = $db->go_result_once($sql);
+
+			if(empty($check_post)){ // если пусто, то такой должности нет. обновляем.
+
+				$sql = <<<SQL
 				UPDATE stat.DOLJNOST SET TEXT='$postname' WHERE 
 				DOLJNOST.PREDPR_K=10 AND DOLJNOST.KOD='$dolj_id'
 SQL;
-			$db->go_query($sql);
+				$db->go_query($sql);
 			
-			$_GET['post_name'] = $postname;
+				$_GET['post_name'] = $postname;
+			}else{
+				
+				$error_ = "Возможно такая должность уже есть!";
+			}
 		}else{
 			
 			die("У меня не прописано, что делать");

@@ -28,4 +28,10 @@ session_start();//чтобы работать с сессиями, на каждой странице их надо стартану
 		$smarty->display('old_browser.tpl.html'); 
 		die(); 
 	}
+	
+	// init
+	
+	// параметр для выборки по определенному предприятию
+	$predpr_k_sql = "and predpr_k=10";
+	//$predpr_k_sql = "";
 ?>
