@@ -98,18 +98,18 @@
 		<table>
 			<tr>
 				<td>Название должности:</td>
-				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
-				<td><input  class="field_text_edit" id="postname" name="postname" value="{if ($cur_post_name)}{$cur_post_name}{/if}"></textarea>
-				<input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></td>-->
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{if ($cur_post_name)}{$cur_post_name}{/if}"></td>
+				<td><input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></td>
 			</tr>
 		</table>
 	{else} <!-- редактирование -->
 		<table>
 			<tr>
 				<td>Название должности:</td>
-				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
-				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
-				<input type="hidden" id="dolj_id" name="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></td>-->
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></td>
+				<td><input type="hidden" id="dolj_id" name="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></td>
 			</tr>
 			<tr>
 				<td>Название теста:</td>
@@ -164,7 +164,7 @@
 {/if}
 	
 	<!--  -->
-	<input type="hidden" id="title_post" name="title_post" value="{$smarty.get.post_name}"></textarea></td>
+	<td><input type="hidden" id="title_post" name="title_post" value="{$smarty.get.post_name}"></td>
 	
 </form>
 
