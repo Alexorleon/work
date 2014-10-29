@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+
+<!--
+{literal}
+<script>
+
+	jQuery(function($) {
+		
+		setInterval(function() {
+			document.location.href= "/register.php";
+		}, 180000);
+	});
+</script>
+{/literal}-->
+{literal}
+<script>
+
+	jQuery(function($) {
+		$("#login").focus();
+	});
+</script>
+{/literal}
+
+</head>
+<body>
+<div id="error_mess"> {$error_} </div>
+
+<!-- menu-holder -->
+<div id="menu-holder"></div>
+<!-- ENDS menu-holder -->
+
+<div id="menu-holder" style="height: 4px;"></div>
+
+<main>
+
+<aside>
+
+	<menu>
+		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
+	</menu>
+
+</aside>
+
+<article>
+
+<form id="register" name="register" method="post">
+
+	<span class="title_menu_edit">Авторизация</span>
+	<br></br>
+	<table>
+		<tr>
+			<td>Логин:</td>
+			<td><input id="login" name="login"></td>
+		</tr>
+		<tr>
+			<td>Пароль:</td>
+			<td><input type="password" name="password"></td>
+		</tr>
+	</table>
+
+	<div align="left">
+		<input class="button_admin_edit" name="submit" type="submit" value="Войти">
+	</div>	
+</form>
+</article>
+
+</main>
+
+<div id="bottom">
+	<div id="menu-holder-light"></div>
+	<!-- menu-holder -->
+	<div id="menu-holder"></div>
+	<!-- ENDS menu-holder -->
+</div>
+
+<script src="{$tpl}js/script.js"></script>
+</body>
+</html>

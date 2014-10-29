@@ -10,7 +10,10 @@
 		$("#tabnum_lamp").focus();
 		go_timer();
 	});
-	
+	/*$().toastmessage('showErrorToast', 'ПРивет, я ошибка');
+	$().toastmessage('showWarningToast', 'ПРивет, я Уведомлялка');
+	$().toastmessage('showNoticeToast', 'ПРивет, я Уведомлялка');
+	$().toastmessage('showSuccessToast', 'ПРивет, я Уведомлялка');*/
 	/*Обновляем таблу чувачков*/
 	function get_sotrud(check_tab_num) {	//создал функцию, чтобы запускать по событию
 		//console.log(check_tab_num);
@@ -18,7 +21,7 @@
 		if(check_tab_num == 0){
 			
 			//$("#tabnum_status").html('');
-			
+			//console.log('ajax started1');
 			$.ajax({ //стартуем аякс
 				type: 'POST', //обращаемся к скрипту методом ПОСТ
 				data: {'type': '1'},
@@ -49,6 +52,7 @@
 				}
 			});
 		}else{
+			//console.log('ajax started2');
 			var id = $("#tabnum_lamp").val();
 			$.ajax({ //стартуем аякс
 				type: 'POST', //обращаемся к скрипту методом ПОСТ
@@ -62,6 +66,7 @@
 				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
 				},
 				success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
+					//console.log(data);
 					dataarr = data.split('_')
 					if (dataarr[0] != "none"){
 						//Если такой есть, тада
@@ -135,7 +140,6 @@
 				get_sotrud($("#tabnum_lamp").val());
 				$("#tabnum_lamp").val('');
 				stop_timers_to(10);
-				// TODO: после нажатия enter, обнулить таймер обновления.
 			}
 		});
 	});

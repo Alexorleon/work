@@ -40,50 +40,57 @@ jQuery(document).ready(function(){
 <!--<div class="authlogo" id="bottom_logo"></div>-->
 
 <!-- Делим на модули -->
-<div class="top-face"><b>РАЗВИТИЕ И КОНТРОЛЬ КОМПЕТЕНТНОСТИ</b></div>
-<!--<div class="top-face">Комплекс развития и контроля компетентности</div>-->
-<!--<div class="top-face">Предсменный экзаменатор</div>-->
+<!--<div class="top-face"><b>РАЗВИТИЕ И КОНТРОЛЬ КОМПЕТЕНТНОСТИ</b></div>-->
+<div class="top-face">Предсменный экзаменатор</div>
 
-<div id="menu-holder" style="height: 4px;"></div>
+<div id="menu-holder"></div>
 
-<div class="info">Введите табельный номер</div>
+<table style="width: 100%; background: #ffffff;">
+	<tr>
+		<td style="float: left;"><div class="authlogo_auth"></div></td>
+		<td style="float: center;"><div class="info">Введите табельный номер</div></td>
+		<td style="float: right;"><div class="authlogo_auth2"></div></td>
+	</tr>
+</table>
 
 <form id="auth" name="auth" method="post">
-<table >
-<tr>
-<td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
-<td><button class="search_button" onclick="go_search_employee()"></button></td>
-</tr>
-</table>
+<div class="dial">
 
-<table >
-<tr>
-<td><input type="num_button" value="1" onclick="addToField(1)" style="cursor: pointer;"/></td>
-<td><input type="num_button" value="2" onclick="addToField(2)" style="cursor: pointer;"/></td>
-<td><input type="num_button" value="3" onclick="addToField(3)" style="cursor: pointer;"/></td>
-</tr>
+	<table>
+		<tr>
+		<td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
+		<td><button style="cursor: pointer;" class="search_button" onclick="go_search_employee()"></button></td>
+		<td><p style="margin-left: 10px;">Поиск по фамилии</p></td>
+		</tr>
+	</table>
 
-<tr>
-<td><input type="num_button" value="4" onclick="addToField(4)" style="cursor: pointer;"/></td>
-<td><input type="num_button" value="5" onclick="addToField(5)" style="cursor: pointer;"/></td>
-<td><input type="num_button" value="6" onclick="addToField(6)" style="cursor: pointer;"/></td>
-</tr>
+	<table >
+		<tr>
+			<td><input type="num_button" value="1" onclick="addToField(1)" style="cursor: pointer;"/></td>
+			<td><input type="num_button" value="2" onclick="addToField(2)" style="cursor: pointer;"/></td>
+			<td><input type="num_button" value="3" onclick="addToField(3)" style="cursor: pointer;"/></td>
+		</tr>
 
-<tr>
-<td><input type="num_button" value="7" onclick="addToField(7)" style="cursor: pointer;"/></td>
-<td><input type="num_button" value="8" onclick="addToField(8)" style="cursor: pointer;"/></td>
-<td><input type="num_button" value="9" onclick="addToField(9)" style="cursor: pointer;"/></td>
-</tr>
+		<tr>
+			<td><input type="num_button" value="4" onclick="addToField(4)" style="cursor: pointer;"/></td>
+			<td><input type="num_button" value="5" onclick="addToField(5)" style="cursor: pointer;"/></td>
+			<td><input type="num_button" value="6" onclick="addToField(6)" style="cursor: pointer;"/></td>
+		</tr>
 
-<tr>
-<!--<td><input type="reset" value="C" id="resetButton" style="cursor: pointer;"/></td>-->
-<td><input type="num_button" value="C" onclick="delAll()" style="cursor: pointer;"/></td>
-<td><input type="num_button" value="0" onclick="addToField(0)" style="cursor: pointer;"/></td>
-<td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
-</tr>
-</table>
+		<tr>
+			<td><input type="num_button" value="7" onclick="addToField(7)" style="cursor: pointer;"/></td>
+			<td><input type="num_button" value="8" onclick="addToField(8)" style="cursor: pointer;"/></td>
+			<td><input type="num_button" value="9" onclick="addToField(9)" style="cursor: pointer;"/></td>
+		</tr>
 
-
+		<tr>
+			<!--<td><input type="reset" value="C" id="resetButton" style="cursor: pointer;"/></td>-->
+			<td><input type="num_button" value="C" onclick="delAll()" style="cursor: pointer;"/></td>
+			<td><input type="num_button" value="0" onclick="addToField(0)" style="cursor: pointer;"/></td>
+			<td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
+		</tr>
+	</table>
+</div>
 <input id="type_submit" name="type_submit" type="hidden" value="1"/>
 
 <!--
@@ -97,21 +104,19 @@ jQuery(document).ready(function(){
 -->
 
 <!-- Большой экзаменатор -->
-<button class="move_button" onclick="go_auth()" >Личный<br>кабинет</button>
+<!--<button class="move_button" onclick="go_auth()" >Личный<br>кабинет</button>
 
 <button class="move_button" onclick="go_pre_examiner()" >Предсменный<br>экзаменатор</button>
 
-<button class="move_button" onclick="go_check_comp()" >Контроль<br>компетентности</button>
+<button class="move_button" onclick="go_check_comp()" >Контроль<br>компетентности</button>-->
 
 <!-- Предсменный экзаменатор -->
-<!--<button class="next_button" onclick="go_pre_examiner()" >Далее<br></button>-->
+<button class="next_button" onclick="go_pre_examiner()" >Далее<br></button>
 </form>
 
+
 <div id="bottom">
-	<div id="menu-holder-light"></div>
-	<!-- menu-holder -->
 	<div id="menu-holder"></div>
-	<!-- ENDS menu-holder -->
 </div>
 
 </div>

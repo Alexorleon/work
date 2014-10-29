@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start();//чтобы работать с сессиями, на каждой странице их надо стартануть, поэтому они в общем файле, который вяжется к каждому файлигу
 	require $_SERVER['DOCUMENT_ROOT']."/libs/Smarty.class.php";
 	$smarty = new Smarty;
 	
@@ -28,4 +28,13 @@ session_start();
 		$smarty->display('old_browser.tpl.html'); 
 		die(); 
 	}
+	
+	// init
+	
+	// параметр для выборки по определенному предприятию
+	/*
+	10 - Кокс-Майнинг
+	2 - СУЭК
+	*/
+	$predpr_k_glob = "10";
 ?>

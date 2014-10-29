@@ -123,7 +123,7 @@ SQL;
 	// TODO: задано жестко для кокс-майнинг
 	$temp_sotrud_id = $_SESSION['sotrud_id'];
 	$sql = <<<SQL
-	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K=10 AND SOTRUD.SOTRUD_K='$temp_sotrud_id'
+	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$temp_sotrud_id'
 SQL;
 	$sm_sotrud_tabel = $db->go_result_once($sql);
 	

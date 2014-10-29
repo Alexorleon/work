@@ -1,6 +1,12 @@
-<?php	
-	unset($_SESSION);
+<?php
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
+	
+	// проверка доступа к странице
+	if( isset($_SESSION['admin_access']) && $_SESSION['admin_access'] === TRUE){
+	}else{
+		//если не авторизованы, то выкидываем на ивторизацию
+		die('<script>document.location.href= "'.lhost.'/login"</script>');
+	}
 	
 	$db = new db;
 	$db->GetConnect();
@@ -31,7 +37,7 @@ SQL;
 	// получаем список всех сотрудников. 10 - кокс-майнинг
 	$sql = <<<SQL
 	SELECT SOTRUD.SOTRUD_K, SOTRUD.SOTRUD_FAM, SOTRUD.SOTRUD_IM, SOTRUD.SOTRUD_OTCH, DOLJNOST.TEXT AS TEXT, DOLJNOST.KOD AS KOD, SOTRUD.TABEL_KADR 
-	FROM stat.SOTRUD, stat.DOLJNOST WHERE SOTRUD.PREDPR_K=10 AND SOTRUD.DOLJ_K=DOLJNOST.KOD
+	FROM stat.SOTRUD, stat.DOLJNOST WHERE SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.DOLJ_K=DOLJNOST.KOD
 SQL;
 	$array_employees = $db->go_result($sql);
 		

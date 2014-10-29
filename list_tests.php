@@ -13,40 +13,39 @@
 	$error_='';
 	
 	// инициализация
-	$_SESSION['add_or_edit_post'] = 0; // добавление
+	$_SESSION['add_or_edit_test'] = 0; // добавление
 	
 	if($_GET){
 		
-		if($_GET['del_postid']){
+		if($_GET['del_testid']){
 		
-			if($_GET['del_postid'] != ''){
+			if($_GET['del_testid'] != ''){
 			
-				$del_postid = $_GET['del_postid']; // id должности
+				$del_testid = $_GET['del_testid']; // id теста
 				
-				// удаляем должность
+				// удаляем тест
 				$sql = <<<SQL
-				DELETE FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$del_postid'
+				DELETE FROM stat.TESTNAMES WHERE TESTNAMES.ID='$del_testid'
 SQL;
 				$db->go_query($sql);
 				
-				//unset($_GET['del_postid']);
+				//unset($_GET['del_testid']);
 			}
 		}
 	}
 	
-	// получаем список всех должностей.
+	// получаем список всех тестов
 	$sql = <<<SQL
-	SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K=$predpr_k_glob
+	SELECT ID, TITLE, PENALTYPOINTS FROM stat.TESTNAMES
 SQL;
-	$array_posts = $db->go_result($sql);
-	
+	$array_tests = $db->go_result($sql);
 	
 	$smarty->assign("error_", $error_);
 	
-	$smarty->assign("array_posts", $array_posts);
+	$smarty->assign("array_tests", $array_tests);
 
-	$smarty->assign("title", "Список должностей");
-	$smarty->display("list_posts.tpl.html");
+	$smarty->assign("title", "Список тестов");
+	$smarty->display("list_tests.tpl.html");
 
 	// --- ФУНКЦИИ ---
 

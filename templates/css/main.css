@@ -12,9 +12,8 @@ padding-bottom: 20px;
 }
 
 input[type="submit"]{
-width:50px;
+/*width:50px;*/
 height:30px;
-opacity:0.8;
 border:0px;
 }
 
@@ -22,7 +21,7 @@ input[type="num_button"], input[type="reset"]{
 background: url('/files/img/num_button.png') no-repeat 0 0;
 width:81px;
 height:81px;
-opacity:0.8;
+/*opacity:0.8;*/
 border:0px;
 text-align: center;
 text-decoration:none !important;
@@ -53,7 +52,9 @@ text-shadow:
 }*/
 
 .search_button{
-background: url('/files/img/employee_search.png') no-repeat 0 0;
+background: url('/files/img/employee_search.png') 100% 100% no-repeat;
+background-size: 64px 64px;
+margin-top: 18px;
 width: 64px;
 height: 64px;
 border: 0px;
@@ -61,11 +62,12 @@ margin-left: 10px;
 }
 
 .next_button{
-background: url('/files/img/move_button.png') no-repeat 0 0;
+background: url('/files/img/move_button.png') 100% 100% no-repeat;
+background-size: 210px 100px;
 width: 210px;
 height: 100px;
 margin-top: 4%;
-opacity: 0.8;
+/*opacity: 0.8;*/
 border: 0px;
 cursor: pointer;
 text-decoration: none !important;
@@ -84,11 +86,12 @@ opacity:1;
 }
 
 .move_button{
-background: url('/files/img/move_button.png') no-repeat 0 0;
+background: url('/files/img/move_button.png') 100% 100% no-repeat;
+background-size: 210px 100px;
 width: 210px;
 height: 100px;
 /*margin-top: 4%;*/
-opacity: 0.8;
+/*opacity: 0.8;*/
 border: 0px;
 cursor: pointer;
 text-decoration: none !important;
@@ -272,14 +275,18 @@ text-shadow:
 	line-height: 1.5em;
 }*/
 
+/*Ввод табельного*/
 input[type="text"]{
-font-size: 54px;
-height:64px;
-width:250px;
+background: url('/files/img/display_text.png') 100% 100% no-repeat;
+background-size: 270px 82px;
+font-size: 64px;
+height:85px;
+width:273px;
+border: none;
 margin-top: 4%;
 margin-bottom: 1%;
-margin-left: 72px;
-opacity:0.6;
+margin-left: 254px;
+/*opacity:0.6;*/
 text-align: center;
 }
 
@@ -288,7 +295,7 @@ font-size: 54px;
 height:64px;
 width:250px;
 margin-left: 20px;
-opacity:0.6;
+/*opacity:0.6;*/
 text-align: center;
 }
 
@@ -501,15 +508,18 @@ span.title-lamp{
 }
 
 #menu-holder-light{
+	background:  url('/files/img/menu_holder_down.png') no-repeat center;
 	width: 100%;
-	height: 8px;
-	background:  #A9D0F5;
+	height: 21px;
+	/*background:  #A9D0F5;*/
 }
 
 #menu-holder{
+	background:  url('/files/img/menu_holder.png') no-repeat center;
+	background-size: 100% 21px;
 	width: 100%;
 	height: 21px;
-	background:  url('/files/img/menu-bg.png') repeat-x center;
+	/*background:  url('/files/img/menu-bg.png') repeat-x center;*/
 }
 
 .info{
@@ -519,7 +529,7 @@ font-size: 36px;
 }
 
 .top-face{
-background: #A9D0F5;
+background: #cccccc;
 width: 100%;
 height: 80px;
 border: 0px;
@@ -528,7 +538,7 @@ text-decoration: none !important;
 text-align: center;
 font-size: 48px;
 letter-spacing: 5px;
-color: #08088A;
+color: #003366;
 /*text-shadow: 
 	black 2px 2px 0, 
 	black -2px -2px 0, 
@@ -1054,11 +1064,13 @@ main {
 }
 
 article {
-    float: right;
-    margin-bottom: 30px;
+    float: left;
+    margin: 0 0 30px 240px;
+	z-index: 2;
+	position:relative;
     /*padding: 0 15px;*/
-    width: 87%;
-    overflow: hidden;
+   /* width: 87%;
+    overflow: hidden;*/
 }
 
 section {
@@ -1068,12 +1080,13 @@ section {
 }
 
 aside {
-    float: left;
-    /*padding-left: 0px;*/
-    width: 12%;
-    display: block;
-    overflow: hidden;
-    position:relative;
+    /*float: left;
+    padding-left: 0px;*/
+	width: 230px;
+    /*display: block;
+    overflow: hidden;*/
+    position:fixed;
+	z-index: 1;
 }
 
 menu {
@@ -1101,6 +1114,7 @@ figure {
 	margin-left: 5px;
 }
 
+/*Логотип в админке*/
 .authlogo_admin {
 	background:url('/files/img/logo-admin.png') no-repeat scroll center 0 transparent;
 	width: 218px;
@@ -1108,6 +1122,33 @@ figure {
 	margin-left: 10px;
 	margin-top: 4px;
 	margin-bottom: 10px;
+}
+
+/*Логотип в auth*/
+.authlogo_auth {
+	background:url('/files/img/logo-admin.png') no-repeat scroll center 0 transparent;
+	width: 218px;
+	height: 151px;
+	margin-left: 20px;
+	margin-top: 4px;
+	margin-bottom: 10px;
+}
+
+/*Логотип в auth kuzbass cot*/
+.authlogo_auth2 {
+	background:url('/files/img/logo-auth.png') no-repeat scroll center 0 transparent;
+	width: 218px;
+	height: 151px;
+	margin-right: 20px;
+	margin-top: 4px;
+	margin-bottom: 10px;
+}
+
+/*Циферблат*/
+.dial{
+	background:url('/files/img/dial.png') no-repeat center;
+	background-size: 1280px 996px;
+	height: 502px;
 }
 
 .button_menu {
@@ -1165,6 +1206,7 @@ input.set_cur {
 	overflow: hidden;
 	/*height: 103px;*/
 	margin-bottom: 10px;
+	margin-left: 2px;
 	background:  url('/files/img/tabs-divider.png') repeat-x bottom center;
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
@@ -1301,3 +1343,308 @@ input.set_cur {
 /*
 --------------------------------------- END Таблица в администрировании -------------------
 */
+
+/*
+-------------------------- BEGIN таблица назначения типов вопросов ---------------------------
+*/
+
+.edit_tables_typeques {
+	width: 600px;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#666;
+	font-size:14px;
+	/*text-shadow: 1px 1px 0px #fff;*/
+	background:#eaebec;
+	margin:2px;
+	margin-top: 10px;
+	border:#ccc 1px solid;
+	border-collapse:separate;
+
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:1px;
+
+	-moz-box-shadow: 0 1px 2px #d1d1d1;
+	-webkit-box-shadow: 0 1px 2px #d1d1d1;
+	box-shadow: 0 1px 2px #d1d1d1;
+}
+
+.edit_tables_typeques th {
+	font-weight:bold;
+	text-align: center;
+	padding:8px 8px 8px 8px;
+	border-top:1px solid #fafafa;
+	border-bottom:1px solid #e0e0e0;
+
+	background: #A9D0F5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5), to(#ebebeb));
+	background: -moz-linear-gradient(top,  #A9D0F5,  #ebebeb);
+}
+
+.edit_tables_typeques th:first-child{
+	text-align: left;
+	padding-left: 20px;
+}
+.edit_tables_typeques tr:first-child th:first-child{
+	-moz-border-radius-topleft:3px;
+	-webkit-border-top-left-radius:3px;
+	border-top-left-radius:3px;
+}
+.edit_tables_typeques tr:first-child th:last-child{
+	-moz-border-radius-topright:3px;
+	-webkit-border-top-right-radius:3px;
+	border-top-right-radius:3px;
+}
+
+.edit_tables_typeques tr td:first-child{
+	text-align: left;
+	padding-left:5px;
+	border-left: 0;
+}
+
+.edit_tables_typeques tr{
+	text-align: center;
+	padding-left:2px;
+    table-layout: fixed;
+}
+
+.edit_tables_typeques td{
+	text-align: center;
+	padding-left:2px;
+    table-layout: fixed;
+}
+.edit_tables_typeques tr td {
+	padding:8px;
+	border-top: 1px solid #ffffff;
+	border-bottom:1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+	
+	background: #fafafa;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+}
+
+.edit_tables_typeques td:nth-child(even){
+	background: #f6f6f6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+	background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+}
+/*
+.edit_tables_typeques tr:nth-child(even) td{
+	background: #f6f6f6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+	background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+}*/
+
+.edit_tables_typeques tr:last-child td{
+	border-bottom:0;
+}
+.edit_tables_typeques tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:3px;
+	-webkit-border-bottom-left-radius:3px;
+	border-bottom-left-radius:3px;
+}
+.edit_tables_typeques tr:last-child td:last-child{
+	-moz-border-radius-bottomright:3px;
+	-webkit-border-bottom-right-radius:3px;
+	border-bottom-right-radius:3px;
+}
+/*
+.edit_tables_typeques tr:hover td{
+	background: #A9D0F5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5), to(#A9D0F5));
+	background: -moz-linear-gradient(top,  #A9D0F5,  #A9D0F5);	
+}*/
+
+.edit_tables_typeques td:hover{
+	background: #A9D0F5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5), to(#A9D0F5));
+	background: -moz-linear-gradient(top,  #A9D0F5,  #A9D0F5);	
+}
+
+.edit_tables_typeques a:link {
+	color: #666;
+	font-weight: bold;
+	text-decoration:none;
+}
+
+.edit_tables_typeques a:visited {
+	color: #999999;
+	font-weight:bold;
+	text-decoration:none;
+}
+.edit_tables_typeques a:active,
+.edit_tables_typeques a:hover {
+	color: #bd5a35;
+	text-decoration:underline;
+}
+
+.checkboxInTable_style{
+	width: 18px;
+	height: 18px;
+}
+
+/*
+--------------------------------------- END таблица назначения типов вопросов -------------------
+*/
+
+/*
+--------------------------------------- BEGIN стильные оповещения -------------------
+*/
+/* toast */
+.toast-container {
+	width: 280px;
+	z-index: 9999;
+}
+
+
+* html .toast-container {
+	position: absolute;
+}
+
+.toast-item {
+	height: auto;
+	background: #333;
+    opacity: 0.9;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	color: #eee;
+	padding-top: 30px;
+	padding-bottom: 20px;
+	padding-left: 6px;
+	padding-right: 6px;
+	font-family: lucida Grande;
+	font-size: 14px;
+	border: 2px solid #999;
+	display: block;
+	position: relative;
+	margin: 0 0 12px 0;
+}
+
+.toast-item p {
+    text-align: left;
+    margin-left: 50px;
+}
+
+.toast-item-close {
+    background:url(../../files/img/close.gif);
+    width:22px;
+    height:22px;
+    position: absolute;
+    top:7px;
+    right:7px;
+    cursor: pointer;
+}
+
+.toast-item-image {
+    width:32px;
+    height: 32px;
+    position: absolute;
+    top: 50%;
+    margin-top: -16px;
+    left: 10px;
+}
+
+.toast-item-image-notice {
+    background:url(../../files/img/notice.png);
+}
+
+.toast-item-image-success {
+    background:url(../../files/img/success.png);
+}
+
+.toast-item-image-warning {
+    background:url(../../files/img/warning.png);
+}
+
+.toast-item-image-error {
+    background:url(../../files/img/error.png);
+}
+
+/**
+ * toast types
+ *
+ * pattern: toast-type-[value]
+ * where 'value' is the real value of the plugin option 'type'
+ *
+ */
+ 
+.toast-type-notice {
+    color: white;
+}
+
+.toast-type-success {
+    color: white;
+}
+
+.toast-type-warning {
+    color: white;
+    border-color: #FCBD57;
+}
+
+.toast-type-error {
+    color: white;
+    border-color: #B32B2B;
+}
+
+/**
+ * positions
+ *
+ * pattern: toast-position-[value]
+ * where 'value' is the real value of the plugin option 'position'
+ *
+ */
+ 
+.toast-position-top-left {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+}
+
+.toast-position-top-center {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    margin-left: -140px;
+}
+
+.toast-position-top-right {
+    position: fixed;
+    top: 35px;
+    right: 20px;
+}
+
+.toast-position-middle-left {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    margin-top: -40px;
+}
+
+.toast-position-middle-center {
+    position: fixed;
+    left: 50%;
+    margin-left: -140px;
+    margin-top: -40px;
+    top: 50%;
+}
+
+.toast-position-middle-right {
+    position: fixed;
+    right: 20px;
+    margin-left: -140px;
+    margin-top: -40px;
+    top: 50%;
+}
+
+.toast-position-bottom-left {
+    position: fixed;
+    left: 20px;
+    top: 90%;
+    margin-top: -40px;
+}
+/*
+--------------------------------------- END стильные оповещения -------------------
+*/
+

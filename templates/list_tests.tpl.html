@@ -27,18 +27,18 @@
 
 	<menu>
 		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
-		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
 		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
-		<!--<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
+		<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu set_cur" type="button" value="Тесты" onclick=""/></a></li>
 		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
 	</menu>
 
 </aside>
 
 <article>
-	<span class="title_menu_edit">Список должностей для терминала</span>
+	<span class="title_menu_edit">Список тестов</span>
 
-	<div style="margin-left: 2px;" align="left"><a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить должность" onclick=""/></a></div>
+	<div style="margin-left: 2px;" align="left"><a href="/new_test"><input class="button_admin_edit" type="button" value="Добавить тест" onclick=""/></a></div>
 	<!-- Меню редактирования -->
 	<!--<nav>
 		<ul>
@@ -53,21 +53,25 @@
 
 		<tr>
 			<th style="width: 2%;">№</th>
-			<th style="width: 97%;">Название</th>
+			<th style="width: 94%;">Название</th>
+			<th style="width: 3%;">Баллы</th>
 			<th style="width: 1%;"></th>
 		</tr><!-- Table Header -->
 		
-		{section name=count loop=$array_posts}
+		{section name=count loop=$array_tests}
 			<tr>
 				<td>
-				{$array_posts[{$count}]['KOD']}
+				{$array_tests[{$count}]['ID']}
 				</td>
-				<td onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}&post_name={$array_posts[{$count}]['TEXT']}'" title="Редактировать" style="cursor: pointer;">		
-				{$array_posts[{$count}]['TEXT']}		
+				<td onclick="window.location='edit_test?test_id={$array_tests[{$count}]['ID']}&test_title={$array_tests[{$count}]['TITLE']}&test_penalty={$array_tests[{$count}]['PENALTYPOINTS']}'" title="Редактировать" style="cursor: pointer;">		
+				{$array_tests[{$count}]['TITLE']}		
+				</td>
+				<td>
+				{$array_tests[{$count}]['PENALTYPOINTS']}
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
 					
-					<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+					<a href="/list_tests?del_testid={$array_tests[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	

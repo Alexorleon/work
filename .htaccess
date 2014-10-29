@@ -34,6 +34,15 @@ RewriteRule ^list_employees$ /list_employees.php [L,QSA]
 RewriteRule ^new_employees$ /edit_employees.php?posttype=0 [L,QSA]
 RewriteRule ^edit_employees$ /edit_employees.php?posttype=1 [L,QSA]
 
+RewriteRule ^list_tests$ /list_tests.php [L,QSA]
+RewriteRule ^new_test$ /edit_test.php?testtype=0 [L,QSA]
+RewriteRule ^edit_test$ /edit_test.php?testtype=1 [L,QSA]
+
 RewriteRule ^search_employee$ /search_employee.php [L,QSA]
+
+RewriteRule ^register$ /register.php [L,QSA]
+RewriteRule ^login$ /login.php [L,QSA]
+RewriteRule ^check$ /check.php [L,QSA]
+RewriteRule ^admin_settings$ /admin_settings.php [L,QSA]
 
 ErrorDocument 404 /404.php

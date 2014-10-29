@@ -13,6 +13,7 @@
 		//$(".edit_tables").find("tr").remove();	// удаляем все, кроме первой строки таблицы(заголовок)
 		var dolj_id = $("#dolj_id").val();
 		var test_id = $("#type_specialty").val();
+		var title_post = $("#title_post").val();
 		
 		//console.log(dolj_id+"fdfds"+test_id);
 		if (dolj_id != "" && test_id != ""){// на всякий, чтоб на новой не запустили
@@ -34,7 +35,7 @@
 						}else{
 							var arr_ans = data.split('_');
 							var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
-							$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
+							$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"&post_kod="+arr_ans[0]+"&post_name="+title_post+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
 							//console.log(arr_ans[1]);
 						}
 					}
@@ -42,36 +43,6 @@
 			});
 		}
 	}
-	
-	// удаляем тесты из должности
-	/*function delete_row(){
-		//$(".table_edit_tests").find("tr").remove();	// удаляем все, кроме первой строки таблицы(заголовок)
-		
-		//console.log(dolj_id+"fdfds"+test_id);
-		$.ajax({ 
-			type: 'POST', 
-			data: {},
-			url: "./inc/ajax.delete_rows.tests.php",
-			//dataType: 'json',
-			error: function(req, text, error) {
-			//console.log('Ошибка AJAX: ' + text + ' | ' + error);
-			},
-			success: function (data) {
-				console.log(data);
-				if(data == "not"){ // ничего не делаем
-				}else{
-					if (data == "0"){
-						console.log("Ошибка!");
-					}else{
-						var arr_ans = data.split('_');
-						var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
-						$(".table_edit_tests tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
-						//console.log(arr_ans[1]);
-					}
-				}
-			}
-		});
-	}*/
 	
 </script>
 {/literal}
@@ -96,8 +67,8 @@
 		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
 		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
 		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
-		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
-		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Помощь" onclick=""/></a></li>-->
+		<!--<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
+		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
 	</menu>
 
 </aside>
@@ -108,16 +79,16 @@
 
 	<span class="title_menu_edit">Редактирование должности</span>
 	
-	<div align="left">
+	<div style="margin-left: 2px;" align="left">
 		{if $add_or_edit_post eq 0} <!-- новая должность -->
 			
 			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 			<!--в зависимости от статуса добавляем или редактируем-->
-			<input class="button_admin_edit" type="button" value="Добавить должность" onclick="get_post(0, this.form, -1)"/>
+			<input class="button_admin_edit" type="button" value="Добавить должность" onclick="get_post(this.form)"/>
 		{else}
-			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Завершить" onclick=""/></a>
+			<a href="/list_posts"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 			<!--в зависимости от статуса добавляем или редактируем-->
-			<input class="button_admin_edit" type="button" value="Изменить должность" onclick="get_post(1, this.form)"/>
+			<input class="button_admin_edit" type="button" value="Изменить должность" onclick="get_post(this.form)"/>
 			<!-- Добавить тест к должности -->
 			<input class="button_admin_edit" type="button" onclick="insert_row();" value="Добавить тест"</input>
 		{/if}
@@ -127,18 +98,18 @@
 		<table>
 			<tr>
 				<td>Название должности:</td>
-				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
-				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
-				<input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></td>-->
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{if ($cur_post_name)}{$cur_post_name}{/if}"></td>
+				<td><input type="hidden" id="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></td>
 			</tr>
 		</table>
-	{else}
+	{else} <!-- редактирование -->
 		<table>
 			<tr>
 				<td>Название должности:</td>
-				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea></td>-->
-				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></textarea>
-				<input type="hidden" id="dolj_id" name="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></textarea></td>
+				<!--<td><input  type="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></td>-->
+				<td><input  class="field_text_edit" id="postname" name="postname" value="{$cur_post_name}"></td>
+				<td><input type="hidden" id="dolj_id" name="dolj_id" value="{if !empty($smarty.get.post_kod)}{$smarty.get.post_kod}{/if}"></td>
 			</tr>
 			<tr>
 				<td>Название теста:</td>
@@ -175,24 +146,25 @@
 			<th style="width: 99%;">Название</th>
 			<th style="width: 1%;"></th>
 		</tr><!-- Table Header -->
-		
 		{section name=count loop=$array_test_added}
 			<tr>
 				<!--<td>
 				{$array_test_added[{$count}]['ID']}
 				</td>-->
-				<td>		
+				<td>
 				{$array_test_added[{$count}]['TITLE']}		
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
-					<!--<a href="/list_posts?del_postid={$array_test_added[{$count}]['KOD']}" onclick="deleteInTable({$array_posts[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
-					<a href="/edit_post?del_testid={$array_test_added[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				<a href="/edit_post?posttype=1&del_testid={$array_test_added[{$count}]['ID']}&post_kod={$smarty.get.post_kod}&post_name={$smarty.get.post_name}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	
 		{/section}
 	</table>
 {/if}
+	
+	<!--  -->
+	<td><input type="hidden" id="title_post" name="title_post" value="{$smarty.get.post_name}"></td>
 	
 </form>
 

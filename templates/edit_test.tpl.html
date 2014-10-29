@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+<title>{$title}</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}migrate.js"></script>
+<script type="text/javascript" src="{$js}noselect.js"></script>
+</head>
+<body>
+<!--<form id="list_posts" name="list_posts" method="post">
+</form>-->
+
+<div id="menu-holder-light"></div>
+
+<main>
+
+<aside>
+
+	<menu>
+		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
+		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
+		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/>
+		<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu set_cur" type="button" value="Тесты" onclick=""/></a></li></a></li>
+		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
+	</menu>
+
+</aside>
+
+<article>
+<form id="edit_test" name="edit_test" method="post">
+
+	{if $add_or_edit_test eq 0} <!-- новый тест -->
+		
+		<span class="title_menu_edit">Создание теста</span>
+	{else}
+	
+		<span class="title_menu_edit">Редактирование теста</span>
+	{/if}
+	
+	<div style="margin-left: 2px;" align="left">
+		<!--в зависимости от статуса добавляем или редактируем-->
+		{if $add_or_edit_test eq 0} <!-- новый тест -->
+		
+			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+			<input class="button_admin_edit" type="button" value="Добавить тест" onclick="get_test(this.form)"/>
+		{else} <!-- редактирование -->
+		
+			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+			<input class="button_admin_edit" type="button" value="Сохранить изменения" onclick="get_test(this.form)"/>
+			<input class="button_admin_edit" type="button" value="Добавить вопрос" onclick="get_test(this.form)"/>
+		{/if}
+	</div>
+	
+	{if $add_or_edit_test eq 0}
+		<table>
+			<tr>
+				<td>Название:</td>
+				<td><input class="field_text_edit" id="testname" name="testname" value="{if ($cur_test_title)}{$cur_test_title}{/if}"></td>
+			</tr>
+			<tr>
+				<td>Штрафные баллы:</td>
+				<td><input class="field_text_edit" id="testpenalty" name="testpenalty" value="{if ($cur_test_penalty)}{$cur_test_penalty}{/if}"></td>
+			</tr>
+		</table>
+		
+		<!--<table class="edit_tables_typeques">
+			<tr>
+				<th style="width: 25%;"></th>
+				<th style="width: 25%;">Проверка знаний</th>
+				<th style="width: 25%;">Проверка умений</th>
+				<th style="width: 25%;">Проверка опыта</th>
+			</tr>
+			<tr>
+				<td>
+				Текстовый
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_t_knowledge" checked />
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_t_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_t_experience"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				Фото
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_f_knowledge"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_f_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_f_experience"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				Видео
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_v_knowledge"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_v_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_v_experience"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				Сложное фото
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_knowledge"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_experience"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				Сложное видео
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_knowledge"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_experience"/>
+				</td>
+			</tr>
+		</table>-->
+	{else} <!-- редактирование -->
+		<table>
+			<tr>
+				<td>Название:</td>
+				<td><input class="field_text_edit" id="testname" name="testname" value="{if ($cur_test_title)}{$cur_test_title}{/if}"></td>
+			</tr>
+			<tr>
+				<td>Штрафные баллы:</td>
+				<td><input class="field_text_edit" id="testpenalty" name="testpenalty" value="{if ($cur_test_penalty)}{$cur_test_penalty}{/if}"></td>
+			</tr>
+		</table>
+		
+		<table class="edit_tables_typeques">
+			<tr>
+				<th style="width: 25%;"></th>
+				<th style="width: 25%;">Проверка знаний</th>
+				<th style="width: 25%;">Проверка умений</th>
+				<th style="width: 25%;">Проверка опыта</th>
+			</tr>
+			<tr>
+				<td>
+				Текстовый
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_t_knowledge" checked />
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_t_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_t_experience"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				Фото
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_f_knowledge"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_f_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_f_experience"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				Видео
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_v_knowledge"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_v_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_v_experience"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				Сложное фото
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_knowledge"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_experience"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				Сложное видео
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_knowledge"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_skills"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_experience"/>
+				</td>
+			</tr>
+		</table>
+		
+		<p style="margin-left: 2px;"><span>Вопросы к этому тесту</span></p>
+		
+		
+	{/if}
+	
+	<!--  -->
+	<!--<td><input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
+
+</form>
+
+</article>
+
+</main>
+
+<footer id="bottom">
+
+</footer>
+
+
+<script src="{$tpl}js/script.js"></script>
+</body>
+</html>

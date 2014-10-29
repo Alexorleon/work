@@ -25,7 +25,8 @@
 		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
 		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
 		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu set_cur" type="button" value="Сотрудники" onclick=""/></a></li>
-		<!--<li style="list-style-type: none;"><a href="/new_post"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
+		<!--<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
+		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
 	</menu>
 
 </aside>
@@ -35,7 +36,7 @@
 	<span class="title_menu_edit">Сотрудники для терминала</span>
 
 	<!-- Меню редактирования -->
-	<div align="left"><a href="/new_employees"><input class="button_admin_edit" type="button" value="Добавить сотрудника" onclick=""/></a></div>
+	<div style="margin-left: 2px;" align="left"><a href="/new_employees"><input class="button_admin_edit" type="button" value="Добавить сотрудника" onclick=""/></a></div>
 
 	{$count = 0}
 	<table class="edit_tables">
@@ -71,8 +72,7 @@
 				{$array_employees[{$count}]['TABEL_KADR']}
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
-					<!--<a href="/list_posts?del_postid={$array_employees[{$count}]['SOTRUD_K']}" onclick="deleteInTable({$array_employees[{$count}]['KOD']});" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>-->
-					<a href="/list_employees?del_employeeid={$array_employees[{$count}]['SOTRUD_K']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				<a href="/list_employees?del_employeeid={$array_employees[{$count}]['SOTRUD_K']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	

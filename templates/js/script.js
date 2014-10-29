@@ -139,17 +139,9 @@ function get_documents(n, t){
 }
 
 // add or edit posts
-function get_post(add_edit, f){
+function get_post(f){
 
 	if($("#postname").val() != ""){ // не пустое сообщение
-
-		if(add_edit == 0){ // новая должность
-		
-		}else{
-		
-			//num = f.type_specialty.selectedIndex;
-			//post_id = f.type_specialty.options[num].value;
-		}
 
 		$("#postname").val();
 		$("#edit_post").submit();
@@ -177,6 +169,20 @@ function get_employee(f){
 		$("#type_doljnost").val(post_id);
 		$("#employeetabel").val();
 		$("#edit_employee").submit();
+	}
+}
+
+// add or edit tests
+function get_test(f){
+
+	if(($("#testname").val() == "") || ($("#testpenalty").val() == "")){ // не пустые значения
+
+		alert("Введите все данные!");		
+	}else{
+	
+		$("#testname").val();
+		$("#testpenalty").val();
+		$("#edit_test").submit();
 	}
 }
 
