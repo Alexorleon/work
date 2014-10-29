@@ -43,13 +43,35 @@ jQuery(document).ready(function(){
 <!--<div class="top-face"><b>РАЗВИТИЕ И КОНТРОЛЬ КОМПЕТЕНТНОСТИ</b></div>-->
 <div class="top-face">Предсменный экзаменатор</div>
 
-<div id="menu-holder"></div>
+<div id="menu_holder_down"></div>
 
-<table style="width: 100%; background: #ffffff;">
+<!--<table style="width: 100%; background: #ffffff;">
 	<tr>
-		<td style="float: left;"><div class="authlogo_auth"></div></td>
+		<td rowspan="2" style="float: left;"><div class="authlogo_auth"></div></td>
 		<td style="float: center;"><div class="info">Введите табельный номер</div></td>
-		<td style="float: right;"><div class="authlogo_auth2"></div></td>
+		<td rowspan="2" style="float: right;"><div class="authlogo_auth2"></div></td>
+	</tr>
+</table>-->
+<!--<table style="width: 100%; background: #ffffff;" border="1">
+	<tr>
+		<td rowspan="2" style="float: left;"><div class="authlogo_auth"></div></td>
+		<td></td>
+		<td rowspan="2" style="float: right;"><div class="authlogo_auth2"></div></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td style="float: center;"><div class="info">Введите табельный номер</div></td>
+		<td></td>
+	</tr>
+</table>-->
+<table style="width: 100%;" border="3">
+	<tr>
+		<td style="background: #ffffff;" rowspan="2"><div style="float: left;" class="authlogo_auth"></div></td>
+		<td height="100"></td>
+		<td style="background: #ffffff;" rowspan="2"><div style="float: right;" class="authlogo_auth2"></div></td>
+	</tr>
+	<tr>
+		<td style="background: #ffffff;" ><div class="info">Введите табельный номер</div></td>
 	</tr>
 </table>
 
