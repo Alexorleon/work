@@ -52,7 +52,7 @@ SQL;*/
 	$smarty->assign("array_sotrud", $array_sotrud);
 	$smarty->assign("count_array_sotrud", count($array_sotrud));
 
-	$smarty->assign("title", "Лампавая");
+	$smarty->assign("title", "Ламповая");
 	$smarty->display("lamp.tpl.html");
 
 	// --- ФУНКЦИИ ---

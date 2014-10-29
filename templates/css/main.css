@@ -21,7 +21,7 @@ input[type="num_button"], input[type="reset"]{
 background: url('/files/img/num_button.png') no-repeat 0 0;
 width:81px;
 height:81px;
-opacity:0.8;
+/*opacity:0.8;*/
 border:0px;
 text-align: center;
 text-decoration:none !important;
@@ -86,11 +86,12 @@ opacity:1;
 }
 
 .move_button{
-background: url('/files/img/move_button.png') no-repeat 0 0;
+background: url('/files/img/move_button.png') 100% 100% no-repeat;
+background-size: 210px 100px;
 width: 210px;
 height: 100px;
 /*margin-top: 4%;*/
-opacity: 0.8;
+/*opacity: 0.8;*/
 border: 0px;
 cursor: pointer;
 text-decoration: none !important;
@@ -274,14 +275,18 @@ text-shadow:
 	line-height: 1.5em;
 }*/
 
+/*Ввод табельного*/
 input[type="text"]{
-font-size: 54px;
-height:64px;
-width:250px;
+background: url('/files/img/display_text.png') 100% 100% no-repeat;
+background-size: 270px 82px;
+font-size: 64px;
+height:85px;
+width:273px;
+border: none;
 margin-top: 4%;
 margin-bottom: 1%;
-margin-left: 260px;
-opacity:0.6;
+margin-left: 254px;
+/*opacity:0.6;*/
 text-align: center;
 }
 
@@ -511,6 +516,7 @@ span.title-lamp{
 
 #menu-holder{
 	background:  url('/files/img/menu_holder.png') no-repeat center;
+	background-size: 100% 21px;
 	width: 100%;
 	height: 21px;
 	/*background:  url('/files/img/menu-bg.png') repeat-x center;*/
@@ -523,7 +529,7 @@ font-size: 36px;
 }
 
 .top-face{
-background: #A9D0F5;
+background: #cccccc;
 width: 100%;
 height: 80px;
 border: 0px;
@@ -532,7 +538,7 @@ text-decoration: none !important;
 text-align: center;
 font-size: 48px;
 letter-spacing: 5px;
-color: #08088A;
+color: #003366;
 /*text-shadow: 
 	black 2px 2px 0, 
 	black -2px -2px 0, 
@@ -1108,6 +1114,7 @@ figure {
 	margin-left: 5px;
 }
 
+/*Логотип в админке*/
 .authlogo_admin {
 	background:url('/files/img/logo-admin.png') no-repeat scroll center 0 transparent;
 	width: 218px;
@@ -1115,6 +1122,33 @@ figure {
 	margin-left: 10px;
 	margin-top: 4px;
 	margin-bottom: 10px;
+}
+
+/*Логотип в auth*/
+.authlogo_auth {
+	background:url('/files/img/logo-admin.png') no-repeat scroll center 0 transparent;
+	width: 218px;
+	height: 151px;
+	margin-left: 20px;
+	margin-top: 4px;
+	margin-bottom: 10px;
+}
+
+/*Логотип в auth kuzbass cot*/
+.authlogo_auth2 {
+	background:url('/files/img/logo-auth.png') no-repeat scroll center 0 transparent;
+	width: 218px;
+	height: 151px;
+	margin-right: 20px;
+	margin-top: 4px;
+	margin-bottom: 10px;
+}
+
+/*Циферблат*/
+.dial{
+	background:url('/files/img/dial.png') no-repeat center;
+	background-size: 1280px 996px;
+	height: 502px;
 }
 
 .button_menu {
