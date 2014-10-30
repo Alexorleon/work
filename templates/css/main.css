@@ -18,20 +18,22 @@ border:0px;
 }
 
 input[type="num_button"], input[type="reset"]{
-background: url('/files/img/num_button.png') no-repeat 0 0;
-width:81px;
-height:81px;
+background: url('/files/img/num_button_new.png') no-repeat 0 0;
+width:77px;
+height:77px;
 /*opacity:0.8;*/
 border:0px;
 text-align: center;
 text-decoration:none !important;
-font-size: 48px;
+font-size: 47px;
+font-weight:700;
 color:#fff;
-text-shadow: 
-	black 2px 2px 0, 
-	black -2px -2px 0, 
-	black -2px 2px 0, 
-	black 2px -2px 0;
+text-shadow:
+    rgba(0, 0, 0, 0.25) 2px 2px 0,
+    rgba(0, 0, 0, 0.25) -2px -2px 0,
+    rgba(0, 0, 0, 0.25) -2px 2px 0,
+    rgba(0, 0, 0, 0.25) 2px -2px 0,
+    rgba(0, 0, 0, 1) 0px 0px 20px;
 }
 
 /*input[type="search_button"]{
