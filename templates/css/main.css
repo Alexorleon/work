@@ -1700,3 +1700,36 @@ background: -ms-linear-gradient(top, rgba(169,208,245,1) 0%,rgba(220,236,251,1) 
 background: linear-gradient(to bottom, rgba(169,208,245,1) 0%,rgba(220,236,251,1) 50%,rgba(169,208,245,1) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a9d0f5', endColorstr='#a9d0f5',GradientType=0 );
 }
+
+.competence_img{
+    width: 100px;
+vertical-align: middle;
+border-radius: 20px;
+}
+
+.competence3
+{
+    font-weight:700;
+    color: #bd5a35;
+}
+
+
+.competence4
+{
+    font-weight:700;
+    color: #F4A460;
+}
+
+.competence21
+{
+    font-weight:700;
+    color: #04B404;
+}
+
+
+.competence41
+{
+    font-weight:700;
+    color: #045FB4;
+}
+    
