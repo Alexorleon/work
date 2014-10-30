@@ -12,8 +12,12 @@
 <!--смотрим какой экзаменатор-->
 {if $type_examiner eq "PE"}
 
-	<!--Если ответ не правильный, выводим комментарий и правильный ответ-->
+	<!--Если ответ не правильный, выводим правильный ответ и сопутствующую информацию-->
 	{if $transitionOption neq '1'}
+	
+		<span>{$competencelevel_title}<span>
+		<span>{$risklevel_title}<span>
+		<span>{$factor_com}<span>
 	
 		<div style="margin-top: 16%;">
 		<div class="text_status_ansF"><span>Вы ответили неправильно!<span></div>

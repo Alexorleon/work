@@ -20,17 +20,32 @@ if(isset($_GET['type_exam'])){
 			// так как ответили не правильно, то выводим комментарий и правильный ответ
 			$temp_id = $_SESSION['ID_question'];
 			$temp_idans = $_SESSION['first_answerid'];
-			/*$sql = <<<SQL
-			SELECT COMMENTARY FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_id'
-SQL;*/
+			
+			// получаем параметры неправильного ответа
 			$sql = <<<SQL
-			SELECT COMMENTARY FROM stat.ALLANSWERS WHERE ALLANSWERS.ID='$temp_idans'
+			SELECT COMPETENCELEVELID, COMMENTARY, RISKLEVELID, FACTOR FROM stat.ALLANSWERS WHERE ALLANSWERS.ID='$temp_idans'
 SQL;
 			$s_res = $db->go_result_once($sql);
-
+			$temp_copetence_id = $s_res['COMPETENCELEVELID'];
 			$question_com = $s_res['COMMENTARY'];
-
-			// правильный ответ
+			$temp_risklevel_id = $s_res['RISKLEVELID'];
+			$factor_com = $s_res['FACTOR'];
+			
+			// получаем текст уровня компетенции
+			$sql = <<<SQL
+			SELECT TITLE FROM stat.COMPETENCELEVEL WHERE COMPETENCELEVEL.ID='$temp_copetence_id'
+SQL;
+			$s_res = $db->go_result_once($sql);
+			$competencelevel_title = $s_res['TITLE'];
+			
+			// получаем текст уровня риска
+			$sql = <<<SQL
+			SELECT TITLE FROM stat.RISKLEVEL WHERE RISKLEVEL.ID='$temp_risklevel_id'
+SQL;
+			$s_res = $db->go_result_once($sql);
+			$risklevel_title = $s_res['TITLE'];
+			
+			// отдельно получаем правильный ответ
 			$sql = <<<SQL
 			SELECT TEXT FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id' AND ALLANSWERS.COMPETENCELEVELID='21'
 SQL;
@@ -39,7 +54,10 @@ SQL;
 			$question_ans = $s_res['TEXT'];
 		}else{
 
+			$competencelevel_title = "Компетентен";
 			$question_com = "Вы ответили правильно!";
+			$risklevel_title = "";
+			$factor_com = "";
 			$question_ans = '';
 		}
 		
@@ -84,11 +102,12 @@ SQL;
 		if($_GET['type_exam'] == 1){
 			// выбираем вариант ответа
 			if ($transitionOption == 1){
-					die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
-				}else{
-					die('<script>document.location.href= "'.lhost.'/question.php"</script>');
-				}
-				
+			
+				die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
+			}else{
+			
+				die('<script>document.location.href= "'.lhost.'/question.php"</script>');
+			}				
 		}else if($_GET['type_exam'] == 2){ // это контроль компетентности
 			
 			die('<script>document.location.href= "'.lhost.'/index.php"</script>');
@@ -100,6 +119,9 @@ SQL;
 
 	$smarty->assign("error_", $error_);
 
+	$smarty->assign("competencelevel_title", $competencelevel_title);
+	$smarty->assign("risklevel_title", $risklevel_title);
+	$smarty->assign("factor_com", $factor_com);
 	$smarty->assign("type_examiner", $type_examiner);
 	$smarty->assign("question_com", $question_com);
 	$smarty->assign("question_ans", $question_ans);
