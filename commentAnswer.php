@@ -33,10 +33,11 @@ SQL;
 			
 			// получаем текст уровня компетенции
 			$sql = <<<SQL
-			SELECT TITLE FROM stat.COMPETENCELEVEL WHERE COMPETENCELEVEL.ID='$temp_copetence_id'
+			SELECT ID, TITLE FROM stat.COMPETENCELEVEL WHERE COMPETENCELEVEL.ID='$temp_copetence_id'
 SQL;
 			$s_res = $db->go_result_once($sql);
 			$competencelevel_title = $s_res['TITLE'];
+			$competencelevel_id = $s_res['ID'];
 			
 			// получаем текст уровня риска
 			$sql = <<<SQL
@@ -59,6 +60,7 @@ SQL;
 			$risklevel_title = "";
 			$factor_com = "";
 			$question_ans = '';
+			$competencelevel_id = 21;
 		}
 		
 		$type_examiner = "PE";
@@ -123,6 +125,7 @@ SQL;
 	$smarty->assign("risklevel_title", $risklevel_title);
 	$smarty->assign("factor_com", $factor_com);
 	$smarty->assign("type_examiner", $type_examiner);
+	$smarty->assign("competencelevel_id", $competencelevel_id);
 	$smarty->assign("question_com", $question_com);
 	$smarty->assign("question_ans", $question_ans);
 	$smarty->assign("transitionOption", $transitionOption);
