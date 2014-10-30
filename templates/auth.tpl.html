@@ -45,6 +45,9 @@ jQuery(document).ready(function(){
 
 <div id="menu_holder_down"></div>
 
+<div class="authlogo auth"></div>
+<div class="authlogo auth2"></div>
+<div class="info">Введите табельный номер</div>
 <!--<table style="width: 100%; background: #ffffff;">
 	<tr>
 		<td rowspan="2" style="float: left;"><div class="authlogo_auth"></div></td>
@@ -64,30 +67,20 @@ jQuery(document).ready(function(){
 		<td></td>
 	</tr>
 </table>-->
-<table style="width: 100%;" border="3">
-	<tr>
-		<td style="background: #ffffff;" rowspan="2"><div style="float: left;" class="authlogo_auth"></div></td>
-		<td height="100"></td>
-		<td style="background: #ffffff;" rowspan="2"><div style="float: right;" class="authlogo_auth2"></div></td>
-	</tr>
-	<tr>
-		<td style="background: #ffffff;" ><div class="info">Введите табельный номер</div></td>
-	</tr>
-</table>
 
 <form id="auth" name="auth" method="post">
 <div class="dial">
 
-	<table>
-		<tr>
-		<td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
-		<td><button style="cursor: pointer;" class="search_button" onclick="go_search_employee()"></button></td>
-		<td><p style="margin-left: 10px;">Поиск по фамилии</p></td>
-		</tr>
-	</table>
+	
 
 	<table >
-		<tr>
+                <tr>
+                        <td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><button style="cursor: pointer;" class="search_button" onclick="go_search_employee()">Поиск по фамилии</button></td>
+		</tr>
+                <tr>
 			<td><input type="num_button" value="1" onclick="addToField(1)" style="cursor: pointer;"/></td>
 			<td><input type="num_button" value="2" onclick="addToField(2)" style="cursor: pointer;"/></td>
 			<td><input type="num_button" value="3" onclick="addToField(3)" style="cursor: pointer;"/></td>

@@ -55,12 +55,18 @@ text-shadow:
 
 .search_button{
 background: url('/files/img/employee_search.png') 100% 100% no-repeat;
-background-size: 64px 64px;
-margin-top: 18px;
-width: 64px;
-height: 64px;
+background-size: 231px 77px;
+width: 231px;
+height: 77px;
 border: 0px;
-margin-left: 10px;
+cursor: pointer;
+text-decoration: none !important;
+text-align: center;
+font-size: 21px;
+font-weight: 700;
+padding-left: 55px;
+color: #fff;
+text-shadow: rgba(0, 0, 0, 0.25) 2px 2px 0, rgba(0, 0, 0, 0.25) -2px -2px 0, rgba(0, 0, 0, 0.25) -2px 2px 0, rgba(0, 0, 0, 0.25) 2px -2px 0, rgba(0, 0, 0, 1) 0px 0px 20px;
 }
 
 .next_button{
@@ -279,17 +285,14 @@ text-shadow:
 
 /*Ввод табельного*/
 input[type="text"]{
-background: url('/files/img/display_text.png') 100% 100% no-repeat;
-background-size: 270px 82px;
-font-size: 64px;
-height:85px;
-width:273px;
-border: none;
-margin-top: 4%;
-margin-bottom: 1%;
-margin-left: 254px;
-/*opacity:0.6;*/
+font-size: 50px;
+font-weight: 700;
+height: 64px;
+width: 235px;
 text-align: center;
+border: solid 3px #707070;
+box-shadow: inset 0 0 5px 1px #969696;
+border-radius: 10px;
 }
 
 input[type="text_lamp"]{
@@ -536,6 +539,8 @@ span.title-lamp{
 text-align: center;
 margin-top: 2px;
 font-size: 36px;
+font-weight: 700;
+height: 85px;
 }
 
 .top-face{
@@ -791,14 +796,14 @@ width:860px;
 /*
 -------------------------------------- END таймер --------------------------------------
 */
-
+/*
 .authlogo{
 	background:url('/files/img/logo.png') no-repeat scroll center 0 transparent;
 	width: 544px;
 	height: 378px;
 	margin-left: 10px;
 	margin-bottom: 40px;
-}
+}*/
 
 #bottom_logo{
 position: absolute;
@@ -1143,23 +1148,21 @@ figure {
 }
 
 /*Логотип в auth*/
-.authlogo_auth {
-	background:url('/files/img/logo-admin.png') no-repeat scroll center 0 transparent;
-	width: 218px;
-	height: 151px;
-	margin-left: 30px;
-	margin-top: 4px;
-	margin-bottom: 10px;
+.authlogo{
+    position: absolute;
+    width: 300px;
+    height: 200px;
+    top: 120px;
+}
+.authlogo.auth {
+	background:url('/files/img/logo-admin.png') no-repeat center center transparent;
+        left: 0px;
 }
 
 /*Логотип в auth kuzbass cot*/
-.authlogo_auth2 {
-	background:url('/files/img/logo-auth.png') no-repeat scroll center 0 transparent;
-	width: 218px;
-	height: 151px;
-	margin-right: 10px;
-	margin-top: 4px;
-	margin-bottom: 10px;
+.authlogo.auth2 {
+	background:url('/files/img/logo-auth.png') no-repeat center center transparent;
+        right: 0px;
 }
 
 /*Циферблат*/
