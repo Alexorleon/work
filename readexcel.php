@@ -17,8 +17,8 @@
 	$objPHPExcel->getActiveSheet()->setTitle('Демо');*/
 	
 	// имя файла
-	$file_name = iconv("utf-8", "windows-1251", "Электрослесарь Кокс-Майнинг.xlsx");
-	die("STOP"); // TODO: предостережение от случайного запуска
+	$file_name = iconv("utf-8", "windows-1251", "testTRANSPORT.xlsx");
+	//die("STOP"); // TODO: предостережение от случайного запуска
 
 	$objPHPExcel = new PHPExcel();
 	$objPHPExcel = PHPExcel_IOFactory::load($_SERVER['DOCUMENT_ROOT']."./export/$file_name");
@@ -28,8 +28,22 @@
 		SELECT PENALTYPOINTS_MIN AS "min", PENALTYPOINTS_MAX AS "max" FROM stat.COMPETENCELEVEL
 SQL;
 	$array_competence = $db->go_result($sql);
-	//print_r($array_competence[1]['min']);
-	//print_r($array_competence[1]['max']);
+	print_r($array_competence[0]['min']);
+	echo " / ";
+	print_r($array_competence[0]['max']);
+	echo "<br />";
+	print_r($array_competence[1]['min']);
+	echo " / ";
+	print_r($array_competence[1]['max']);
+	echo "<br />";
+	print_r($array_competence[2]['min']);
+	echo " / ";
+	print_r($array_competence[2]['max']);
+	echo "<br />";
+	print_r($array_competence[3]['min']);
+	echo " / ";
+	print_r($array_competence[3]['max']);
+	echo "<br />";
 	
 	// TODO: РАЗБОР ИДЕТ ТОЛЬКО ТЕКСТОВОГО ТИПА
 	foreach ($objPHPExcel->getWorksheetIterator() as $worksheet){
@@ -37,8 +51,9 @@ SQL;
 		$highestRow         = $worksheet->getHighestRow(); // или getHighestDataRow
 		$highestColumn      = $worksheet->getHighestColumn(); // например, 'F'
 		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-		echo $highestRow." rows  and ".$highestColumn."columns";
-		die();
+		
+		echo $highestRow." rows  and ".$highestColumn." columns";
+		//die();
 		//$nrColumns = ord($highestColumn) - 64;
 		//echo $nrColumns . ' колонок (A-' . $highestColumn . ') ';
 		//echo '<br>Данные: <table border="1"><tr>';
@@ -53,27 +68,29 @@ SQL;
 		
 		// получаем ID теста
 		$str_testname = iconv("utf-8", "windows-1251", $out_array[0]); // название теста
-		//print_r($str_testname);
-		//echo "<br />";
+		print_r($str_testname);
+		echo "<br />";
 		
 		$sql = <<<SQL
-			SELECT ID FROM stat.TESTNAMES WHERE TITLE='$str_testname'
+			SELECT ID FROM stat.TESTNAMES WHERE upper(RTRIM(TESTNAMES.TITLE))=upper(RTRIM('$str_testname'))
 SQL;
 		$s_res = $db->go_result_once($sql);
 		$testname_id = $s_res['ID']; // у нас есть специальность
-		//print_r($testname_id);
-		//echo "<br />";
+		print_r($testname_id);
+		echo "<br />";
 		
 		// получаем ID модуля
 		$str_module = iconv("utf-8", "windows-1251", $out_array[1]); // модуль
 		
 		$sql = <<<SQL
-			SELECT ID FROM stat.MODULE WHERE TITLE='$str_module'
+			SELECT ID FROM stat.MODULE WHERE upper(RTRIM(MODULE.TITLE))=upper(RTRIM('$str_module'))
 SQL;
 		$s_res = $db->go_result_once($sql);
 		$module_id = $s_res['ID'];
-		//print_r($module_id);
-	
+		
+		print_r($module_id);
+		die();
+		
 		// необходимо получить номер последнего ID. Для этого нужно сначало сделать тестовую запись,
 		// на тот случай если автоинкремент таблицы уже срабатывал.
 		$sql = <<<SQL
@@ -115,7 +132,7 @@ SQL;
 			for($i = $row; $i < $row + 3; $i++){
 			
 				// получаем цену
-				$cell = $worksheet->getCellByColumnAndRow(4, $i);
+				$cell = $worksheet->getCellByColumnAndRow(6, $i);
 				$pr = $cell->getValue();
 				
 				// находим максимальную цену
@@ -178,11 +195,15 @@ SQL;
 				//$answer = $cell->getValue();
 				
 				// получаем цену
-				$cell = $worksheet->getCellByColumnAndRow(4, $i);
+				$cell = $worksheet->getCellByColumnAndRow(6, $i);
 				$price = $cell->getValue();
 				
-				// получаем комментарий
-				$cell = $worksheet->getCellByColumnAndRow(6, $i);
+				// получаем поражающий фактор
+				$cell = $worksheet->getCellByColumnAndRow(3, $i);
+				$factor = iconv("utf-8", "windows-1251", $cell->getValue());
+				
+				// получаем комментарий - последствия
+				$cell = $worksheet->getCellByColumnAndRow(4, $i);
 				$commentary = iconv("utf-8", "windows-1251", $cell->getValue());
 				//$commentary = $cell->getValue();
 			
@@ -214,8 +235,8 @@ SQL;
 				
 				// записываем ответ
 				$sql = <<<SQL
-					INSERT INTO stat.ALLANSWERS (TEXT, ALLQUESTIONSID, COMPETENCELEVELID, COMMENTARY, RISKLEVELID, PRICE) 
-					VALUES ('$answer', '$count_questions', '$competence', '$commentary', '$riskLevel', '$price')
+					INSERT INTO stat.ALLANSWERS (TEXT, ALLQUESTIONSID, COMPETENCELEVELID, COMMENTARY, RISKLEVELID, PRICE, FACTOR) 
+					VALUES ('$answer', '$count_questions', '$competence', '$commentary', '$riskLevel', '$price', '$factor')
 SQL;
 				$db->go_query($sql);
 			}
@@ -230,6 +251,8 @@ SQL;
 			//echo "<br />";
 		}
 		//echo '</table>';
+		echo "all is done";
+		break;
 	}
 		
 	/*for ($i = $row; $i < $row + 3; $i++)
