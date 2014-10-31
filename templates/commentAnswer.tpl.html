@@ -17,6 +17,15 @@
         <div>
             <div class="text_status_ansF">Вы ответили неправильно!</div>
             <div class="risk_level">
+            <p>
+                    <br>Уровень компетентности:
+                </p>
+                <p class="title">
+                    <img class="competence_img" src="/files/img/risk/{$competencelevel_id}.png"/>
+                    {$competencelevel_title}
+                </p>
+            </div>
+            <div class="risk_level">
             
                 <p>
                     Уровень риска травматизма:
@@ -24,14 +33,6 @@
                 <p class="title">
                     {$risklevel_title}
                 </p>
-                <p>
-                    <br>Уровень компетентности:
-                </p>
-                <p class="title">
-                    <img class="competence_img" src="/files/img/risk/{$competencelevel_id}.png"/>
-                    {$competencelevel_title}
-                </p>
-            
             </div>
         <!--<div class="competence_ t{$competencelevel_id}">
             
@@ -46,11 +47,32 @@
 	
 		<div style="margin-top: 8%;">
 		
-                <div class="text_status_ansF">Последствия от некомпетентных действий:</div>
-                <div class="text_question_comment" style="background: #ffff99;"><div style="max-width: 90%;">{$question_com}</div><div><strong>Поражающий фактор:</strong> {$factor_com}</div></div>
+                <!--<div class="text_status_ansF">Последствия от некомпетентных действий:</div>-->
+                <div class="text_question_comment" style="background: #ffff99;">
+                <!--    <div>
+                        <div class="q_head">Последствия от некомпетентных действий</div>
+                        <div class="q_text">{$question_com}</div>
+                    </div>
+                    <div class="clear"></div>
+                    <div>
+                        <div class="q_head">Поражающий фактор</div>
+                        <div class="q_text">{$factor_com}</div>
+                    </div>
+                    <div class="clear"></div>-->
+                <table class="q_text">
+                    <tr><td>Последствия от некомпетентных действий</td>
+                        <td>{$question_com}</td>
+                    </tr>
+                    <tr>
+                        <td>Поражающий фактор</td>
+                        <td>{$factor_com}</td>
+                    </tr>
+                </table>
+                </div>
 
+              
 		<div class="text_status_ansT"><span>Правильный ответ:<span></div>
-		<div class="text_question_comment" style="background: #A9D0F5;"><div style="max-width: 90%; font-size:50px;">{$question_ans}</div></div>
+		<div class="text_question_comment" style="background: #A9D0F5;"><div style="max-width: 90%; font-size:50px; font-weight: 600">{$question_ans}</div></div>
 		</div>
 		
 	{else}
@@ -60,7 +82,7 @@
                             <div>
                                 <img style="border-radius: 20px; width:300px;" src="/files/img/risk/21.png"/>
                             </div>
-                            <div>Уровень компетентности:<strong>Компетентен</strong>
+                            <div><div class=risk_level><div>Уровень компетентности:</div><div class="title">Компетентен</div></div></div>
 		</div>
 		<!-- Выхом по таймеру -->
 		{literal}
