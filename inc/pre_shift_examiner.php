@@ -100,10 +100,10 @@ SQL;
 		// запоминаем имя картинки
 		$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
 		
-		$temp_id = $_SESSION['ID_question'];
 		//$question_text = $s_res['TEXT']; TODO: вроде и не нужно
 	}
 
+	$temp_id = $_SESSION['ID_question'];
 	
 	// берем ответы к этому вопросу
 	$sql = <<<SQL
