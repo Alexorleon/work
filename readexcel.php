@@ -17,7 +17,7 @@
 	$objPHPExcel->getActiveSheet()->setTitle('Демо');*/
 	
 	// имя файла
-	$file_name = iconv("utf-8", "windows-1251", "testTRANSPORT.xlsx");
+	$file_name = iconv("utf-8", "windows-1251", "testPOSETSHAXTI.xlsx");
 	die("STOP"); // TODO: предостережение от случайного запуска
 
 	$objPHPExcel = new PHPExcel();
@@ -28,7 +28,8 @@
 		SELECT PENALTYPOINTS_MIN AS "min", PENALTYPOINTS_MAX AS "max" FROM stat.COMPETENCELEVEL
 SQL;
 	$array_competence = $db->go_result($sql);
-	print_r($array_competence[0]['min']);
+	
+	/*print_r($array_competence[0]['min']);
 	echo " / ";
 	print_r($array_competence[0]['max']);
 	echo "<br />";
@@ -43,7 +44,7 @@ SQL;
 	print_r($array_competence[3]['min']);
 	echo " / ";
 	print_r($array_competence[3]['max']);
-	echo "<br />";
+	echo "<br />";*/
 	
 	// TODO: РАЗБОР ИДЕТ ТОЛЬКО ТЕКСТОВОГО ТИПА
 	foreach ($objPHPExcel->getWorksheetIterator() as $worksheet){
@@ -167,7 +168,7 @@ SQL;
 			// записываем вопрос
 			$sql = <<<SQL
 				INSERT INTO stat.ALLQUESTIONS (TEXT, TYPEQUESTIONSID, MODULEID, RISKLEVELID) 
-				VALUES ('$question', '8', '5', '$riskLevel')
+				VALUES ('$question', '21', '5', '$riskLevel')
 SQL;
 			$db->go_query($sql);
 			
