@@ -76,7 +76,7 @@ SQL;
 
 		// 1. получаем все тесты для определенной должности.
 		// 2. получаем все вопросы по выбранным тестам.
-		// 3. получаем один случайный текстовый вопрос по модулю знания из выбранных вопросов.
+		// 3. получаем один случайный вопрос по модулю знания из выбранных вопросов.
 		//AND ALLQUESTIONS.TYPEQUESTIONSID='8'
 		$sql = <<<SQL
 		SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM 
@@ -100,10 +100,10 @@ SQL;
 		// запоминаем имя картинки
 		$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
 		
-		$temp_id = $_SESSION['ID_question'];
 		//$question_text = $s_res['TEXT']; TODO: вроде и не нужно
 	}
 
+	$temp_id = $_SESSION['ID_question'];
 	
 	// берем ответы к этому вопросу
 	$sql = <<<SQL
