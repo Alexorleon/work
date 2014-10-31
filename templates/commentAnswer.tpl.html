@@ -25,17 +25,18 @@
                     {$risklevel_title}
                 </p>
                 <p>
-                    <br>Поражающий фактор:
+                    <br>Уровень компетентности:
                 </p>
                 <p class="title">
-                    {$factor_com}
+                    <img class="competence_img" src="/files/img/risk/{$competencelevel_id}.png"/>
+                    {$competencelevel_title}
                 </p>
             
             </div>
-        <div class="competence_ t{$competencelevel_id}">
-            <img class="competence_img" src="/files/img/risk/{$competencelevel_id}.png"/>
-            {$competencelevel_title}
-        </div>
+        <!--<div class="competence_ t{$competencelevel_id}">
+            
+            <div>{$competencelevel_title}</div>
+        </div>-->
             </div>
         <div class="clear"></div>
         <!--<span class="competence{$competencelevel_id}"><img class="competence_img" src="/files/img/risk/{$competencelevel_id}.png"/>{$competencelevel_title}</span>
@@ -46,16 +47,20 @@
 		<div style="margin-top: 8%;">
 		
                 <div class="text_status_ansF">Последствия от некомпетентных действий:</div>
-		<div class="text_question_comment" style="background: #ffff99;"><div style="max-width: 90%;">{$question_com}</div></div>
+                <div class="text_question_comment" style="background: #ffff99;"><div style="max-width: 90%;">{$question_com}</div><div><strong>Поражающий фактор:</strong> {$factor_com}</div></div>
 
 		<div class="text_status_ansT"><span>Правильный ответ:<span></div>
-		<div class="text_question_comment" style="background: #A9D0F5;"><div style="max-width: 90%;">{$question_ans}</div></div>
+		<div class="text_question_comment" style="background: #A9D0F5;"><div style="max-width: 90%; font-size:50px;">{$question_ans}</div></div>
 		</div>
 		
 	{else}
 		
 		<div style="margin-top: 14%;">
 		<div class="text_status_ansT"><span>Правильно!<span></div>
+                            <div>
+                                <img style="border-radius: 20px; width:300px;" src="/files/img/risk/21.png"/>
+                            </div>
+                            <div>Уровень компетентности:<strong>Компетентен</strong>
 		</div>
 		<!-- Выхом по таймеру -->
 		{literal}

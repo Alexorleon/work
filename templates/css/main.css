@@ -1702,9 +1702,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a9d0f5', end
 }
 
 .competence_img{
-    width: 300px;
+    width: 60px;
 vertical-align: middle;
-border-radius: 20px;
+border-radius: 10px;
 }
 
 .competence_
@@ -1713,11 +1713,12 @@ border-radius: 20px;
     float: right;
     font-size: 40px;
     font-weight:700;
+    width: 50%;
 }
 
 .competence_.t3
 {
-    color: #B40404;
+    color: #E31E24;
 }
 
 
@@ -1743,7 +1744,7 @@ border-radius: 20px;
     font-size: 30px;
     padding-right: 40px;
     padding-left:10px;
-    max-width: 400px;
+    width: 50%;
 }
 
 .risk_level .title
