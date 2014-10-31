@@ -1702,9 +1702,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a9d0f5', end
 }
 
 .competence_img{
-    width: 300px;
+    width: 60px;
 vertical-align: middle;
-border-radius: 20px;
+border-radius: 10px;
 }
 
 .competence_
@@ -1713,11 +1713,12 @@ border-radius: 20px;
     float: right;
     font-size: 40px;
     font-weight:700;
+    width: 50%;
 }
 
 .competence_.t3
 {
-    color: #B40404;
+    color: #E31E24;
 }
 
 
@@ -1739,11 +1740,11 @@ border-radius: 20px;
 
 .risk_level{
     position: relative;
-    float: left;
     font-size: 30px;
     padding-right: 40px;
     padding-left:10px;
-    max-width: 400px;
+    width: 45%;
+    display: inline-block;
 }
 
 .risk_level .title
@@ -1761,4 +1762,20 @@ border-radius: 20px;
 .clear
 {
 clear: both;
+}
+
+.q_text
+{
+   width: 100%;
+   font-size: 30px;
+}
+.q_text td:nth-child(1)
+{
+    font-weight: 700;
+}
+.q_text td
+{
+    border: 3px solid black;
+    padding:5px;
+    text-align: center;
 }
