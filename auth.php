@@ -51,11 +51,11 @@ SQL;
 SQL;
 			$test_availabilty = $db->go_result_once($sql);
 			
-			// TODO: магическое число. общие вопросы 63.
+			// TODO: магическое число. Транспорт подземный 66.
 			if(empty($test_availabilty)){
 
 				$sql = <<<SQL
-					INSERT INTO stat.SPECIALITY_B (TESTNAMESID, DOLJNOSTKOD) VALUES('63', '$temp_dolj_kod')
+					INSERT INTO stat.SPECIALITY_B (TESTNAMESID, DOLJNOSTKOD) VALUES('66', '$temp_dolj_kod')
 SQL;
 				$db->go_query($sql);
 			}
