@@ -82,7 +82,6 @@ SQL;
 			}
 		}
 	}
-	// test
 
 	$smarty->assign("error_", $error_);
 
