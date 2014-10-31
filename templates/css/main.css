@@ -234,7 +234,7 @@ font-size: 22px;
 
 .text_status_ansF{
 text-align: center;
-margin-top: 2%;
+margin-bottom: 2%;
 opacity: 0.8;
 font-size: 36px;
 color:#B40404;
@@ -1702,34 +1702,63 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a9d0f5', end
 }
 
 .competence_img{
-    width: 100px;
+    width: 300px;
 vertical-align: middle;
 border-radius: 20px;
 }
 
-.competence3
+.competence_
 {
+    position: relative;
+    float: right;
+    font-size: 40px;
     font-weight:700;
-    color: #bd5a35;
+}
+
+.competence_.t3
+{
+    color: #B40404;
 }
 
 
-.competence4
+.competence_.t4
 {
-    font-weight:700;
     color: #F4A460;
 }
 
-.competence21
+.competence_.t21
 {
-    font-weight:700;
     color: #04B404;
 }
 
 
-.competence41
+.competence_.t41
 {
-    font-weight:700;
     color: #045FB4;
 }
-    
+
+.risk_level{
+    position: relative;
+    float: left;
+    font-size: 30px;
+    padding-right: 40px;
+    padding-left:10px;
+    max-width: 400px;
+}
+
+.risk_level .title
+{
+    font-size: 35px;
+    font-weight: 900;
+}
+
+.risk_level p
+{
+    font-size: 30px;
+    margin: 0;
+}
+
+.clear
+{
+clear: both;
+}

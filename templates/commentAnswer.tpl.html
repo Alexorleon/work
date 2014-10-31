@@ -12,17 +12,40 @@
 <!--смотрим какой экзаменатор-->
 {if $type_examiner eq "PE"}
 
-	<!--Если ответ не правильный, выводим правильный ответ и сопутствующую информацию-->
+	<!--Если ответ неправильный, выводим правильный ответ и сопутствующую информацию-->
 	{if $transitionOption neq '1'}
+        <div>
+            <div class="text_status_ansF">Вы ответили неправильно!</div>
+            <div class="risk_level">
+            
+                <p>
+                    Уровень риска травматизма:
+                </p>
+                <p class="title">
+                    {$risklevel_title}
+                </p>
+                <p>
+                    <br>Поражающий фактор:
+                </p>
+                <p class="title">
+                    {$factor_com}
+                </p>
+            
+            </div>
+        <div class="competence_ t{$competencelevel_id}">
+            <img class="competence_img" src="/files/img/risk/{$competencelevel_id}.png"/>
+            {$competencelevel_title}
+        </div>
+            </div>
+        <div class="clear"></div>
+        <!--<span class="competence{$competencelevel_id}"><img class="competence_img" src="/files/img/risk/{$competencelevel_id}.png"/>{$competencelevel_title}</span>
+		<span>{$risklevel_title}</span>
+		<span>{$factor_com}</span>
+		<span>{$competencelevel_id}</span>-->
 	
-        <span class="competence{$competencelevel_id}"><img class="competence_img" src="/files/img/risk/{$competencelevel_id}.png"/>{$competencelevel_title}<span>
-		<span>{$risklevel_title}<span>
-		<span>{$factor_com}<span>
-		<span>{$competencelevel_id}<span>
-	
-		<div style="margin-top: 16%;">
-		<div class="text_status_ansF"><span>Вы ответили неправильно!<span></div>
-
+		<div style="margin-top: 8%;">
+		
+                <div class="text_status_ansF">Последствия от некомпетентных действий:</div>
 		<div class="text_question_comment" style="background: #ffff99;"><div style="max-width: 90%;">{$question_com}</div></div>
 
 		<div class="text_status_ansT"><span>Правильный ответ:<span></div>
