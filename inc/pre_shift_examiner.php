@@ -38,8 +38,8 @@ SQL;
 			
 			die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=1"</script>'); // type_exam=1 означает предсменный экзаменатор pre_shift_examiner
 		}else{
-			//не правильно
-			// запоминаем первый вариант ответа если не правильно отвечаем впервые
+			//неправильно
+			// запоминаем первый вариант ответа если неправильно отвечаем впервые
 			if($_SESSION['answer_attempt'] == 0){
 				$_SESSION['first_answerid'] = $idans;
 			}
@@ -84,14 +84,13 @@ SQL;
 		(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 		(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) ORDER BY dbms_random.value) WHERE rownum=1
 SQL;
-
 		$s_res = $db->go_result_once($sql);
 
 		if(empty($s_res)){
 		
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}
-
+		
 		// запоминаем ID вопроса если потребуется отвечать на него снова
 		$_SESSION['ID_question'] = $s_res['ID'];
 		
@@ -102,9 +101,9 @@ SQL;
 		$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
 		
 		$temp_id = $_SESSION['ID_question'];
-		
 		//$question_text = $s_res['TEXT']; TODO: вроде и не нужно
 	}
+
 	
 	// берем ответы к этому вопросу
 	$sql = <<<SQL
@@ -120,7 +119,6 @@ SQL;
 	$sm_sotrud_dolj = $db->go_result_once($sql);
 	
 	// получаем табельный
-	// TODO: задано жестко для кокс-майнинг
 	$temp_sotrud_id = $_SESSION['sotrud_id'];
 	$sql = <<<SQL
 	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$temp_sotrud_id'

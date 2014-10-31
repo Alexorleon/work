@@ -18,7 +18,7 @@
 	
 	// имя файла
 	$file_name = iconv("utf-8", "windows-1251", "testTRANSPORT.xlsx");
-	//die("STOP"); // TODO: предостережение от случайного запуска
+	die("STOP"); // TODO: предостережение от случайного запуска
 
 	$objPHPExcel = new PHPExcel();
 	$objPHPExcel = PHPExcel_IOFactory::load($_SERVER['DOCUMENT_ROOT']."./export/$file_name");
