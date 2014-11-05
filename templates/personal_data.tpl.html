@@ -4,8 +4,62 @@
 <link rel="stylesheet" href="{$tpl}css/main.css">
 <div id="error_mess"> {$error_} </div>
 
-<div id="mainDiv" align="center" >
+<div id="menu-holder"></div>
+<div class="top-face">Контроль личной компетентности</div>
+<div id="menu-holder"></div>
 
+<div id="mainDiv" align="center" >
+    
+    <table border="1" class="table_competence" cellspacing="0">
+        <tbody>
+            <tr>
+                <th style="width:30%;">Тип компетентности</th>
+                <th style="width:10%;">Баллы</th>
+                <th style="width:60%;">Рекоммендации</th>
+            </tr>
+            {foreach from=$quest_data item=quest}
+            <tr>
+                <td>{$quest['name']}</td>
+                <td>{$quest['K']}</td>
+                <td>{$quest['CompetenceLevel']}</td>
+            </tr>
+            {/foreach}
+            <tr>
+                <td>
+                    Кн - низкая дисциплин, наличие нарушений
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Кс – малый стажа работы в подземных условиях
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Кп - активные действия по снижению или устранению рисков
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
 <form id="personalPage" name="personalPage" method="post">
 
 
