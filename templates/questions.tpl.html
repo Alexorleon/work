@@ -28,6 +28,12 @@
 
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
+<link href="{$tpl}../libs/video-js/video-js.css" rel="stylesheet" type="text/css">
+<script src="{$tpl}../libs/video-js/video.js"></script>
+
+<script>
+	videojs.options.flash.swf = "{$tpl}../libs/video-js/video-js.swf";
+</script>
 
 <div id="error_mess"> {$error_} </div>
 <div id="questionsDiv" align="center" >
@@ -36,7 +42,7 @@
 
 <!--выбор варианта прохождения теста (пробный или нет)-->
 <input id="answer" name="answer" type="hidden" value="1"/>
-<input name='idans' type='hidden' value='{$idans}'/>
+<!--<input name='idans' type='hidden' value='{$idans}'/> TODO: вроде и ненадо-->
 <!-- Пройти тестирование или пробное тестирование-->
 <input type="hidden" id="comp_lvl_id" name="comp_lvl_id" value="0">
 <input type="hidden" id="answ_id" name="answ_id" value="0">
@@ -187,6 +193,15 @@
 				{capture}{$count++}{/capture}
 			{/section}
 		</table>
+	
+	{elseif $type_question eq 9} <!--простое видео-->
+	
+		
+	{elseif $type_question eq 10} <!--сложное видео-->
+		
+		
+	{elseif $type_question eq 22} <!--сложное фото-->
+	
 		
 	{else}
 	{/if}
