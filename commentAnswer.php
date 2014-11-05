@@ -20,7 +20,10 @@ if(isset($_GET['type_exam'])){
 			// так как ответили не правильно, то выводим комментарий и правильный ответ
 			$temp_id = $_SESSION['ID_question'];
 			$temp_idans = $_SESSION['first_answerid'];
-			
+			if (isset($_GET['q']))
+                        {
+                            $temp_id = $_GET['q'];
+                        }
 			// получаем параметры неправильного ответа
 			$sql = <<<SQL
 			SELECT COMPETENCELEVELID, COMMENTARY, RISKLEVELID, FACTOR FROM stat.ALLANSWERS WHERE ALLANSWERS.ID='$temp_idans'
@@ -104,11 +107,11 @@ SQL;
 		if($_GET['type_exam'] == 1){
 			// выбираем вариант ответа
 			if ($transitionOption == 1){
-			
+                                
 				die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 			}else{
-			
-				die('<script>document.location.href= "'.lhost.'/question.php"</script>');
+			$returnto = (isset($_GET['q'])) ? "?q={$_GET['q']}" : ""; 
+				die('<script>document.location.href= "'.lhost.'/question.php'.$returnto.'"</script>');
 			}				
 		}else if($_GET['type_exam'] == 2){ // это контроль компетентности
 			
@@ -118,7 +121,8 @@ SQL;
 			die("У меня не прописано, что делать");
 		}
 	}
-
+        //var_dump($_POST);
+        
 	$smarty->assign("error_", $error_);
 
 	$smarty->assign("competencelevel_title", $competencelevel_title);
@@ -131,5 +135,10 @@ SQL;
 	$smarty->assign("transitionOption", $transitionOption);
 	
 	$smarty->assign("title", "Комментарий");
+        if (isset($_GET['q']))
+        {
+            $idans = $_GET['q'];   
+            $smarty->assign("idans", $idans);
+        }
 	$smarty->display("commentAnswer.tpl.html");
  ?>

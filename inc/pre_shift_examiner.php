@@ -1,15 +1,15 @@
 <?php
-	// предсменный экзаменатор;
+	// РїСЂРµРґСЃРјРµРЅРЅС‹Р№ СЌРєР·Р°РјРµРЅР°С‚РѕСЂ;
 	$typetest = 1;
 
 	if ($_POST){
 
 		$answer = $_POST['comp_lvl_id'];
 		$idans = $_POST['answ_id'];
-		
-		// выбираем вариант ответа
-		if ($answer == 21){ // магическое число 21 это ID в таблице уровень компетенции // TODO: потом можно будет заменить
-			// правильно
+		$idq = $_POST['idans'];
+		// РІС‹Р±РёСЂР°РµРј РІР°СЂРёР°РЅС‚ РѕС‚РІРµС‚Р°
+		if ($answer == 21){ // РјР°РіРёС‡РµСЃРєРѕРµ С‡РёСЃР»Рѕ 21 СЌС‚Рѕ ID РІ С‚Р°Р±Р»РёС†Рµ СѓСЂРѕРІРµРЅСЊ РєРѕРјРїРµС‚РµРЅС†РёРё // TODO: РїРѕС‚РѕРј РјРѕР¶РЅРѕ Р±СѓРґРµС‚ Р·Р°РјРµРЅРёС‚СЊ
+			// РїСЂР°РІРёР»СЊРЅРѕ
 			$_SESSION['transitionOption'] = 1;
 
 			$dateBegin = $_SESSION['DATEBEGIN'];
@@ -19,7 +19,7 @@
 			$tempans = $_SESSION['answer_attempt'];
 			
 			$tempAnsID = 0;
-			// если сразу ответили правильно то пишем ответ, иначе берем первый вариант ответа
+			// РµСЃР»Рё СЃСЂР°Р·Сѓ РѕС‚РІРµС‚РёР»Рё РїСЂР°РІРёР»СЊРЅРѕ С‚Рѕ РїРёС€РµРј РѕС‚РІРµС‚, РёРЅР°С‡Рµ Р±РµСЂРµРј РїРµСЂРІС‹Р№ РІР°СЂРёР°РЅС‚ РѕС‚РІРµС‚Р°
 			if($_SESSION['answer_attempt'] == 0){
 				$tempAnsID = $idans;
 			}else{
@@ -27,8 +27,8 @@
 				$tempAnsID = $_SESSION['first_answerid'];
 			}
 
-			// ответили правильно, записываем все в историю
-			// TODO: транзакция
+			// РѕС‚РІРµС‚РёР»Рё РїСЂР°РІРёР»СЊРЅРѕ, Р·Р°РїРёСЃС‹РІР°РµРј РІСЃРµ РІ РёСЃС‚РѕСЂРёСЋ
+			// TODO: С‚СЂР°РЅР·Р°РєС†РёСЏ
 			$sql = <<<SQL
 			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
 			($tempID, $tempqu, to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), 
@@ -36,51 +36,57 @@
 SQL;
 			$db->go_query($sql);
 			
-			die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=1"</script>'); // type_exam=1 означает предсменный экзаменатор pre_shift_examiner
+			die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=1&q='.$idq.'"</script>'); // type_exam=1 РѕР·РЅР°С‡Р°РµС‚ РїСЂРµРґСЃРјРµРЅРЅС‹Р№ СЌРєР·Р°РјРµРЅР°С‚РѕСЂ pre_shift_examiner
 		}else{
-			//неправильно
-			// запоминаем первый вариант ответа если неправильно отвечаем впервые
+			//РЅРµРїСЂР°РІРёР»СЊРЅРѕ
+			// Р·Р°РїРѕРјРёРЅР°РµРј РїРµСЂРІС‹Р№ РІР°СЂРёР°РЅС‚ РѕС‚РІРµС‚Р° РµСЃР»Рё РЅРµРїСЂР°РІРёР»СЊРЅРѕ РѕС‚РІРµС‡Р°РµРј РІРїРµСЂРІС‹Рµ
 			if($_SESSION['answer_attempt'] == 0){
 				$_SESSION['first_answerid'] = $idans;
 			}
 			
 			$_SESSION['transitionOption'] = 0;
 			
-			die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=1"</script>');
+			die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=1&q='.$idq.'"</script>');
 		}
 	}
 
-	$temp_id = $_SESSION['ID_question']; // щас тут 0
-
-	// повторить тот же вопрос или взять новый
-	if($_SESSION['transitionOption'] == 0){ // если прошлый раз ответили не правильно
+	$temp_id = $_SESSION['ID_question']; // С‰Р°СЃ С‚СѓС‚ 0
+        
+        if(isset($_POST['idans']))
+        {
+            $temp_id = $_POST['idans'];
+        }
+	// РїРѕРІС‚РѕСЂРёС‚СЊ С‚РѕС‚ Р¶Рµ РІРѕРїСЂРѕСЃ РёР»Рё РІР·СЏС‚СЊ РЅРѕРІС‹Р№
+	if($_SESSION['transitionOption'] == 0){ // РµСЃР»Рё РїСЂРѕС€Р»С‹Р№ СЂР°Р· РѕС‚РІРµС‚РёР»Рё РЅРµ РїСЂР°РІРёР»СЊРЅРѕ
 
 		$sql = <<<SQL
 		SELECT TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_id'
 SQL;
 		$s_res = $db->go_result_once($sql);
-		//$question_text = $s_res['TEXT']; TODO: вроде и не нужно
+		//$question_text = $s_res['TEXT']; TODO: РІСЂРѕРґРµ Рё РЅРµ РЅСѓР¶РЅРѕ
 
-		// увеличиваем счетчик попыток
+		// СѓРІРµР»РёС‡РёРІР°РµРј СЃС‡РµС‚С‡РёРє РїРѕРїС‹С‚РѕРє
 		$_SESSION['answer_attempt'] = $_SESSION['answer_attempt'] + 1;
 	
-	}else{// отвечаем впервые или в прошлый раз ответили правильно
+	}else{// РѕС‚РІРµС‡Р°РµРј РІРїРµСЂРІС‹Рµ РёР»Рё РІ РїСЂРѕС€Р»С‹Р№ СЂР°Р· РѕС‚РІРµС‚РёР»Рё РїСЂР°РІРёР»СЊРЅРѕ
 
-		// стартуем таймер если начали тест, убедиться что отвечаем впервые
+		// СЃС‚Р°СЂС‚СѓРµРј С‚Р°Р№РјРµСЂ РµСЃР»Рё РЅР°С‡Р°Р»Рё С‚РµСЃС‚, СѓР±РµРґРёС‚СЊСЃСЏ С‡С‚Рѕ РѕС‚РІРµС‡Р°РµРј РІРїРµСЂРІС‹Рµ
 		if($_SESSION['answer_attempt'] == 0){
 
 			$_SESSION['DATEBEGIN'] = date('d.m.Y H:i:s');
 		}
-
+                
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
-
-		// 1. получаем все тесты для определенной должности.
-		// 2. получаем все вопросы по выбранным тестам.
-		// 3. получаем один случайный текстовый вопрос по модулю знания из выбранных вопросов.
+                
+               
+                $certainID = (isset($_GET['q'])) ? " AND ALLQUESTIONS.ID='{$_GET['q']}'" : "";
+		// 1. РїРѕР»СѓС‡Р°РµРј РІСЃРµ С‚РµСЃС‚С‹ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРЅРѕР№ РґРѕР»Р¶РЅРѕСЃС‚Рё.
+		// 2. РїРѕР»СѓС‡Р°РµРј РІСЃРµ РІРѕРїСЂРѕСЃС‹ РїРѕ РІС‹Р±СЂР°РЅРЅС‹Рј С‚РµСЃС‚Р°Рј.
+		// 3. РїРѕР»СѓС‡Р°РµРј РѕРґРёРЅ СЃР»СѓС‡Р°Р№РЅС‹Р№ С‚РµРєСЃС‚РѕРІС‹Р№ РІРѕРїСЂРѕСЃ РїРѕ РјРѕРґСѓР»СЋ Р·РЅР°РЅРёСЏ РёР· РІС‹Р±СЂР°РЅРЅС‹С… РІРѕРїСЂРѕСЃРѕРІ.
 		//AND ALLQUESTIONS.TYPEQUESTIONSID='8'
 		$sql = <<<SQL
 		SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM 
-		(SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.ID IN 
+		(SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.MODULEID='5'$certainID AND ALLQUESTIONS.ID IN 
 		(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 		(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) ORDER BY dbms_random.value) WHERE rownum=1
 SQL;
@@ -91,41 +97,48 @@ SQL;
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}
 		
-		// запоминаем ID вопроса если потребуется отвечать на него снова
+		// Р·Р°РїРѕРјРёРЅР°РµРј ID РІРѕРїСЂРѕСЃР° РµСЃР»Рё РїРѕС‚СЂРµР±СѓРµС‚СЃСЏ РѕС‚РІРµС‡Р°С‚СЊ РЅР° РЅРµРіРѕ СЃРЅРѕРІР°
 		$_SESSION['ID_question'] = $s_res['ID'];
-		
-		// запоминаем тип вопроса
+		$temp_id = $s_res['ID'];
+		// Р·Р°РїРѕРјРёРЅР°РµРј С‚РёРї РІРѕРїСЂРѕСЃР°
 		$_SESSION['type_question'] = $s_res['TYPEQUESTIONSID'];
 		
-		// запоминаем имя картинки
+		// Р·Р°РїРѕРјРёРЅР°РµРј РёРјСЏ РєР°СЂС‚РёРЅРєРё
 		$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
 		
-		//$question_text = $s_res['TEXT']; TODO: вроде и не нужно
+		//$question_text = $s_res['TEXT']; TODO: РІСЂРѕРґРµ Рё РЅРµ РЅСѓР¶РЅРѕ
 	}
 
 	$temp_id = $_SESSION['ID_question'];
-	
-	// берем ответы к этому вопросу
+	if(isset($_POST['idans']))
+        {
+            $temp_id = $_POST['idans'];
+        }
+        if (isset($_GET['q']))
+        {
+            $temp_id = intval($_GET['q']);
+        }
+	// Р±РµСЂРµРј РѕС‚РІРµС‚С‹ Рє СЌС‚РѕРјСѓ РІРѕРїСЂРѕСЃСѓ
 	$sql = <<<SQL
 	SELECT ID, TEXT, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_id'
 SQL;
 	$array_answers = $db->go_result($sql);
 	
-	// получаем название должности
+	// РїРѕР»СѓС‡Р°РµРј РЅР°Р·РІР°РЅРёРµ РґРѕР»Р¶РЅРѕСЃС‚Рё
 	$temp_doljkod = $_SESSION['sotrud_dolj'];
 	$sql = <<<SQL
 	SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$temp_doljkod'
 SQL;
 	$sm_sotrud_dolj = $db->go_result_once($sql);
 	
-	// получаем табельный
+	// РїРѕР»СѓС‡Р°РµРј С‚Р°Р±РµР»СЊРЅС‹Р№
 	$temp_sotrud_id = $_SESSION['sotrud_id'];
 	$sql = <<<SQL
 	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$temp_sotrud_id'
 SQL;
 	$sm_sotrud_tabel = $db->go_result_once($sql);
 	
-	/*резерв
+	/*СЂРµР·РµСЂРІ
 	$sql = <<<SQL
 	SELECT ID, TEXT FROM
 	(SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.TESTNAMESID IN 
@@ -136,8 +149,8 @@ SQL;*/
 
 	$smarty->assign("error_", $error_);
 
-	$smarty->assign("question", $s_res);//вопрос
-	$smarty->assign("array_answers", $array_answers);//ответы
+	$smarty->assign("question", $s_res);//РІРѕРїСЂРѕСЃ
+	$smarty->assign("array_answers", $array_answers);//РѕС‚РІРµС‚С‹
 	
 	// FIO
 	$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
@@ -151,7 +164,8 @@ SQL;*/
 	$smarty->assign("simplephoto", $_SESSION['simplephoto']);
 
 	$smarty->assign("typetest", $typetest);
-	$smarty->assign("title", "Предсменный экзаменатор");
+	$smarty->assign("title", "РџСЂРµРґСЃРјРµРЅРЅС‹Р№ СЌРєР·Р°РјРµРЅР°С‚РѕСЂ");
+        $smarty->assign("idans", $temp_id);
 	$smarty->display("questions.tpl.html");
 	
 ?>
