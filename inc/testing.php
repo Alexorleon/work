@@ -260,28 +260,37 @@ SQL;
 	// задаем вопрос
 	function ask_question(&$obj){
 		
-		// вывод вопроса в зависимости от его типа (свое оформление и запрос)
+		// проверяем не цепочка ли сейчас
 		if($_SESSION['bool_isComplexVideo'] == true){
 		
+			// если цепочка не закончилась, задаем следующее звено
+			if($_SESSION['count_complex_question'] >= 5){
 			
+				$_SESSION['count_complex_question'] = 1;
+				$_SESSION['bool_isComplexVideo'] = false;
+			}else{
+			
+				ask_one_complexVideo($obj);
+			}
 		}else{
 		
-		}
-		
-		$testid = $_SESSION['q_final_array'][$_SESSION['counter_questions']];
-		//print_r($testid['ID']);
-		$temp_testid = (int)$testid['ID'];
-		$_SESSION['global_temp_testid'] = $temp_testid; // запоминаем id вопроса
+			$testid = $_SESSION['q_final_array'][$_SESSION['counter_questions']];
+			//print_r($testid['ID']);
+			//die();
 			
-		// TODO: опять магические числа
-		$sql = <<<SQL
-		SELECT TYPEQUESTIONSID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
+			$temp_testid = (int)$testid['ID'];
+			$_SESSION['global_temp_testid'] = $temp_testid; // запоминаем id вопроса
+				
+			// TODO: опять магические числа
+			$sql = <<<SQL
+			SELECT TYPEQUESTIONSID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
-		$typeq_res = $obj->go_result_once($sql);
+			$typeq_res = $obj->go_result_once($sql);
 
-		// запоминаем тип вопроса
-		$_SESSION['type_question'] = $typeq_res['TYPEQUESTIONSID'];
-		$temp_type_question = $_SESSION['type_question'];
+			// запоминаем тип вопроса
+			$_SESSION['type_question'] = $typeq_res['TYPEQUESTIONSID'];
+			$temp_type_question = $_SESSION['type_question'];
+		}
 		
 		if($temp_type_question == 8){ // текст
 		
@@ -319,6 +328,7 @@ SQL;
 			SELECT TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
 			$s_res1 = $obj->go_result_once($sql);
+			
 			$_SESSION['complex_question_text'] = $s_res1['TEXT'];
 			$_SESSION['complex_question_prolog'] = $s_res1['PROLOGVIDEO'];
 			$_SESSION['complex_question_epilog'] = $s_res1['EPILOGVIDEO'];
@@ -326,7 +336,7 @@ SQL;
 					
 			array_push($_SESSION['final_array_complex_questions'], $_SESSION['complex_question_text']); // запоминаем вопрос - заголовок цепочки
 
-			ask_one_complexVideo($db);
+			ask_one_complexVideo($obj);
 			
 		}elseif($temp_type_question == 21){ // простое фото
 		
@@ -355,10 +365,7 @@ SQL;
 		SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
 		AND COMPLEXVIDEO.POSITION='$count' AND rownum=1
 SQL;
-		print_r($sql_ques);
-		$temp_array_ques = $obj->go_result_once($sql_ques);
-		$_SESSION['link_question_complex'] = $temp_array_ques;
-		die();
+		$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
 		
 		$temp_id_ques = $_SESSION['link_question_complex']['ID'];
 		
@@ -368,8 +375,6 @@ SQL;
 SQL;
 		$_SESSION['link_answer_complex'] = $obj->go_result($sql_ans);
 
-		print_r($_SESSION['link_answer_complex']);
-		die();
 		$_SESSION['count_complex_question']++;
 	}
 	
