@@ -9,9 +9,9 @@
 	$db->GetConnect();//ПРоверяем коннект
 	$error_='';
 	
-	if ($_POST){
+	if (!empty($_POST)){
 		
-		$type_submit = $_POST['type_submit_main']; // по какой кнопке нажали. выбераем раздел.
+		$type_submit = filter_input(INPUT_POST, 'type_submit_main', FILTER_SANITIZE_NUMBER_INT); //$_POST['type_submit_main']; // по какой кнопке нажали. выбераем раздел.
 		
 		if ($type_submit == 1){ // нормативные документы
 		

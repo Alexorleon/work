@@ -12,13 +12,19 @@
 	$db->GetConnect();
 	$error_='';
 		
-	if ($_POST){
+	if (!empty($_POST)){
+		$employeesur = filter_input(INPUT_POST, 'employeesur', FILTER_SANITIZE_SPECIAL_CHARS);
+		$employeesur = iconv("utf-8", "windows-1251", $employeesur); // фамилия
+                
+                $employeename = filter_input(INPUT_POST, 'employeename', FILTER_SANITIZE_SPECIAL_CHARS);
+		$employeename = iconv("utf-8", "windows-1251", $employeename); // имя
+                
+                $employeepat = filter_input(INPUT_POST, 'employeepat', FILTER_SANITIZE_SPECIAL_CHARS);
+		$employeepat = iconv("utf-8", "windows-1251", $employeepat); // отчество
+                
+		$type_doljnost = filter_input(INPUT_POST, 'type_doljnost', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['type_doljnost']; // должность
 		
-		$employeesur = iconv("utf-8", "windows-1251", $_POST['employeesur']); // фамилия
-		$employeename = iconv("utf-8", "windows-1251", $_POST['employeename']); // имя
-		$employeepat = iconv("utf-8", "windows-1251", $_POST['employeepat']); // отчество
-		$type_doljnost = $_POST['type_doljnost']; // должность
-		$employeetabel = $_POST['employeetabel']; // табельный
+                $employeetabel = filter_input(INPUT_POST, 'employeetabel', FILTER_SANITIZE_NUMBER_INT);//$_POST['employeetabel']; // табельный
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_employee'] == 0){ // это добавление нового
@@ -46,7 +52,7 @@ SQL;
 		
 		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
 	
-			$employee_id_hidden = $_POST['employee_hidden_id'];
+			$employee_id_hidden = filter_input(INPUT_POST, 'employee_hidden_id', FILTER_SANITIZE_NUMBER_INT);//$_POST['employee_hidden_id'];
 			//print_r($_POST);
 			//die();
 			

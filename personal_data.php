@@ -5,9 +5,9 @@ $db = new db;
 $db->GetConnect();
 $error_='';
 		
-if ($_POST)
+if (!empty($_POST))
 {
-    $type_personal = $_POST['type_personal'];
+    $type_personal = filter_input(INPUT_POST,'type_personal', FILTER_SANITIZE_NUMBER_INT);//$_POST['type_personal'];
     if ($type_personal == 0)
     {   // новые документы
         // переходим в лобби

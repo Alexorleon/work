@@ -5,11 +5,11 @@
 	$db->GetConnect();
 	$error_='';
 		
-	if ($_POST){
+	if (!empty($_POST)){
 		/*
 		print_r($_POST);
 		die();*/
-		$type_proposals = $_POST['type_proposals'];
+		$type_proposals = filter_input(INPUT_POST, 'type_proposals', FILTER_SANITIZE_NUMBER_INT);//$_POST['type_proposals'];
 
 		if ($type_proposals == 0){
 
@@ -19,8 +19,9 @@
 		
 			// записываем предложение
 			$sotrudID = $_SESSION['sotrud_id'];
-			$typemessage = $_POST['typemessage'];
-			$message = iconv("utf-8", "windows-1251", $_POST['tabnum']);
+			$typemessage = filter_input(INPUT_POST,'typemessage', FILTER_SANITIZE_NUMBER_INT);//$_POST['typemessage'];
+                        $message = filter_input(INPUT_POST,'tabnum', FILTER_SANITIZE_SPECIAL_CHARS);
+			$message = iconv("utf-8", "windows-1251", $message);
 			$current_date = date('d.m.Y H:i:s');
 			
 			$sql = <<<SQL
