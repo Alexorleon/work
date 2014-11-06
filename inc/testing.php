@@ -353,13 +353,23 @@ SQL;
 		// TODO: ORDER BY POSITION ASC
 		$sql_ques = <<<SQL
 		SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
-		AND COMPLEXVIDEO.POSITION='$count'
+		AND COMPLEXVIDEO.POSITION='$count' AND rownum=1
 SQL;
-		$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
+		print_r($sql_ques);
+		$temp_array_ques = $obj->go_result_once($sql_ques);
+		$_SESSION['link_question_complex'] = $temp_array_ques;
+		die();
 		
-		// теперь нужно получить ответы !!!!!!!
-		//array_push($_SESSION['final_array_questions'], $_SESSION['']);
+		$temp_id_ques = $_SESSION['link_question_complex']['ID'];
 		
+		// получаем ответы
+		$sql_ans = <<<SQL
+		SELECT ID, TEXT, SIMPLEVIDEO, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
+SQL;
+		$_SESSION['link_answer_complex'] = $obj->go_result($sql_ans);
+
+		print_r($_SESSION['link_answer_complex']);
+		die();
 		$_SESSION['count_complex_question']++;
 	}
 	
