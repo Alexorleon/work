@@ -69,11 +69,10 @@
 			
 				// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
 				if($_SESSION['counter_questions'] < $_SESSION['numquestions']){
-				
 					// задаем вопрос
 					ask_question($db);
 				}else{ // иначе переходим в commentAnswer и выводим результаты теста.
-		
+
 					$_SESSION['counter_questions'] = 0;
 					die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=2"</script>');
 				}
@@ -89,6 +88,8 @@
 				$smarty->assign("question", $question_text);//вопрос
 				$smarty->assign("type_question", $_SESSION['type_question']);
 				$smarty->assign("array_answers", $array_answers);//ответы
+				
+				$smarty->assign("idans", $_SESSION['ID_question']);
 				
 			}elseif($_SESSION['type_question'] == 21){ // простое фото
 			
@@ -303,14 +304,8 @@ SQL;
 		if($_SESSION['bool_isComplexVideo'] == true){
 		
 			// если цепочка не закончилась, задаем следующее звено
-			if($_SESSION['count_complex_question'] > 5){
-			
-				$_SESSION['count_complex_question'] = 1;
-				$_SESSION['bool_isComplexVideo'] = false;
-			}else{
-			
-				ask_one_complexVideo($obj);
-			}
+			ask_one_complexVideo($obj);
+
 		}else{
 		
 			$testid = $_SESSION['q_final_array'][$_SESSION['counter_questions']];
@@ -394,26 +389,38 @@ SQL;
 	// задаем одно звено из видео цепочки
 	function ask_one_complexVideo(&$obj){
 	
-		$temp_testid = $_SESSION['global_temp_testid'];
-		$count = $_SESSION['count_complex_question'];
+		if($_SESSION['count_complex_question'] == 5){
 		
-		// получаем вопрос к цепочке
-		// TODO: ORDER BY POSITION ASC
-		$sql_ques = <<<SQL
-		SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
-		AND COMPLEXVIDEO.POSITION='$count' AND rownum=1
+			$_SESSION['counter_questions']++;
+		}
+		// если закончилась цепочка
+		if($_SESSION['count_complex_question'] > 5){
+		
+			$_SESSION['count_complex_question'] = 1;
+			$_SESSION['bool_isComplexVideo'] = false;
+		}else{
+		
+			$temp_testid = $_SESSION['global_temp_testid'];
+			$count = $_SESSION['count_complex_question'];
+			
+			$_SESSION['count_complex_question']++;
+			
+			// получаем вопрос к цепочке
+			// TODO: ORDER BY POSITION ASC
+			$sql_ques = <<<SQL
+			SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
+			AND COMPLEXVIDEO.POSITION='$count' AND rownum=1
 SQL;
-		$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
-		
-		$temp_id_ques = $_SESSION['link_question_complex']['ID'];
-		
-		// получаем ответы
-		$sql_ans = <<<SQL
-		SELECT ID, TEXT, SIMPLEVIDEO, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
+			$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
+			
+			$temp_id_ques = $_SESSION['link_question_complex']['ID'];
+			
+			// получаем ответы
+			$sql_ans = <<<SQL
+			SELECT ID, TEXT, SIMPLEVIDEO, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
 SQL;
-		$_SESSION['link_answer_complex'] = $obj->go_result($sql_ans);
-
-		$_SESSION['count_complex_question']++;
+			$_SESSION['link_answer_complex'] = $obj->go_result($sql_ans);
+		}
 	}
 	
 	// пишем в историю
