@@ -38,6 +38,7 @@
 			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
 			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
 			
+			// TODO: либо записывать на временный файл на случай восстановления и записать в историю в последний момент
 			// пишем в историю
 			write_history($db, $idans);
 		}else{
@@ -51,11 +52,19 @@
 			// если еще ни разу не отвечали, то требуются подготовительные действия
 			if ($_SESSION['counter_questions'] == 0){
 			
-				// подготовка
-				preparation($db);
+				// это цепочка, подготовка уже не требуется
+				if($_SESSION['bool_isComplexVideo'] == true){
 				
-				// задаем вопрос
-				ask_question($db);
+					// задаем вопрос
+					ask_question($db);
+				}else{
+				
+					// подготовка
+					preparation($db);
+					
+					// задаем вопрос
+					ask_question($db);
+				}
 			}else{
 			
 				// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
@@ -71,17 +80,48 @@
 				// TODO: сюда уже не попадаем
 			}
 			
-			$question_text = $_SESSION['question_text'];
-			$array_answers = $_SESSION['array_answers'];
+			if($_SESSION['type_question'] == 8){ // текст
 			
-			$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
-			$smarty->assign("question", $question_text);//вопрос
-			$smarty->assign("type_question", $_SESSION['type_question']);
-			$smarty->assign("array_answers", $array_answers);//ответы
-
+				$question_text = $_SESSION['question_text'];
+				$array_answers = $_SESSION['array_answers'];
+				
+				$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
+				$smarty->assign("question", $question_text);//вопрос
+				$smarty->assign("type_question", $_SESSION['type_question']);
+				$smarty->assign("array_answers", $array_answers);//ответы
+				
+			}elseif($_SESSION['type_question'] == 21){ // простое фото
+			
+				$question_text = $_SESSION['question_text'];
+				$array_answers = $_SESSION['array_answers'];
+				
+				$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
+				$smarty->assign("question", $question_text);//вопрос
+				$smarty->assign("type_question", $_SESSION['type_question']);
+				$smarty->assign("array_answers", $array_answers);//ответы
+				
+			}elseif($_SESSION['type_question'] == 10){ // сложное видео
+				
+				$smarty->assign("complex_question_text", $_SESSION['complex_question_text']);
+				$smarty->assign("complex_question_prolog", $_SESSION['complex_question_prolog']);
+				$smarty->assign("complex_question_epilog", $_SESSION['complex_question_epilog']);
+				$smarty->assign("complex_question_catalog", $_SESSION['complex_question_catalog']);
+				$smarty->assign("type_question", $_SESSION['type_question']);
+				
+				$smarty->assign("link_question_complex", $_SESSION['link_question_complex']);
+				$smarty->assign("link_answer_complex", $_SESSION['link_answer_complex']);
+				$smarty->assign("idans", $_SESSION['link_answer_complex'][0]['COMPLEXVIDEOID']);
+			}
+			
+			// FIO
+			$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
+			$smarty->assign("sm_sotrud_im", $_SESSION['sotrud_im']);
+			$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);
+			$smarty->assign("sm_sotrud_dolj", $_SESSION['sotrud_dolj']);
+			$smarty->assign("sm_sotrud_tabel", $_SESSION['sotrud_tabkadr']);
 			$smarty->assign("title", "Пробное тестирование");
 
-		}elseif($_GET['qtype'] == 4){ // просто тестирование
+		}elseif($_GET['qtype'] == 4){ // тестирование с записью в историю
 		
 			// если еще ни разу не отвечали, то требуются подготовительные действия
 			if ($_SESSION['counter_questions'] == 0){
@@ -245,7 +285,6 @@ SQL;
 		$_SESSION['final_array_questions'] = array(); // хранится текст вопросов
 		
 		$_SESSION['final_array_complex_questions'] = array(); // хранится текст вопросов цепочек
-		$_SESSION['bool_isComplexVideo'] = false; // флаг, что сейчас проходим видео цепочку
 		$_SESSION['count_complex_question'] = 1; // счетчик для видео цепочки
 		
 		foreach ($q_final_array as $element){
@@ -260,80 +299,89 @@ SQL;
 	// задаем вопрос
 	function ask_question(&$obj){
 		
-		// вывод вопроса в зависимости от его типа (свое оформление и запрос)
+		// проверяем не цепочка ли сейчас
 		if($_SESSION['bool_isComplexVideo'] == true){
 		
+			// если цепочка не закончилась, задаем следующее звено
+			if($_SESSION['count_complex_question'] > 5){
 			
+				$_SESSION['count_complex_question'] = 1;
+				$_SESSION['bool_isComplexVideo'] = false;
+			}else{
+			
+				ask_one_complexVideo($obj);
+			}
 		}else{
 		
-		}
-		
-		$testid = $_SESSION['q_final_array'][$_SESSION['counter_questions']];
-		//print_r($testid['ID']);
-		$temp_testid = (int)$testid['ID'];
-		$_SESSION['global_temp_testid'] = $temp_testid; // запоминаем id вопроса
+			$testid = $_SESSION['q_final_array'][$_SESSION['counter_questions']];
+			//print_r($testid['ID']);
+			//die();
 			
-		// TODO: опять магические числа
-		$sql = <<<SQL
-		SELECT TYPEQUESTIONSID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
-SQL;
-		$typeq_res = $obj->go_result_once($sql);
-
-		// запоминаем тип вопроса
-		$_SESSION['type_question'] = $typeq_res['TYPEQUESTIONSID'];
-		$temp_type_question = $_SESSION['type_question'];
-		
-		if($temp_type_question == 8){ // текст
-		
+			$temp_testid = (int)$testid['ID'];
+			$_SESSION['global_temp_testid'] = $temp_testid; // запоминаем id вопроса
+				
+			// TODO: опять магические числа
 			$sql = <<<SQL
-			SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
+			SELECT TYPEQUESTIONSID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
-			$s_res = $obj->go_result_once($sql);
-			//$temp_id = (int)$testid['ID'];
-			$question_text = $s_res['TEXT'];
-					
-			array_push($_SESSION['final_array_questions'], $question_text); // запоминаем вопрос TODO: iconv
+			$typeq_res = $obj->go_result_once($sql);
 
-			// берем ответы к этому вопросу
-			$sql_ans = <<<SQL
-			SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
+			// запоминаем тип вопроса
+			$_SESSION['type_question'] = $typeq_res['TYPEQUESTIONSID'];
+			$temp_type_question = $_SESSION['type_question'];
+		
+			if($temp_type_question == 8){ // текст
+			
+				$sql = <<<SQL
+				SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
-			$array_answers = $obj->go_result($sql_ans);
+				$s_res = $obj->go_result_once($sql);
+				//$temp_id = (int)$testid['ID'];
+				$question_text = $s_res['TEXT'];
+						
+				array_push($_SESSION['final_array_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
-			shuffle($array_answers);
-
-			$_SESSION['counter_questions']++;
-			
-			$_SESSION['ID_question'] = $s_res['ID'];
-			$_SESSION['question_text'] = $question_text;
-			
-			$_SESSION['array_answers'] = $array_answers;
-			
-		}elseif($temp_type_question == 9){ // простое видео
-		
-		}elseif($temp_type_question == 10){ // сложное видео
-		
-			$_SESSION['bool_isComplexVideo'] = true;
-			
-			$sql = <<<SQL
-			SELECT TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
+				// берем ответы к этому вопросу
+				$sql_ans = <<<SQL
+				SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
 SQL;
-			$s_res1 = $obj->go_result_once($sql);
-			$_SESSION['complex_question_text'] = $s_res1['TEXT'];
-			$_SESSION['complex_question_prolog'] = $s_res1['PROLOGVIDEO'];
-			$_SESSION['complex_question_epilog'] = $s_res1['EPILOGVIDEO'];
-			$_SESSION['complex_question_catalog'] = $s_res1['CATALOG'];
-					
-			array_push($_SESSION['final_array_complex_questions'], $_SESSION['complex_question_text']); // запоминаем вопрос - заголовок цепочки
+				$array_answers = $obj->go_result($sql_ans);
 
-			ask_one_complexVideo($db);
+				shuffle($array_answers);
+
+				$_SESSION['counter_questions']++;
+				
+				$_SESSION['ID_question'] = $s_res['ID'];
+				$_SESSION['question_text'] = $question_text;
+				
+				$_SESSION['array_answers'] = $array_answers;
+				
+			}elseif($temp_type_question == 9){ // простое видео
 			
-		}elseif($temp_type_question == 21){ // простое фото
-		
-		}elseif($temp_type_question == 22){ // сложное фото
-		
+			}elseif($temp_type_question == 10){ // сложное видео
+			
+				$_SESSION['bool_isComplexVideo'] = true;
+				
+				$sql = <<<SQL
+				SELECT TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
+SQL;
+				$s_res1 = $obj->go_result_once($sql);
+				
+				$_SESSION['complex_question_text'] = $s_res1['TEXT']; // заголовок цепочки
+				$_SESSION['complex_question_prolog'] = $s_res1['PROLOGVIDEO'];
+				$_SESSION['complex_question_epilog'] = $s_res1['EPILOGVIDEO'];
+				$_SESSION['complex_question_catalog'] = $s_res1['CATALOG'];
+						
+				array_push($_SESSION['final_array_complex_questions'], $_SESSION['complex_question_text']); // запоминаем вопрос - заголовок цепочки
+
+				ask_one_complexVideo($obj);
+				
+			}elseif($temp_type_question == 21){ // простое фото
+			
+			}elseif($temp_type_question == 22){ // сложное фото
+			
+			}
 		}
-		
 		/*print_r($array_death_risk);
 		echo "<br />";
 		print_r($array_high_risk);
@@ -353,13 +401,18 @@ SQL;
 		// TODO: ORDER BY POSITION ASC
 		$sql_ques = <<<SQL
 		SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
-		AND COMPLEXVIDEO.POSITION='$count'
+		AND COMPLEXVIDEO.POSITION='$count' AND rownum=1
 SQL;
 		$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
 		
-		// теперь нужно получить ответы !!!!!!!
-		//array_push($_SESSION['final_array_questions'], $_SESSION['']);
+		$temp_id_ques = $_SESSION['link_question_complex']['ID'];
 		
+		// получаем ответы
+		$sql_ans = <<<SQL
+		SELECT ID, TEXT, SIMPLEVIDEO, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
+SQL;
+		$_SESSION['link_answer_complex'] = $obj->go_result($sql_ans);
+
 		$_SESSION['count_complex_question']++;
 	}
 	
