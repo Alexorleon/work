@@ -189,7 +189,7 @@
 SQL;
 		$array_death_risk = $obj->go_result($sql_ques);
 		shuffle($array_death_risk);
-		
+
 		// вопросы по высокому риску
 		$sql_ques = <<<SQL
 			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
@@ -198,7 +198,7 @@ SQL;
 SQL;
 		$array_high_risk = $obj->go_result($sql_ques);
 		shuffle($array_high_risk);
-		
+
 		// вопросы по существенному риску
 		$sql_ques = <<<SQL
 			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
@@ -293,7 +293,7 @@ SQL;
 			$_SESSION['q_final_array'][] = $element;
 		}
 		
-		//print_r($_SESSION['q_final_array']);
+		
 		//die();
 	}
 	
@@ -353,8 +353,8 @@ SQL;
 				
 			}elseif($temp_type_question == 9){ // простое видео
 			
-			}elseif($temp_type_question == 10){ // сложное видео
-			
+			}elseif($temp_type_question == 10){ // сложное видео		
+
 				$_SESSION['bool_isComplexVideo'] = true;
 				
 				$sql = <<<SQL

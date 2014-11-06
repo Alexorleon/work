@@ -26,24 +26,13 @@
             {/foreach}
             <tr>
                 <td>
-                    Кн - низкая дисциплин, наличие нарушений
+                    {$total['name']}
                 </td>
                 <td>
-                    0
+                    {$total['K']}
                 </td>
                 <td>
-                    
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Кп - активные действия по снижению или устранению рисков
-                </td>
-                <td>
-                    0
-                </td>
-                <td>
-                    
+                    {$total['CompetenceLevel']}
                 </td>
             </tr>
         </tbody>
@@ -56,7 +45,7 @@
 
 <!-- TODO: вывод статистики-->
 
-<input type="button" value="Назад" onclick="get_personal(0)"/>
+<input type="button" class='move_button' value="Назад" onclick="get_personal(0)"/>
 
 </form>
 </div>

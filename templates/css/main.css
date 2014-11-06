@@ -1010,8 +1010,8 @@ outline:0;
 
 .table_competence th {
 	font-weight:bold;
-        font-size: 35px;
-	padding:21px 25px 22px 25px;
+        font-size: 30px;
+	/*padding:21px 25px 22px 25px;*/
 	border-top:1px solid #fafafa;
 	border-bottom:1px solid #e0e0e0;
 
@@ -1258,6 +1258,7 @@ figure {
 
 /*Циферблат*/
 .dial{
+    max-width: 1200px;
 background: -moz-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%, rgba(125,185,232,0.68) 32%, rgba(172,204,229,0.14) 39%, rgba(125,185,232,0) 42%, rgba(125,185,232,0) 100%); /* FF3.6+ */
 background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(20%,rgba(255,255,255,1)), color-stop(32%,rgba(125,185,232,0.68)), color-stop(39%,rgba(172,204,229,0.14)), color-stop(42%,rgba(125,185,232,0)), color-stop(100%,rgba(125,185,232,0))); /* Chrome,Safari4+ */
 background: -webkit-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(125,185,232,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(125,185,232,0) 42%,rgba(125,185,232,0) 100%); /* Chrome10+,Safari5.1+ */
