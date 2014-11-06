@@ -21,21 +21,14 @@ if ($_POST)
 $smarty->assign("error_", $error_);
 
 $quest_data = GetPersonalData($db, $_SESSION['sotrud_id']);
+$quest_data["Ko"] = GetStand($db, $_SESSION['sotrud_id']);
+//$quest_data['Ks'];
 
-/*
-
-$smarty->assign("Kz", $quest_data['Kz']);
-$smarty->assign("Ko", $quest_data['Ko']);
-$smarty->assign("Ku", $quest_data['Ku']);
-$smarty->assign("Kz_danger", $Kz_danger);
-$smarty->assign("Ku_danger", $Ku_danger);
-$smarty->assign("Ko_danger", $Ko_danger);
-*/
 $smarty->assign("quest_data", $quest_data);
 $smarty->assign("title", "Персональные данные");
 $smarty->display("personal_data.tpl.html");
         
-function GetPersonalData($obj, $pers_id)
+function GetPersonalData($obj, $sotrud_id)
 {
     $sql_competencelevel = <<<SQL
                    SELECT TITLE, PENALTYPOINTS_MIN,PENALTYPOINTS_MAX FROM stat.COMPETENCELEVEL
@@ -43,7 +36,7 @@ SQL;
     $competencelevels = $obj->go_result($sql_competencelevel);
     
     $sql = <<<SQL
-                SELECT * FROM stat.ALLHISTORY WHERE  SOTRUD_ID='$pers_id' AND DEL='N'
+                SELECT * FROM stat.ALLHISTORY WHERE  SOTRUD_ID='$sotrud_id' AND DEL='N'
 SQL;
     
     $answer_results = $obj->go_result($sql);
@@ -105,6 +98,30 @@ SQL;
         }
     }
 
+    return $result;
+}
+
+function GetStand($obj, $sotrud_id)
+{
+    $result = array();
+    $result['name'] = "Кс – малый стажа работы в подземных условиях";
+    $employ_date = "2013-12-12";
+    $result['K'] = (strtotime("$employ_date + 1 year")> time()) ? ((strtotime("$employ_date + 6 months")>time())? ((strtotime("$employ_date + 3 months")>time())? 10 : 8) : 6): 0;
+    
+    $sql_competencelevel = <<<SQL
+                   SELECT TITLE, PENALTYPOINTS_MIN,PENALTYPOINTS_MAX FROM stat.COMPETENCELEVEL
+SQL;
+    $competencelevels = $obj->go_result($sql_competencelevel);
+    
+    foreach ($competencelevels as $cl)
+    {
+        if ($cl['PENALTYPOINTS_MIN']<=$result['K'] && $cl['PENALTYPOINTS_MAX']>=$result['K'])
+        {
+            $result['CompetenceLevel'] = $cl['TITLE'];
+            break;
+        }
+    }
+    
     return $result;
 }
 
