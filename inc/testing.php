@@ -358,8 +358,8 @@ SQL;
 				
 			}elseif($temp_type_question == 9){ // простое видео
 			
-			}elseif($temp_type_question == 10){ // сложное видео
-			
+			}elseif($temp_type_question == 10){ // сложное видео		
+
 				$_SESSION['bool_isComplexVideo'] = true;
 				
 				$sql = <<<SQL
