@@ -141,4 +141,28 @@ SQL;
             $smarty->assign("idans", $idans);
         }
 	$smarty->display("commentAnswer.tpl.html");
+        
+        /*
+        function write_history(&$obj, $tempAnsID){
+
+		$tempID = $_SESSION['sotrud_id'];
+		$tempcount = $_SESSION['counter_questions'];
+		$tempcount--;
+		$tempqu = (int)$_SESSION['q_final_array'][$tempcount]['ID'];
+		$dateBegin = $_SESSION['DATEBEGIN'];
+		$dateEnd = date('d.m.y H:i:s');
+
+		$sql = <<<SQL
+			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
+			($tempID, 
+			$tempqu, 
+			to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), 
+			to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), 
+			0, 
+			2, 
+			'N', 
+			'$tempAnsID')
+SQL;
+		$obj->go_query($sql);
+	}*/
  ?>

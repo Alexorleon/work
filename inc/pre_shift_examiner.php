@@ -78,19 +78,19 @@ SQL;
                 
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
                 
-               
-		// TODO: $certainID = (isset($_GET['q'])) ? " AND ALLQUESTIONS.ID='{$_GET['q']}'" : "";
-		
+
+                $certainID = (isset($_GET['q'])) ? " AND ALLQUESTIONS.ID='{$_GET['q']}'" : " AND ALLQUESTIONS.ID IN 
+		(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+		(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) ORDER BY dbms_random.value";
+
 		// 1. получаем все тесты для определенной должности.
 		// 2. получаем все вопросы по выбранным тестам.
 		// 3. получаем один случайный текстовый вопрос по модулю знания из выбранных вопросов.
 		// TODO: магические числа. исключаем типы вопросов (сложное видео и сложное фото) из PE
 		
 		$sql = <<<SQL
-		SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM 
-		(SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID !='10' AND ALLQUESTIONS.TYPEQUESTIONSID !='22' AND ALLQUESTIONS.ID IN 
-		(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-		(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) ORDER BY dbms_random.value) WHERE rownum=1
+		SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM
+		(SELECT ID, TEXT, TYPEQUESTIONSID, SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID !='10' AND ALLQUESTIONS.TYPEQUESTIONSID !='22'$certainID) WHERE rownum=1
 SQL;
 		$s_res = $db->go_result_once($sql);
 
