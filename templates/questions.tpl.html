@@ -42,7 +42,7 @@
 
 <!--выбор варианта прохождения теста (пробный или нет)-->
 <input id="answer" name="answer" type="hidden" value="1"/>
-<!--<input name='idans' type='hidden' value='{$idans}'/> TODO: вроде и ненадо-->
+
 <!-- Пройти тестирование или пробное тестирование-->
 <input type="hidden" id="comp_lvl_id" name="comp_lvl_id" value="0">
 <input type="hidden" id="answ_id" name="answ_id" value="0">
@@ -50,7 +50,7 @@
 
 {$k = 0}
 {if $typetest eq 1} <!-- Предсменный экзаменатор -->
-
+<input name='idans' type='hidden' value='{$idans}'/>
 <!-- В зависимости от типа вопроса и модуля сделать свое оформление -->
 <!--{$textmodule = "Проверка знаний"}-->
 <table style="width: 100%;" class="header-q-info">
@@ -150,7 +150,7 @@
 		<div id="menu-holder"></div>
 	</div>
 {else} <!-- Контроль компетентности -->
-
+<input name='idans' type='hidden' value='{$idans}'/>
 <!--TODO: Магическое число 21-->
 	{if $type_question eq 21} <!--вопрос с простой картинкой-->
 
