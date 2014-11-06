@@ -131,14 +131,14 @@ SQL;
 	$sql = <<<SQL
 	SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$temp_doljkod'
 SQL;
-	$sm_sotrud_dolj = $db->go_result_once($sql);
+	$sm_sotrud_dolj = $db->go_result_once($sql)['TEXT'];
 	
 	// получаем табельный
 	$temp_sotrud_id = $_SESSION['sotrud_id'];
 	$sql = <<<SQL
 	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$temp_sotrud_id'
 SQL;
-	$sm_sotrud_tabel = $db->go_result_once($sql);
+	$sm_sotrud_tabel = $db->go_result_once($sql)['TABEL_KADR'];
 	
 	/*резерв
 	$sql = <<<SQL
