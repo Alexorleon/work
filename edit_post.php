@@ -14,12 +14,12 @@
 	//$array_test_added = Array();	
 	$smarty->assign("cur_post_name", '');
 	
-	if ($_POST){
+	if (!empty($_POST)){
 		
 		//print_r($_POST);
 		//die();
 		
-		$postname = $_POST['postname']; // название должности
+		$postname = filter_input(INPUT_POST, 'postname', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['postname']; // название должности
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_post'] == 0){ // это добавление нового
@@ -45,8 +45,8 @@ SQL;
 		
 		}else if($_SESSION['add_or_edit_post'] == 1){ // это редактирование
 			
-			$dolj_id = $_POST['dolj_id']; // название должности
-			$postname = $_POST['postname'];
+			$dolj_id = filter_input(INPUT_POST, 'dolj_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['dolj_id']; // название должности
+			$postname = filter_input(INPUT_POST, 'postname', FILTER_SANITIZE_SPECIAL_CHARS);
 			
 			$temppost = iconv("utf-8", "windows-1251", $postname);
 			

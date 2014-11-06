@@ -7,11 +7,11 @@
 	$error_='';
 	//print_r($_SESSION);
 	
-	if(isset($_POST['submit'])){
-		// TODO: экранируем
+	if(array_key_exists('submit', $_POST)){//if(isset($_POST['submit'])){
+		// TODO: экранируем -- уже.
 		//$good_login = mysql_real_escape_string($_POST['login']);
-		$good_login = $_POST['login'];
-		$good_password = $_POST['password'];
+		$good_login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['login'];
+		$good_password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['password'];
 
 		// Вытаскиваем из БД запись, у которой логин равняеться введенному
 		$sql = <<<SQL
@@ -29,8 +29,8 @@ SQL;
 				$hash = md5(generateCode(10));
 
 				$insip = 0;
-				
-				if(!@$_POST['not_attach_ip']){
+				$not_attach_ip = filter_input(INPUT_POST, 'not_attach_ip', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+				if(!$not_attach_ip){
 
 					// Если пользователь выбрал привязку к IP
 					// Переводим IP в строку

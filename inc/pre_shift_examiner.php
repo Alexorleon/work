@@ -2,11 +2,11 @@
 	// предсменный экзаменатор;
 	$typetest = 1;
 
-	if ($_POST){
+	if (!empty($_POST)){
 
-		$answer = $_POST['comp_lvl_id'];
-		$idans = $_POST['answ_id'];
-		$idq = $_POST['idans'];
+		$answer = filter_input(INPUT_POST, 'comp_lvl_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['comp_lvl_id'];
+		$idans = filter_input(INPUT_POST, 'answ_id', FILTER_SANITIZE_NUMBER_INT);//$_POST['answ_id'];
+		$idq = filter_input(INPUT_POST, 'idans', FILTER_SANITIZE_NUMBER_INT);//$_POST['idans'];
 		// выбираем вариант ответа
 		if ($answer == 21){ // магическое число 21 это ID в таблице уровень компетенции // TODO: потом можно будет заменить
 			// правильно
@@ -52,9 +52,9 @@ SQL;
 
 	$temp_id = $_SESSION['ID_question']; // щас тут 0
         
-        if(isset($_POST['idans']))
+        if(array_key_exists('idans', $_POST))///if(isset($_POST['idans']))
         {
-            $temp_id = $_POST['idans'];
+            $temp_id = filter_input(INPUT_POST, 'idans', FILTER_SANITIZE_NUMBER_INT);//$_POST['idans'];
         }
 	// повторить тот же вопрос или взять новый
 	if($_SESSION['transitionOption'] == 0){ // если прошлый раз ответили не правильно
@@ -79,7 +79,7 @@ SQL;
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
                 
 
-                $certainID = (isset($_GET['q'])) ? " AND ALLQUESTIONS.ID='{$_GET['q']}'" : " AND ALLQUESTIONS.ID IN 
+                $certainID = (array_key_exists('q', $_GET)) ? " AND ALLQUESTIONS.ID='".filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT)."'" : " AND ALLQUESTIONS.ID IN 
 		(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 		(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) ORDER BY dbms_random.value";
 
@@ -112,13 +112,13 @@ SQL;
 	}
 
 	$temp_id = $_SESSION['ID_question'];
-	if(isset($_POST['idans']))
+	if(array_key_exists('idans', $_POST))///if(isset($_POST['idans']))
         {
-            $temp_id = $_POST['idans'];
+            $temp_id = filter_input(INPUT_POST, 'idans', FILTER_SANITIZE_NUMBER_INT);//$_POST['idans'];
         }
-        if (isset($_GET['q']))
+        if(array_key_exists('q', $_GET))///if(isset($_POST['idans']))
         {
-            $temp_id = intval($_GET['q']);
+            $temp_id = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);//$_POST['idans'];
         }
 	// берем ответы к этому вопросу
 	$sql = <<<SQL

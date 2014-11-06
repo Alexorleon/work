@@ -14,13 +14,13 @@
 	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
 	$_SESSION['bool_isComplexVideo'] = false; // флаг, что сейчас проходим видео цепочку
 		
-	if ($_POST){
+	if (!empty($_POST)){
 		
-		$tabnum = $_POST['tabnum']; //получаем пост переменную табельного номера
-		$type_submit = $_POST['type_submit'];
+		$tabnum = filter_input(INPUT_POST, 'tabnum', FILTER_SANITIZE_NUMBER_INT);//$_POST['tabnum']; //получаем пост переменную табельного номера
+		$type_submit =filter_input(INPUT_POST, 'type_submit', FILTER_SANITIZE_NUMBER_INT); //$_POST['type_submit'];
 		
 		// переход к поиску сотрудника
-		if($type_submit == "4"){
+		if($type_submit == 4){
 
 			die('<script>document.location.href= "'.lhost.'/search_employee"</script>');
 		}

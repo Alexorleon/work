@@ -1,12 +1,12 @@
 <?php
 	// Пробное тестирование. Без записи в историю.
 	
-	if ($_POST){
+	if (!empty($_POST)){
 
-		$answer = $_GET['qtype'];
-		$comp_lvl = $_POST['comp_lvl_id'];
-		$idans = $_POST['answ_id'];
-		$numid = $_POST['numid'];
+		$answer = filter_input(INPUT_GET, 'qtype', FILTER_SANITIZE_NUMBER_INT);//$_GET['qtype'];
+		$comp_lvl = filter_input(INPUT_POST,'comp_lvl_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['comp_lvl_id'];
+		$idans = filter_input(INPUT_POST,'answ_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['answ_id'];
+		$numid = filter_input(INPUT_POST,'numid', FILTER_SANITIZE_NUMBER_INT); //$_POST['numid'];
 
 		if ($answer == 3){ // пробное тестирование
 		

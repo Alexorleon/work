@@ -101,7 +101,7 @@ SQL;
 	}
 }
 	
-	if ($_POST){
+	if (!empty($_POST)){
 
 		// это предсменный экзаменатор
 		if($_GET['type_exam'] == 1){
