@@ -167,7 +167,7 @@ SQL;*/
 
 	$smarty->assign("typetest", $typetest);
 	$smarty->assign("title", "Предсменный экзаменатор");
-        $smarty->assign("idans", $temp_id);
+    $smarty->assign("idans", $temp_id);
 	$smarty->display("questions.tpl.html");
 	
 ?>

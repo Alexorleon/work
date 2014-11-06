@@ -12,6 +12,7 @@
 	$_SESSION['answer_attempt'] = 0; 	// количество попыток ответов на вопрос
 	$_SESSION['first_answerid'] = 0; 	// первый неправильный ответ
 	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
+	$_SESSION['bool_isComplexVideo'] = false; // флаг, что сейчас проходим видео цепочку
 		
 	if ($_POST){
 		
