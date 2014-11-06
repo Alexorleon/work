@@ -100,6 +100,7 @@
 	<th>Вопрос</th>
 	<th>Ответ</th>
 	<th>Комментарий</th>
+	<th>Штрафы</th>
 </tr><!-- Table Header -->
 
 {$count = 0}
@@ -123,6 +124,10 @@
 		</td>
 		<td>
 		{$array_final_an[{$count}]} <!--это final_array_answers-->
+		{capture}{$count++}{/capture}
+		</td>
+		<td>
+		{$array_final_an[{$count}]}
 		{capture}{$count++}{/capture}
 		</td>
 		<td>

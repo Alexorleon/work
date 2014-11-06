@@ -21,6 +21,7 @@
 			
 			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
 			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
 			//print_r($_SESSION['final_array_answers']);
 			//die();
 			
@@ -37,6 +38,7 @@
 			
 			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
 			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
 			
 			// TODO: либо записывать на временный файл на случай восстановления и записать в историю в последний момент
 			// пишем в историю
@@ -183,7 +185,7 @@
 		
 		// вопросы по смертельному риску
 		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
@@ -192,7 +194,7 @@ SQL;
 
 		// вопросы по высокому риску
 		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
@@ -201,7 +203,7 @@ SQL;
 
 		// вопросы по существенному риску
 		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
@@ -338,7 +340,7 @@ SQL;
 
 				// берем ответы к этому вопросу
 				$sql_ans = <<<SQL
-				SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
+				SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
 SQL;
 				$array_answers = $obj->go_result($sql_ans);
 
@@ -393,6 +395,7 @@ SQL;
 		
 			$_SESSION['counter_questions']++;
 		}
+		
 		// если закончилась цепочка
 		if($_SESSION['count_complex_question'] > 5){
 		

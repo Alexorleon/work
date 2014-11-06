@@ -75,7 +75,7 @@ SQL;
 		$question_com = "Статистика теста";
 		$question_ans = '';
 		$transitionOption = 1;
-		
+			
 		// выводим статистику ответов
 		/*$array_final_qu = array(); // основной массив для ответов
 		
@@ -95,6 +95,14 @@ SQL;
 		//echo "<br />";
 		$smarty->assign("array_final_qu", $_SESSION['final_array_questions']);
 		$smarty->assign("array_final_an", $_SESSION['final_array_answers']);
+		
+		/*$smarty->assign("complex_question_text", $_SESSION['complex_question_text']);
+		$smarty->assign("complex_question_catalog", $_SESSION['complex_question_catalog']);
+		$smarty->assign("type_question", $_SESSION['type_question']);
+		
+		$smarty->assign("link_question_complex", $_SESSION['link_question_complex']);
+		$smarty->assign("link_answer_complex", $_SESSION['link_answer_complex']);
+		$smarty->assign("idans", $_SESSION['link_answer_complex'][0]['COMPLEXVIDEOID']);*/
 	}else{
 		
 		die("У меня не прописано, что делать");
