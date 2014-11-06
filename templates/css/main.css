@@ -1024,7 +1024,11 @@ outline:0;
 	text-align: center;
 	padding-left:2px;
 }
-
+.table_competence tr:nth-last-child(1) td
+{
+        background: #A9D0F5 !important;
+        text-shadow: none;
+}
 .table_competence tr td {
 	padding:8px;
         font-size: 25px;
