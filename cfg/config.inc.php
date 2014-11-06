@@ -14,7 +14,8 @@ session_start();//чтобы работать с сессиями, на каждой странице их надо стартану
 	$smarty->assign('lhost','http://'.$_SERVER['HTTP_HOST']);
 	$smarty->assign('tpl','http://'.$_SERVER['HTTP_HOST'].'/templates/');
 	$smarty->assign('js','http://'.$_SERVER['HTTP_HOST'].'/templates/js/');
-	$smarty->assign('photo','http://'.$_SERVER['HTTP_HOST'].'/storage/photo/');
+	$smarty->assign('photo_questions','http://'.$_SERVER['HTTP_HOST'].'/storage/photo_questions/');
+	$smarty->assign('video_questions','http://'.$_SERVER['HTTP_HOST'].'/storage/video_questions/');
 	$smarty->assign('picture','http://'.$_SERVER['HTTP_HOST'].'/files/img/');
 	zray_disable();
     require "/db.inc.php";
