@@ -114,7 +114,11 @@
 				$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
 				$smarty->assign("question", $question_text);//вопрос
 				$smarty->assign("type_question", $_SESSION['type_question']);
+				$smarty->assign("type_question", $_SESSION['type_question']);
 				$smarty->assign("array_answers", $array_answers);//ответы
+				$smarty->assign("simplephoto", $_SESSION['simplephoto']);
+				
+				$smarty->assign("idans", $_SESSION['ID_question']);
 				
 			}elseif($_SESSION['type_question'] == 10){ // сложное видео
 				
@@ -204,16 +208,44 @@
 		формируем равномерный массив вопросов по уровню их риска.
 		для этого берем все вопросы по каждому риску. Это будет массив из ID вопросов.
 		*/		
-		// TODO: МОДУЛЬ 5 и ТИП ВОПРОСА текстовый
 		
+		// простые фото вопросы
+		// вопросы по смертельному риску
+		$sql_ques = <<<SQL
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
+			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
+SQL;
+		$array_death_risk_sf = $obj->go_result($sql_ques);
+		shuffle($array_death_risk_sf);
+
+		// вопросы по высокому риску
+		$sql_ques = <<<SQL
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
+			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
+SQL;
+		$array_high_risk_sf = $obj->go_result($sql_ques);
+		shuffle($array_high_risk_sf);
+
+		// вопросы по существенному риску
+		$sql_ques = <<<SQL
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
+			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
+SQL;
+		$array_sign_risk_sf = $obj->go_result($sql_ques);
+		shuffle($array_sign_risk_sf);
+		
+		// видео цепочки
 		// вопросы по смертельному риску
 		$sql_ques = <<<SQL
 			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
-		$array_death_risk = $obj->go_result($sql_ques);
-		shuffle($array_death_risk);
+		$array_death_risk_cv = $obj->go_result($sql_ques);
+		shuffle($array_death_risk_cv);
 
 		// вопросы по высокому риску
 		$sql_ques = <<<SQL
@@ -221,8 +253,8 @@ SQL;
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
-		$array_high_risk = $obj->go_result($sql_ques);
-		shuffle($array_high_risk);
+		$array_high_risk_cv = $obj->go_result($sql_ques);
+		shuffle($array_high_risk_cv);
 
 		// вопросы по существенному риску
 		$sql_ques = <<<SQL
@@ -230,11 +262,12 @@ SQL;
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
-		$array_sign_risk = $obj->go_result($sql_ques);
-		shuffle($array_sign_risk);
+		$array_sign_risk_cv = $obj->go_result($sql_ques);
+		shuffle($array_sign_risk_cv);
 		
 		// если нет вопросов, выходим
-		if(empty($array_death_risk) and empty($array_high_risk) and empty($array_sign_risk)){
+		if(empty($array_death_risk_sf) and empty($array_high_risk_sf) and empty($array_sign_risk_sf) 
+		and empty($array_death_risk_cv) and empty($array_high_risk_cv) and empty($array_sign_risk_cv)){
 		
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}
@@ -245,58 +278,114 @@ SQL;
 		
 		// берем поочередно из каждого массива ID вопроса
 		$count_i = 0;
-		$b_dr = false;
-		$b_hr = false;
-		$b_sr = false;
+		$b_dr_sf = false;
+		$b_hr_sf = false;
+		$b_sr_sf = false;
+		
+		// видео цепочка
+		$b_dr_cv = false;
+		$b_hr_cv = false;
+		$b_sr_cv = false;
 		$count_ques = 0;
 		do{
 			
 			more_question:
 			
 			if($count_ques >= $tempcount) break; // набрали нужное количество вопросов
+			
+			// фото
 			// если массив себя исчерпал, проходим мимо
-			if(count($array_death_risk) <= $count_i){
+			if(count($array_death_risk_sf) <= $count_i){
 			
 				// берем значение из другого массива
 			}else{
 				// если еще не добавили
-				if(!$b_dr){
-					array_push($q_final_array, $array_death_risk[$count_i]);
-					$b_dr = true;
+				if(!$b_dr_sf){
+					array_push($q_final_array, $array_death_risk_sf[$count_i]);
+					$b_dr_sf = true;
 					$count_ques++;
 				}
 			}
 			
 			if($count_ques >= $tempcount) break;
 			
-			if(count($array_high_risk) <= $count_i){
+			// видео цепочка
+			if(count($array_death_risk_cv) <= $count_i){
+			
+				// берем значение из другого массива
 			}else{
-				if(!$b_hr){
-					array_push($q_final_array, $array_high_risk[$count_i]);
-					$b_hr = true;
+				// если еще не добавили
+				if(!$b_dr_cv){
+					array_push($q_final_array, $array_death_risk_cv[$count_i]);
+					$b_dr_cv = true;
 					$count_ques++;
 				}
 			}
 			
 			if($count_ques >= $tempcount) break;
 			
-			if(count($array_sign_risk) <= $count_i){
+			if(count($array_high_risk_sf) <= $count_i){
 			}else{
-				if(!$b_sr){
-					array_push($q_final_array, $array_sign_risk[$count_i]);
-					$b_sr = true;
+				if(!$b_hr_sf){
+					array_push($q_final_array, $array_high_risk_sf[$count_i]);
+					$b_hr_sf = true;
+					$count_ques++;
+				}
+			}
+			
+			if($count_ques >= $tempcount) break;
+			
+			// видео цепочка
+			if(count($array_high_risk_cv) <= $count_i){
+			
+				// берем значение из другого массива
+			}else{
+				// если еще не добавили
+				if(!$b_hr_cv){
+					array_push($q_final_array, $array_high_risk_cv[$count_i]);
+					$b_hr_cv = true;
+					$count_ques++;
+				}
+			}
+			
+			if($count_ques >= $tempcount) break;
+			
+			if(count($array_sign_risk_sf) <= $count_i){
+			}else{
+				if(!$b_sr_sf){
+					array_push($q_final_array, $array_sign_risk_sf[$count_i]);
+					$b_sr_sf = true;
+					$count_ques++;
+				}
+			}
+			
+			if($count_ques >= $tempcount) break;
+			
+			// видео цепочка
+			if(count($array_sign_risk_cv) <= $count_i){
+			
+				// берем значение из другого массива
+			}else{
+				// если еще не добавили
+				if(!$b_sr_cv){
+					array_push($q_final_array, $array_sign_risk_cv[$count_i]);
+					$b_sr_cv = true;
 					$count_ques++;
 				}
 			}
 			
 			// проверяем что все вложились или больше нечего добавить
-			if($b_dr == true && $b_hr == true && $b_sr == true){ // все гуд, с каждого по вопросу
+			if($b_dr_sf == true && $b_hr_sf == true && $b_sr_sf == true && $b_dr_cv == true && $b_hr_cv == true && $b_sr_cv == true){ // все гуд, с каждого по вопросу
 			
 				$count_i++;
-				$b_dr = false;
-				$b_hr = false;
-				$b_sr = false;
-			}elseif($b_dr == false && $b_hr == false && $b_sr == false){ // опаньки, закончились вопросы в массивах
+				$b_dr_sf = false;
+				$b_hr_sf = false;
+				$b_sr_sf = false;
+				
+				$b_dr_cv = false;
+				$b_hr_cv = false;
+				$b_sr_cv = false;
+			}elseif($b_dr_sf == false && $b_hr_sf == false && $b_sr_sf == false && $b_dr_cv == false && $b_hr_cv == false && $b_sr_cv == false){ // опаньки, закончились вопросы в массивах
 			
 				// поэтому требуемое количество вопросов заменим на доступное
 				$_SESSION['numquestions'] = count($q_final_array);
@@ -304,13 +393,21 @@ SQL;
 			}else{ // ага, кто то не вложидся, берем у других
 				
 				$count_i++;
-				$b_dr = false;
-				$b_hr = false;
-				$b_sr = false;
+				$b_dr_sf = false;
+				$b_hr_sf = false;
+				$b_sr_sf = false;
+				
+				$b_dr_cv = false;
+				$b_hr_cv = false;
+				$b_sr_cv = false;
 				goto more_question;
 			}
 		}while ($count_ques < $tempcount);
 
+		/*print_r("array");
+		echo "</br>";
+		print_r($q_final_array);
+		die();*/
 		// запоминаем подготовленный массив
 		$_SESSION['q_final_array'] = array(); // TODO: пока временно здесь - в нем хранятся ID
 		$_SESSION['final_array_answers'] = array(); // основной массив для ответов - хранится текст
@@ -405,6 +502,33 @@ SQL;
 				
 			}elseif($temp_type_question == 21){ // простое фото
 			
+				$sql = <<<SQL
+				SELECT ID, TEXT, SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
+SQL;
+				$s_res = $obj->go_result_once($sql);
+				//$temp_id = (int)$testid['ID'];
+				$question_text = $s_res['TEXT'];
+				
+				// запоминаем имя картинки
+				$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
+						
+				array_push($_SESSION['final_array_questions'], $question_text); // запоминаем вопрос TODO: iconv
+
+				// берем ответы к этому вопросу
+				$sql_ans = <<<SQL
+				SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
+SQL;
+				$array_answers = $obj->go_result($sql_ans);
+
+				shuffle($array_answers);
+
+				$_SESSION['counter_questions']++;
+				
+				$_SESSION['ID_question'] = $s_res['ID'];
+				$_SESSION['question_text'] = $question_text;
+				
+				$_SESSION['array_answers'] = $array_answers;
+				
 			}elseif($temp_type_question == 22){ // сложное фото
 			
 			}
