@@ -23,6 +23,7 @@ $smarty->assign("error_", $error_);
 $pers_data = GetPersonalData($db, $_SESSION['sotrud_id']);
 
 $total = GetTotal($db, $pers_data);
+usort($pers_data, function($a, $b) {return $a['weight'] - $b['weight'];});
 
 $smarty->assign("quest_data", $pers_data);
 $smarty->assign("total", $total);
@@ -31,17 +32,16 @@ $smarty->display("personal_data.tpl.html");
         
 function GetPersonalData($obj, $sotrud_id)
 {
-    $result = array();
+    $result = GetCTypes($obj);
+    $modules = GetModules($obj);
     $sql = <<<SQL
                 SELECT * FROM stat.ALLHISTORY WHERE  SOTRUD_ID='$sotrud_id' AND DEL='N'
 SQL;
     
     $answer_results = $obj->go_result($sql);
-    //var_dump($answer_results);
     
     if (count($answer_results)!=0)
     {
-        $result = GetCTypes($obj);
         foreach($answer_results as $answer_res)
         {
            $current_a_id = $answer_res['ALLANSWERSID'];
@@ -51,60 +51,74 @@ SQL;
 SQL;
 
            $answer = $obj->go_result_once($sql_answer);
-           //var_dump($answer);
            
-
            if (!empty($answer))
            {
-               $result[$answer['MODULEID']]['K']+=$answer['PRICE'];
-               $result[$answer['MODULEID']]['Sum']++;
-               if ($answer['PRICE']>$result[$answer['MODULEID']]['Danger'])
+               $CTid = $modules[$answer['MODULEID']];
+               $result[$CTid]['K']+=$answer['PRICE'];
+               $result[$CTid]['Sum']++;
+               if ($answer['PRICE']>$result[$CTid]['Danger'])
                {
-                   $result[$answer['MODULEID']]['Danger'] = $answer['PRICE'];
+                   $result[$CTid]['Danger'] = $answer['PRICE'];
                }
            }
         }
         
         foreach($result as $key=>$value)
         {
-            $result[$key]['K'] = ($value['Sum']==0) ? 0 : round($value['K']/$value['Sum'],0);
-            
-            if ($result[$key]['K']>$value['Danger'])
+            if (in_array($key, $modules))
             {
-                $result[$key]['Danger'] = $result[$key]['K'];
+                $result[$key]['K'] = ($value['Sum']==0) ? 0 : round($value['K']/$value['Sum'],0);
+            
+                if ($result[$key]['K']>$value['Danger'])
+                {
+                    $result[$key]['Danger'] = $result[$key]['K'];
+                }
+                $result[$key]['K'] = -$result[$key]['K'];
+                $result[$key]['CompetenceLevel'] =GetCompetenceShortText($obj, $result[$key]['Danger']).". ".GetRecommendations($obj, $result[$key], $key);
             }
-            $result[$key]['K'] = -$result[$key]['K'];
-            $result[$key]['CompetenceLevel'] = GetCompetenceShortText($obj, $result[$key]['Danger']);
+            else
+            {
+                $CType = mb_substr($value['name'],0,3);
+                //var_dump($CType);
+                if ($CType == "Кс ")
+                {
+                    $result[$key] = GetStand($obj, $sotrud_id, $result[$key], $key);
+                }
+                elseif($CType == "Кн ")
+                {
+                    $result[$key] = GetEmpWarnings($obj, $sotrud_id, $result[$key], $key);
+                }
+                elseif($CType == "Кп ")
+                {
+                    $result[$key] = GetProposes($obj, $sotrud_id, $result[$key], $key);
+                }
+            }
+            
         }
     }
-    $result["Ko"] = GetStand($obj, $sotrud_id);
-    $result["Ks"] = GetEmpWarnings($obj,  $sotrud_id);
-    $result["Kd"] = GetProposes($obj, $sotrud_id);
-    foreach($result as $key=>$data_row)
-    {
-        $result[$key]['CompetenceLevel'] = GetRecommendations($obj, $data_row);
-    }
+    
     return $result;
 }
 
-function GetStand($obj, $sotrud_id) //Штрафные баллы за опыт работы
+function GetStand($obj, $sotrud_id, $result, $stand_id) //Штрафные баллы за опыт работы
 {
-    $result = array();
-    $result['id'] = 5;
-    $result['name'] = "Кс – малый стажа работы в подземных условиях";
-    $employ_date = "2013-12-12";
+    $sql =<<<SQL
+            SELECT HIRED_DATE FROM stat.SOTRUD WHERE SOTRUD_K='$sotrud_id'
+SQL;
+    $hd = $obj->go_result_once($sql);
+    //($hd);
+    
+    $employ_date = date("Y-m-d", strtotime($hd['HIRED_DATE']));//"2013-12-12";
     $result['K'] = (strtotime("$employ_date + 1 year")> time()) ? ((strtotime("$employ_date + 6 months")>time())? ((strtotime("$employ_date + 3 months")>time())? 10 : 8) : 6): 0;
     $result['Danger'] = $result['K'];
-    $result['CompetenceLevel'] = GetCompetenceShortText($obj, $result['Danger']);
+    $result['CompetenceLevel'] = GetCompetenceShortText($obj, $result['Danger']).". ".GetRecommendations($obj, $result, $stand_id);
     $result['K'] = -$result['K'];
     return $result;
 }
 
-function GetEmpWarnings($obj, $sotrud_id) //Штрафные баллы за нарушения
+function GetEmpWarnings($obj, $sotrud_id, $result, $warn_id) //Штрафные баллы за нарушения
 {
-    $result = array();
-    $result['id'] = 6;
-    $result['name'] = "Кн – низкая дисциплин, наличие нарушений";
     $current_date = date("Y-m-d", time());
     $current_date = date("d.m.Y H:i:s", strtotime("$current_date -3 months"));
     $sql = <<<SQL
@@ -120,40 +134,61 @@ SQL;
         $result['K'] = (in_array("Красный", $warn)) ? 25 : $result['K'];
     }
     $result['Danger'] = $result['K'];
-    $result['CompetenceLevel'] = GetCompetenceShortText($obj, $result['K']);
+    $result['CompetenceLevel'] = GetCompetenceShortText($obj, $result['K']).". ".GetRecommendations($obj, $result, $warn_id);
     $result['K'] = -$result['K'];
     return $result;
 }
 
-function GetProposes($obj, $sotrud_id) //Рац.предложения сотрудника
-{
-    $result = array();
-    $result['id'] = 7;
-    $result['name'] = "Кп - активные действия по снижению или устранению рисков";
-    
-    $result['K'] = 25;
-    $result['Danger'] = 0;
-    $result['CompetenceLevel'] = "Нет предложений";
+function GetProposes($obj, $sotrud_id, $result, $prop_id) //Рац.предложения сотрудника
+{  
+    $sql =<<<SQL
+            SELECT RATING FROM stat.PROPOSALS WHERE SOTRUDID='$sotrud_id'
+SQL;
+    $res = $obj->go_result($sql);
+    $max = 0;
+    foreach($res as $value)
+    {
+        $max = ($value['RATING']>$max) ? $value['RATING'] : $max;
+    }
+    $result['K'] = $max;
+    $result['Danger'] = $max;
+    $result['CompetenceLevel'] = GetRecommendations($obj, $result, $prop_id);
     
     return $result;
 }
 
-function GetCTypes($obj) //Возвращает массив всех CompetenceType с MODULE.ID в качестве ключа
+function GetCTypes($obj) //Возвращает массив всех CompetenceType
 {
     $sql_competencetype = <<<SQL
-                   SELECT COMPETENCETYPE.ID AS CID, COMPETENCETYPE.TITLE AS CTITLE, MODULE.ID AS MID FROM MODULE, COMPETENCETYPE WHERE COMPETENCETYPE.ID = MODULE.COMPETENCETYPEID
+                   SELECT * FROM COMPETENCETYPE
 SQL;
     $ctypes = $obj->go_result($sql_competencetype);
     $result = array();
     foreach($ctypes as $ctype)
     {
-        $result[$ctype['MID']]['id'] = $ctype['CID'];
-        $result[$ctype['MID']]['name'] = $ctype['CTITLE'];
-        $result[$ctype['MID']]['K'] = 0;
-        $result[$ctype['MID']]['Sum'] = 0;
-        $result[$ctype['MID']]['Danger'] = 0;
-        $result[$ctype['MID']]['CompetenceLevel'] = "";
+        $result[$ctype['ID']]['weight'] = $ctype['WEIGHT'];
+        $result[$ctype['ID']]['name'] = $ctype['TITLE'];
+        $result[$ctype['ID']]['K'] = 0;
+        $result[$ctype['ID']]['Sum'] = 0;
+        $result[$ctype['ID']]['Danger'] = 0;
+        $result[$ctype['ID']]['CompetenceLevel'] = "";
     }
+    return $result;
+}
+
+function GetModules($obj) //Массив модулей вида [ID]=>COMPETENCETYPEID
+{
+    $result = array();
+    $sql = <<<SQL
+            SELECT ID, COMPETENCETYPEID FROM stat.MODULE
+SQL;
+    $modules = $obj->go_result($sql);
+    
+    foreach($modules as $module)
+    {
+        $result[$module['ID']] = $module['COMPETENCETYPEID'];
+    }
+    
     return $result;
 }
 
@@ -170,22 +205,23 @@ SQL;
     }
     return "";
 }
-function GetRecommendations($obj, $data_row)
+function GetRecommendations($obj, $data_row, $id)
 {
     $sql = <<<SQL
-            SELECT TITLE FROM stat.RECOMMENDATIONSSOTRUD WHERE COMPETENCETYPEID='{$data_row['id']}' AND MIN<={$data_row['Danger']} AND MAX>={$data_row['Danger']}
+            SELECT TITLE FROM stat.RECOMMENDATIONSSOTRUD WHERE COMPETENCETYPEID='$id' AND MIN<={$data_row['Danger']} AND MAX>={$data_row['Danger']}
 SQL;
     $result = $obj->go_result_once($sql);
     //var_dump($sql);
     
     $result['TITLE'] = (empty($result)) ? "" : $result['TITLE'];
-    return $data_row['CompetenceLevel'].". ".$result['TITLE'];
+    
+    return $result['TITLE'];
 }
 
-function GetShortRecommendations($obj, $data_row)
+function GetShortRecommendations($obj, $data_row, $id)
 {
     $sql = <<<SQL
-            SELECT SHORTTITLE FROM stat.RECOMMENDATIONSSOTRUD WHERE COMPETENCETYPEID='{$data_row['id']}' AND MIN<={$data_row['Danger']} AND MAX>={$data_row['Danger']}
+            SELECT SHORTTITLE FROM stat.RECOMMENDATIONSSOTRUD WHERE COMPETENCETYPEID='$id' AND MIN<={$data_row['Danger']} AND MAX>={$data_row['Danger']}
 SQL;
     $result = $obj->go_result_once($sql);
     //var_dump($sql);
@@ -200,14 +236,14 @@ function GetTotal($obj, $rows)
     $result['Danger'] = 0;
     $result['K'] = 0;
     $result['CompetenceLevel'] = "";
-    foreach($rows as $row)
+    foreach($rows as $id=>$row)
     {
         $result['K'] += $row['K'];
         if ($row['Danger']>$result['Danger'])
         {
             $result['Danger'] = $row['Danger'];
         }
-        $result['CompetenceLevel'] .= " ".GetShortRecommendations($obj, $row);
+        $result['CompetenceLevel'] .= " ".GetShortRecommendations($obj, $row, $id);
     }
     $result['K'] = round($result['K']/7);
     if ($result['Danger'] < $result['K'])
@@ -218,4 +254,5 @@ function GetTotal($obj, $rows)
     $result['CompetenceLevel'] = GetCompetenceShortText($obj, $result['Danger']).". ".$result['CompetenceLevel'];
     return $result;
 }
+
 ?>
