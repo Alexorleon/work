@@ -2,6 +2,8 @@
 	unset($_SESSION);
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 	
+	unset($_SESSION['type_question_chain']);
+	
 	$db = new db;
 	$db->GetConnect();
 	$error_='';

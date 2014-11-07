@@ -30,9 +30,19 @@
 <link rel="stylesheet" href="{$tpl}css/main.css">
 <link href="{$tpl}../libs/video-js/video-js.css" rel="stylesheet" type="text/css">
 <script src="{$tpl}../libs/video-js/video.js"></script>
+<!--<script src="{$tpl}../libs/video-js/uppod_api.js"></script>-->
 
 <script>
 	videojs.options.flash.swf = "{$tpl}../libs/video-js/video-js.swf";
+	
+	function uppodEvent(playerID, event){
+
+		if ( playerID == 'audioplayer' && event == 'end' ){
+
+			document.getElementById('end_play_video').onclick();
+		};
+	};
+
 </script>
 
 <div id="error_mess"> {$error_} </div>
@@ -166,9 +176,10 @@
 		<img src="{$photo_questions}/{$simplephoto}" alt="">
 
 		<table style="width: 100%; background: #ffff99; min-height: 100px;">
-		<tr>
-		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}<span></div></td>
-		</tr>
+			<tr>
+				<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}<span></div></td>-->
+				<td><div style="margin-top: 1%;" class="text_question"><span>{$question}<span></div></td>
+			</tr>
 		</table>
 		
 		<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
@@ -187,7 +198,8 @@
 		
 		<table style="width: 100%; background: #ffff99; margin-top: 16%; min-height: 100px;">
 		<tr>
-			<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}<span></div></td>
+			<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}<span></div></td>-->
+			<td><div style="margin-top: 1%;" class="text_question"><span>{$question}<span></div></td>
 		</tr>
 		</table>
 
@@ -214,7 +226,7 @@
 		
 			<table style="width: 100%; background: #ffff99; min-height: 100px;">
 				<tr>
-					<td><div class="text_question"><span>Контроль умений<span></div></td>
+					<td><div class="text_question"><span>Видео цепочки<span></div></td>
 				</tr>
 			</table>
 		
@@ -231,19 +243,30 @@
 		{else}
 		{/if}
 		
-		<div class="img_answer">
-			<object type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="576" width="1024">
-				<param name="wmode" value="transparent">
-				<param name="allowFullScreen" value="true">
-				<param name="allowScriptAccess" value="always">
-				<param name="movie" value="{$lhost}/libs/uppod.swf">
-				<param name="FlashVars" value="way={$lhost}/storage/video_questions/complex_video/{$complex_question_catalog}/{$type_video}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=61ARHjYNf=jOk0v1yX1SGfzkO2k03whT317XAjOkisQ7r9mwtzC55I1jOkZBMiv62Qt9sG7nT30cLWNYkbk1WNxORL1kOk1mwdXRWNXzBGYDY31X1SQFD6dwyL2GAfTk06Q3QSIzd56L2MHXzkOkaBwdnzBGDRWNHkbSal1CGrhpd06zv1SXej5btj1Rhhd0XFdwkf9vwjzC5ebAJYl1CMykbCal1kweVG30hIdwRf9vwjzC5bTtj1cpmwyXzBGDY317X1kQ3Q3QE3Q31l1k0RnTWwjG3NRkbk13Q3QA3Q3Qktj16fRdwnY2UYiR3Nkbk1aJZxaoZuahf1kOkZ2MGJzC5f8Sa4l1SQl6W0aXzBGDY31iX1kQ3Q3QR3Q31l1k0dnTWwjL2Q76zmNJzC5yk42Qi63Ghktj1ozfUrD">
-			</object>
-		</div>
-
-		<div class="text_question"><span>{$complex_question_text}<span></div>
+		{if $type_question_chain neq "INFO"}
 		
-		{if $type_question_chain eq "PROLOG"}
+			<div class="img_answer">
+				<object id='playerA' type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="576" width="1024">
+					<param name="wmode" value="transparent">
+					<param name="allowFullScreen" value="true">
+					<param name="allowScriptAccess" value="always">
+					<param name="movie" value="{$lhost}/libs/uppod.swf">
+					<!--<param name="FlashVars" value="way={$lhost}/storage/video_questions/complex_video/{$complex_question_catalog}/{$type_video}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=61ARHjYNf=jOk0v1yX1SGfzkO2k03whT317XAjOkisQ7r9mwtzC55I1jOkZBMiv62Qt9sG7nT30cLWNYkbk1WNxORL1kOk1mwdXRWNXzBGYDY31X1SQFD6dwyL2GAfTk06Q3QSIzd56L2MHXzkOkaBwdnzBGDRWNHkbSal1CGrhpd06zv1SXej5btj1Rhhd0XFdwkf9vwjzC5ebAJYl1CMykbCal1kweVG30hIdwRf9vwjzC5bTtj1cpmwyXzBGDY317X1kQ3Q3QE3Q31l1k0RnTWwjG3NRkbk13Q3QA3Q3Qktj16fRdwnY2UYiR3Nkbk1aJZxaoZuahf1kOkZ2MGJzC5f8Sa4l1SQl6W0aXzBGDY31iX1kQ3Q3QR3Q31l1k0dnTWwjL2Q76zmNJzC5yk42Qi63Ghktj1ozfUrD">-->
+					<param name="FlashVars" value="uid=audioplayer&way={$lhost}/storage/video_questions/complex_video/{$complex_question_catalog}/{$type_video}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=0&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=81AEc9BaW1xal1fRGkbk1T1kOFkZ3w6LWwJFV31X1SGfzSkOk03whT321XAjOk82MNvzsNoT30cYLWNkbSYftyj1chWQVpd7McpmwXzBGnDY31X=jOkK430bzC5kNZ3Q3Q3Q3zkROk1mwXRWNRDp2QfYW0kdbSal1CQDphWscY2Qf6dkQ6zv1XAuaRmtj1tzC5kdN3Q3Q3Q3zGkOk1mwXRWhNL9WwkzC5kI8Cal1SNtKHBwhT30cLGWNkbk1b1k2Ok1mwXRWNKvzW069mwDBzC5Ttj1cpkmwXzBGDY3Q1XAjOkisQ5r9mwtzC5kEauYTcCYb19j1l1CQVYvT1X1kQ3Q3Q63Q31l1k0n8TWwjG3NkbDk1bbBaktjS1fRdwnYWQFkT30cLWNkYbk16L2MXRh6wIzB5fp3HQ3pvNXe3w6VT31l1f0XTR30cLWwjzFC5k42Qi63EGktj1ozfUrz">
+				</object>
+			</div>
+
+			<table style="width: 100%; background: #ffff99; min-height: 100px;">
+				<tr>
+					<!--<td><div class="text_question"><span>Номер вопроса: {$counter_questions}<span></div></td>-->
+					<td><div class="text_question"><span>{$complex_question_text}<span></div></td>
+				</tr>
+			</table>
+		{/if}
+		
+		{if $type_question_chain eq "INFO"}
+		
+			<img src="{$photo_questions}/1be77fa6ffbe88699585a4d38aaf8663.jpg" alt="">
 		
 			<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
 				<tr>
@@ -251,6 +274,15 @@
 					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer(99901, 0, 0)" value="Начать"/></td>
 				</tr>
 			</table>
+		{elseif $type_question_chain eq "PROLOG"}
+		
+			<!--<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+				<tr>
+					<td><input class="quest_num" type="button" value="1"></td>
+					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer(99901, 0, 0)" value="Начать"/></td>
+				</tr>
+			</table>-->
+			<input id='end_play_video' type="hidden" onclick="textAnswer(99901, 0, 0)"/>
 			
 		{elseif $type_question_chain eq "EPILOG"}
 		
@@ -263,9 +295,10 @@
 			
 		{elseif $type_question_chain eq "QUESTION"}
 		
-			<table style="width: 100%; background: #ffff99; min-height: 100px;">
+			<table style="width: 100%; background: #AEB404; min-height: 100px;">
 				<tr>
-					<td><div style="margin-top: 1%;" class="text_question"><span>№:{$link_question_complex['ID']}   {$link_question_complex['TITLE']}<span></div></td>
+					<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$link_question_complex['ID']}   {$link_question_complex['TITLE']}<span></div></td>-->
+					<td><div style="margin-top: 1%;" class="text_question"><span>1 из 5  {$link_question_complex['TITLE']}<span></div></td>
 				</tr>
 			</table>
 			

@@ -143,6 +143,8 @@
 				$smarty->assign("type_question_chain", $_SESSION['type_question_chain']);
 			}
 			
+			$smarty->assign("counter_questions", $_SESSION['temp_count_ques']);
+			
 			// FIO
 			$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
 			$smarty->assign("sm_sotrud_im", $_SESSION['sotrud_im']);
@@ -415,6 +417,7 @@ SQL;
 		
 		$_SESSION['final_array_complex_questions'] = array(); // хранится текст вопросов цепочек
 		$_SESSION['count_complex_question'] = 0; // счетчик для видео цепочки
+		$_SESSION['temp_count_ques'] = 0;
 		
 		foreach ($q_final_array as $element){
 		
@@ -436,6 +439,9 @@ SQL;
 
 		}else{
 		
+			// количество заданных вопросов
+			$_SESSION['temp_count_ques']++;
+			
 			$testid = $_SESSION['q_final_array'][$_SESSION['counter_questions']];
 			//print_r($testid['ID']);
 			//die();
@@ -562,8 +568,16 @@ SQL;
 			// если впервые, то показать пролог
 			if($_SESSION['count_complex_question'] == 0){
 			
-				$_SESSION['count_complex_question']++;
-				$_SESSION['type_question_chain'] = "PROLOG"; // что показывать из видео цепочки
+				// информативная картинка перед видео цепочкой
+				if(isset($_SESSION['type_question_chain'])){
+				
+					$_SESSION['count_complex_question']++;
+					$_SESSION['type_question_chain'] = "PROLOG"; // что показывать из видео цепочки
+				}else{
+					
+					$_SESSION['type_question_chain'] = "INFO"; // пред пролог
+				}
+
 			}else{
 			
 				$_SESSION['type_question_chain'] = "QUESTION";
