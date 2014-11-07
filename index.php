@@ -1,6 +1,8 @@
 <?php
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 
+	// TODO: !!!!!! очистить сессии из PE и CC
+	
 	if ((!isset($_SESSION['sotrud_id'])) or (empty($_SESSION['sotrud_id'])))
 	{
 		die('<script>document.location.href= "'.lhost.'/auth.php"</script>');	

@@ -10,39 +10,52 @@
 
 		if ($answer == 3){ // пробное тестирование
 		
-			// необходимо для закрашивания цветом
-			if ($comp_lvl == 21){
-				
-				array_push($_SESSION['final_array_answers'], 'T');
+			if($comp_lvl == 99901){ // показывали пролог
+			
+			}elseif($comp_lvl == 99902){ // эпилог
+			
 			}else{
-			
-				array_push($_SESSION['final_array_answers'], 'F');
+				// необходимо для закрашивания цветом
+				if ($comp_lvl == 21){
+					
+					array_push($_SESSION['final_array_answers'], 'T');
+				}else{
+				
+					array_push($_SESSION['final_array_answers'], 'F');
+				}
+				
+				// TODO: распределить по типам вопросов
+				/*array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['PRICE']);*/
+				//print_r($_SESSION['final_array_answers']);
+				//die();
 			}
-			
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
-			//print_r($_SESSION['final_array_answers']);
-			//die();
 			
 		}elseif ($answer == 4){ // тестирование с записью в историю
 			
-			// необходимо для закрашивания цветом
-			if ($comp_lvl == 21){
-				
-				array_push($_SESSION['final_array_answers'], 'T');
+			if($comp_lvl == 99901){ // показывали пролог
+			
+			}elseif($comp_lvl == 99902){ // эпилог
+			
 			}else{
-			
-				array_push($_SESSION['final_array_answers'], 'F');
+				// необходимо для закрашивания цветом
+				if ($comp_lvl == 21){
+					
+					array_push($_SESSION['final_array_answers'], 'T');
+				}else{
+				
+					array_push($_SESSION['final_array_answers'], 'F');
+				}
+				
+				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
+				
+				// TODO: записать в куки, либо записывать на временный файл на случай восстановления и записать в историю в последний момент
+				// пишем в историю
+				write_history($db, $idans);
 			}
-			
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
-			array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
-			
-			// TODO: либо записывать на временный файл на случай восстановления и записать в историю в последний момент
-			// пишем в историю
-			write_history($db, $idans);
 		}else{
 		}
 	}
@@ -111,9 +124,19 @@
 				$smarty->assign("complex_question_catalog", $_SESSION['complex_question_catalog']);
 				$smarty->assign("type_question", $_SESSION['type_question']);
 				
-				$smarty->assign("link_question_complex", $_SESSION['link_question_complex']);
-				$smarty->assign("link_answer_complex", $_SESSION['link_answer_complex']);
-				$smarty->assign("idans", $_SESSION['link_answer_complex'][0]['COMPLEXVIDEOID']);
+				if($_SESSION['type_question_chain'] == "QUESTION"){
+					
+					$smarty->assign("link_question_complex", $_SESSION['link_question_complex']);
+					$smarty->assign("link_answer_complex", $_SESSION['link_answer_complex']);
+					$smarty->assign("idans", $_SESSION['link_answer_complex'][0]['COMPLEXVIDEOID']);
+				}else{
+				
+					$smarty->assign("link_question_complex", "");
+					$smarty->assign("link_answer_complex", "");
+					$smarty->assign("idans", "");
+				}
+				
+				$smarty->assign("type_question_chain", $_SESSION['type_question_chain']);
 			}
 			
 			// FIO
@@ -185,7 +208,7 @@
 		
 		// вопросы по смертельному риску
 		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
@@ -194,7 +217,7 @@ SQL;
 
 		// вопросы по высокому риску
 		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
@@ -203,12 +226,18 @@ SQL;
 
 		// вопросы по существенному риску
 		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='8' AND ALLQUESTIONS.ID IN 
+			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
 SQL;
 		$array_sign_risk = $obj->go_result($sql_ques);
 		shuffle($array_sign_risk);
+		
+		// если нет вопросов, выходим
+		if(empty($array_death_risk) and empty($array_high_risk) and empty($array_sign_risk)){
+		
+			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
+		}
 		
 		// формируем основной массив вопросов необходимого количества
 		$tempcount = $_SESSION['numquestions']; // необходимое количество
@@ -288,7 +317,7 @@ SQL;
 		$_SESSION['final_array_questions'] = array(); // хранится текст вопросов
 		
 		$_SESSION['final_array_complex_questions'] = array(); // хранится текст вопросов цепочек
-		$_SESSION['count_complex_question'] = 1; // счетчик для видео цепочки
+		$_SESSION['count_complex_question'] = 0; // счетчик для видео цепочки
 		
 		foreach ($q_final_array as $element){
 		
@@ -355,6 +384,7 @@ SQL;
 				
 			}elseif($temp_type_question == 9){ // простое видео
 			
+				
 			}elseif($temp_type_question == 10){ // сложное видео		
 
 				$_SESSION['bool_isComplexVideo'] = true;
@@ -391,38 +421,50 @@ SQL;
 	// задаем одно звено из видео цепочки
 	function ask_one_complexVideo(&$obj){
 	
-		if($_SESSION['count_complex_question'] == 5){
+		/*if($_SESSION['count_complex_question'] == 5){
 		
 			$_SESSION['counter_questions']++;
-		}
+		}*/
 		
 		// если закончилась цепочка
 		if($_SESSION['count_complex_question'] > 5){
 		
 			$_SESSION['count_complex_question'] = 1;
 			$_SESSION['bool_isComplexVideo'] = false;
+			$_SESSION['type_question_chain'] = "EPILOG";
+			$_SESSION['counter_questions']++;
 		}else{
 		
-			$temp_testid = $_SESSION['global_temp_testid'];
-			$count = $_SESSION['count_complex_question'];
+			// если впервые, то показать пролог
+			if($_SESSION['count_complex_question'] == 0){
 			
-			$_SESSION['count_complex_question']++;
+				$_SESSION['count_complex_question']++;
+				$_SESSION['type_question_chain'] = "PROLOG"; // что показывать из видео цепочки
+			}else{
 			
-			// получаем вопрос к цепочке
-			// TODO: ORDER BY POSITION ASC
-			$sql_ques = <<<SQL
-			SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
-			AND COMPLEXVIDEO.POSITION='$count' AND rownum=1
+				$_SESSION['type_question_chain'] = "QUESTION";
+				
+				$temp_testid = $_SESSION['global_temp_testid'];
+				$count = $_SESSION['count_complex_question'];
+				
+				$_SESSION['count_complex_question']++;
+				
+				// получаем вопрос к цепочке
+				// TODO: ORDER BY POSITION ASC
+				$sql_ques = <<<SQL
+				SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
+				AND COMPLEXVIDEO.POSITION='$count' AND rownum=1
 SQL;
-			$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
-			
-			$temp_id_ques = $_SESSION['link_question_complex']['ID'];
-			
-			// получаем ответы
-			$sql_ans = <<<SQL
-			SELECT ID, TEXT, SIMPLEVIDEO, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
+				$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
+				
+				$temp_id_ques = $_SESSION['link_question_complex']['ID'];
+				
+				// получаем ответы
+				$sql_ans = <<<SQL
+				SELECT ID, TEXT, SIMPLEVIDEO, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
 SQL;
-			$_SESSION['link_answer_complex'] = $obj->go_result($sql_ans);
+				$_SESSION['link_answer_complex'] = $obj->go_result($sql_ans);
+			}
 		}
 	}
 	
