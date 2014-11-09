@@ -75,34 +75,27 @@ SQL;
 		$question_com = "Статистика теста";
 		$question_ans = '';
 		$transitionOption = 1;
+		$competencelevel_title = "";
+		$risklevel_title = "";
+		$factor_com = "";
+		$competencelevel_id = 21;
 			
 		// выводим статистику ответов
-		/*$array_final_qu = array(); // основной массив для ответов
-		
-		foreach ($q_final_array as $element){
-		
-			$_SESSION['q_final_array'][] = $element;
-		}*/
-		/*$array_final_qu = array();
-		for($count_i = 0; $count_i < count($_SESSION['q_final_array']); $count_i++){
-		
-			array_push($array_final_qu, $_SESSION['q_final_array'][$count_i]['ID']);
-		}*/
-		//print_r($_SESSION['final_array_questions']);
+		//print_r();
 		//echo "<br />";
-		//print_r($_SESSION['final_array_answers']);
+		//print_r();
 		//die();
 		//echo "<br />";
-		$smarty->assign("array_final_qu", $_SESSION['final_array_questions']);
-		$smarty->assign("array_final_an", $_SESSION['final_array_answers']);
 		
-		/*$smarty->assign("complex_question_text", $_SESSION['complex_question_text']);
-		$smarty->assign("complex_question_catalog", $_SESSION['complex_question_catalog']);
-		$smarty->assign("type_question", $_SESSION['type_question']);
+		$smarty->assign("final_array_txt_questions", $_SESSION['final_array_txt_questions']);
+		$smarty->assign("final_array_txt_answers", $_SESSION['final_array_txt_answers']);
 		
-		$smarty->assign("link_question_complex", $_SESSION['link_question_complex']);
-		$smarty->assign("link_answer_complex", $_SESSION['link_answer_complex']);
-		$smarty->assign("idans", $_SESSION['link_answer_complex'][0]['COMPLEXVIDEOID']);*/
+		$smarty->assign("final_array_sf_questions", $_SESSION['final_array_sf_questions']);
+		$smarty->assign("final_array_sf_answers", $_SESSION['final_array_sf_answers']);
+		
+		$smarty->assign("final_array_cv_basic", $_SESSION['final_array_cv_basic']);
+		$smarty->assign("final_array_cv_questions", $_SESSION['final_array_cv_questions']);
+		$smarty->assign("final_array_cv_answers", $_SESSION['final_array_cv_answers']);
 	}else{
 		
 		die("У меня не прописано, что делать");

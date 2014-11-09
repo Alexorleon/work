@@ -12,31 +12,65 @@
 		
 			if($comp_lvl == 99901){ // показывали пролог
 			
-			}elseif($comp_lvl == 99902){ // эпилог
+			}elseif($comp_lvl == 99902){ // показывали эпилог
 			
 			}else{
 				// необходимо для закрашивания цветом
+				$isCorrect = '';
 				if ($comp_lvl == 21){
 					
-					array_push($_SESSION['final_array_answers'], 'T');
+					$isCorrect = 'T';
 				}else{
 				
-					array_push($_SESSION['final_array_answers'], 'F');
+					$isCorrect = 'F';
 				}
 				
-				// TODO: распределить по типам вопросов
-				/*array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
-				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
-				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['PRICE']);*/
-				//print_r($_SESSION['final_array_answers']);
-				//die();
+				$temp_type_question = $_SESSION['type_question'];
+				
+				switch($temp_type_question){
+		
+					case 8: // текст
+					
+						array_push($_SESSION['final_array_txt_answers'], $isCorrect);
+						
+						array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+						array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+						array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
+						break;
+						
+					case 9: // простое видео
+						
+						break;
+					
+					case 10: // сложное видео
+						
+						array_push($_SESSION['final_array_cv_answers'], $isCorrect);
+						
+						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['TEXT']);
+						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['COMMENTARY']);
+						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['PRICE']);
+						break;
+						
+					case 21: // простое фото
+						
+						array_push($_SESSION['final_array_sf_answers'], $isCorrect);
+						
+						array_push($_SESSION['final_array_sf_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+						array_push($_SESSION['final_array_sf_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+						array_push($_SESSION['final_array_sf_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
+						break;
+						
+					case 22: // сложное фото
+						
+						break;
+				}
 			}
 			
 		}elseif ($answer == 4){ // тестирование с записью в историю
 			
 			if($comp_lvl == 99901){ // показывали пролог
 			
-			}elseif($comp_lvl == 99902){ // эпилог
+			}elseif($comp_lvl == 99902){ // показывали эпилог
 			
 			}else{
 				// необходимо для закрашивания цветом
@@ -406,25 +440,31 @@ SQL;
 			}
 		}while ($count_ques < $tempcount);
 
-		/*print_r("array");
-		echo "</br>";
-		print_r($q_final_array);
-		die();*/
-		// запоминаем подготовленный массив
-		$_SESSION['q_final_array'] = array(); // TODO: пока временно здесь - в нем хранятся ID
-		$_SESSION['final_array_answers'] = array(); // основной массив для ответов - хранится текст
-		$_SESSION['final_array_questions'] = array(); // хранится текст вопросов
-		
-		$_SESSION['final_array_complex_questions'] = array(); // хранится текст вопросов цепочек
-		$_SESSION['count_complex_question'] = 0; // счетчик для видео цепочки
-		$_SESSION['temp_count_ques'] = 0;
+		// основной массив всех сформированных вопросов
+		$_SESSION['q_final_array'] = array(); // в нем хранятся ID
 		
 		foreach ($q_final_array as $element){
 		
 			$_SESSION['q_final_array'][] = $element;
 		}
 		
+		/*print_r("array");
+		echo "</br>";
+		print_r($q_final_array);
+		die();*/
 		
+		// подготовка финальных массивов каждого типа
+		$_SESSION['final_array_txt_questions'] = array(); // хранятся текстовые вопросы
+		$_SESSION['final_array_txt_answers'] = array(); // основной массив для ответов
+		
+		$_SESSION['final_array_sf_questions'] = array(); // хранится текст простых фото вопросов
+		$_SESSION['final_array_sf_answers'] = array(); // основной массив для ответов
+		
+		$_SESSION['final_array_cv_basic'] = array(); // хранятся заголовки видео цепочек
+		$_SESSION['final_array_cv_questions'] = array(); // хранятся вопросы видео цепочек
+		$_SESSION['final_array_cv_answers'] = array(); // ответы цепочек
+		$_SESSION['count_complex_question'] = 0; // счетчик для видео цепочки
+		$_SESSION['temp_count_ques'] = 0; // количество заданных вопросов
 		//die();
 	}
 	
@@ -439,7 +479,6 @@ SQL;
 
 		}else{
 		
-			// количество заданных вопросов
 			$_SESSION['temp_count_ques']++;
 			
 			$testid = $_SESSION['q_final_array'][$_SESSION['counter_questions']];
@@ -465,10 +504,11 @@ SQL;
 				SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
 				$s_res = $obj->go_result_once($sql);
+				
 				//$temp_id = (int)$testid['ID'];
 				$question_text = $s_res['TEXT'];
 						
-				array_push($_SESSION['final_array_questions'], $question_text); // запоминаем вопрос TODO: iconv
+				array_push($_SESSION['final_array_txt_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 				// берем ответы к этому вопросу
 				$sql_ans = <<<SQL
@@ -496,14 +536,14 @@ SQL;
 				SELECT TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
 				$s_res1 = $obj->go_result_once($sql);
+
+				array_push($_SESSION['final_array_cv_basic'], $s_res1); // запоминаем заголовок для таблицы результатов
 				
 				$_SESSION['complex_question_text'] = $s_res1['TEXT']; // заголовок цепочки
 				$_SESSION['complex_question_prolog'] = $s_res1['PROLOGVIDEO'];
-				$_SESSION['complex_question_epilog'] = $s_res1['EPILOGVIDEO'];
 				$_SESSION['complex_question_catalog'] = $s_res1['CATALOG'];
-						
-				array_push($_SESSION['final_array_complex_questions'], $_SESSION['complex_question_text']); // запоминаем вопрос - заголовок цепочки
-
+				$_SESSION['complex_question_epilog'] = $s_res1['EPILOGVIDEO'];
+				
 				ask_one_complexVideo($obj);
 				
 			}elseif($temp_type_question == 21){ // простое фото
@@ -518,7 +558,7 @@ SQL;
 				// запоминаем имя картинки
 				$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
 						
-				array_push($_SESSION['final_array_questions'], $question_text); // запоминаем вопрос TODO: iconv
+				array_push($_SESSION['final_array_sf_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 				// берем ответы к этому вопросу
 				$sql_ans = <<<SQL
@@ -588,20 +628,27 @@ SQL;
 				$_SESSION['count_complex_question']++;
 				
 				// получаем вопрос к цепочке
-				// TODO: ORDER BY POSITION ASC
 				$sql_ques = <<<SQL
 				SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
 				AND COMPLEXVIDEO.POSITION='$count' AND rownum=1
 SQL;
 				$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
 				
+				// для таблицы результатов
+				array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['TITLE']);
+				array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['SIMPLEVIDEO']);
+				
 				$temp_id_ques = $_SESSION['link_question_complex']['ID'];
 				
 				// получаем ответы
 				$sql_ans = <<<SQL
-				SELECT ID, TEXT, SIMPLEVIDEO, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
+				SELECT ID, TEXT, SIMPLEVIDEO, COMMENTARY, PRICE, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
 SQL;
-				$_SESSION['link_answer_complex'] = $obj->go_result($sql_ans);
+				$array_answers = $obj->go_result($sql_ans);
+				
+				shuffle($array_answers);
+				
+				$_SESSION['link_answer_complex'] = $array_answers;
 			}
 		}
 	}
