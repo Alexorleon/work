@@ -12,7 +12,11 @@
 		<script type="text/javascript" src="{$js}noselect.js"></script>
 <script>
 jQuery(document).ready(function(){
-	$('#auth').disableTextSelect(); 
+	$('#auth').disableTextSelect();
+        $('.move_button').click(function() {
+  $('#auth').hide(0);
+});
+        
 });
 </script>
 
@@ -25,6 +29,8 @@ jQuery(document).ready(function(){
 			document.location.href= "/auth.php";
 		}, 180000);
 	});
+        
+        
 </script>
 {/literal}
 
@@ -72,9 +78,8 @@ jQuery(document).ready(function(){
 
 <form id="auth" name="auth" method="post">
 <div class="dial">
-
-	
-
+<div class="dial-ring">
+</div>
 	<table >
                 <tr>
                         <td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
