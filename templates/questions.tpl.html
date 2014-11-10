@@ -64,9 +64,9 @@
 <!--{$textmodule = "Проверка знаний"}-->
 <table style="width: 100%;" class="header-q-info">
 <tr>
-<td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}<span></div></td>
-<td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj}<span></div></td>
-<td><div class="text_sotrud_tabel"><span>Табельный номер: {$sm_sotrud_tabel}<span></div></td>
+<td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}</span></div></td>
+<td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj}</span></div></td>
+<td><div class="text_sotrud_tabel"><span>Табельный номер: {$sm_sotrud_tabel}</span></div></td>
 </tr>
 </table>
 <!--<div class="text_module"><span>МОДУЛЬ: {$textmodule}<span></div>-->
@@ -100,7 +100,7 @@
 
 		<table style="width: 100%; background: #ffff99; min-height: 100px;">
 		<tr>
-		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}<span></div></td>
+		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}</span></div></td>
 		</tr>
 		</table>
 		
@@ -120,9 +120,9 @@
 		
 		<table style="width: 100%; background: #ffff99; margin-top: 16%; min-height: 100px;">
 		<tr>
-		<!--<td style="min-width: 110px;"><div class="text_ID_question"><span>№: {$sm_ID_question}<span></div></td>-->
-		<!--<td><div class="text_question"><span>{$question['TEXT']}<span></div></td>-->
-		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}<span></div></td>
+		<!--<td style="min-width: 110px;"><div class="text_ID_question"><span>№: {$sm_ID_question}</span></div></td>-->
+		<!--<td><div class="text_question"><span>{$question['TEXT']}</span></div></td>-->
+		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}</span></div></td>
 		</tr>
 		</table>
 
@@ -152,7 +152,7 @@
 	<div id="bottom" style="margin-bottom: 30px;">
 		<button class="move_button" type="button" onclick="javascript:window.location='./lobby'"><br>Назад</button>
 		<button class="move_button" type="button" onclick="typeTest(1)" >Пробное<br>тестирование</button>
-		<button class="move_button" type="button" onclick="typeTest(2)" ><br>Тестирование</button>
+		<!-- TODO: на время уберем <button class="move_button" type="button" onclick="typeTest(2)" ><br>Тестирование</button>-->
 	</div>
 	
 	<div id="bottom">
@@ -164,9 +164,9 @@
 
 <table style="width: 100%;" class="header-q-info">
 	<tr>
-		<td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}<span></div></td>
-		<td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj}<span></div></td>
-		<td><div class="text_sotrud_tabel"><span>Табельный номер: {$sm_sotrud_tabel}<span></div></td>
+		<td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}</span></div></td>
+		<td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj}</span></div></td>
+		<td><div class="text_sotrud_tabel"><span>Табельный номер: {$sm_sotrud_tabel}</span></div></td>
 	</tr>
 </table>
 
@@ -177,8 +177,9 @@
 
 		<table style="width: 100%; background: #ffff99; min-height: 100px;">
 			<tr>
-				<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}<span></div></td>-->
-				<td><div style="margin-top: 1%;" class="text_question"><span>{$question}<span></div></td>
+				<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}</span></div></td>-->
+				<td style="width: 200;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Вопрос №{$counter_questions}</span></div></td>
+				<td align="left"><div style="margin-top: 1%;" class="text_question"><span>{$question}</span></div></td>
 			</tr>
 		</table>
 		
@@ -198,8 +199,8 @@
 		
 		<table style="width: 100%; background: #ffff99; margin-top: 16%; min-height: 100px;">
 		<tr>
-			<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}<span></div></td>-->
-			<td><div style="margin-top: 1%;" class="text_question"><span>{$question}<span></div></td>
+			<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}</span></div></td>-->
+			<td><div style="margin-top: 1%;" class="text_question"><span>{$question}</span></div></td>
 		</tr>
 		</table>
 
@@ -228,7 +229,7 @@
 		
 			<table style="width: 100%; background: #ffff99; min-height: 100px;">
 				<tr>
-					<td><div class="text_question"><span>Видео цепочки<span></div></td>
+					<td><div class="text_question"><span>Видео цепочки</span></div></td>
 				</tr>
 			</table>
 			
@@ -255,7 +256,8 @@
 			
 			<table style="width: 100%; background: #ffff99; min-height: 100px;">
 				<tr>
-					<td><div class="text_question"><span>{$complex_question_text}<span></div></td>
+					<td style="width: 200;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Вопрос №{$counter_questions}</span></div></td>
+					<td align="left"><div class="text_question"><span>{$complex_question_text}</span></div></td>
 				</tr>
 			</table>
 			
@@ -289,14 +291,17 @@
 			
 			<table style="width: 100%; background: #ffff99; min-height: 100px;">
 				<tr>
-					<td><div class="text_question"><span>{$complex_question_text}<span></div></td>
+					<td style="width: 360;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Группа вопросов №{$counter_questions}</span></div></td>
+					<td align="left"><div class="text_question"><span>{$complex_question_text}</span></div></td>
 				</tr>
 			</table>
 			
 			<table style="width: 100%; background: #F2F5A9; min-height: 100px;">
 				<tr>
-					<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$link_question_complex['ID']}   {$link_question_complex['TITLE']}<span></div></td>-->
-					<td><div style="margin-top: 1%;" class="text_question"><span>{$link_question_complex['TITLE']}<span></div></td>
+					<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$link_question_complex['ID']}   {$link_question_complex['TITLE']}</span></div></td>-->
+					{capture}{$count_complex_question--}{/capture}
+					<td style="width: 110;" align="left"><div style="margin-top: 1%;" class="text_question"><span>{$count_complex_question} из 5</span></div></td>
+					<td><div align="left" style="margin-top: 1%;" class="text_question"><span>{$link_question_complex['TITLE']}</span></div></td>
 				</tr>
 			</table>
 			
