@@ -1261,8 +1261,13 @@ figure {
 }
 
 /*Циферблат*/
-.dial{
-    max-width: 1200px;
+.dial-ring{
+position: absolute;
+width: 900px;
+height: 900px;
+right: 50%;
+top: 0;
+margin-right: -450px;
 background: -moz-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%, rgba(125,185,232,0.68) 32%, rgba(172,204,229,0.14) 39%, rgba(125,185,232,0) 42%, rgba(125,185,232,0) 100%); /* FF3.6+ */
 background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(20%,rgba(255,255,255,1)), color-stop(32%,rgba(125,185,232,0.68)), color-stop(39%,rgba(172,204,229,0.14)), color-stop(42%,rgba(125,185,232,0)), color-stop(100%,rgba(125,185,232,0))); /* Chrome,Safari4+ */
 background: -webkit-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(125,185,232,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(125,185,232,0) 42%,rgba(125,185,232,0) 100%); /* Chrome10+,Safari5.1+ */
@@ -1270,7 +1275,8 @@ background: -o-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rg
 background: -ms-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(125,185,232,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(125,185,232,0) 42%,rgba(125,185,232,0) 100%); /* IE10+ */
 background: radial-gradient(circle at center,  rgba(255,255,255,1) 20%,rgba(125,185,232,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(125,185,232,0) 42%,rgba(125,185,232,0) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-
+z-index: -999;
+overflow: hidden;
 }
 
 .button_menu {
