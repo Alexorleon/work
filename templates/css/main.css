@@ -1277,6 +1277,17 @@ background: radial-gradient(circle at center,  rgba(255,255,255,1) 20%,rgba(125,
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 z-index: -999;
 overflow: hidden;
+display: none;
+}
+
+.wrong_ans
+{
+    color: #F00;
+}
+
+.cv_head > td
+{
+    font-weight: bold;
 }
 
 .button_menu {

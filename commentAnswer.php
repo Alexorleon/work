@@ -87,6 +87,7 @@ SQL;
 		//die();
 		//echo "<br />";
 		
+                
 		$smarty->assign("final_array_txt_questions", $_SESSION['final_array_txt_questions']);
 		$smarty->assign("final_array_txt_answers", $_SESSION['final_array_txt_answers']);
 		

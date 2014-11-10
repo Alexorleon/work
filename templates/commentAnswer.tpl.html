@@ -96,18 +96,6 @@
 
 {else} <!--контроль компетентности CC-->
 
-{$final_array_sf_questions[0]}
-</br>
-{$final_array_sf_answers[0]}
-</br>
-
-{$final_array_cv_basic[0]['TEXT']}
-</br>
-{$final_array_cv_questions[0]}
-</br>
-{$final_array_cv_answers[0]}
-</br>
-
 <table class="simple-little-table" cellspacing='0'>
 
 <tr>
@@ -115,7 +103,81 @@
 	<th>Ответ</th>
 	<th>Комментарий</th>
 	<th>Штрафы</th>
-</tr><!-- Table Header -->
+</tr>
+{foreach from=$final_array_txt_questions key=k item=question}
+
+{if ($final_array_txt_answers[$k]['Correct']=='F')}
+{assign var="cls" value="class=wrong_ans"}
+{else}
+{assign var="cls" value=""}
+{/if}
+
+<tr {$cls}>
+    <td>
+        {$question}
+    </td>
+    <td>
+        {$final_array_txt_answers[$k]['Text']}
+    </td>
+    <td>
+        {$final_array_txt_answers[$k]['Comment']}
+    </td>
+    <td>
+        {$final_array_txt_answers[$k]['Price']}
+    </td>
+</tr>
+{/foreach}
+{foreach from=$final_array_sf_questions key=k item=question}
+{if ($final_array_sf_answers[$k]['Correct']=='F')}
+{assign var="cls" value="class=wrong_ans"}
+{else}
+{assign var="cls" value=""}
+{/if}
+
+<tr {$cls}>
+    <td>
+        {$question}
+    </td>
+    <td>
+        {$final_array_sf_answers[$k]['Text']}
+    </td>
+    <td>
+        {$final_array_sf_answers[$k]['Comment']}
+    </td>
+    <td>
+        {$final_array_sf_answers[$k]['Price']}
+    </td>
+</tr>
+{/foreach}
+{foreach from=$final_array_cv_basic key=k item=basic}
+<tr class="cv_head">
+    <td colspan="4">
+    {$basic['TEXT']}
+    </td>
+</tr>
+    {foreach from=$final_array_cv_questions key=qk item=question}
+    {if ($final_array_cv_answers[$qk]['Correct']=='F')}
+        {assign var="cls" value="class=wrong_ans"}
+    {else}
+        {assign var="cls" value=""}
+    {/if}
+    <tr {$cls}>
+        <td>
+            {$question['Text']}
+        </td>
+        <td>
+            {$final_array_cv_answers[$qk]['Text']}
+        </td>
+        <td>
+            {$final_array_cv_answers[$qk]['Comment']}
+        </td>
+        <td>
+            {$final_array_cv_answers[$qk]['Price']}
+        </td>
+    </tr>
+    {/foreach}
+{/foreach}
+<!-- Table Header -->
 <!--
 {$count = 0}
 {$type_ans = ''}
