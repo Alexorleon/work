@@ -306,7 +306,7 @@
 				{section name=i loop=$link_answer_complex}
 					<tr>
 						<td><input class="quest_num" type="button" value={$count}></td>
-						<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$link_answer_complex[i]['COMPLEXVIDEOID']}, {$link_answer_complex[i]['ID']}, {$k++})" value="{$link_answer_complex[i]['TEXT']}"/></td>
+						<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$link_answer_complex[i]['COMPETENCELEVELID']}, {$link_answer_complex[i]['ID']}, {$k++})" value="{$link_answer_complex[i]['TEXT']}"/></td>
 					</tr>
 					{capture}{$count++}{/capture}
 				{/section}

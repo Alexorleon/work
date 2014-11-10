@@ -43,21 +43,37 @@
 						break;
 					
 					case 10: // сложное видео
-						
+						$_SESSION['final_array_cv_answers'][] = array();
+                                                end($_SESSION['final_array_cv_answers']);
+                                                $ans_key = key($_SESSION['final_array_cv_answers']);
+                                                $_SESSION['final_array_cv_answers'][$ans_key]['Correct'] = $isCorrect;
+                                                
+                                                $_SESSION['final_array_cv_answers'][$ans_key]['Text'] = $_SESSION['link_answer_complex'][$numid]['TEXT'];
+                                                $_SESSION['final_array_cv_answers'][$ans_key]['Comment'] = $_SESSION['link_answer_complex'][$numid]['COMMENTARY'];
+                                                $_SESSION['final_array_cv_answers'][$ans_key]['Price'] = $_SESSION['link_answer_complex'][$numid]['PRICE'];
+                                                /*
 						array_push($_SESSION['final_array_cv_answers'], $isCorrect);
 						
 						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['TEXT']);
 						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['COMMENTARY']);
-						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['PRICE']);
+						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['PRICE']);*/
 						break;
 						
 					case 21: // простое фото
 						
+                                                $_SESSION['final_array_sf_answers'][] = array();
+                                                end($_SESSION['final_array_sf_answers']);
+                                                $ans_key = key($_SESSION['final_array_sf_answers']);
+                                                $_SESSION['final_array_sf_answers'][$ans_key]['Correct'] = $isCorrect;
+                                                $_SESSION['final_array_sf_answers'][$ans_key]['Text'] = $_SESSION['array_answers'][$numid]['TEXT'];
+                                                $_SESSION['final_array_sf_answers'][$ans_key]['Comment'] = $_SESSION['array_answers'][$numid]['COMMENTARY'];
+                                                $_SESSION['final_array_sf_answers'][$ans_key]['Price'] = $_SESSION['array_answers'][$numid]['PRICE'];
+                                                /*
 						array_push($_SESSION['final_array_sf_answers'], $isCorrect);
 						
 						array_push($_SESSION['final_array_sf_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
 						array_push($_SESSION['final_array_sf_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
-						array_push($_SESSION['final_array_sf_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
+						array_push($_SESSION['final_array_sf_answers'], $_SESSION['array_answers'][$numid]['PRICE']);*/
 						break;
 						
 					case 22: // сложное фото
@@ -635,14 +651,19 @@ SQL;
 				$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
 				
 				// для таблицы результатов
-				array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['TITLE']);
-				array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['SIMPLEVIDEO']);
+                                $_SESSION['final_array_cv_questions'][] = array();
+                                end($_SESSION['final_array_cv_questions']);
+                                $q_key = key($_SESSION['final_array_cv_questions']);
+                                $_SESSION['final_array_cv_questions'][$q_key]['Text'] = $_SESSION['link_question_complex']['TITLE'];
+                                $_SESSION['final_array_cv_questions'][$q_key]['Video'] = $_SESSION['link_question_complex']['SIMPLEVIDEO'];
+				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['TITLE']);
+				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['SIMPLEVIDEO']);
 				
 				$temp_id_ques = $_SESSION['link_question_complex']['ID'];
 				
 				// получаем ответы
 				$sql_ans = <<<SQL
-				SELECT ID, TEXT, SIMPLEVIDEO, COMMENTARY, PRICE, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
+				SELECT ID, TEXT, SIMPLEVIDEO, COMMENTARY, PRICE, COMPLEXVIDEOID, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
 SQL;
 				$array_answers = $obj->go_result($sql_ans);
 				
