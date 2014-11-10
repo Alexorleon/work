@@ -4,6 +4,10 @@
 	
 	unset($_SESSION['type_question_chain']);
 	
+	/*$filename = md5(microtime() . rand(0, 9999));
+	print_r($filename);
+	die();*/
+	
 	$db = new db;
 	$db->GetConnect();
 	$error_='';

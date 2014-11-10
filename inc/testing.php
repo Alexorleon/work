@@ -178,6 +178,7 @@
 			}
 			
 			$smarty->assign("counter_questions", $_SESSION['temp_count_ques']);
+			$smarty->assign("count_complex_question", $_SESSION['count_complex_question']);
 			
 			// FIO
 			$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
