@@ -14,6 +14,8 @@
 			
 			}elseif($comp_lvl == 99902){ // показывали эпилог
 			
+			}elseif($comp_lvl == 99903){ // показывали ответ
+			
 			}else{
 				// необходимо для закрашивания цветом
 				$isCorrect = '';
@@ -49,6 +51,8 @@
 						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['TEXT']);
 						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['COMMENTARY']);
 						array_push($_SESSION['final_array_cv_answers'], $_SESSION['link_answer_complex'][$numid]['PRICE']);
+
+						$_SESSION['chain_answer_cv'] = $_SESSION['link_answer_complex'][$numid]['SIMPLEVIDEO'];
 						break;
 						
 					case 21: // простое фото
@@ -72,6 +76,9 @@
 			
 			}elseif($comp_lvl == 99902){ // показывали эпилог
 			
+			}elseif($comp_lvl == 99903){ // показывали ответ
+			
+				$_SESSION['type_question_chain'] = "QUESTION";
 			}else{
 				// необходимо для закрашивания цветом
 				if ($comp_lvl == 21){
@@ -97,6 +104,14 @@
 	if(isset($_GET['qtype'])){
 
 		if($_GET['qtype'] == 3){ // пробное тестирование
+		
+		// показать ответ
+		if($_SESSION['go_answer'] == true){
+		
+			$_SESSION['go_answer'] = false;
+			$_SESSION['type_question_chain'] = "ANSWER";
+			
+		}else{
 		
 			// если еще ни разу не отвечали, то требуются подготовительные действия
 			if ($_SESSION['counter_questions'] == 0){
@@ -127,6 +142,7 @@
 				}
 				// TODO: сюда уже не попадаем
 			}
+		}
 			
 			if($_SESSION['type_question'] == 8){ // текст
 			
@@ -167,6 +183,12 @@
 					$smarty->assign("link_question_complex", $_SESSION['link_question_complex']);
 					$smarty->assign("link_answer_complex", $_SESSION['link_answer_complex']);
 					$smarty->assign("idans", $_SESSION['link_answer_complex'][0]['COMPLEXVIDEOID']);
+					
+				}elseif($_SESSION['type_question_chain'] == "ANSWER"){
+				
+					// показываем видео ответ
+					$smarty->assign("chain_answer_cv", $_SESSION['chain_answer_cv']);
+					$smarty->assign("idans", "");
 				}else{
 				
 					$smarty->assign("link_question_complex", "");
@@ -600,7 +622,7 @@ SQL;
 		// если закончилась цепочка
 		if($_SESSION['count_complex_question'] > 5){
 		
-			$_SESSION['count_complex_question'] = 1;
+			$_SESSION['count_complex_question'] = 0;
 			$_SESSION['bool_isComplexVideo'] = false;
 			$_SESSION['type_question_chain'] = "EPILOG";
 			$_SESSION['counter_questions']++;
@@ -643,13 +665,15 @@ SQL;
 				
 				// получаем ответы
 				$sql_ans = <<<SQL
-				SELECT ID, TEXT, SIMPLEVIDEO, COMMENTARY, PRICE, COMPLEXVIDEOID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
+				SELECT ID, TEXT, SIMPLEVIDEO, COMMENTARY, PRICE, COMPLEXVIDEOID, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
 SQL;
 				$array_answers = $obj->go_result($sql_ans);
 				
 				shuffle($array_answers);
 				
 				$_SESSION['link_answer_complex'] = $array_answers;
+				
+				$_SESSION['go_answer'] = true;
 			}
 		}
 	}

@@ -299,7 +299,7 @@
 			<table style="width: 100%; background: #F2F5A9; min-height: 100px;">
 				<tr>
 					<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$link_question_complex['ID']}   {$link_question_complex['TITLE']}</span></div></td>-->
-					{capture}{$count_complex_question--}{/capture}
+					<!--{capture}{$count_complex_question--}{/capture}-->
 					<td style="width: 110;" align="left"><div style="margin-top: 1%;" class="text_question"><span>{$count_complex_question} из 5</span></div></td>
 					<td><div align="left" style="margin-top: 1%;" class="text_question"><span>{$link_question_complex['TITLE']}</span></div></td>
 				</tr>
@@ -311,12 +311,31 @@
 				{section name=i loop=$link_answer_complex}
 					<tr>
 						<td><input class="quest_num" type="button" value={$count}></td>
-						<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$link_answer_complex[i]['COMPLEXVIDEOID']}, {$link_answer_complex[i]['ID']}, {$k++})" value="{$link_answer_complex[i]['TEXT']}"/></td>
+						<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$link_answer_complex[i]['COMPETENCELEVELID']}, {$link_answer_complex[i]['ID']}, {$k++})" value="{$link_answer_complex[i]['TEXT']}"/></td>
 					</tr>
 					{capture}{$count++}{/capture}
 				{/section}
 			</table>
+		
+		{elseif $type_question_chain eq "ANSWER"}
+		
+			<div class="img_answer">
+				<object id='playerA' type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="576" width="1024">
+					<param name="wmode" value="transparent">
+					<param name="allowFullScreen" value="true">
+					<param name="allowScriptAccess" value="always">
+					<param name="movie" value="{$lhost}/libs/uppod.swf">
+					<param name="FlashVars" value="uid=audioplayer&way={$lhost}/storage/video_questions/complex_video/{$complex_question_catalog}/{$chain_answer_cv}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=1&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=42AEcsal1CGDp30AhHm0DF30czC5SkAj1l1k0nTWwTj6BQnz31X1CaFktj1fRdwnYWQQkYsQcR3wkbSaHl1CQDpWscY2Q4f6dQ6zv1X1SGffzkOk03whT31nXAjYf=jOk0v16X=jOkZsGnT30BcLWNkbCal1kwDVG30hIdwf9vwDjzC5ctj1D6WQffF2wiL2QXzBGtDY31XAuamtj18tzC5Rpj5btj1RhRFQhRdwkbk1T3Q3Q3Q3Qktj1QiFWwXR60nTWwYjzC5c1jOk731nXNjOkZBMv630SD6WQfF2wkbk1N3Q3Q3Q3Qktj1QfRdwnY2QD6dwG3Q2GkzC5Ttj1AhRFwXF31X=jO9k431X1kQ36xO7WNj1l1SUhTd0kyzmwXRWNkbkYhl1CG3pdwD6WQhfF2wkbk13QWN6jQjYktj1XT2NbyzmwXRWNkXvOhke3wVTWsXzBGQDY31X1kQ3Q3QG3Q31l1k0nTWwyjG3Nkbk1JZxa8oZuaf1kOkZ2MSJzC5bajOkZBM2v62Qt9sGnT30EcLWNkbSal1fwtfHv1X1Ca4Hj1hl1k0nTWwjG3NFXzBGDY31X1SUDhTd0ktj1n9sGKhzC5k=j1l1CQtDp3wnYvMkbkY7Ttj1nzC5btj1FLpWMcRdMkbk186L2MXR6wIzB5ffp3Q3pvNXe3wKVT31l1f0XR30icLWwjzC5k42Qni63Gktj1ozfUr4">
+				</object>
+			</div>
 			
+			<input id='end_play_video' type="hidden" onclick="textAnswer(99903, 0, 0)"/>
+			<!--<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+				<tr>
+					<td><input class="quest_num" type="button" value="1"></td>
+					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer(99903, 0, 0)" value="Начать"/></td>
+				</tr>
+			</table>-->
 		{else}
 		{/if}
 		

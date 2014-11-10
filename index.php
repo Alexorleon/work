@@ -23,6 +23,7 @@
 	$_SESSION['first_answerid'] = 0; 	// первый неправильный ответ
 	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
 	$_SESSION['bool_isComplexVideo'] = false; // флаг, что сейчас проходим видео цепочку
+	$_SESSION['go_answer'] = false;
 	
 	if ((!isset($_SESSION['sotrud_id'])) or (empty($_SESSION['sotrud_id'])))
 	{
