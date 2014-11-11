@@ -9,14 +9,6 @@
 
 <form id="commentAnswer" name="commentAnswer" method="post">
 
-<!--
-"sotrud_fam", $_SESSION['sotrud_fam']);
-		$smarty->assign("sotrud_im", $_SESSION['sotrud_im']);
-		$smarty->assign("sotrud_otch", $_SESSION['sotrud_otch']);
-		$smarty->assign("sotrud_dolj", $_SESSION['sotrud_dolj']);
-		$smarty->assign("sotrud_tabkadr"
-		-->
-<!--смотрим какой экзаменатор-->
 {if $type_examiner eq "PE"}
 
 <input type='hidden' name='idans' value='{$idans}'/>
@@ -102,6 +94,10 @@
 	{/if}
 
 {else} <!--контроль компетентности CC-->
+
+<div>
+    {$sotrud_fam} {$sotrud_im} {$sotrud_otch}, {$sotrud_dolj}, табельный номер: {$sotrud_tabkadr}
+</div>
 
 <table class="simple-little-table" cellspacing='0'>
 

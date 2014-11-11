@@ -21,7 +21,7 @@ if($type_exam)
 			// так как ответили не правильно, то выводим комментарий и правильный ответ
 			$temp_id = $_SESSION['ID_question'];
 			$temp_idans = $_SESSION['first_answerid'];
-			if (array_key_exists('q', $_GET)
+			if (array_key_exists('q', $_GET))
                         {
                             $temp_id = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);
                         }
