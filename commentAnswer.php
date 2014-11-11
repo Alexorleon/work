@@ -6,11 +6,12 @@
 	$error_='';
 
 //print_r(date('Y-m-d H:i:s')); 2014-08-15 14:02:19
-
-if(isset($_GET['type_exam'])){
-
+$type_exam = filter_input(INPUT_GET, 'type_exam', FILTER_SANITIZE_NUMBER_INT);
+if($type_exam)
+{
+    
 	// это предсменный экзаменатор
-	if($_GET['type_exam'] == 1){
+	if($type_exam == 1){
 		
 		// как ответили (правильно или нет)
 		$transitionOption = $_SESSION['transitionOption'];
@@ -20,9 +21,9 @@ if(isset($_GET['type_exam'])){
 			// так как ответили не правильно, то выводим комментарий и правильный ответ
 			$temp_id = $_SESSION['ID_question'];
 			$temp_idans = $_SESSION['first_answerid'];
-			if (isset($_GET['q']))
+			if (array_key_exists('q', $_GET)
                         {
-                            $temp_id = $_GET['q'];
+                            $temp_id = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);
                         }
 			// получаем параметры неправильного ответа
 			$sql = <<<SQL
@@ -68,7 +69,7 @@ SQL;
 		
 		$type_examiner = "PE";
 	// это контроль компетентности
-	}else if($_GET['type_exam'] == 2){
+	}else if($type_exam == 2){
 
 		$type_examiner = "CC";
 		
@@ -106,7 +107,7 @@ SQL;
 	if (!empty($_POST)){
 
 		// это предсменный экзаменатор
-		if($_GET['type_exam'] == 1){
+		if($type_exam == 1){
 			// выбираем вариант ответа
 			if ($transitionOption == 1){
                                 
@@ -115,7 +116,7 @@ SQL;
 			$returnto = (isset($_GET['q'])) ? "?q={$_GET['q']}" : ""; 
 				die('<script>document.location.href= "'.lhost.'/question.php'.$returnto.'"</script>');
 			}				
-		}else if($_GET['type_exam'] == 2){ // это контроль компетентности
+		}else if($type_exam == 2){ // это контроль компетентности
 			
 			die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 		}else{
@@ -137,9 +138,9 @@ SQL;
 	$smarty->assign("transitionOption", $transitionOption);
 	
 	$smarty->assign("title", "Комментарий");
-        if (isset($_GET['q']))
+        if (array_key_exists('q', $_GET))
         {
-            $idans = $_GET['q'];   
+            $idans = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);   
             $smarty->assign("idans", $idans);
         }
 	$smarty->display("commentAnswer.tpl.html");
