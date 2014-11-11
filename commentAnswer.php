@@ -138,7 +138,7 @@ SQL;
                                 
 				die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 			}else{
-			$returnto = (array_key_exist('q', $_GET)) ? "?q=".filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT) : ""; 
+			$returnto = (array_key_exists('q', $_GET)) ? "?q=".filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT) : ""; 
 				die('<script>document.location.href= "'.lhost.'/question.php'.$returnto.'"</script>');
 			}				
 		}else if($type_exam == 2){ // это контроль компетентности
