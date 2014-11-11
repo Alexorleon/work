@@ -9,6 +9,13 @@
 
 <form id="commentAnswer" name="commentAnswer" method="post">
 
+<!--
+"sotrud_fam", $_SESSION['sotrud_fam']);
+		$smarty->assign("sotrud_im", $_SESSION['sotrud_im']);
+		$smarty->assign("sotrud_otch", $_SESSION['sotrud_otch']);
+		$smarty->assign("sotrud_dolj", $_SESSION['sotrud_dolj']);
+		$smarty->assign("sotrud_tabkadr"
+		-->
 <!--смотрим какой экзаменатор-->
 {if $type_examiner eq "PE"}
 
@@ -177,40 +184,6 @@
     </tr>
     {/foreach}
 {/foreach}
-<!-- Table Header -->
-<!--
-{$count = 0}
-{$type_ans = ''}
-{$type_color = "color:#FE2E2E"}
-{section name=gh loop=$array_final_qu}
-
-	{$type_ans = $array_final_an[{$count}]}
-	{capture}{$count++}{/capture}
-{if $type_ans eq 'T'}
-
-	{$type_color = "color:#04B404"}
-{else}
-
-	{$type_color = "color:#B40404"}
-{/if}
-	<tr style={$type_color}>
-		<td>
-		{$array_final_qu[gh]}
-		</td>
-		<td>
-		{$array_final_an[{$count}]}
-		{capture}{$count++}{/capture}
-		</td>
-		<td>
-		{$array_final_an[{$count}]}
-		{capture}{$count++}{/capture}
-		</td>
-		<td>
-		{$array_final_an[{$count}]}
-		{capture}{$count++}{/capture}
-		</td>
-	</tr>
-{/section}-->
 </table>
 
 {/if}

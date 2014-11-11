@@ -97,6 +97,12 @@ SQL;
 		$smarty->assign("final_array_cv_basic", $_SESSION['final_array_cv_basic']);
 		$smarty->assign("final_array_cv_questions", $_SESSION['final_array_cv_questions']);
 		$smarty->assign("final_array_cv_answers", $_SESSION['final_array_cv_answers']);
+		
+		$smarty->assign("sotrud_fam", $_SESSION['sotrud_fam']);
+		$smarty->assign("sotrud_im", $_SESSION['sotrud_im']);
+		$smarty->assign("sotrud_otch", $_SESSION['sotrud_otch']);
+		$smarty->assign("sotrud_dolj", $_SESSION['sotrud_dolj']);
+		$smarty->assign("sotrud_tabkadr", $_SESSION['sotrud_tabkadr']);
 	}else{
 		
 		die("У меня не прописано, что делать");
