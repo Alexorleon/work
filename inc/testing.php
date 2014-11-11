@@ -524,6 +524,14 @@ SQL;
 				$_SESSION['complex_question_catalog'] = $s_res1['CATALOG'];
 				$_SESSION['complex_question_epilog'] = $s_res1['EPILOGVIDEO'];
 				
+				// определяем сколько под вопросов в видео цепочке
+				$sql = <<<SQL
+				SELECT MAX(POSITION) AS "max" FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid'
+SQL;
+				$res_count_chain = $obj->go_result_once($sql);
+				
+				$_SESSION['max_count_chain'] = $res_count_chain['max'];
+
 				ask_one_complexVideo($obj);
 				
 			}elseif($temp_type_question == 21){ // простое фото
@@ -573,14 +581,9 @@ SQL;
 	
 	// задаем одно звено из видео цепочки
 	function ask_one_complexVideo(&$obj){
-	
-		/*if($_SESSION['count_complex_question'] == 5){
-		
-			$_SESSION['counter_questions']++;
-		}*/
-		
+
 		// если закончилась цепочка
-		if($_SESSION['count_complex_question'] > 5){
+		if($_SESSION['count_complex_question'] > $_SESSION['max_count_chain']){
 		
 			$_SESSION['count_complex_question'] = 0;
 			$_SESSION['bool_isComplexVideo'] = false;
