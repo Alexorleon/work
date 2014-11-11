@@ -1285,9 +1285,25 @@ display: none;
     color: #F00;
 }
 
+#test_results tr
+{
+    color: #04B404;
+}
+
+#test_results th
+{
+    color: #000;
+}
+
+#test_results .wrong_ans
+{
+    color: #F00;
+}
+
 .cv_head > td
 {
     font-weight: bold;
+    color: #000;
 }
 
 .emp_data
