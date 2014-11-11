@@ -13,7 +13,10 @@
 			$_SESSION['transitionOption'] = 1;
 
 			$dateBegin = $_SESSION['DATEBEGIN'];
-			$dateEnd = date('d.m.Y H:i:s');
+			$beginDate = date('d.m.Y H:i:s', $dateBegin);
+			$dateEnd = time();
+			$date = $dateEnd - $dateBegin;
+
 			$tempID = $_SESSION['sotrud_id'];
 			$tempqu = $_SESSION['ID_question'];
 			$tempans = $_SESSION['answer_attempt'];
@@ -31,7 +34,7 @@
 			// TODO: транзакция
 			$sql = <<<SQL
 			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
-			($tempID, $tempqu, to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), 
+			($tempID, $tempqu, to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), '$date', 
 			'$tempans', 1, 'N', '$tempAnsID')
 SQL;
 			$db->go_query($sql);
@@ -73,7 +76,7 @@ SQL;
 		// стартуем таймер если начали тест, убедиться что отвечаем впервые
 		if($_SESSION['answer_attempt'] == 0){
 
-			$_SESSION['DATEBEGIN'] = date('d.m.Y H:i:s');
+			$_SESSION['DATEBEGIN'] = time();
 		}
                 
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];

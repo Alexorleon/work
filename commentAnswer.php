@@ -119,7 +119,7 @@ SQL;
                                 
 				die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 			}else{
-			$returnto = (array_key_exist('q', $_GET)) ? "?q=".filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT) : ""; 
+			$returnto = (array_key_exists('q', $_GET)) ? "?q=".filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT) : ""; 
 				die('<script>document.location.href= "'.lhost.'/question.php'.$returnto.'"</script>');
 			}				
 		}else if($type_exam == 2){ // это контроль компетентности
@@ -150,28 +150,4 @@ SQL;
             $smarty->assign("idans", $idans);
         }
 	$smarty->display("commentAnswer.tpl.html");
-        
-        /*
-        function write_history(&$obj, $tempAnsID){
-
-		$tempID = $_SESSION['sotrud_id'];
-		$tempcount = $_SESSION['counter_questions'];
-		$tempcount--;
-		$tempqu = (int)$_SESSION['q_final_array'][$tempcount]['ID'];
-		$dateBegin = $_SESSION['DATEBEGIN'];
-		$dateEnd = date('d.m.y H:i:s');
-
-		$sql = <<<SQL
-			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
-			($tempID, 
-			$tempqu, 
-			to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), 
-			to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), 
-			0, 
-			2, 
-			'N', 
-			'$tempAnsID')
-SQL;
-		$obj->go_query($sql);
-	}*/
  ?>
