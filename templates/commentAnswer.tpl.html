@@ -110,6 +110,7 @@
 	<th>Комментарий</th>
 	<th>Штрафы</th>
 </tr>
+{assign var="num" value="1"}
 {foreach from=$final_array_txt_questions key=k item=question}
 
 {if ($final_array_txt_answers[$k]['Correct']=='F')}
@@ -120,7 +121,7 @@
 
 <tr {$cls}>
     <td>
-        {$question}
+        {$num}. {$question}
     </td>
     <td>
         {$final_array_txt_answers[$k]['Text']}
@@ -132,7 +133,9 @@
         {$final_array_txt_answers[$k]['Price']}
     </td>
 </tr>
+{$num++}
 {/foreach}
+{assign var="num" value="1"}
 {foreach from=$final_array_sf_questions key=k item=question}
 {if ($final_array_sf_answers[$k]['Correct']=='F')}
 {assign var="cls" value="class=wrong_ans"}
@@ -142,7 +145,7 @@
 
 <tr {$cls}>
     <td>
-        {$question}
+       {$num}. {$question}
     </td>
     <td>
         {$final_array_sf_answers[$k]['Text']}
@@ -154,6 +157,7 @@
         {$final_array_sf_answers[$k]['Price']}
     </td>
 </tr>
+{$num++}
 {/foreach}
 {foreach from=$final_array_cv_basic key=k item=basic}
 <tr class="cv_head">
@@ -161,6 +165,7 @@
     {$basic['TEXT']}
     </td>
 </tr>
+    {assign var="num" value="1"}
     {foreach from=$final_array_cv_questions[$k] key=qk item=question}
     {if ($final_array_cv_answers[$k][$qk]['Correct']=='F')}
         {assign var="cls" value="class=wrong_ans"}
@@ -169,7 +174,7 @@
     {/if}
     <tr {$cls}>
         <td>
-            {$question['Text']}
+            {$num}. {$question['Text']}
         </td>
         <td>
             {$final_array_cv_answers[$k][$qk]['Text']}
@@ -181,6 +186,7 @@
             {$final_array_cv_answers[$k][$qk]['Price']}
         </td>
     </tr>
+    {$num++}
     {/foreach}
 {/foreach}
 </table>
