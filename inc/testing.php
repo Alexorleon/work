@@ -44,6 +44,17 @@
 					
 				case 9: // простое видео
 					
+					$_SESSION['final_array_sv_answers'][] = array();
+					$ans_key = array_end_key($_SESSION['final_array_sv_answers']);
+					$_SESSION['final_array_sv_answers'][$ans_key]['Correct'] = $isCorrect;
+					$_SESSION['final_array_sv_answers'][$ans_key]['Text'] = $_SESSION['array_answers'][$numid]['TEXT'];
+					$_SESSION['final_array_sv_answers'][$ans_key]['Comment'] = $_SESSION['array_answers'][$numid]['COMMENTARY'];
+					$_SESSION['final_array_sv_answers'][$ans_key]['Price'] = $_SESSION['array_answers'][$numid]['PRICE'];
+					
+					$_SESSION['final_array_sv_answers'][$ans_key]['ID'] = $_SESSION['ID_question']; // id вопроса
+					$_SESSION['final_array_sv_answers'][$ans_key]['ID_answer'] = $_SESSION['array_answers'][$numid]['ID'];
+					
+					$_SESSION['final_array_sv_answers'][$ans_key]['time'] = $time_date;
 					break;
 				
 				case 10: // сложное видео
@@ -153,7 +164,6 @@
 		$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
 		$smarty->assign("question", $question_text);//вопрос
 		$smarty->assign("type_question", $_SESSION['type_question']);
-		$smarty->assign("type_question", $_SESSION['type_question']);
 		$smarty->assign("array_answers", $array_answers);//ответы
 		$smarty->assign("simplephoto", $_SESSION['simplephoto']);
 		
@@ -186,6 +196,19 @@
 		}
 		
 		$smarty->assign("type_question_chain", $_SESSION['type_question_chain']);
+		
+	}elseif($_SESSION['type_question'] == 9){ // простое видео
+	
+		$question_text = $_SESSION['question_text'];
+		$array_answers = $_SESSION['array_answers'];
+		
+		$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
+		$smarty->assign("question", $question_text);//вопрос
+		$smarty->assign("type_question", $_SESSION['type_question']);
+		$smarty->assign("array_answers", $array_answers);//ответы
+		$smarty->assign("simplevideo", $_SESSION['simplevideo']);
+		
+		$smarty->assign("idans", $_SESSION['ID_question']);
 	}
 	
 	$smarty->assign("counter_questions", $_SESSION['temp_count_ques']);
@@ -265,9 +288,35 @@
 		$array_sign_risk_cv = $obj->go_result($sql_ques);
 		shuffle($array_sign_risk_cv);
 		
+		// простое видео
+		// вопросы по смертельному риску
+		$sql_ques =
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='22' AND ALLQUESTIONS.TYPEQUESTIONSID='9' AND ALLQUESTIONS.ID IN 
+			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
+		$array_death_risk_sv = $obj->go_result($sql_ques);
+		shuffle($array_death_risk_sv);
+
+		// вопросы по высокому риску
+		$sql_ques =
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='22' AND ALLQUESTIONS.TYPEQUESTIONSID='9' AND ALLQUESTIONS.ID IN 
+			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
+		$array_high_risk_sv = $obj->go_result($sql_ques);
+		shuffle($array_high_risk_sv);
+		
+		// вопросы по существенному риску
+		$sql_ques =
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='22' AND ALLQUESTIONS.TYPEQUESTIONSID='9' AND ALLQUESTIONS.ID IN 
+			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
+		$array_sign_risk_sv = $obj->go_result($sql_ques);
+		shuffle($array_sign_risk_sv);
+		
 		// если нет вопросов, выходим
 		if(empty($array_death_risk_sf) and empty($array_high_risk_sf) and empty($array_sign_risk_sf) 
-		and empty($array_death_risk_cv) and empty($array_high_risk_cv) and empty($array_sign_risk_cv)){
+		and empty($array_death_risk_cv) and empty($array_high_risk_cv) and empty($array_sign_risk_cv)
+		and empty($array_death_risk_sv) and empty($array_high_risk_sv) and empty($array_sign_risk_sv)){
 		
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}
@@ -286,6 +335,12 @@
 		$b_dr_cv = false;
 		$b_hr_cv = false;
 		$b_sr_cv = false;
+		
+		// простое видео
+		$b_dr_sv = false;
+		$b_hr_sv = false;
+		$b_sr_sv = false;
+		
 		$count_ques = 0;
 		do{
 			
@@ -324,6 +379,7 @@
 			
 			if($count_ques >= $tempcount) break;
 			
+			// фото
 			if(count($array_high_risk_sf) <= $count_i){
 			}else{
 				if(!$b_hr_sf){
@@ -350,6 +406,7 @@
 			
 			if($count_ques >= $tempcount) break;
 			
+			// фото
 			if(count($array_sign_risk_sf) <= $count_i){
 			}else{
 				if(!$b_sr_sf){
@@ -374,8 +431,76 @@
 				}
 			}
 			
+			// простое видео
+			if($count_ques >= $tempcount) break;
+			
+			// видео цепочка
+			if(count($array_death_risk_sv) <= $count_i){
+			
+				// берем значение из другого массива
+			}else{
+				// если еще не добавили
+				if(!$b_sr_sv){
+					array_push($q_final_array, $array_death_risk_sv[$count_i]);
+					$b_sr_sv = true;
+					$count_ques++;
+				}
+			}
+			
+			// простое видео
+			if($count_ques >= $tempcount) break;
+			
+			// видео цепочка
+			if(count($array_high_risk_sv) <= $count_i){
+			
+				// берем значение из другого массива
+			}else{
+				// если еще не добавили
+				if(!$b_sr_sv){
+					array_push($q_final_array, $array_high_risk_sv[$count_i]);
+					//$b_sr_sv = true;
+					$count_i++; // TODO: убрать потом
+					
+					$count_ques++;
+				}
+			}
+			
+			// TODO: заглушка - еще раз возьмем простое видео
+			// простое видео
+			if($count_ques >= $tempcount) break;
+			
+			// видео цепочка
+			if(count($array_high_risk_sv) <= $count_i){
+			
+				// берем значение из другого массива
+			}else{
+				// если еще не добавили
+				if(!$b_sr_sv){
+					array_push($q_final_array, $array_high_risk_sv[$count_i]);
+					$b_sr_sv = true;
+					$count_ques++;
+				}
+			}
+			
+			// простое видео
+			if($count_ques >= $tempcount) break;
+			
+			// видео цепочка
+			if(count($array_sign_risk_sv) <= $count_i){
+			
+				// берем значение из другого массива
+			}else{
+				// если еще не добавили
+				if(!$b_sr_sv){
+					array_push($q_final_array, $array_sign_risk_sv[$count_i]);
+					$b_sr_sv = true;
+					$count_ques++;
+				}
+			}
+			
 			// проверяем что все вложились или больше нечего добавить
-			if($b_dr_sf == true && $b_hr_sf == true && $b_sr_sf == true && $b_dr_cv == true && $b_hr_cv == true && $b_sr_cv == true){ // все гуд, с каждого по вопросу
+			if($b_dr_sf == true && $b_hr_sf == true && $b_sr_sf == true && $b_dr_cv == true && $b_hr_cv == true && $b_sr_cv == true
+			&& $b_dr_sv == true && $b_hr_sv == true && $b_sr_sv == true){ // все гуд, с каждого по вопросу
 			
 				$count_i++;
 				$b_dr_sf = false;
@@ -385,7 +510,12 @@
 				$b_dr_cv = false;
 				$b_hr_cv = false;
 				$b_sr_cv = false;
-			}elseif($b_dr_sf == false && $b_hr_sf == false && $b_sr_sf == false && $b_dr_cv == false && $b_hr_cv == false && $b_sr_cv == false){ // опаньки, закончились вопросы в массивах
+				
+				$b_dr_sv = false;
+				$b_hr_sv = false;
+				$b_sr_sv = false;
+			}elseif($b_dr_sf == false && $b_hr_sf == false && $b_sr_sf == false && $b_dr_cv == false && $b_hr_cv == false && $b_sr_cv == false
+			&& $b_dr_sv == false && $b_hr_sv == false && $b_sr_sv == false){ // опаньки, закончились вопросы в массивах
 			
 				// поэтому требуемое количество вопросов заменим на доступное
 				$_SESSION['numquestions'] = count($q_final_array);
@@ -400,6 +530,10 @@
 				$b_dr_cv = false;
 				$b_hr_cv = false;
 				$b_sr_cv = false;
+				
+				$b_dr_sv = false;
+				$b_hr_sv = false;
+				$b_sr_sv = false;
 				
 				goto more_question;
 			}
@@ -424,6 +558,9 @@
 		
 		$_SESSION['final_array_sf_questions'] = array(); // хранится текст простых фото вопросов
 		$_SESSION['final_array_sf_answers'] = array(); // основной массив для ответов
+		
+		$_SESSION['final_array_sv_questions'] = array(); // хранится текст простых видео вопросов
+		$_SESSION['final_array_sv_answers'] = array(); // основной массив для ответов
 		
 		$_SESSION['final_array_cv_basic'] = array(); // хранятся заголовки видео цепочек
 		$_SESSION['final_array_cv_questions'] = array(); // хранятся вопросы видео цепочек
@@ -499,6 +636,36 @@
 				
 			}elseif($temp_type_question == 9){ // простое видео
 			
+				$sql ="SELECT ID, TEXT, SIMPLEVIDEO, MODULEID as MID
+                                        FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'";
+				$s_res = $obj->go_result_once($sql);
+				//$temp_id = (int)$testid['ID'];
+				$question_text = $s_res['TEXT'];
+				
+				// запоминаем имя видео
+				$_SESSION['simplevideo'] = $s_res['SIMPLEVIDEO'];
+						
+				$_SESSION['final_array_sv_questions'][] = array();
+                                
+				$q_key = array_end_key($_SESSION['final_array_sv_questions']);
+				$_SESSION['final_array_sv_questions'][$q_key]['Text'] = $question_text;
+				$_SESSION['final_array_sv_questions'][$q_key]['Module'] = $s_res['MID'];
+				//array_push($_SESSION['final_array_sf_questions'], $question_text); // запоминаем вопрос TODO: iconv
+
+				// берем ответы к этому вопросу
+				$sql_ans = "SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE
+                                            FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'";
+				$array_answers = $obj->go_result($sql_ans);
+
+				shuffle($array_answers);
+
+				$_SESSION['counter_questions']++;
+				
+				$_SESSION['ID_question'] = $s_res['ID'];
+				$_SESSION['question_text'] = $question_text;
+				
+				$_SESSION['array_answers'] = $array_answers;
+				
 				$_SESSION['TIME_DATEBEGIN'] = time();
 				
 			}elseif($temp_type_question == 10){ // сложное видео		
@@ -698,6 +865,25 @@ SQL;
                             $obj->go_query($sql);
                     }
                 }
+		
+		// простое видео
+		for($count = 0; $count < count($_SESSION['final_array_sv_answers']); $count++){
+
+			$temp_qid = $_SESSION['final_array_sv_answers'][$count]['ID'];
+			$temp_ansid = $_SESSION['final_array_sv_answers'][$count]['ID_answer'];
+			$date = $_SESSION['final_array_sv_answers'][$count]['time'];
+			
+			$sql = "INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
+			($tempID, 
+			$temp_qid, 
+			to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
+			'$date', 
+			0, 
+			2, 
+			'N', 
+			'$temp_ansid')";
+			$obj->go_query($sql);
+		}
 	}
         
     function array_end_key($array)

@@ -218,6 +218,35 @@
 	
 	{elseif $type_question eq 9} <!--простое видео-->
 	
+		<div class="img_answer">
+			<object id='playerA' type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="576" width="1024">
+				<param name="wmode" value="transparent">
+				<param name="allowFullScreen" value="true">
+				<param name="allowScriptAccess" value="always">
+				<param name="movie" value="{$lhost}/libs/uppod.swf">
+				<param name="FlashVars" value="uid=audioplayer&way={$lhost}/storage/video_questions/simple_video/{$simplevideo}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=1&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=62AEEZyTtj1cL2QfAFd0JL2Nf9v1X17Caktj1fRdwnY2KUiR3Nkbk1b1kOGk1mwXRWNvzW0679mwDzC5Ttj1iLK2Qy9mN6zsMip3b0kbk1Izv1l1fQ6DFdwkbCaW1xalH1fGkbSal1CGIRZdwf9vwjzC5btjZ1D6WQfF2wXzBGbDY31XZjOk82Mv3zsNo93w6T30cL7WNkbCab0jOk73i1XcsYDAjOk=WstiFWwXzC5kN3Q3EQ3Q3zkOkZ2NnT3WsfRdwnY31XZjdal1CMkbkYl1CGDtG2MfL2MvzsNorzC5kN3Q3Q3Q3zekOk1mwXRWN6L2sMXQ3QIz31X=jOFk=WsXT2NkbSal51fwkbk13Q2OLNnjYktj1LFdwbR6d0nTWwjzC5Wtj1EcQ2QXL2MvzsNoYzC5kN3QjY3YW1ykOkbdwhR60nTWSwjzfUl1SQD6dw5yT30cLWNkbk13aQ3Q3Q3Qktj1fRadwnYWQkzC5kauEYTcCYb1j1l1CQbVYv1XAJal1CGtaG2M6hdGIRdwf9svwjzC5Ttj1nzBf0kbSal1CGhpd0G6zv1X1Ca4Hj1l71k0nTWwjG3NXz4BGDY31X1SUhTd40ktj1n9sGhzC5Fk=j1l1CQDp3wnEYvMkbkYTtj1nzyC5btj1LpWMcRdrMkbk16L2MXR6waIzB5fp3Q3pvNXKe3wVT31l1f0XR930cLWwjzC5k42iQi63Gktj1ozfUrs">
+			</object>
+		</div>
+
+		<table style="width: 100%; background: #ffff99; min-height: 100px;">
+			<tr>
+				<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}</span></div></td>-->
+				<td style="width: 200;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Вопрос №{$counter_questions}</span></div></td>
+				<td align="left"><div style="margin-top: 1%;" class="text_question"><span>{$question}</span></div></td>
+			</tr>
+		</table>
+		
+		<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+
+			{$count = 1}
+			{section name=i loop=$array_answers}
+				<tr>
+					<td><input class="quest_num" type="button" value={$count}></td>
+					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/></td>
+				</tr>
+				{capture}{$count++}{/capture}
+			{/section}
+		</table>
 		
 	{elseif $type_question eq 10} <!--сложное видео-->
 		
@@ -329,13 +358,13 @@
 				</object>
 			</div>
 			
-			<input id='end_play_video' type="hidden" onclick="textAnswer(99903, 0, 0)"/>
-			<!--<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+			<!--<input id='end_play_video' type="hidden" onclick="textAnswer(99903, 0, 0)"/>-->
+			<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
 				<tr>
 					<td><input class="quest_num" type="button" value="1"></td>
-					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer(99903, 0, 0)" value="Начать"/></td>
+					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer(99903, 0, 0)" value="Далее"/></td>
 				</tr>
-			</table>-->
+			</table>
 		{else}
 		{/if}
 		
