@@ -8,255 +8,197 @@
 		$idans = filter_input(INPUT_POST,'answ_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['answ_id'];
 		$numid = filter_input(INPUT_POST,'numid', FILTER_SANITIZE_NUMBER_INT); //$_POST['numid'];
 
-		if ($answer == 3){ // пробное тестирование
-		
-			if($comp_lvl == 99901){ // показывали пролог
-			
-			}elseif($comp_lvl == 99902){ // показывали эпилог
-			
-			}elseif($comp_lvl == 99903){ // показывали ответ
-			
-			}else{
-				// необходимо для закрашивания цветом
-				$isCorrect = '';
-				if ($comp_lvl == 21){
-					
-					$isCorrect = 'T';
-				}else{
-				
-					$isCorrect = 'F';
-				}
-				
-				$temp_type_question = $_SESSION['type_question'];
-				
-				switch($temp_type_question){
-		
-					case 8: // текст
-					
-						array_push($_SESSION['final_array_txt_answers'], $isCorrect);
-						
-						array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
-						array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
-						array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
-						break;
-						
-					case 9: // простое видео
-						
-						break;
-					
-					case 10: // сложное видео
-                                                end($_SESSION['final_array_cv_answers']);
-                                                $basic_key = key($_SESSION['final_array_cv_answers']);
-						$_SESSION['final_array_cv_answers'][$basic_key][] = array();
-						end($_SESSION['final_array_cv_answers'][$basic_key]);
-						$ans_key = key($_SESSION['final_array_cv_answers'][$basic_key]);
-						$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Correct'] = $isCorrect;
-						
-						$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Text'] = $_SESSION['link_answer_complex'][$numid]['TEXT'];
-						$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Comment'] = $_SESSION['link_answer_complex'][$numid]['COMMENTARY'];
-						$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Price'] = $_SESSION['link_answer_complex'][$numid]['PRICE'];
-						
-						$_SESSION['chain_answer_cv'] = $_SESSION['link_answer_complex'][$numid]['SIMPLEVIDEO'];
+		if($comp_lvl == 99901){ // показывали пролог
 
-						break;
-						
-					case 21: // простое фото
-						
-						$_SESSION['final_array_sf_answers'][] = array();
-						end($_SESSION['final_array_sf_answers']);
-						$ans_key = key($_SESSION['final_array_sf_answers']);
-						$_SESSION['final_array_sf_answers'][$ans_key]['Correct'] = $isCorrect;
-						$_SESSION['final_array_sf_answers'][$ans_key]['Text'] = $_SESSION['array_answers'][$numid]['TEXT'];
-						$_SESSION['final_array_sf_answers'][$ans_key]['Comment'] = $_SESSION['array_answers'][$numid]['COMMENTARY'];
-						$_SESSION['final_array_sf_answers'][$ans_key]['Price'] = $_SESSION['array_answers'][$numid]['PRICE'];
-						break;
-						
-					case 22: // сложное фото
-						
-						break;
-				}
-			}
-			
-		}elseif ($answer == 4){ // тестирование с записью в историю
-			
-			if($comp_lvl == 99901){ // показывали пролог
-			
-			}elseif($comp_lvl == 99902){ // показывали эпилог
-			
-			}elseif($comp_lvl == 99903){ // показывали ответ
-			
-			}else{
-				// необходимо для закрашивания цветом
-				if ($comp_lvl == 21){
-					
-					array_push($_SESSION['final_array_answers'], 'T');
-				}else{
-				
-					array_push($_SESSION['final_array_answers'], 'F');
-				}
-				
-				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
-				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
-				array_push($_SESSION['final_array_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
-				
-				// TODO: записать в куки, либо записывать на временный файл на случай восстановления и записать в историю в последний момент
-				// пишем в историю
-				write_history($db, $idans);
-			}
+		}elseif($comp_lvl == 99902){ // показывали эпилог
+		
+		}elseif($comp_lvl == 99903){ // показывали ответ
+		
 		}else{
+			// необходимо для закрашивания цветом
+			$isCorrect = '';
+			if ($comp_lvl == 21){
+				
+				$isCorrect = 'T';
+			}else{
+			
+				$isCorrect = 'F';
+			}
+			
+			$temp_type_question = $_SESSION['type_question'];
+			
+			// рассчитываем время ответа
+			$time_dateEnd = time();
+			$time_date = $time_dateEnd - $_SESSION['TIME_DATEBEGIN'];
+			
+			switch($temp_type_question){
+	
+				case 8: // текст
+				
+					array_push($_SESSION['final_array_txt_answers'], $isCorrect);
+					
+					array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
+					array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
+					array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
+					break;
+					
+				case 9: // простое видео
+					
+					break;
+				
+				case 10: // сложное видео
+					$_SESSION['final_array_cv_answers'][] = array();
+					end($_SESSION['final_array_cv_answers']);
+					$ans_key = key($_SESSION['final_array_cv_answers']);
+					$_SESSION['final_array_cv_answers'][$ans_key]['Correct'] = $isCorrect;
+					
+					$_SESSION['final_array_cv_answers'][$ans_key]['Text'] = $_SESSION['link_answer_complex'][$numid]['TEXT'];
+					$_SESSION['final_array_cv_answers'][$ans_key]['Comment'] = $_SESSION['link_answer_complex'][$numid]['COMMENTARY'];
+					$_SESSION['final_array_cv_answers'][$ans_key]['Price'] = $_SESSION['link_answer_complex'][$numid]['PRICE'];
+					
+					$_SESSION['chain_answer_cv'] = $_SESSION['link_answer_complex'][$numid]['SIMPLEVIDEO'];
+
+					$_SESSION['final_array_cv_answers'][$ans_key]['ID'] = $_SESSION['link_question_complex']['ID']; // id вопроса
+					$_SESSION['final_array_cv_answers'][$ans_key]['ID_answer'] = $_SESSION['link_answer_complex'][$numid]['ID'];
+					
+					$_SESSION['final_array_cv_answers'][$ans_key]['time'] = $time_date;
+					break;
+					
+				case 21: // простое фото
+					
+					$_SESSION['final_array_sf_answers'][] = array();
+					end($_SESSION['final_array_sf_answers']);
+					$ans_key = key($_SESSION['final_array_sf_answers']);
+					$_SESSION['final_array_sf_answers'][$ans_key]['Correct'] = $isCorrect;
+					$_SESSION['final_array_sf_answers'][$ans_key]['Text'] = $_SESSION['array_answers'][$numid]['TEXT'];
+					$_SESSION['final_array_sf_answers'][$ans_key]['Comment'] = $_SESSION['array_answers'][$numid]['COMMENTARY'];
+					$_SESSION['final_array_sf_answers'][$ans_key]['Price'] = $_SESSION['array_answers'][$numid]['PRICE'];
+					
+					$_SESSION['final_array_sf_answers'][$ans_key]['ID'] = $_SESSION['ID_question']; // id вопроса
+					$_SESSION['final_array_sf_answers'][$ans_key]['ID_answer'] = $_SESSION['array_answers'][$numid]['ID'];
+					
+					$_SESSION['final_array_sf_answers'][$ans_key]['time'] = $time_date;
+					break;
+					
+				case 22: // сложное фото
+					
+					break;
+			}
 		}
 	}
+
+	// показать ответ
+	if($_SESSION['go_answer'] == true){
 	
-	if(isset($_GET['qtype'])){
-
-		if($_GET['qtype'] == 3){ // пробное тестирование
+		$_SESSION['go_answer'] = false;
+		$_SESSION['type_question_chain'] = "ANSWER";
 		
-		// показать ответ
-		if($_SESSION['go_answer'] == true){
+	}else{
+	
+		// если еще ни разу не отвечали, то требуются подготовительные действия
+		if ($_SESSION['counter_questions'] == 0){
 		
-			$_SESSION['go_answer'] = false;
-			$_SESSION['type_question_chain'] = "ANSWER";
+			// это цепочка, подготовка уже не требуется
+			if($_SESSION['bool_isComplexVideo'] == true){
 			
-		}else{
-		
-			// если еще ни разу не отвечали, то требуются подготовительные действия
-			if ($_SESSION['counter_questions'] == 0){
-			
-				// это цепочка, подготовка уже не требуется
-				if($_SESSION['bool_isComplexVideo'] == true){
-				
-					// задаем вопрос
-					ask_question($db);
-				}else{
-				
-					// подготовка
-					preparation($db);
-					
-					// задаем вопрос
-					ask_question($db);
-				}
-			}else{
-			
-				// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
-				if($_SESSION['counter_questions'] < $_SESSION['numquestions']){
-					// задаем вопрос
-					ask_question($db);
-				}else{ // иначе переходим в commentAnswer и выводим результаты теста.
-
-					$_SESSION['counter_questions'] = 0;
-					die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=2"</script>');
-				}
-				// TODO: сюда уже не попадаем
-			}
-		}
-			
-			if($_SESSION['type_question'] == 8){ // текст
-			
-				$question_text = $_SESSION['question_text'];
-				$array_answers = $_SESSION['array_answers'];
-				
-				$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
-				$smarty->assign("question", $question_text);//вопрос
-				$smarty->assign("type_question", $_SESSION['type_question']);
-				$smarty->assign("array_answers", $array_answers);//ответы
-				
-				$smarty->assign("idans", $_SESSION['ID_question']);
-				
-			}elseif($_SESSION['type_question'] == 21){ // простое фото
-			
-				$question_text = $_SESSION['question_text'];
-				$array_answers = $_SESSION['array_answers'];
-				
-				$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
-				$smarty->assign("question", $question_text);//вопрос
-				$smarty->assign("type_question", $_SESSION['type_question']);
-				$smarty->assign("type_question", $_SESSION['type_question']);
-				$smarty->assign("array_answers", $array_answers);//ответы
-				$smarty->assign("simplephoto", $_SESSION['simplephoto']);
-				
-				$smarty->assign("idans", $_SESSION['ID_question']);
-				
-			}elseif($_SESSION['type_question'] == 10){ // сложное видео
-				
-				$smarty->assign("complex_question_text", $_SESSION['complex_question_text']);
-				$smarty->assign("complex_question_prolog", $_SESSION['complex_question_prolog']);
-				$smarty->assign("complex_question_epilog", $_SESSION['complex_question_epilog']);
-				$smarty->assign("complex_question_catalog", $_SESSION['complex_question_catalog']);
-				$smarty->assign("type_question", $_SESSION['type_question']);
-				
-				if($_SESSION['type_question_chain'] == "QUESTION"){
-					
-					$smarty->assign("link_question_complex", $_SESSION['link_question_complex']);
-					$smarty->assign("link_answer_complex", $_SESSION['link_answer_complex']);
-					$smarty->assign("idans", $_SESSION['link_answer_complex'][0]['COMPLEXVIDEOID']);
-					
-				}elseif($_SESSION['type_question_chain'] == "ANSWER"){
-				
-					// показываем видео ответ
-					$smarty->assign("chain_answer_cv", $_SESSION['chain_answer_cv']);
-					$smarty->assign("idans", "");
-				}else{
-				
-					$smarty->assign("link_question_complex", "");
-					$smarty->assign("link_answer_complex", "");
-					$smarty->assign("idans", "");
-				}
-				
-				$smarty->assign("type_question_chain", $_SESSION['type_question_chain']);
-			}
-			
-			$smarty->assign("counter_questions", $_SESSION['temp_count_ques']);
-			$smarty->assign("count_complex_question", $_SESSION['count_complex_question']);
-			
-			// FIO
-			$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
-			$smarty->assign("sm_sotrud_im", $_SESSION['sotrud_im']);
-			$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);
-			$smarty->assign("sm_sotrud_dolj", $_SESSION['sotrud_dolj']);
-			$smarty->assign("sm_sotrud_tabel", $_SESSION['sotrud_tabkadr']);
-			$smarty->assign("title", "Пробное тестирование");
-
-		}elseif($_GET['qtype'] == 4){ // тестирование с записью в историю
-		
-			// если еще ни разу не отвечали, то требуются подготовительные действия
-			if ($_SESSION['counter_questions'] == 0){
-			
-				// подготовка
-				preparation($db);
-				
-				// стартуем таймер
-				$_SESSION['DATEBEGIN'] = date('d.m.y H:i:s');
-				
 				// задаем вопрос
 				ask_question($db);
 			}else{
 			
-				// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
-				if($_SESSION['counter_questions'] < $_SESSION['numquestions']){
+				// подготовка
+				preparation($db);
 				
-					// задаем вопрос
-					ask_question($db);
-				}else{ // иначе переходим в commentAnswer и выводим результаты теста.
-		
-					$_SESSION['counter_questions'] = 0;
-					die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=2"</script>');
-				}
-				// TODO: сюда уже не попадаем
+				// задаем вопрос
+				ask_question($db);
 			}
-			
-			$question_text = $_SESSION['question_text'];
-			$array_answers = $_SESSION['array_answers'];
-			
-			$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
-			$smarty->assign("question", $question_text);//вопрос
-			$smarty->assign("type_question", $_SESSION['type_question']);
-			$smarty->assign("array_answers", $array_answers);//ответы
-
-			$smarty->assign("title", "Тестирование");
 		}else{
-			die("У меня не прописано, что делать");
+		
+			// Если количество уже заданных вопросов все еще меньше требуемого количества, задаем новый вопрос
+			if($_SESSION['counter_questions'] < $_SESSION['numquestions']){
+				// задаем вопрос
+				ask_question($db);
+			}else{ // иначе переходим в commentAnswer и выводим результаты теста.
+
+				// тут смотрим с записью или нет
+				if ($answer == 3){ // пробное тестирование
+				
+				}elseif ($answer == 4){ // тестирование с записью в историю
+				
+					write_history($db);
+				}
+				
+				$_SESSION['counter_questions'] = 0;
+				die('<script>document.location.href= "'.lhost.'/commentAnswer.php?type_exam=2"</script>');
+			}
+			// сюда уже не попадаем
 		}
 	}
+		
+	if($_SESSION['type_question'] == 8){ // текст
+	
+		$question_text = $_SESSION['question_text'];
+		$array_answers = $_SESSION['array_answers'];
+		
+		$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
+		$smarty->assign("question", $question_text);//вопрос
+		$smarty->assign("type_question", $_SESSION['type_question']);
+		$smarty->assign("array_answers", $array_answers);//ответы
+		
+		$smarty->assign("idans", $_SESSION['ID_question']);
+		
+	}elseif($_SESSION['type_question'] == 21){ // простое фото
+	
+		$question_text = $_SESSION['question_text'];
+		$array_answers = $_SESSION['array_answers'];
+		
+		$smarty->assign("sm_ID_question", $_SESSION['ID_question']);
+		$smarty->assign("question", $question_text);//вопрос
+		$smarty->assign("type_question", $_SESSION['type_question']);
+		$smarty->assign("type_question", $_SESSION['type_question']);
+		$smarty->assign("array_answers", $array_answers);//ответы
+		$smarty->assign("simplephoto", $_SESSION['simplephoto']);
+		
+		$smarty->assign("idans", $_SESSION['ID_question']);
+		
+	}elseif($_SESSION['type_question'] == 10){ // сложное видео
+		
+		$smarty->assign("complex_question_text", $_SESSION['complex_question_text']);
+		$smarty->assign("complex_question_prolog", $_SESSION['complex_question_prolog']);
+		$smarty->assign("complex_question_epilog", $_SESSION['complex_question_epilog']);
+		$smarty->assign("complex_question_catalog", $_SESSION['complex_question_catalog']);
+		$smarty->assign("type_question", $_SESSION['type_question']);
+		
+		if($_SESSION['type_question_chain'] == "QUESTION"){
+			
+			$smarty->assign("link_question_complex", $_SESSION['link_question_complex']);
+			$smarty->assign("link_answer_complex", $_SESSION['link_answer_complex']);
+			$smarty->assign("idans", $_SESSION['link_answer_complex'][0]['COMPLEXVIDEOID']);
+			
+		}elseif($_SESSION['type_question_chain'] == "ANSWER"){
+		
+			// показываем видео ответ
+			$smarty->assign("chain_answer_cv", $_SESSION['chain_answer_cv']);
+			$smarty->assign("idans", "");
+		}else{
+		
+			$smarty->assign("link_question_complex", "");
+			$smarty->assign("link_answer_complex", "");
+			$smarty->assign("idans", "");
+		}
+		
+		$smarty->assign("type_question_chain", $_SESSION['type_question_chain']);
+	}
+	
+	$smarty->assign("counter_questions", $_SESSION['temp_count_ques']);
+	$smarty->assign("count_complex_question", $_SESSION['count_complex_question']);
+	
+	// FIO
+	$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
+	$smarty->assign("sm_sotrud_im", $_SESSION['sotrud_im']);
+	$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);
+	$smarty->assign("sm_sotrud_dolj", $_SESSION['sotrud_dolj']);
+	$smarty->assign("sm_sotrud_tabel", $_SESSION['sotrud_tabkadr']);
+	$smarty->assign("title", "Пробное тестирование");
 
 	$smarty->assign("error_", $error_);
 	$smarty->assign("typetest", 3);
@@ -465,6 +407,7 @@ SQL;
 				$b_dr_cv = false;
 				$b_hr_cv = false;
 				$b_sr_cv = false;
+				
 				goto more_question;
 			}
 		}while ($count_ques < $tempcount);
@@ -494,6 +437,8 @@ SQL;
 		$_SESSION['final_array_cv_answers'] = array(); // ответы цепочек
 		$_SESSION['count_complex_question'] = 0; // счетчик для видео цепочки
 		$_SESSION['temp_count_ques'] = 0; // количество заданных вопросов
+		
+		$_SESSION['DATEBEGIN'] = time(); // общее время для СС в истории
 		//die();
 	}
 	
@@ -554,15 +499,18 @@ SQL;
 				
 				$_SESSION['array_answers'] = $array_answers;
 				
+				$_SESSION['TIME_DATEBEGIN'] = time();
+				
 			}elseif($temp_type_question == 9){ // простое видео
 			
+				$_SESSION['TIME_DATEBEGIN'] = time();
 				
 			}elseif($temp_type_question == 10){ // сложное видео		
 
 				$_SESSION['bool_isComplexVideo'] = true;
 				
 				$sql = <<<SQL
-				SELECT TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
+				SELECT ID, TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
 SQL;
 				$s_res1 = $obj->go_result_once($sql);
 
@@ -605,10 +553,13 @@ SQL;
 				
 				$_SESSION['array_answers'] = $array_answers;
 				
+				$_SESSION['TIME_DATEBEGIN'] = time();
+				
 			}elseif($temp_type_question == 22){ // сложное фото
 			
 			}
 		}
+		
 		/*print_r($array_death_risk);
 		echo "<br />";
 		print_r($array_high_risk);
@@ -665,13 +616,15 @@ SQL;
 				$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
 				
 				// для таблицы результатов
-                                end($_SESSION['final_array_cv_questions']);
-                                $basic_key = key($_SESSION['final_array_cv_questions']);
-                                $_SESSION['final_array_cv_questions'][$basic_key][] = array();
-                                end($_SESSION['final_array_cv_questions'][$basic_key]);
-                                $q_key = key($_SESSION['final_array_cv_questions'][$basic_key]);
-                                $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Text'] = $_SESSION['link_question_complex']['TITLE'];
-                                $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Video'] = $_SESSION['link_question_complex']['SIMPLEVIDEO'];
+
+				end($_SESSION['final_array_cv_questions']);
+				$basic_key = key($_SESSION['final_array_cv_questions']);
+				$_SESSION['final_array_cv_questions'][$basic_key][] = array();
+				end($_SESSION['final_array_cv_questions'][$basic_key]);
+				$q_key = key($_SESSION['final_array_cv_questions'][$basic_key]);
+				$_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Text'] = $_SESSION['link_question_complex']['TITLE'];
+				$_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Video'] = $_SESSION['link_question_complex']['SIMPLEVIDEO'];
+
 				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['TITLE']);
 				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['SIMPLEVIDEO']);
 				
@@ -688,31 +641,63 @@ SQL;
 				$_SESSION['link_answer_complex'] = $array_answers;
 				
 				$_SESSION['go_answer'] = true;
+				
+				$_SESSION['TIME_DATEBEGIN'] = time();
 			}
 		}
 	}
 	
 	// пишем в историю
-	function write_history(&$obj, $tempAnsID){
+	function write_history(&$obj){
 
 		$tempID = $_SESSION['sotrud_id'];
-		$tempcount = $_SESSION['counter_questions'];
-		$tempcount--;
-		$tempqu = (int)$_SESSION['q_final_array'][$tempcount]['ID'];
-		$dateBegin = $_SESSION['DATEBEGIN'];
-		$dateEnd = date('d.m.y H:i:s');
+		$beginDate = date('d.m.Y H:i:s', $_SESSION['DATEBEGIN']);
 
-		$sql = <<<SQL
+		// TODO: начать транзакцию
+		// записываем всю сдачу в историю
+		for($count = 0; $count < count($_SESSION['final_array_txt_answers']); $count++){
+		
+			
+		}
+		
+		for($count = 0; $count < count($_SESSION['final_array_sf_answers']); $count++){
+		
+			$temp_qid = $_SESSION['final_array_sf_answers'][$count]['ID'];
+			$temp_ansid = $_SESSION['final_array_sf_answers'][$count]['ID_answer'];
+			$date = $_SESSION['final_array_sf_answers'][$count]['time'];
+			
+			$sql = <<<SQL
 			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
 			($tempID, 
-			$tempqu, 
-			to_date('$dateBegin', 'DD.MM.YYYY HH24:MI:SS'), 
-			to_date('$dateEnd', 'DD.MM.YYYY HH24:MI:SS'), 
+			$temp_qid, 
+			to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
+			'$date', 
 			0, 
 			2, 
 			'N', 
-			'$tempAnsID')
+			'$temp_ansid')
 SQL;
-		$obj->go_query($sql);
+			$obj->go_query($sql);
+		}
+		
+		for($count = 0; $count < count($_SESSION['final_array_cv_answers']); $count++){
+		
+			$temp_qid = $_SESSION['final_array_cv_answers'][$count]['ID'];
+			$temp_ansid = $_SESSION['final_array_cv_answers'][$count]['ID_answer'];
+			$date = $_SESSION['final_array_cv_answers'][$count]['time'];
+			
+			$sql = <<<SQL
+			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
+			($tempID, 
+			$temp_qid, 
+			to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
+			'$date', 
+			0, 
+			2, 
+			'N', 
+			'$temp_ansid')
+SQL;
+			$obj->go_query($sql);
+		}
 	}
 ?>
