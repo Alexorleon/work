@@ -45,11 +45,10 @@
 						break;
 					
 					case 10: // сложное видео
-                                                end($_SESSION['final_array_cv_answers']);
-                                                $basic_key = key($_SESSION['final_array_cv_answers']);
+                                                $basic_key = array_end_key($_SESSION['final_array_cv_answers']);
 						$_SESSION['final_array_cv_answers'][$basic_key][] = array();
-						end($_SESSION['final_array_cv_answers'][$basic_key]);
-						$ans_key = key($_SESSION['final_array_cv_answers'][$basic_key]);
+						
+						$ans_key = array_end_key($_SESSION['final_array_cv_answers'][$basic_key]);
 						$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Correct'] = $isCorrect;
 						
 						$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Text'] = $_SESSION['link_answer_complex'][$numid]['TEXT'];
@@ -63,8 +62,8 @@
 					case 21: // простое фото
 						
 						$_SESSION['final_array_sf_answers'][] = array();
-						end($_SESSION['final_array_sf_answers']);
-						$ans_key = key($_SESSION['final_array_sf_answers']);
+						
+						$ans_key = array_end_key($_SESSION['final_array_sf_answers']);
 						$_SESSION['final_array_sf_answers'][$ans_key]['Correct'] = $isCorrect;
 						$_SESSION['final_array_sf_answers'][$ans_key]['Text'] = $_SESSION['array_answers'][$numid]['TEXT'];
 						$_SESSION['final_array_sf_answers'][$ans_key]['Comment'] = $_SESSION['array_answers'][$numid]['COMMENTARY'];
@@ -518,9 +517,7 @@ SQL;
 			$_SESSION['global_temp_testid'] = $temp_testid; // запоминаем id вопроса
 				
 			// TODO: опять магические числа
-			$sql = <<<SQL
-			SELECT TYPEQUESTIONSID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
-SQL;
+			$sql = "SELECT TYPEQUESTIONSID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'";
 			$typeq_res = $obj->go_result_once($sql);
 
 			// запоминаем тип вопроса
@@ -529,20 +526,23 @@ SQL;
 		
 			if($temp_type_question == 8){ // текст
 			
-				$sql = <<<SQL
-				SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
-SQL;
+				$sql = "SELECT ID, TEXT, MODULEID as MID
+                                        FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'";
 				$s_res = $obj->go_result_once($sql);
 				
 				//$temp_id = (int)$testid['ID'];
 				$question_text = $s_res['TEXT'];
-						
-				array_push($_SESSION['final_array_txt_questions'], $question_text); // запоминаем вопрос TODO: iconv
+                                
+                                $_SESSION['final_array_txt_questions'][] = array();
+                                $q_key = array_end_key($_SESSION['final_array_txt_questions']);
+                                
+                                $_SESSION['final_array_txt_questions'][$q_key]['Text'] = $question_text;
+                                $_SESSION['final_array_txt_questions'][$q_key]['Module'] = $s_res['MID'];
+				//array_push($_SESSION['final_array_txt_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 				// берем ответы к этому вопросу
-				$sql_ans = <<<SQL
-				SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
-SQL;
+				$sql_ans ="SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE
+                                           FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'";
 				$array_answers = $obj->go_result($sql_ans);
 
 				shuffle($array_answers);
@@ -553,6 +553,8 @@ SQL;
 				$_SESSION['question_text'] = $question_text;
 				
 				$_SESSION['array_answers'] = $array_answers;
+                                
+                                $_SESSION['ID_module'] = $s_res['MID'];
 				
 			}elseif($temp_type_question == 9){ // простое видео
 			
@@ -561,9 +563,8 @@ SQL;
 
 				$_SESSION['bool_isComplexVideo'] = true;
 				
-				$sql = <<<SQL
-				SELECT TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
-SQL;
+				$sql = "SELECT TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO, MODULEID AS MID
+                                        FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'";
 				$s_res1 = $obj->go_result_once($sql);
 
 				array_push($_SESSION['final_array_cv_basic'], $s_res1); // запоминаем заголовок для таблицы результатов
@@ -573,14 +574,13 @@ SQL;
 				$_SESSION['complex_question_prolog'] = $s_res1['PROLOGVIDEO'];
 				$_SESSION['complex_question_catalog'] = $s_res1['CATALOG'];
 				$_SESSION['complex_question_epilog'] = $s_res1['EPILOGVIDEO'];
-				
+				$_SESSION['complex_question_mid'] = $s_res1['MID'];  //ID модуля
 				ask_one_complexVideo($obj);
 				
 			}elseif($temp_type_question == 21){ // простое фото
 			
-				$sql = <<<SQL
-				SELECT ID, TEXT, SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
-SQL;
+				$sql ="SELECT ID, TEXT, SIMPLEPHOTO, MODULEID as MID
+                                        FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'";
 				$s_res = $obj->go_result_once($sql);
 				//$temp_id = (int)$testid['ID'];
 				$question_text = $s_res['TEXT'];
@@ -588,7 +588,12 @@ SQL;
 				// запоминаем имя картинки
 				$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
 						
-				array_push($_SESSION['final_array_sf_questions'], $question_text); // запоминаем вопрос TODO: iconv
+				$_SESSION['final_array_sf_questions'][] = array();
+                                
+                                $q_key = array_end_key($_SESSION['final_array_sf_questions']);
+                                $_SESSION['final_array_sf_questions'][$q_key]['Text'] = $question_text;
+                                $_SESSION['final_array_sf_questions'][$q_key]['Module'] = $s_res['MID'];
+//                                array_push($_SESSION['final_array_sf_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 				// берем ответы к этому вопросу
 				$sql_ans = <<<SQL
@@ -665,13 +670,14 @@ SQL;
 				$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
 				
 				// для таблицы результатов
-                                end($_SESSION['final_array_cv_questions']);
-                                $basic_key = key($_SESSION['final_array_cv_questions']);
+                                
+                                $basic_key = array_end_key($_SESSION['final_array_cv_questions']);
                                 $_SESSION['final_array_cv_questions'][$basic_key][] = array();
-                                end($_SESSION['final_array_cv_questions'][$basic_key]);
-                                $q_key = key($_SESSION['final_array_cv_questions'][$basic_key]);
+                                
+                                $q_key = array_end_key($_SESSION['final_array_cv_questions'][$basic_key]);
                                 $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Text'] = $_SESSION['link_question_complex']['TITLE'];
                                 $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Video'] = $_SESSION['link_question_complex']['SIMPLEVIDEO'];
+                                $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Module'] = $_SESSION['complex_question_mid'];
 				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['TITLE']);
 				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['SIMPLEVIDEO']);
 				
@@ -715,4 +721,10 @@ SQL;
 SQL;
 		$obj->go_query($sql);
 	}
+        
+    function array_end_key($array)
+    {
+        end($array);
+        return key($array);
+    }
 ?>
