@@ -25,6 +25,7 @@ if($type_exam)
 				{
 					$temp_id = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);
 				}
+				
 			// получаем параметры неправильного ответа
 			$sql = <<<SQL
 			SELECT COMPETENCELEVELID, COMMENTARY, RISKLEVELID, FACTOR FROM stat.ALLANSWERS WHERE ALLANSWERS.ID='$temp_idans'
