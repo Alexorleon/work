@@ -83,7 +83,6 @@
 			
 			}elseif($comp_lvl == 99903){ // показывали ответ
 			
-				$_SESSION['type_question_chain'] = "QUESTION";
 			}else{
 				// необходимо для закрашивания цветом
 				if ($comp_lvl == 21){

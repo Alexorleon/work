@@ -21,10 +21,10 @@ if($type_exam)
 			// так как ответили не правильно, то выводим комментарий и правильный ответ
 			$temp_id = $_SESSION['ID_question'];
 			$temp_idans = $_SESSION['first_answerid'];
-			if (array_key_exists('q', $_GET)
-                        {
-                            $temp_id = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);
-                        }
+			if (array_key_exists('q', $_GET))
+				{
+					$temp_id = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);
+				}
 			// получаем параметры неправильного ответа
 			$sql = <<<SQL
 			SELECT COMPETENCELEVELID, COMMENTARY, RISKLEVELID, FACTOR FROM stat.ALLANSWERS WHERE ALLANSWERS.ID='$temp_idans'
@@ -80,7 +80,7 @@ SQL;
 		$risklevel_title = "";
 		$factor_com = "";
 		$competencelevel_id = 21;
-			
+		
 		// выводим статистику ответов
 		//print_r();
 		//echo "<br />";
@@ -88,7 +88,6 @@ SQL;
 		//die();
 		//echo "<br />";
 		
-                
 		$smarty->assign("final_array_txt_questions", $_SESSION['final_array_txt_questions']);
 		$smarty->assign("final_array_txt_answers", $_SESSION['final_array_txt_answers']);
 		
