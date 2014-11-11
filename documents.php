@@ -5,14 +5,15 @@
 	$db->GetConnect();
 	$error_='';
 		
-	if(isset($_GET['type_doc'])){
-		$type_doc = (int)$_GET['type_doc']; // назначим переменную сразу
+	if(array_key_exists('type_doc', $_GET)){
+		$type_doc = filter_input(INPUT_GET, 'type_doc', FILTER_SANITIZE_NUMBER_INT); // назначим переменную сразу
 		
-		if($_GET['type_doc'] == 1){ // нормативные документы
-		
-			if (isset($_GET['norm_doc_id']) && !empty($_GET['norm_doc_id'])){
+		if($type_doc == 1){ // нормативные документы
+                        
+                        $norm_doc_id = filter_input(INPUT_GET, 'norm_doc_id', FILTER_SANITIZE_NUMBER_INT);//$_GET['norm_doc_id'];
+			if ($norm_doc_id){
 			
-				$norm_doc_id = $_GET['norm_doc_id'];
+				//$norm_doc_id = $_GET['norm_doc_id'];
 				
 				// получаем необходимый документ
 				$sql = <<<SQL
@@ -44,11 +45,12 @@ SQL;
 				
 				$smarty->assign("array_instr", $array_instr);
 			}
-		}elseif ($_GET['type_doc'] == 2){ // видеоинструктажи
-		
-			if (isset($_GET['video_id']) && !empty($_GET['video_id'])){
+		}elseif ($type_doc == 2){ // видеоинструктажи
+                        $video_id = filter_input(INPUT_GET, 'video_id', FILTER_SANITIZE_NUMBER_INT);
+                        
+			if ($video_id){
 			
-				$video_id = $_GET['video_id'];
+				//$video_id = $_GET['video_id'];
 				
 				// получаем необходимое видео
 				$sql = <<<SQL
@@ -80,11 +82,11 @@ SQL;
 				
 				$smarty->assign("array_instr", $array_instr);
 			}
-		}elseif ($_GET['type_doc'] == 3){ // компьютерные модели
+		}elseif ($type_doc == 3){ // компьютерные модели
+			$comp_model_id = filter_input(INPUT_GET, 'comp_model_id', FILTER_SANITIZE_NUMBER_INT);
+			if ($comp_model_id){
 			
-			if (isset($_GET['comp_model_id']) && !empty($_GET['comp_model_id'])){
-			
-				$comp_model_id = $_GET['comp_model_id'];
+				//$comp_model_id = $_GET['comp_model_id'];
 				
 				// получаем необходимое видео
 				$sql = <<<SQL
