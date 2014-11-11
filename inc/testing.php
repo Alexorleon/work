@@ -47,21 +47,23 @@
 					break;
 				
 				case 10: // сложное видео
-					$_SESSION['final_array_cv_answers'][] = array();
 					end($_SESSION['final_array_cv_answers']);
-					$ans_key = key($_SESSION['final_array_cv_answers']);
-					$_SESSION['final_array_cv_answers'][$ans_key]['Correct'] = $isCorrect;
+-                   $basic_key = key($_SESSION['final_array_cv_answers']);
+					$_SESSION['final_array_cv_answers'][$basic_key][] = array();
+					end($_SESSION['final_array_cv_answers'][$basic_key]);
+					$ans_key = key($_SESSION['final_array_cv_answers'][$basic_key]);
+					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Correct'] = $isCorrect;
 					
-					$_SESSION['final_array_cv_answers'][$ans_key]['Text'] = $_SESSION['link_answer_complex'][$numid]['TEXT'];
-					$_SESSION['final_array_cv_answers'][$ans_key]['Comment'] = $_SESSION['link_answer_complex'][$numid]['COMMENTARY'];
-					$_SESSION['final_array_cv_answers'][$ans_key]['Price'] = $_SESSION['link_answer_complex'][$numid]['PRICE'];
+					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Text'] = $_SESSION['link_answer_complex'][$numid]['TEXT'];
+					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Comment'] = $_SESSION['link_answer_complex'][$numid]['COMMENTARY'];
+					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Price'] = $_SESSION['link_answer_complex'][$numid]['PRICE'];
 					
 					$_SESSION['chain_answer_cv'] = $_SESSION['link_answer_complex'][$numid]['SIMPLEVIDEO'];
 
-					$_SESSION['final_array_cv_answers'][$ans_key]['ID'] = $_SESSION['link_question_complex']['ID']; // id вопроса
-					$_SESSION['final_array_cv_answers'][$ans_key]['ID_answer'] = $_SESSION['link_answer_complex'][$numid]['ID'];
+					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['ID'] = $_SESSION['link_question_complex']['ID']; // id вопроса
+					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['ID_answer'] = $_SESSION['link_answer_complex'][$numid]['ID'];
 					
-					$_SESSION['final_array_cv_answers'][$ans_key]['time'] = $time_date;
+					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['time'] = $time_date;
 					break;
 					
 				case 21: // простое фото
@@ -516,7 +518,7 @@ SQL;
 
 				array_push($_SESSION['final_array_cv_basic'], $s_res1); // запоминаем заголовок для таблицы результатов
 				$_SESSION['final_array_cv_answers'][] = array();
-                                $_SESSION['final_array_cv_questions'][] = array();
+                $_SESSION['final_array_cv_questions'][] = array();
 				$_SESSION['complex_question_text'] = $s_res1['TEXT']; // заголовок цепочки
 				$_SESSION['complex_question_prolog'] = $s_res1['PROLOGVIDEO'];
 				$_SESSION['complex_question_catalog'] = $s_res1['CATALOG'];
@@ -682,9 +684,9 @@ SQL;
 		
 		for($count = 0; $count < count($_SESSION['final_array_cv_answers']); $count++){
 		
-			$temp_qid = $_SESSION['final_array_cv_answers'][$count]['ID'];
-			$temp_ansid = $_SESSION['final_array_cv_answers'][$count]['ID_answer'];
-			$date = $_SESSION['final_array_cv_answers'][$count]['time'];
+			$temp_qid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID'];
+			$temp_ansid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID_answer'];
+			$date = $_SESSION['final_array_cv_answers'][$basic_key][$count]['time'];
 			
 			$sql = <<<SQL
 			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
