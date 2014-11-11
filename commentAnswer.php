@@ -87,8 +87,19 @@ SQL;
 		//print_r();
 		//die();
 		//echo "<br />";
-		
-                
+                $final_price = 0;
+		foreach($_SESSION['final_array_txt_answers'] as $answer)
+                {
+                    $final_price += $answer['Price'];
+                }
+                foreach($_SESSION['final_array_sf_answers'] as $answer)
+                {
+                    $final_price += $answer['Price'];
+                }
+                foreach($_SESSION['final_array_cv_answers'] as $answer)
+                {
+                    $final_price += $answer['Price'];
+                }
 		$smarty->assign("final_array_txt_questions", $_SESSION['final_array_txt_questions']);
 		$smarty->assign("final_array_txt_answers", $_SESSION['final_array_txt_answers']);
 		
@@ -99,6 +110,8 @@ SQL;
 		$smarty->assign("final_array_cv_questions", $_SESSION['final_array_cv_questions']);
 		$smarty->assign("final_array_cv_answers", $_SESSION['final_array_cv_answers']);
 		
+                $smarty->assign("final_price", $final_price);
+                
 		$smarty->assign("sotrud_fam", $_SESSION['sotrud_fam']);
 		$smarty->assign("sotrud_im", $_SESSION['sotrud_im']);
 		$smarty->assign("sotrud_otch", $_SESSION['sotrud_otch']);

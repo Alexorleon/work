@@ -432,7 +432,7 @@ quotes:"" "";
 
 .simple-little-table th {
 	font-weight:bold;
-	padding:21px 25px 22px 25px;
+	padding: 11px 15px 12px 15px;
 	border-top:1px solid #fafafa;
 	border-bottom:1px solid #e0e0e0;
 
@@ -1290,6 +1290,13 @@ display: none;
     font-weight: bold;
 }
 
+.emp_data
+{
+    text-align: left;
+    font-size: 25px;
+    font-weight: 700;
+    margin: 5px 0 10px 45px;
+}
 .button_menu {
 	background: #A9D0F5;
 	min-height: 30px;
