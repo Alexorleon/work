@@ -22,9 +22,10 @@ if($type_exam)
 			$temp_id = $_SESSION['ID_question'];
 			$temp_idans = $_SESSION['first_answerid'];
 			if (array_key_exists('q', $_GET))
-                        {
-                            $temp_id = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);
-                        }
+				{
+					$temp_id = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);
+				}
+				
 			// получаем параметры неправильного ответа
 			$sql = <<<SQL
 			SELECT COMPETENCELEVELID, COMMENTARY, RISKLEVELID, FACTOR FROM stat.ALLANSWERS WHERE ALLANSWERS.ID='$temp_idans'
@@ -80,13 +81,14 @@ SQL;
 		$risklevel_title = "";
 		$factor_com = "";
 		$competencelevel_id = 21;
-			
+		
 		// выводим статистику ответов
 		//print_r();
 		//echo "<br />";
 		//print_r();
 		//die();
 		//echo "<br />";
+
                 $final_price = 0;
 		foreach($_SESSION['final_array_txt_answers'] as $answer)
                 {
@@ -100,6 +102,7 @@ SQL;
                 {
                     $final_price += $answer['Price'];
                 }
+
 		$smarty->assign("final_array_txt_questions", $_SESSION['final_array_txt_questions']);
 		$smarty->assign("final_array_txt_answers", $_SESSION['final_array_txt_answers']);
 		
