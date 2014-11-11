@@ -100,7 +100,10 @@ SQL;
                 }
                 foreach($_SESSION['final_array_cv_answers'] as $answer)
                 {
-                    $final_price += $answer['Price'];
+                    foreach($answer as $subanswer)
+                    {
+                        $final_price += $subanswer['Price'];
+                    }
                 }
 
 		$smarty->assign("final_array_txt_questions", $_SESSION['final_array_txt_questions']);

@@ -161,8 +161,8 @@
     {$basic['TEXT']}
     </td>
 </tr>
-    {foreach from=$final_array_cv_questions key=qk item=question}
-    {if ($final_array_cv_answers[$qk]['Correct']=='F')}
+    {foreach from=$final_array_cv_questions[$k] key=qk item=question}
+    {if ($final_array_cv_answers[$k][$qk]['Correct']=='F')}
         {assign var="cls" value="class=wrong_ans"}
     {else}
         {assign var="cls" value=""}
@@ -172,13 +172,13 @@
             {$question['Text']}
         </td>
         <td>
-            {$final_array_cv_answers[$qk]['Text']}
+            {$final_array_cv_answers[$k][$qk]['Text']}
         </td>
         <td>
-            {$final_array_cv_answers[$qk]['Comment']}
+            {$final_array_cv_answers[$k][$qk]['Comment']}
         </td>
         <td>
-            {$final_array_cv_answers[$qk]['Price']}
+            {$final_array_cv_answers[$k][$qk]['Price']}
         </td>
     </tr>
     {/foreach}
