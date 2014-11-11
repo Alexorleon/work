@@ -47,11 +47,9 @@
 					break;
 				
 				case 10: // сложное видео
-					end($_SESSION['final_array_cv_answers']);
--                   $basic_key = key($_SESSION['final_array_cv_answers']);
+					$basic_key = array_end_key($_SESSION['final_array_cv_answers']);
 					$_SESSION['final_array_cv_answers'][$basic_key][] = array();
-					end($_SESSION['final_array_cv_answers'][$basic_key]);
-					$ans_key = key($_SESSION['final_array_cv_answers'][$basic_key]);
+					$ans_key = array_end_key($_SESSION['final_array_cv_answers'][$basic_key]);
 					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Correct'] = $isCorrect;
 					
 					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Text'] = $_SESSION['link_answer_complex'][$numid]['TEXT'];
@@ -69,8 +67,7 @@
 				case 21: // простое фото
 					
 					$_SESSION['final_array_sf_answers'][] = array();
-					end($_SESSION['final_array_sf_answers']);
-					$ans_key = key($_SESSION['final_array_sf_answers']);
+					$ans_key = array_end_key($_SESSION['final_array_sf_answers']);
 					$_SESSION['final_array_sf_answers'][$ans_key]['Correct'] = $isCorrect;
 					$_SESSION['final_array_sf_answers'][$ans_key]['Text'] = $_SESSION['array_answers'][$numid]['TEXT'];
 					$_SESSION['final_array_sf_answers'][$ans_key]['Comment'] = $_SESSION['array_answers'][$numid]['COMMENTARY'];
