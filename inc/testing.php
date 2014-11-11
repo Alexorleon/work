@@ -673,24 +673,26 @@
 			'$temp_ansid')";
 			$obj->go_query($sql);
 		}
-		
-		for($count = 0; $count < count($_SESSION['final_array_cv_answers']); $count++){
-		
-			$temp_qid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID'];
-			$temp_ansid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID_answer'];
-			$date = $_SESSION['final_array_cv_answers'][$basic_key][$count]['time'];
-			
-			$sql = "INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
-			($tempID, 
-			$temp_qid, 
-			to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
-			'$date', 
-			0, 
-			2, 
-			'N', 
-			'$temp_ansid')";
-			$obj->go_query($sql);
-		}
+		foreach($_SESSION['final_array_cv_basic'] as $basic_key=>$basic)
+                {
+                    for($count = 0; $count < count($_SESSION['final_array_cv_answers']); $count++){
+
+                            $temp_qid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID'];
+                            $temp_ansid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID_answer'];
+                            $date = $_SESSION['final_array_cv_answers'][$basic_key][$count]['time'];
+
+                            $sql = "INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
+                            ($tempID, 
+                            $temp_qid, 
+                            to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
+                            '$date', 
+                            0, 
+                            2, 
+                            'N', 
+                            '$temp_ansid')";
+                            $obj->go_query($sql);
+                    }
+                }
 	}
         
     function array_end_key($array)

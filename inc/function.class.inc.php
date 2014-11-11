@@ -1,13 +1,13 @@
-<?php
+ï»¿<?php
 class db {
-// äàííûå (ñâîéñòâà):
+// Ð´Ð°Ð½Ð½Ñ‹Ðµ (ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð°):
 var $user = db_user;
 var $pass = db_pass;
 var $db = db_db;
 var $connect = false;
 
-// ìåòîäû:
-//ïðîâåðêà ïîäêëþ÷åíèÿ
+// Ð¼ÐµÑ‚Ð¾Ð´Ñ‹:
+//Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ
  function GetConnect() {
  if (!@$c = OCILogon($this->user, $this->pass, $this->db, 'CL8MSWIN1251')) {
 	$err = OCIError(); 
@@ -18,14 +18,14 @@ var $connect = false;
   }
  } 
  
- //Ïîðâàòü êîííåêò
+ //ÐŸÐ¾Ñ€Ð²Ð°Ñ‚ÑŒ ÐºÐ¾Ð½Ð½ÐµÐºÑ‚
  function CloseConnect() {
 	oci_free_statement($s);
 	oci_close($c);
 	$this->connect = false;  
  }
  
-//ðåçóëüòàò ïî çàïðîñó ïðèíò_ð òàáëèöåé
+//Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ð¿Ð¾ Ð·Ð°Ð¿Ñ€Ð¾ÑÑƒ Ð¿Ñ€Ð¸Ð½Ñ‚_Ñ€ Ñ‚Ð°Ð±Ð»Ð¸Ñ†ÐµÐ¹
 function debug_show_sql_result($sql_in){
 global $c;
 if (!$this->connect) $this->GetConnect();
@@ -53,7 +53,7 @@ while ($row = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) {
 return $ret;
 }
 
-//ðåçóëüòàò ïî çàïðîñó â ìàññèâ 
+//Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ð¿Ð¾ Ð·Ð°Ð¿Ñ€Ð¾ÑÑƒ Ð² Ð¼Ð°ÑÑÐ¸Ð² 
 function go_result($sql_in){
 global $c;
 if (!$this->connect) $this->GetConnect();
@@ -76,7 +76,7 @@ while ($res = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) {
 	return $out;
 }
 
-//ðåçóëüòàò ïî çàïðîñó â ïåðåìåííûå
+//Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ð¿Ð¾ Ð·Ð°Ð¿Ñ€Ð¾ÑÑƒ Ð² Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ðµ
 function go_result_once($sql_in){
 global $c;
 if (!$this->connect) $this->GetConnect();
@@ -95,7 +95,7 @@ if (!$this->connect) $this->GetConnect();
 	return $out;
 }
 
-//ïðîñòî êâåðè
+//Ð¿Ñ€Ð¾ÑÑ‚Ð¾ ÐºÐ²ÐµÑ€Ð¸
 function go_query($sql_in){
 global $c;
 if (!$this->connect) $this->GetConnect();
