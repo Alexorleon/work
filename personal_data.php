@@ -34,10 +34,12 @@ function GetPersonalData($obj, $sotrud_id)
 {
     $result = GetCTypes($obj);
     $modules = GetModules($obj);
-    $sql = <<<SQL
-                SELECT * FROM stat.ALLHISTORY WHERE  SOTRUD_ID='$sotrud_id' AND DEL='N'
-SQL;
     
+    $sql_actual = "SELECT TO_CHAR(MAX(DATEBEGIN), 'DD.MM.YYYY HH24:MI:SS') AS DT FROM stat.ALLHISTORY WHERE EXAMINERTYPE='2' AND SOTRUD_ID='$sotrud_id'";
+    $max_date = $obj->go_result_once($sql_actual)['DT'];
+   // echo $max_date;
+    $sql = "SELECT * FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sotrud_id' AND DEL='N' AND (EXAMINERTYPE='2' AND DATEBEGIN=TO_DATE('$max_date', 'DD.MM.YYYY HH24:MI:SS'))";
+    //echo $sql;
     $answer_results = $obj->go_result($sql);
     
     if (count($answer_results)!=0)

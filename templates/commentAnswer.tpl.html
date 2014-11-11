@@ -110,85 +110,101 @@
 	<th>Комментарий</th>
 	<th>Штрафы</th>
 </tr>
-{assign var="num" value="1"}
-{foreach from=$final_array_txt_questions key=k item=question}
 
-{if ($final_array_txt_answers[$k]['Correct']=='F')}
-{assign var="cls" value="class=wrong_ans"}
-{else}
-{assign var="cls" value=""}
-{/if}
-
-<tr {$cls}>
-    <td>
-        {$num}. {$question}
-    </td>
-    <td>
-        {$final_array_txt_answers[$k]['Text']}
-    </td>
-    <td>
-        {$final_array_txt_answers[$k]['Comment']}
-    </td>
-    <td>
-        {$final_array_txt_answers[$k]['Price']}
-    </td>
-</tr>
-{$num++}
-{/foreach}
-{assign var="num" value="1"}
-{foreach from=$final_array_sf_questions key=k item=question}
-{if ($final_array_sf_answers[$k]['Correct']=='F')}
-{assign var="cls" value="class=wrong_ans"}
-{else}
-{assign var="cls" value=""}
-{/if}
-
-<tr {$cls}>
-    <td>
-       {$num}. {$question}
-    </td>
-    <td>
-        {$final_array_sf_answers[$k]['Text']}
-    </td>
-    <td>
-        {$final_array_sf_answers[$k]['Comment']}
-    </td>
-    <td>
-        {$final_array_sf_answers[$k]['Price']}
-    </td>
-</tr>
-{$num++}
-{/foreach}
-{foreach from=$final_array_cv_basic key=k item=basic}
-<tr class="cv_head">
-    <td colspan="4">
-    {$basic['TEXT']}
-    </td>
-</tr>
-    {assign var="num" value="1"}
-    {foreach from=$final_array_cv_questions[$k] key=qk item=question}
-    {if ($final_array_cv_answers[$k][$qk]['Correct']=='F')}
-        {assign var="cls" value="class=wrong_ans"}
-    {else}
-        {assign var="cls" value=""}
-    {/if}
-    <tr {$cls}>
-        <td>
-            {$num}. {$question['Text']}
+{foreach from=$modules key=mkey item=module}
+    <tr class="cv_head">
+        <td colspan="3"  style='background: #A9D0F5;'>
+            {$module['TITLE']}
         </td>
-        <td>
-            {$final_array_cv_answers[$k][$qk]['Text']}
-        </td>
-        <td>
-            {$final_array_cv_answers[$k][$qk]['Comment']}
-        </td>
-        <td>
-            {$final_array_cv_answers[$k][$qk]['Price']}
+        <td  style='background: #A9D0F5;'>
+            {$module['Price']}
         </td>
     </tr>
-    {$num++}
+    {assign var="num" value="1"}
+    {foreach from=$final_array_txt_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_txt_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            
+            <tr {$cls}>
+                <td>
+                    {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_txt_answers[$k]['Text']}
+                </td>
+                <td>
+                    {$final_array_txt_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_txt_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {assign var="num" value="1"}
+    {foreach from=$final_array_sf_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_sf_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            
+            <tr {$cls}>
+                <td>
+                   {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Text']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {assign var="num" value="0"}
+    {foreach from=$final_array_cv_basic key=k item=basic}
+        {if ($basic['MID'] == $module['ID'])}
+            {assign var="num" value=$num+1}
+            <tr style='color:#000'>
+                <td colspan="4">
+                   {$num}. {$basic['TEXT']}
+                </td>
+            </tr>
+            {assign var="subnum" value="1"}
+            {foreach from=$final_array_cv_questions[$k] key=qk item=question}
+                {if ($final_array_cv_answers[$k][$qk]['Correct']=='F')}
+                    {assign var="cls" value="class=wrong_ans"}
+                {else}
+                    {assign var="cls" value=""}
+                {/if}
+                <tr {$cls}>
+                    <td>
+                        {$num}.{$subnum++}. {$question['Text']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Text']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Comment']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Price']}
+                    </td>
+                </tr>
+            {/foreach}
+        {/if}
     {/foreach}
 {/foreach}
+
 </table>
 
 {/if}

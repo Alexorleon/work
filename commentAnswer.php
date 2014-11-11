@@ -105,7 +105,41 @@ SQL;
                         $final_price += $subanswer['Price'];
                     }
                 }
-
+                
+                $sql_module = "SELECT ID, TITLE FROM stat.MODULE";
+                $res_module = $db->go_result($sql_module);
+                
+                
+                foreach ($res_module as $mkey=>$module)
+                {
+                    $module_price = 0;
+                    foreach($_SESSION['final_array_txt_answers'] as $key=>$answer)
+                    {
+                        if ($_SESSION['final_array_txt_questions'][$key]['Module'] == $module['ID'])
+                        {
+                            $module_price += $answer['Price'];
+                        }
+                    }
+                    foreach($_SESSION['final_array_sf_answers'] as $key=>$answer)
+                    {
+                        if ($_SESSION['final_array_sf_questions'][$key]['Module'] == $module['ID'])
+                        {
+                            $module_price += $answer['Price'];
+                        }
+                    }
+                    foreach($_SESSION['final_array_cv_answers'] as $key=>$answer)
+                    {
+                        foreach($answer as $subkey=>$subanswer)
+                        {
+                            if ($_SESSION['final_array_cv_questions'][$key][$subkey]['Module'] == $module['ID'])
+                            {
+                                $module_price += $subanswer['Price'];
+                            }
+                        }
+                    }
+                    $res_module[$mkey]['Price'] = $module_price;
+                }
+                
 		$smarty->assign("final_array_txt_questions", $_SESSION['final_array_txt_questions']);
 		$smarty->assign("final_array_txt_answers", $_SESSION['final_array_txt_answers']);
 		
@@ -117,6 +151,7 @@ SQL;
 		$smarty->assign("final_array_cv_answers", $_SESSION['final_array_cv_answers']);
 		
                 $smarty->assign("final_price", $final_price);
+                $smarty->assign("modules", $res_module);
                 
 		$smarty->assign("sotrud_fam", $_SESSION['sotrud_fam']);
 		$smarty->assign("sotrud_im", $_SESSION['sotrud_im']);

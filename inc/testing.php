@@ -47,11 +47,9 @@
 					break;
 				
 				case 10: // сложное видео
-					end($_SESSION['final_array_cv_answers']);
--                   $basic_key = key($_SESSION['final_array_cv_answers']);
+					$basic_key = array_end_key($_SESSION['final_array_cv_answers']);
 					$_SESSION['final_array_cv_answers'][$basic_key][] = array();
-					end($_SESSION['final_array_cv_answers'][$basic_key]);
-					$ans_key = key($_SESSION['final_array_cv_answers'][$basic_key]);
+					$ans_key = array_end_key($_SESSION['final_array_cv_answers'][$basic_key]);
 					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Correct'] = $isCorrect;
 					
 					$_SESSION['final_array_cv_answers'][$basic_key][$ans_key]['Text'] = $_SESSION['link_answer_complex'][$numid]['TEXT'];
@@ -69,8 +67,7 @@
 				case 21: // простое фото
 					
 					$_SESSION['final_array_sf_answers'][] = array();
-					end($_SESSION['final_array_sf_answers']);
-					$ans_key = key($_SESSION['final_array_sf_answers']);
+					$ans_key = array_end_key($_SESSION['final_array_sf_answers']);
 					$_SESSION['final_array_sf_answers'][$ans_key]['Correct'] = $isCorrect;
 					$_SESSION['final_array_sf_answers'][$ans_key]['Text'] = $_SESSION['array_answers'][$numid]['TEXT'];
 					$_SESSION['final_array_sf_answers'][$ans_key]['Comment'] = $_SESSION['array_answers'][$numid]['COMMENTARY'];
@@ -220,57 +217,51 @@
 		
 		// простые фото вопросы
 		// вопросы по смертельному риску
-		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
+		$sql_ques =
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
-SQL;
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_death_risk_sf = $obj->go_result($sql_ques);
 		shuffle($array_death_risk_sf);
 
 		// вопросы по высокому риску
-		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
+		$sql_ques =
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
-SQL;
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_high_risk_sf = $obj->go_result($sql_ques);
 		shuffle($array_high_risk_sf);
 
 		// вопросы по существенному риску
-		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
+		$sql_ques =
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
-SQL;
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_sign_risk_sf = $obj->go_result($sql_ques);
 		shuffle($array_sign_risk_sf);
 		
 		// видео цепочки
 		// вопросы по смертельному риску
-		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
+		$sql_ques =
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
-SQL;
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_death_risk_cv = $obj->go_result($sql_ques);
 		shuffle($array_death_risk_cv);
 
 		// вопросы по высокому риску
-		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
+		$sql_ques =
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
-SQL;
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_high_risk_cv = $obj->go_result($sql_ques);
 		shuffle($array_high_risk_cv);
 
 		// вопросы по существенному риску
-		$sql_ques = <<<SQL
-			SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
+		$sql_ques =
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))
-SQL;
+			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_sign_risk_cv = $obj->go_result($sql_ques);
 		shuffle($array_sign_risk_cv);
 		
@@ -465,9 +456,7 @@ SQL;
 			$_SESSION['global_temp_testid'] = $temp_testid; // запоминаем id вопроса
 				
 			// TODO: опять магические числа
-			$sql = <<<SQL
-			SELECT TYPEQUESTIONSID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
-SQL;
+			$sql = "SELECT TYPEQUESTIONSID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'";
 			$typeq_res = $obj->go_result_once($sql);
 
 			// запоминаем тип вопроса
@@ -476,20 +465,23 @@ SQL;
 		
 			if($temp_type_question == 8){ // текст
 			
-				$sql = <<<SQL
-				SELECT ID, TEXT FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
-SQL;
+				$sql = "SELECT ID, TEXT, MODULEID as MID
+                                        FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'";
 				$s_res = $obj->go_result_once($sql);
 				
 				//$temp_id = (int)$testid['ID'];
 				$question_text = $s_res['TEXT'];
-						
-				array_push($_SESSION['final_array_txt_questions'], $question_text); // запоминаем вопрос TODO: iconv
+                                
+                                $_SESSION['final_array_txt_questions'][] = array();
+                                $q_key = array_end_key($_SESSION['final_array_txt_questions']);
+                                
+                                $_SESSION['final_array_txt_questions'][$q_key]['Text'] = $question_text;
+                                $_SESSION['final_array_txt_questions'][$q_key]['Module'] = $s_res['MID'];
+				//array_push($_SESSION['final_array_txt_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 				// берем ответы к этому вопросу
-				$sql_ans = <<<SQL
-				SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
-SQL;
+				$sql_ans ="SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE
+                                           FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'";
 				$array_answers = $obj->go_result($sql_ans);
 
 				shuffle($array_answers);
@@ -500,6 +492,8 @@ SQL;
 				$_SESSION['question_text'] = $question_text;
 				
 				$_SESSION['array_answers'] = $array_answers;
+                                
+                                $_SESSION['ID_module'] = $s_res['MID'];
 				
 				$_SESSION['TIME_DATEBEGIN'] = time();
 				
@@ -510,10 +504,10 @@ SQL;
 			}elseif($temp_type_question == 10){ // сложное видео		
 
 				$_SESSION['bool_isComplexVideo'] = true;
-				
-				$sql = <<<SQL
-				SELECT ID, TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
-SQL;
+
+				$sql = "SELECT ID, TEXT, PROLOGVIDEO, CATALOG, EPILOGVIDEO, MODULEID AS MID
+                                        FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'";
+
 				$s_res1 = $obj->go_result_once($sql);
 
 				array_push($_SESSION['final_array_cv_basic'], $s_res1); // запоминаем заголовок для таблицы результатов
@@ -523,7 +517,7 @@ SQL;
 				$_SESSION['complex_question_prolog'] = $s_res1['PROLOGVIDEO'];
 				$_SESSION['complex_question_catalog'] = $s_res1['CATALOG'];
 				$_SESSION['complex_question_epilog'] = $s_res1['EPILOGVIDEO'];
-				
+
 				// определяем сколько под вопросов в видео цепочке
 				$sql = <<<SQL
 				SELECT MAX(POSITION) AS "max" FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid'
@@ -532,13 +526,14 @@ SQL;
 				
 				$_SESSION['max_count_chain'] = $res_count_chain['max'];
 
+				$_SESSION['complex_question_mid'] = $s_res1['MID'];  //ID модуля
+				
 				ask_one_complexVideo($obj);
 				
 			}elseif($temp_type_question == 21){ // простое фото
 			
-				$sql = <<<SQL
-				SELECT ID, TEXT, SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'
-SQL;
+				$sql ="SELECT ID, TEXT, SIMPLEPHOTO, MODULEID as MID
+                                        FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.ID='$temp_testid'";
 				$s_res = $obj->go_result_once($sql);
 				//$temp_id = (int)$testid['ID'];
 				$question_text = $s_res['TEXT'];
@@ -546,12 +541,16 @@ SQL;
 				// запоминаем имя картинки
 				$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
 						
-				array_push($_SESSION['final_array_sf_questions'], $question_text); // запоминаем вопрос TODO: iconv
+				$_SESSION['final_array_sf_questions'][] = array();
+                                
+                                $q_key = array_end_key($_SESSION['final_array_sf_questions']);
+                                $_SESSION['final_array_sf_questions'][$q_key]['Text'] = $question_text;
+                                $_SESSION['final_array_sf_questions'][$q_key]['Module'] = $s_res['MID'];
+//                                array_push($_SESSION['final_array_sf_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 				// берем ответы к этому вопросу
-				$sql_ans = <<<SQL
-				SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'
-SQL;
+				$sql_ans = "SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE
+                                            FROM stat.ALLANSWERS WHERE ALLANSWERS.ALLQUESTIONSID='$temp_testid'";
 				$array_answers = $obj->go_result($sql_ans);
 
 				shuffle($array_answers);
@@ -614,21 +613,19 @@ SQL;
 				$_SESSION['count_complex_question']++;
 				
 				// получаем вопрос к цепочке
-				$sql_ques = <<<SQL
-				SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
-				AND COMPLEXVIDEO.POSITION='$count' AND rownum=1
-SQL;
+				$sql_ques = "SELECT ID, TITLE, SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE COMPLEXVIDEO.COMPLEXVIDEOID='$temp_testid' 
+				AND COMPLEXVIDEO.POSITION='$count' AND rownum=1";
 				$_SESSION['link_question_complex'] = $obj->go_result_once($sql_ques);
 				
 				// для таблицы результатов
 
-				end($_SESSION['final_array_cv_questions']);
-				$basic_key = key($_SESSION['final_array_cv_questions']);
-				$_SESSION['final_array_cv_questions'][$basic_key][] = array();
-				end($_SESSION['final_array_cv_questions'][$basic_key]);
-				$q_key = key($_SESSION['final_array_cv_questions'][$basic_key]);
-				$_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Text'] = $_SESSION['link_question_complex']['TITLE'];
-				$_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Video'] = $_SESSION['link_question_complex']['SIMPLEVIDEO'];
+                                $basic_key = array_end_key($_SESSION['final_array_cv_questions']);
+                                $_SESSION['final_array_cv_questions'][$basic_key][] = array();
+                                
+                                $q_key = array_end_key($_SESSION['final_array_cv_questions'][$basic_key]);
+                                $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Text'] = $_SESSION['link_question_complex']['TITLE'];
+                                $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Video'] = $_SESSION['link_question_complex']['SIMPLEVIDEO'];
+                                $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Module'] = $_SESSION['complex_question_mid'];
 
 				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['TITLE']);
 				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['SIMPLEVIDEO']);
@@ -636,9 +633,8 @@ SQL;
 				$temp_id_ques = $_SESSION['link_question_complex']['ID'];
 				
 				// получаем ответы
-				$sql_ans = <<<SQL
-				SELECT ID, TEXT, SIMPLEVIDEO, COMMENTARY, PRICE, COMPLEXVIDEOID, COMPETENCELEVELID FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'
-SQL;
+				$sql_ans ="SELECT ID, TEXT, SIMPLEVIDEO, COMMENTARY, PRICE, COMPLEXVIDEOID, COMPETENCELEVELID
+                                           FROM stat.ALLANSWERS WHERE ALLANSWERS.COMPLEXVIDEOID='$temp_id_ques'";
 				$array_answers = $obj->go_result($sql_ans);
 				
 				shuffle($array_answers);
@@ -671,8 +667,7 @@ SQL;
 			$temp_ansid = $_SESSION['final_array_sf_answers'][$count]['ID_answer'];
 			$date = $_SESSION['final_array_sf_answers'][$count]['time'];
 			
-			$sql = <<<SQL
-			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
+			$sql = "INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
 			($tempID, 
 			$temp_qid, 
 			to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
@@ -680,29 +675,34 @@ SQL;
 			0, 
 			2, 
 			'N', 
-			'$temp_ansid')
-SQL;
+			'$temp_ansid')";
 			$obj->go_query($sql);
 		}
-		
-		for($count = 0; $count < count($_SESSION['final_array_cv_answers']); $count++){
-		
-			$temp_qid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID'];
-			$temp_ansid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID_answer'];
-			$date = $_SESSION['final_array_cv_answers'][$basic_key][$count]['time'];
-			
-			$sql = <<<SQL
-			INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
-			($tempID, 
-			$temp_qid, 
-			to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
-			'$date', 
-			0, 
-			2, 
-			'N', 
-			'$temp_ansid')
-SQL;
-			$obj->go_query($sql);
-		}
+		foreach($_SESSION['final_array_cv_basic'] as $basic_key=>$basic)
+                {
+                    for($count = 0; $count < count($_SESSION['final_array_cv_answers']); $count++){
+
+                            $temp_qid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID'];
+                            $temp_ansid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID_answer'];
+                            $date = $_SESSION['final_array_cv_answers'][$basic_key][$count]['time'];
+
+                            $sql = "INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
+                            ($tempID, 
+                            $temp_qid, 
+                            to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
+                            '$date', 
+                            0, 
+                            2, 
+                            'N', 
+                            '$temp_ansid')";
+                            $obj->go_query($sql);
+                    }
+                }
 	}
+        
+    function array_end_key($array)
+    {
+        end($array);
+        return key($array);
+    }
 ?>
