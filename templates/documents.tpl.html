@@ -37,12 +37,19 @@
 
 		<div id="menu-holder"></div>
 		
+		<!-- TODO: заглушка с подстановкой нового документа -->
+		{$count = 0}
 		<table class="scrolling_table_docs">
 		<tbody>
 			{section name=j loop=$array_instr}
 				<tr onclick="javascript:window.location='./show_regulations_{$array_instr[j]['ID']}'" style="cursor: pointer;">
 					<td>
-					{$array_instr[j]['TITLE']}
+					{if $count eq 0}
+						{$array_instr[j]['TITLE']} . (Новый документ)
+					{else}
+						{$array_instr[j]['TITLE']}
+					{/if}
+					{capture}{$count++}{/capture}
 					</td>
 				</tr>
 			{/section}
@@ -92,13 +99,20 @@
 
 		<div id="menu-holder"></div>
 		
+		<!-- TODO: заглушка с подстановкой нового документа -->
+		{$count = 0}
 		<table class="scrolling_table_docs">
 		<tbody>
 			{section name=j loop=$array_instr}
 				<!--<tr><td><p><a href="/show_video_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p></td></tr>-->
 				<tr onclick="javascript:window.location='./show_video_{$array_instr[j]['ID']}'" style="cursor: pointer;">
 					<td>
-					{$array_instr[j]['TITLE']}
+					{if $count eq 0}
+						{$array_instr[j]['TITLE']} . (Новый документ)
+					{else}
+						{$array_instr[j]['TITLE']}
+					{/if}
+					{capture}{$count++}{/capture}
 					</td>
 				</tr>
 			{/section}
@@ -156,12 +170,19 @@
 
 		<div id="menu-holder"></div>
 		
+		<!-- TODO: заглушка с подстановкой нового документа -->
+		{$count = 0}
 		<table class="scrolling_table_docs">
 		<tbody>
 			{section name=j loop=$array_instr}
 				<tr onclick="javascript:window.location='./show_compmodel_{$array_instr[j]['ID']}'" style="cursor: pointer;">
 					<td>
-					{$array_instr[j]['TITLE']}
+					{if $count eq 0}
+						{$array_instr[j]['TITLE']} . (Новый документ)
+					{else}
+						{$array_instr[j]['TITLE']}
+					{/if}
+					{capture}{$count++}{/capture}
 					</td>
 				</tr>
 			{/section}
