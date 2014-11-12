@@ -190,8 +190,8 @@ SQL;
 		$smarty->assign("final_array_sf_questions", $_SESSION['final_array_sf_questions']);
 		$smarty->assign("final_array_sf_answers", $_SESSION['final_array_sf_answers']);
 		
-                $smarty->assign("final_array_sv_questions", $_SESSION['final_array_sf_questions']);
-		$smarty->assign("final_array_sv_answers", $_SESSION['final_array_sf_answers']);
+                $smarty->assign("final_array_sv_questions", $_SESSION['final_array_sv_questions']);
+		$smarty->assign("final_array_sv_answers", $_SESSION['final_array_sv_answers']);
                 
 		$smarty->assign("final_array_cv_basic", $_SESSION['final_array_cv_basic']);
 		$smarty->assign("final_array_cv_questions", $_SESSION['final_array_cv_questions']);
