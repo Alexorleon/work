@@ -172,6 +172,30 @@
             </tr>
         {/if}
     {/foreach}
+    {foreach from=$final_array_sv_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_sv_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            
+            <tr {$cls}>
+                <td>
+                   {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Text']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Compet']}. {$final_array_sv_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
     {assign var="num" value="0"}
     {foreach from=$final_array_cv_basic key=k item=basic}
         {if ($basic['MID'] == $module['ID'])}

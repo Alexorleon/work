@@ -106,7 +106,7 @@ SQL;
                     }
                 }
                 
-                $sql_module = "SELECT ID, TITLE FROM stat.MODULE";
+                $sql_module = "SELECT ID, TITLE FROM stat.MODULE ORDER BY ID";
                 $res_module = $db->go_result($sql_module);
                 
                 $sql_compet = "SELECT TITLE, PENALTYPOINTS_MIN FROM stat.COMPETENCELEVEL ORDER BY PENALTYPOINTS_MAX";
@@ -139,6 +139,20 @@ SQL;
                                 if ($answer['Price']>=$clevel['PENALTYPOINTS_MIN'])
                                 {
                                     $_SESSION['final_array_sf_answers'][$key]['Compet'] = $clevel['TITLE'];
+                                }
+                            }
+                        }
+                    }
+                    foreach($_SESSION['final_array_sv_answers'] as $key=>$answer)
+                    {
+                        if ($_SESSION['final_array_sv_questions'][$key]['Module'] == $module['ID'])
+                        {
+                            $module_price += $answer['Price'];
+                            foreach($competencelevels as $clevel)
+                            {
+                                if ($answer['Price']>=$clevel['PENALTYPOINTS_MIN'])
+                                {
+                                    $_SESSION['final_array_sv_answers'][$key]['Compet'] = $clevel['TITLE'];
                                 }
                             }
                         }
@@ -176,6 +190,9 @@ SQL;
 		$smarty->assign("final_array_sf_questions", $_SESSION['final_array_sf_questions']);
 		$smarty->assign("final_array_sf_answers", $_SESSION['final_array_sf_answers']);
 		
+                $smarty->assign("final_array_sv_questions", $_SESSION['final_array_sf_questions']);
+		$smarty->assign("final_array_sv_answers", $_SESSION['final_array_sf_answers']);
+                
 		$smarty->assign("final_array_cv_basic", $_SESSION['final_array_cv_basic']);
 		$smarty->assign("final_array_cv_questions", $_SESSION['final_array_cv_questions']);
 		$smarty->assign("final_array_cv_answers", $_SESSION['final_array_cv_answers']);

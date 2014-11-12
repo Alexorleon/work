@@ -686,7 +686,7 @@
 
 				array_push($_SESSION['final_array_cv_basic'], $s_res1); // запоминаем заголовок для таблицы результатов
 				$_SESSION['final_array_cv_answers'][] = array();
-                $_SESSION['final_array_cv_questions'][] = array();
+                                $_SESSION['final_array_cv_questions'][] = array();
 				$_SESSION['complex_question_text'] = $s_res1['TEXT']; // заголовок цепочки
 				$_SESSION['complex_question_prolog'] = $s_res1['PROLOGVIDEO'];
 				$_SESSION['complex_question_catalog'] = $s_res1['CATALOG'];
