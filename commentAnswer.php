@@ -152,9 +152,9 @@ SQL;
                                 $module_price += $subanswer['Price'];
                                 foreach($competencelevels as $clevel)
                                 {
-                                    if ($answer['Price']>=$clevel['PENALTYPOINTS_MIN'])
+                                    if ($subanswer['Price']>=$clevel['PENALTYPOINTS_MIN'])
                                     {
-                                        $_SESSION['final_array_txt_answers'][$key][$subkey]['Compet'] = $clevel['TITLE'];
+                                        $_SESSION['final_array_cv_answers'][$key][$subkey]['Compet'] = $clevel['TITLE'];
                                     }
                                 }
                             }

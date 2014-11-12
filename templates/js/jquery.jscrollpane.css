@@ -1,0 +1,153 @@
+/*
+ * CSS Styles that are needed by jScrollPane for it to operate correctly.
+ *
+ * Include this stylesheet in your site or copy and paste the styles below into your stylesheet - jScrollPane
+ * may not operate correctly without them.
+ */
+
+.jspContainer
+{
+	overflow: hidden;
+	position: relative;
+}
+
+.jspPane
+{
+	position: absolute;
+}
+
+.jspVerticalBar
+{
+	position: absolute;
+	top: 0;
+	right: 43px;
+	width: 40px;
+	height: 100%;
+}
+
+.jspHorizontalBar
+{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 16px;
+	background: red;
+}
+
+.jspCap
+{
+	display: none;
+}
+
+.jspHorizontalBar .jspCap
+{
+	float: left;
+}
+
+.jspTrack
+{
+	background: #dde;
+	position: relative;
+}
+
+.jspDrag
+{
+background: rgb(0,187,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(0,187,255,1) 0%, rgba(0,166,221,1) 50%, rgba(0,187,255,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,187,255,1)), color-stop(50%,rgba(0,166,221,1)), color-stop(100%,rgba(0,187,255,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(0,187,255,1) 0%,rgba(0,166,221,1) 50%,rgba(0,187,255,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(0,187,255,1) 0%,rgba(0,166,221,1) 50%,rgba(0,187,255,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(0,187,255,1) 0%,rgba(0,166,221,1) 50%,rgba(0,187,255,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(0,187,255,1) 0%,rgba(0,166,221,1) 50%,rgba(0,187,255,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00bbff', endColorstr='#00bbff',GradientType=0 ); /* IE6-9 */
+
+border-radius: 5px;
+	position: relative;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+}
+
+.jspHorizontalBar .jspTrack,
+.jspHorizontalBar .jspDrag
+{
+	float: left;
+	height: 100%;
+}
+
+.jspArrow
+{
+	background: rgb(0,155,213); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(0,155,213,1) 0%, rgba(0,127,173,1) 50%, rgba(0,155,213,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,155,213,1)), color-stop(50%,rgba(0,127,173,1)), color-stop(100%,rgba(0,155,213,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#009bd5', endColorstr='#009bd5',GradientType=0 ); /* IE6-9 */
+
+border-radius: 5px;
+	text-indent: -20000px;
+	display: block;
+	cursor: pointer;
+	padding: 0;
+}
+.jspArrowDown
+{
+background: url('/files/img/ArrowDown.png') 100% 100% no-repeat, rgb(0,155,213); /* Old browsers */
+background: url('/files/img/ArrowDown.png') 100% 100% no-repeat, -moz-linear-gradient(top,  rgba(0,155,213,1) 0%, rgba(0,127,173,1) 50%, rgba(0,155,213,1) 100%); /* FF3.6+ */
+background: url('/files/img/ArrowDown.png') 100% 100% no-repeat, -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,155,213,1)), color-stop(50%,rgba(0,127,173,1)), color-stop(100%,rgba(0,155,213,1))); /* Chrome,Safari4+ */
+background: url('/files/img/ArrowDown.png') 100% 100% no-repeat, -webkit-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* Chrome10+,Safari5.1+ */
+background: url('/files/img/ArrowDown.png') 100% 100% no-repeat, -o-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* Opera 11.10+ */
+background: url('/files/img/ArrowDown.png') 100% 100% no-repeat, -ms-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* IE10+ */
+background: url('/files/img/ArrowDown.png') 100% 100% no-repeat, linear-gradient(to bottom,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#009bd5', endColorstr='#009bd5',GradientType=0 ); /* IE6-9 */
+}
+
+.jspArrowUp
+{
+background: url('/files/img/ArrowUp.png') 100% 100% no-repeat, rgb(0,155,213); /* Old browsers */
+background: url('/files/img/ArrowUp.png') 100% 100% no-repeat, -moz-linear-gradient(top,  rgba(0,155,213,1) 0%, rgba(0,127,173,1) 50%, rgba(0,155,213,1) 100%); /* FF3.6+ */
+background: url('/files/img/ArrowUp.png') 100% 100% no-repeat, -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,155,213,1)), color-stop(50%,rgba(0,127,173,1)), color-stop(100%,rgba(0,155,213,1))); /* Chrome,Safari4+ */
+background: url('/files/img/ArrowUp.png') 100% 100% no-repeat, -webkit-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* Chrome10+,Safari5.1+ */
+background: url('/files/img/ArrowUp.png') 100% 100% no-repeat, -o-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* Opera 11.10+ */
+background: url('/files/img/ArrowUp.png') 100% 100% no-repeat, -ms-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* IE10+ */
+background: url('/files/img/ArrowUp.png') 100% 100% no-repeat, linear-gradient(to bottom,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#009bd5', endColorstr='#009bd5',GradientType=0 ); /* IE6-9 */
+}
+.jspArrow.jspDisabled
+{
+	cursor: default;
+	background: #80808d;
+}
+
+.jspVerticalBar .jspArrow
+{
+	height: 40px;
+}
+
+.jspHorizontalBar .jspArrow
+{
+	width: 16px;
+	float: left;
+	height: 100%;
+}
+
+.jspVerticalBar .jspArrow:focus
+{
+	outline: none;
+}
+
+.jspCorner
+{
+	background: #eeeef4;
+	float: left;
+	height: 100%;
+}
+
+/* Yuk! CSS Hack for IE6 3 pixel bug :( */
+* html .jspCorner
+{
+	margin: 0 -3px 0 0;
+}
