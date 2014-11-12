@@ -1,39 +1,5 @@
-<!DOCTYPE HTML>
-<html lang="ru">
-<head>
-<title>{$title}</title>
-<meta charset="utf-8">
-<link rel="stylesheet" href="{$tpl}css/main.css">
-
-<div id="error_mess"> {$error_} </div>
-
-<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
-<script type="text/javascript" src="{$js}migrate.js"></script>
-<script type="text/javascript" src="{$js}noselect.js"></script>
-<script type="text/javascript" src="{$js}TableFilter/tablefilter_min.js"></script>
-</head>
-<body>
-<!--<form id="list_posts" name="list_posts" method="post">
-</form>-->
-
-<div id="menu-holder"></div>
-
-<main>
-
-<aside>
-
-	<menu>
-		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
-		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
-		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu set_cur" type="button" value="Сотрудники" onclick=""/></a></li>
-		<!--<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
-		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
-	</menu>
-
-</aside>
-
-<article>
-
+{extends file="list.tpl.html"}
+{block name="article"}
 	<span class="title_menu_edit">Сотрудники для терминала</span>
 
 	<!-- Меню редактирования -->
@@ -94,13 +60,5 @@
                                };
             var tf2 = setFilterGrid("employeelist", table2_Props);
         </script>
-</article>
-
-</main>
-
-<footer id="bottom">
-</footer>
-
-<script src="{$tpl}js/script.js"></script>
-</body>
-</html>
+{/block}
+{/extends}
