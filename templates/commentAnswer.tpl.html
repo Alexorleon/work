@@ -3,7 +3,8 @@
 
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
-
+<link type="text/css" href="{$tpl}js/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="{$tpl}js/jquery.jscrollpane.min.js"></script>
 <div id="error_mess"> {$error_} </div>
 <div id="commentAnswerDiv" align="center" >
 
@@ -102,6 +103,7 @@
 <div class="emp_data">
     Всего штрафных баллов: <span style="font-weight: 900">{$final_price}</span>
 </div>
+<div id="scrollable">
 <table class="simple-little-table" id="test_results" cellspacing='0'>
 
 <tr>
@@ -137,7 +139,7 @@
                     {$final_array_txt_answers[$k]['Text']}
                 </td>
                 <td>
-                    {$final_array_txt_answers[$k]['Comment']}
+                   {$final_array_txt_answers[$k]['Compet']}. {$final_array_txt_answers[$k]['Comment']}
                 </td>
                 <td>
                     {$final_array_txt_answers[$k]['Price']}
@@ -162,7 +164,7 @@
                     {$final_array_sf_answers[$k]['Text']}
                 </td>
                 <td>
-                    {$final_array_sf_answers[$k]['Comment']}
+                    {$final_array_sf_answers[$k]['Compet']}. {$final_array_sf_answers[$k]['Comment']}
                 </td>
                 <td>
                     {$final_array_sf_answers[$k]['Price']}
@@ -194,7 +196,7 @@
                         {$final_array_cv_answers[$k][$qk]['Text']}
                     </td>
                     <td>
-                        {$final_array_cv_answers[$k][$qk]['Comment']}
+                        {$final_array_cv_answers[$k][$qk]['Compet']}. {$final_array_cv_answers[$k][$qk]['Comment']}
                     </td>
                     <td>
                         {$final_array_cv_answers[$k][$qk]['Price']}
@@ -206,7 +208,15 @@
 {/foreach}
 
 </table>
-
+</div>
+<script>
+    {literal}
+$(function()
+{
+	$('#scrollable').jScrollPane({showArrows: true});
+});
+</script>
+{/literal}
 {/if}
 
 <!-- вариант для кнопки (повторить вопрос или выйти)-->
