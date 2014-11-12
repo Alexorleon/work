@@ -1,6 +1,6 @@
 <?php	
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
-
+        error_reporting(E_ERROR);
 	$db = new db;
 	$db->GetConnect();
 	$error_='';

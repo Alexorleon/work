@@ -1320,6 +1320,10 @@ display: none;
     height: 740px;
     overflow: auto;
 }
+#test_results
+{
+    font-size: 25px;
+}
 #test_results tr
 {
     color: #04B404;
