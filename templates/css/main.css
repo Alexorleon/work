@@ -1304,7 +1304,7 @@ display: none;
 }
 #scrollable
 {
-    height: 740px;
+    height: 200px;
     overflow: auto;
 }
 #test_results tr
