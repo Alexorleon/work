@@ -865,9 +865,11 @@ SQL;
 		// сложное видео
 		foreach($_SESSION['final_array_cv_basic'] as $basic_key=>$basic)
 		{
-			for($count = 0; $count < count($_SESSION['final_array_cv_answers']); $count++){
-
+			for($count = 0; $count < count($_SESSION['final_array_cv_answers'][$basic_key]); $count++){
+					
 				$temp_qid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID'];
+				$sql_cv = "SELECT COMPLEXVIDEOID as QID FROM stat.COMPLEXVIDEO WHERE ID='$temp_qid'";
+				$temp_qid = $obj->go_result_once($sql_cv)['QID'];
 				$temp_ansid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID_answer'];
 				$date = $_SESSION['final_array_cv_answers'][$basic_key][$count]['time'];
 

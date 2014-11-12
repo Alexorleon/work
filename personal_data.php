@@ -34,7 +34,7 @@ function GetPersonalData($obj, $sotrud_id)
 {
     $result = GetCTypes($obj);
     $modules = GetModules($obj);
-    
+    $it=0;
     $sql_actual = "SELECT TO_CHAR(MAX(DATEBEGIN), 'DD.MM.YYYY HH24:MI:SS') AS DT FROM stat.ALLHISTORY WHERE EXAMINERTYPE='2' AND SOTRUD_ID='$sotrud_id'";
     $max_date = $obj->go_result_once($sql_actual)['DT'];
    // echo $max_date;
@@ -44,16 +44,18 @@ function GetPersonalData($obj, $sotrud_id)
     
     if (count($answer_results)!=0)
     {
+        
         foreach($answer_results as $answer_res)
         {
            $current_a_id = $answer_res['ALLANSWERSID'];
-           //echo $current_a_id;
+           $current_q_id = $answer_res['ALLQUESTIONSID'];
+           //echo $current_a_id."<br>";
            $sql_answer = <<<SQL
-                        SELECT MODULEID, PRICE FROM stat.ALLQUESTIONS, stat.ALLANSWERS WHERE ALLANSWERS.ID='$current_a_id' AND ALLQUESTIONS.ID = ALLANSWERS.ALLQUESTIONSID
+                        SELECT MODULEID, PRICE, ALLANSWERS.TEXT as TEXT FROM stat.ALLQUESTIONS, stat.ALLANSWERS WHERE ALLANSWERS.ID='$current_a_id' AND ALLQUESTIONS.ID = '$current_q_id'
 SQL;
-
-           $answer = $obj->go_result_once($sql_answer);
            
+           $answer = $obj->go_result_once($sql_answer);
+          // echo $it++.$answer['TEXT']." ".$answer['PRICE']." ".$answer['MODULEID']."<br>";
            if (!empty($answer))
            {
                $CTid = $modules[$answer['MODULEID']];
@@ -68,6 +70,7 @@ SQL;
         
         foreach($result as $key=>$value)
         {
+          //  echo $key." - ".$result[$key]['K']."<br>";
             if (in_array($key, $modules))
             {
                 $result[$key]['K'] = ($value['Sum']==0) ? 0 : round($value['K']/$value['Sum'],0);
@@ -77,6 +80,7 @@ SQL;
                     $result[$key]['Danger'] = $result[$key]['K'];
                 }
                 $result[$key]['K'] = -$result[$key]['K'];
+              //  echo $result[$key]['Danger']."<br>";
                 $result[$key]['CompetenceLevel'] =GetCompetenceShortText($obj, $result[$key]['Danger']).". ".GetRecommendations($obj, $result[$key], $key);
             }
             else
@@ -197,15 +201,18 @@ SQL;
 function GetCompetenceShortText($obj, $level_num)
 {
     $sql_competencelevel = <<<SQL
-                   SELECT TITLE FROM stat.COMPETENCELEVEL WHERE PENALTYPOINTS_MIN<= '$level_num' AND PENALTYPOINTS_MAX>='$level_num'
+                   SELECT TITLE, PENALTYPOINTS_MIN FROM stat.COMPETENCELEVEL ORDER BY PENALTYPOINTS_MAX
 SQL;
-    $competencelevel = $obj->go_result_once($sql_competencelevel);
-    
-    if (!empty($competencelevel))
+    $competencelevel = $obj->go_result($sql_competencelevel);
+    $result = '';
+    foreach ($competencelevel as $cl)
     {
-        return $competencelevel['TITLE'];
+        if ($cl['PENALTYPOINTS_MIN']<=$level_num)
+        {
+           $result = $cl['TITLE']; 
+        }
     }
-    return "";
+    return  $result;
 }
 function GetRecommendations($obj, $data_row, $id)
 {
