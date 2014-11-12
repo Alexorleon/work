@@ -265,16 +265,17 @@
 		
 		// видео цепочки
 		// вопросы по смертельному риску
+		// TODO: заглушка. первую помощь сделать здесь, т.к. у нее риск смертельный
 		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
+			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='61' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_death_risk_cv = $obj->go_result($sql_ques);
 		shuffle($array_death_risk_cv);
-
+		
 		// вопросы по высокому риску
 		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
+			"SELECT ID, MODULEID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
 			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_high_risk_cv = $obj->go_result($sql_ques);
@@ -296,7 +297,6 @@
 			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_death_risk_sv = $obj->go_result($sql_ques);
 		shuffle($array_death_risk_sv);
-
 		// вопросы по высокому риску
 		$sql_ques =
 			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='22' AND ALLQUESTIONS.TYPEQUESTIONSID='9' AND ALLQUESTIONS.ID IN 
@@ -361,22 +361,7 @@
 					$count_ques++;
 				}
 			}
-			
-			if($count_ques >= $tempcount) break;
-			
-			// видео цепочка
-			if(count($array_death_risk_cv) <= $count_i){
-			
-				// берем значение из другого массива
-			}else{
-				// если еще не добавили
-				if(!$b_dr_cv){
-					array_push($q_final_array, $array_death_risk_cv[$count_i]);
-					$b_dr_cv = true;
-					$count_ques++;
-				}
-			}
-			
+						
 			if($count_ques >= $tempcount) break;
 			
 			// фото
@@ -498,6 +483,23 @@
 				}
 			}
 			
+			// TODO: заглушка
+			$count_i--;
+			if($count_ques >= $tempcount) break;
+			
+			// видео цепочка
+			if(count($array_death_risk_cv) <= $count_i){
+			
+				// берем значение из другого массива
+			}else{
+				// если еще не добавили
+				if(!$b_dr_cv){
+					array_push($q_final_array, $array_death_risk_cv[$count_i]);
+					$b_dr_cv = true;
+					$count_ques++;
+				}
+			}
+			
 			// проверяем что все вложились или больше нечего добавить
 			if($b_dr_sf == true && $b_hr_sf == true && $b_sr_sf == true && $b_dr_cv == true && $b_hr_cv == true && $b_sr_cv == true
 			&& $b_dr_sv == true && $b_hr_sv == true && $b_sr_sv == true){ // все гуд, с каждого по вопросу
@@ -609,11 +611,11 @@
 				//$temp_id = (int)$testid['ID'];
 				$question_text = $s_res['TEXT'];
                                 
-                                $_SESSION['final_array_txt_questions'][] = array();
-                                $q_key = array_end_key($_SESSION['final_array_txt_questions']);
-                                
-                                $_SESSION['final_array_txt_questions'][$q_key]['Text'] = $question_text;
-                                $_SESSION['final_array_txt_questions'][$q_key]['Module'] = $s_res['MID'];
+				$_SESSION['final_array_txt_questions'][] = array();
+				$q_key = array_end_key($_SESSION['final_array_txt_questions']);
+				
+				$_SESSION['final_array_txt_questions'][$q_key]['Text'] = $question_text;
+				$_SESSION['final_array_txt_questions'][$q_key]['Module'] = $s_res['MID'];
 				//array_push($_SESSION['final_array_txt_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 				// берем ответы к этому вопросу
@@ -630,7 +632,7 @@
 				
 				$_SESSION['array_answers'] = $array_answers;
                                 
-                                $_SESSION['ID_module'] = $s_res['MID'];
+                $_SESSION['ID_module'] = $s_res['MID'];
 				
 				$_SESSION['TIME_DATEBEGIN'] = time();
 				
@@ -710,10 +712,10 @@ SQL;
 						
 				$_SESSION['final_array_sf_questions'][] = array();
                                 
-                                $q_key = array_end_key($_SESSION['final_array_sf_questions']);
-                                $_SESSION['final_array_sf_questions'][$q_key]['Text'] = $question_text;
-                                $_SESSION['final_array_sf_questions'][$q_key]['Module'] = $s_res['MID'];
-//                                array_push($_SESSION['final_array_sf_questions'], $question_text); // запоминаем вопрос TODO: iconv
+				$q_key = array_end_key($_SESSION['final_array_sf_questions']);
+				$_SESSION['final_array_sf_questions'][$q_key]['Text'] = $question_text;
+				$_SESSION['final_array_sf_questions'][$q_key]['Module'] = $s_res['MID'];
+				//array_push($_SESSION['final_array_sf_questions'], $question_text); // запоминаем вопрос TODO: iconv
 
 				// берем ответы к этому вопросу
 				$sql_ans = "SELECT ID, TEXT, COMPETENCELEVELID, COMMENTARY, PRICE
@@ -786,13 +788,13 @@ SQL;
 				
 				// для таблицы результатов
 
-                                $basic_key = array_end_key($_SESSION['final_array_cv_questions']);
-                                $_SESSION['final_array_cv_questions'][$basic_key][] = array();
-                                
-                                $q_key = array_end_key($_SESSION['final_array_cv_questions'][$basic_key]);
-                                $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Text'] = $_SESSION['link_question_complex']['TITLE'];
-                                $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Video'] = $_SESSION['link_question_complex']['SIMPLEVIDEO'];
-                                $_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Module'] = $_SESSION['complex_question_mid'];
+				$basic_key = array_end_key($_SESSION['final_array_cv_questions']);
+				$_SESSION['final_array_cv_questions'][$basic_key][] = array();
+				
+				$q_key = array_end_key($_SESSION['final_array_cv_questions'][$basic_key]);
+				$_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Text'] = $_SESSION['link_question_complex']['TITLE'];
+				$_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Video'] = $_SESSION['link_question_complex']['SIMPLEVIDEO'];
+				$_SESSION['final_array_cv_questions'][$basic_key][$q_key]['Module'] = $_SESSION['complex_question_mid'];
 
 				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['TITLE']);
 				//array_push($_SESSION['final_array_cv_questions'], $_SESSION['link_question_complex']['SIMPLEVIDEO']);

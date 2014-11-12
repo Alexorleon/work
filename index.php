@@ -9,6 +9,9 @@
 	unset($_SESSION['final_array_sf_questions']); // хранится текст простых фото вопросов
 	unset($_SESSION['final_array_sf_answers']); // основной массив для ответов
 	
+	unset($_SESSION['final_array_sv_questions']); // хранится текст простых видео вопросов
+	unset($_SESSION['final_array_sv_answers']); // основной массив для ответов
+	
 	unset($_SESSION['final_array_cv_basic']); // хранятся заголовки видео цепочек
 	unset($_SESSION['final_array_cv_questions']); // хранятся вопросы видео цепочек
 	unset($_SESSION['final_array_cv_answers']); // ответы цепочек
