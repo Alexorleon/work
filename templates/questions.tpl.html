@@ -167,6 +167,7 @@
 		<td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}</span></div></td>
 		<td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj}</span></div></td>
 		<td><div class="text_sotrud_tabel"><span>Табельный номер: {$sm_sotrud_tabel}</span></div></td>
+		<td><input class="interrupt_testing" type="button" onclick="textAnswer(99904, 0, 0)" value="Прервать тестирование"/></td>
 	</tr>
 </table>
 
@@ -320,7 +321,7 @@
 			
 			<table style="width: 100%; background: #ffff99; min-height: 100px;">
 				<tr>
-					<td style="width: 360;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Вопрос №{$counter_questions}</span></div></td>
+					<td style="width: 200;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Вопрос №{$counter_questions}</span></div></td>
 					<td align="left"><div class="text_question"><span>{$complex_question_text}</span></div></td>
 				</tr>
 			</table>
@@ -329,7 +330,7 @@
 				<tr>
 					<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$link_question_complex['ID']}   {$link_question_complex['TITLE']}</span></div></td>-->
 					<!--{capture}{$count_complex_question--}{/capture}-->
-					<td style="width: 110;" align="left"><div style="margin-top: 1%;" class="text_question"><span>{$count_complex_question} из 5</span></div></td>
+					<td style="width: 110;" align="left"><div style="margin-top: 1%;" class="text_question"><span>{$count_complex_question} из {$max_count_chain}</span></div></td>
 					<td><div align="left" style="margin-top: 1%;" class="text_question"><span>{$link_question_complex['TITLE']}</span></div></td>
 				</tr>
 			</table>

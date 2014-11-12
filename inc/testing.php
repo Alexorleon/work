@@ -14,6 +14,14 @@
 		
 		}elseif($comp_lvl == 99903){ // показывали ответ
 		
+		}elseif($comp_lvl == 99904){ // прервать сдачу теста
+		
+			// обнуляем все данные для правильного выхода
+			$_SESSION['go_answer'] = false;
+			$_SESSION['counter_questions'] = 999;
+			$_SESSION['counter_questions'] = $_SESSION['numquestions'];
+			$answer = 3;
+			
 		}else{
 			// необходимо для закрашивания цветом
 			$isCorrect = '';
@@ -34,8 +42,8 @@
 			switch($temp_type_question){
 	
 				case 8: // текст
-                                        $_SESSION['final_array_txt_answers'][] = array();
-                                        $ans_key = array_end_key($_SESSION['final_array_txt_answers']);
+                    $_SESSION['final_array_txt_answers'][] = array();
+                    $ans_key = array_end_key($_SESSION['final_array_txt_answers']);
 					$_SESSION['final_array_txt_answers'][$ans_key]['Correct'] = $isCorrect;
 					$_SESSION['final_array_txt_answers'][$ans_key]['Text'] = $_SESSION['array_answers'][$numid]['TEXT'];
 					$_SESSION['final_array_txt_answers'][$ans_key]['Comment'] = $_SESSION['array_answers'][$numid]['COMMENTARY'];
@@ -45,7 +53,7 @@
 					$_SESSION['final_array_txt_answers'][$ans_key]['ID_answer'] = $_SESSION['array_answers'][$numid]['ID'];
 					
 					$_SESSION['final_array_txt_answers'][$ans_key]['time'] = $time_date;
-                                        break;
+                    break;
 					
 				case 9: // простое видео
 					
@@ -226,6 +234,8 @@
 	$smarty->assign("sm_sotrud_dolj", $_SESSION['sotrud_dolj']);
 	$smarty->assign("sm_sotrud_tabel", $_SESSION['sotrud_tabkadr']);
 	$smarty->assign("title", "Пробное тестирование");
+	
+	$smarty->assign("max_count_chain", $_SESSION['max_count_chain']);
 
 	$smarty->assign("error_", $error_);
 	$smarty->assign("typetest", 3);
@@ -831,8 +841,7 @@ SQL;
 		// TODO: начать транзакцию
 		// записываем всю сдачу в историю
 		for($count = 0; $count < count($_SESSION['final_array_txt_answers']); $count++){
-		
-			
+
 		}
 		
 		for($count = 0; $count < count($_SESSION['final_array_sf_answers']); $count++){
@@ -852,26 +861,28 @@ SQL;
 			'$temp_ansid')";
 			$obj->go_query($sql);
 		}
+		
+		// сложное видео
 		foreach($_SESSION['final_array_cv_basic'] as $basic_key=>$basic)
-                {
-                    for($count = 0; $count < count($_SESSION['final_array_cv_answers']); $count++){
+		{
+			for($count = 0; $count < count($_SESSION['final_array_cv_answers']); $count++){
 
-                            $temp_qid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID'];
-                            $temp_ansid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID_answer'];
-                            $date = $_SESSION['final_array_cv_answers'][$basic_key][$count]['time'];
+				$temp_qid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID'];
+				$temp_ansid = $_SESSION['final_array_cv_answers'][$basic_key][$count]['ID_answer'];
+				$date = $_SESSION['final_array_cv_answers'][$basic_key][$count]['time'];
 
-                            $sql = "INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
-                            ($tempID, 
-                            $temp_qid, 
-                            to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
-                            '$date', 
-                            0, 
-                            2, 
-                            'N', 
-                            '$temp_ansid')";
-                            $obj->go_query($sql);
-                    }
-                }
+				$sql = "INSERT INTO stat.ALLHISTORY (SOTRUD_ID, ALLQUESTIONSID, DATEBEGIN, DATEEND, ATTEMPTS, EXAMINERTYPE, DEL, ALLANSWERSID) VALUES 
+				($tempID, 
+				$temp_qid, 
+				to_date('$beginDate', 'DD.MM.YYYY HH24:MI:SS'), 
+				'$date', 
+				0, 
+				2, 
+				'N', 
+				'$temp_ansid')";
+				$obj->go_query($sql);
+			}
+		}
 		
 		// простое видео
 		for($count = 0; $count < count($_SESSION['final_array_sv_answers']); $count++){
