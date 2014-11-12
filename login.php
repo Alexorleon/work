@@ -15,7 +15,7 @@
 
 		// Вытаскиваем из БД запись, у которой логин равняеться введенному
 		$sql = <<<SQL
-			SELECT ID, PASSWORD FROM stat.ADMINREG WHERE ADMINREG.LOGIN='$good_login' AND ROWNUM <= 1
+			SELECT ID, PASSWORD, ROLE FROM stat.ADMINREG WHERE ADMINREG.LOGIN='$good_login' AND ROWNUM <= 1
 SQL;
 		$data = $db->go_result_once($sql);
 
@@ -50,6 +50,7 @@ SQL;
 				// Ставим куки
 				setcookie("register_id", $data['ID'], time()+60*60*24*30);
 				setcookie("register_hash", $hash, time()+60*60*24*30);
+                                setcookie("role",$data['ROLE'], time()+60*60*24*30);
 
 				$_SESSION["register_id"] = $data['ID']; //запоминаем айди и хэш нашего авторизовавшегося юзера
 				$_SESSION["register_hash"] = $hash;

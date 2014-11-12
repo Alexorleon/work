@@ -109,6 +109,8 @@ SQL;
                 $sql_module = "SELECT ID, TITLE FROM stat.MODULE";
                 $res_module = $db->go_result($sql_module);
                 
+                $sql_compet = "SELECT TITLE, PENALTYPOINTS_MIN FROM stat.COMPETENCELEVEL ORDER BY PENALTYPOINTS_MAX";
+                $competencelevels = $db->go_result($sql_compet);
                 
                 foreach ($res_module as $mkey=>$module)
                 {
@@ -118,6 +120,13 @@ SQL;
                         if ($_SESSION['final_array_txt_questions'][$key]['Module'] == $module['ID'])
                         {
                             $module_price += $answer['Price'];
+                            foreach($competencelevels as $clevel)
+                            {
+                                if ($answer['Price']>=$clevel['PENALTYPOINTS_MIN'])
+                                {
+                                    $_SESSION['final_array_txt_answers'][$key]['Compet'] = $clevel['TITLE'];
+                                }
+                            }
                         }
                     }
                     foreach($_SESSION['final_array_sf_answers'] as $key=>$answer)
@@ -125,6 +134,13 @@ SQL;
                         if ($_SESSION['final_array_sf_questions'][$key]['Module'] == $module['ID'])
                         {
                             $module_price += $answer['Price'];
+                            foreach($competencelevels as $clevel)
+                            {
+                                if ($answer['Price']>=$clevel['PENALTYPOINTS_MIN'])
+                                {
+                                    $_SESSION['final_array_sf_answers'][$key]['Compet'] = $clevel['TITLE'];
+                                }
+                            }
                         }
                     }
                     foreach($_SESSION['final_array_cv_answers'] as $key=>$answer)
@@ -134,10 +150,24 @@ SQL;
                             if ($_SESSION['final_array_cv_questions'][$key][$subkey]['Module'] == $module['ID'])
                             {
                                 $module_price += $subanswer['Price'];
+                                foreach($competencelevels as $clevel)
+                                {
+                                    if ($answer['Price']>=$clevel['PENALTYPOINTS_MIN'])
+                                    {
+                                        $_SESSION['final_array_txt_answers'][$key][$subkey]['Compet'] = $clevel['TITLE'];
+                                    }
+                                }
                             }
                         }
                     }
                     $res_module[$mkey]['Price'] = $module_price;
+                    foreach($competencelevels as $clevel)
+                    {
+                        if ($module_price>$clevel['PENALTYPOINTS_MIN'])
+                        {
+                            $res_module[$mkey]['Compet'] = $clevel['TITLE'];
+                        }
+                    }
                 }
                 
 		$smarty->assign("final_array_txt_questions", $_SESSION['final_array_txt_questions']);

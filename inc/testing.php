@@ -34,13 +34,18 @@
 			switch($temp_type_question){
 	
 				case 8: // текст
-				
-					array_push($_SESSION['final_array_txt_answers'], $isCorrect);
+                                        $_SESSION['final_array_txt_answers'][] = array();
+                                        $ans_key = array_end_key($_SESSION['final_array_txt_answers']);
+					$_SESSION['final_array_txt_answers'][$ans_key]['Correct'] = $isCorrect;
+					$_SESSION['final_array_txt_answers'][$ans_key]['Text'] = $_SESSION['array_answers'][$numid]['TEXT'];
+					$_SESSION['final_array_txt_answers'][$ans_key]['Comment'] = $_SESSION['array_answers'][$numid]['COMMENTARY'];
+					$_SESSION['final_array_txt_answers'][$ans_key]['Price'] = $_SESSION['array_answers'][$numid]['PRICE'];
 					
-					array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['TEXT']);
-					array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['COMMENTARY']);
-					array_push($_SESSION['final_array_txt_answers'], $_SESSION['array_answers'][$numid]['PRICE']);
-					break;
+					$_SESSION['final_array_txt_answers'][$ans_key]['ID'] = $_SESSION['ID_question']; // id вопроса
+					$_SESSION['final_array_txt_answers'][$ans_key]['ID_answer'] = $_SESSION['array_answers'][$numid]['ID'];
+					
+					$_SESSION['final_array_txt_answers'][$ans_key]['time'] = $time_date;
+                                        break;
 					
 				case 9: // простое видео
 					
