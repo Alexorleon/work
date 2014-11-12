@@ -1,17 +1,16 @@
 <?php
 	$typetest = 2;
 
-	// выбираем вариант тестированиЯ (пробное или нет)
-	if ($_POST){
+	if (!empty($_POST)){
 
-		$answer = $_POST['answer'];
+		$answer = filter_input(INPUT_POST, 'answer', FILTER_SANITIZE_NUMBER_INT); //$_POST['answer'];
 
-		if ($answer == "1"){ // пробное тестирование
+		if ($answer == 1){
 
 			//$_SESSION['qtype'] = 1;
 			$_SESSION['counter_questions'] = 0;
 			die('<script>document.location.href= "'.lhost.'/question.php?qtype=3"</script>');
-		}else{ // тестирование
+		}else{
 
 			//$_SESSION['qtype'] = 2;
 			$_SESSION['counter_questions'] = 0;
@@ -22,6 +21,6 @@
 	$smarty->assign("error_", $error_);
 
 	$smarty->assign("typetest", $typetest);
-	$smarty->assign("title", "Контроль компетентности");
+	$smarty->assign("title", "РўРёРї С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ");
 	$smarty->display("questions.tpl.html");
 ?>

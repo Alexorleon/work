@@ -2,13 +2,16 @@
 <html>
 <head>
 <title>{$title}</title>
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-	
-	<link rel="stylesheet" href="{$tpl}css/style.css" type="text/css"/>  
-	<link rel="stylesheet" href="{$tpl}css/main.css" type="text/css"/> 
-	<link rel="stylesheet" href="{$tpl}css/base/jquery.ui.all.css" type="text/css" media="screen" />	
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+
+<link rel="stylesheet" href="{$tpl}css/style.css" type="text/css"/>  
+<link rel="stylesheet" href="{$tpl}css/main.css" type="text/css"/> 
+<link rel="stylesheet" href="{$tpl}css/base/jquery.ui.all.css" type="text/css" media="screen" />
+
+<script type="text/javascript" src="{$js}jquery-1.11.1.min.js"></script>
+
 {literal}
 <style type="text/css">
 	html{
@@ -26,6 +29,15 @@
 	}
 	
 </style>
+
+<script>
+	jQuery(function($) {
+		
+		setInterval(function() {
+			document.location.href= "/auth.php";
+		}, 60000);
+	});
+</script>
 {/literal}
 <body>
 	<table>

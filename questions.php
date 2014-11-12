@@ -20,7 +20,7 @@
 		}else if($_GET['qtype'] == 3){// это контроль компетентности - пробное тестирование
 			require_once($_SERVER['DOCUMENT_ROOT']."/inc/testing.php");
 			
-		}else if($_GET['qtype'] == 4){// это контроль компетентности - просто тестирование
+		}else if($_GET['qtype'] == 4){// это контроль компетентности - тестирование
 			require_once($_SERVER['DOCUMENT_ROOT']."/inc/testing.php");
 			
 		}else{
@@ -28,7 +28,6 @@
 			//require_once($_SERVER['DOCUMENT_ROOT']."/inc/222.inc.php");
 			die("У меня не прописано, что делать");
 		}
-
 	}
 
 	//$smarty->assign('predpr', $s_res);

@@ -4,8 +4,40 @@
 <link rel="stylesheet" href="{$tpl}css/main.css">
 <div id="error_mess"> {$error_} </div>
 
-<div id="mainDiv" align="center" >
+<div id="menu-holder"></div>
+<div class="top-face">Контроль личной компетентности</div>
+<div id="menu-holder"></div>
 
+<div id="mainDiv" align="center" >
+    
+    <table border="1" class="table_competence" cellspacing="0">
+        <tbody>
+            <tr>
+                <th style="width:30%;">Тип компетентности</th>
+                <th style="width:10%;">Баллы</th>
+                <th style="width:60%;">Рекоммендации</th>
+            </tr>
+            {foreach from=$quest_data item=quest}
+            <tr>
+                <td>{$quest['name']}</td>
+                <td>{$quest['K']}</td>
+                <td>{$quest['CompetenceLevel']}</td>
+            </tr>
+            {/foreach}
+            <tr>
+                <td>
+                    {$total['name']}
+                </td>
+                <td>
+                    {$total['K']}
+                </td>
+                <td>
+                    {$total['CompetenceLevel']}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
 <form id="personalPage" name="personalPage" method="post">
 
 
@@ -13,7 +45,7 @@
 
 <!-- TODO: вывод статистики-->
 
-<input type="button" value="Назад" onclick="get_personal(0)"/>
+<input type="button" class='move_button' value="Назад" onclick="get_personal(0)"/>
 
 </form>
 </div>

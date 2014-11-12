@@ -328,9 +328,9 @@ SQL;
 
 
 	
-	if ($_POST){
+	if (!empty($_POST)){
 
-		$type_documents = $_POST['type_documents'];
+		$type_documents = filter_input(INPUT_POST, 'type_documents', FILTER_SANITIZE_NUMBER_INT);//$_POST['type_documents'];
 
 		if ($type_documents == 0){
 

@@ -160,17 +160,20 @@
 		
 		<table class="edit_tables_typeques">
 			<tr>
-				<th style="width: 25%;"></th>
-				<th style="width: 25%;">Проверка знаний</th>
-				<th style="width: 25%;">Проверка умений</th>
-				<th style="width: 25%;">Проверка опыта</th>
+				<th style="width: 20%;"></th>
+				<th style="width: 20%;">Проверка знаний</th>
+				<th style="width: 20%;">Проверка умений</th>
+				<th style="width: 20%;">Проверка опыта</th>
+				<th style="width: 20%;">Первая помощь</th>
 			</tr>
+			
+			<!-- TODO: задать одинаковые имена. будет проще распределять динамически -->
 			<tr>
 				<td>
 				Текстовый
 				</td>
 				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_t_knowledge" checked />
+					<input class="checkboxInTable_style" type="checkbox" id="chb_t_knowledge" name="chb_t_knowledge"/>
 				</td>
 				<td>
 					<input class="checkboxInTable_style" type="checkbox" name="chb_t_skills"/>
@@ -178,19 +181,25 @@
 				<td>
 					<input class="checkboxInTable_style" type="checkbox" name="chb_t_experience"/>
 				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_t_help"/>
+				</td>
 			</tr>
 			<tr>
 				<td>
 				Фото
 				</td>
 				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_f_knowledge"/>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_f_knowledge" value="true" checked />
 				</td>
 				<td>
 					<input class="checkboxInTable_style" type="checkbox" name="chb_f_skills"/>
 				</td>
 				<td>
 					<input class="checkboxInTable_style" type="checkbox" name="chb_f_experience"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_f_help"/>
 				</td>
 			</tr>
 			<tr>
@@ -204,7 +213,10 @@
 					<input class="checkboxInTable_style" type="checkbox" name="chb_v_skills"/>
 				</td>
 				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_v_experience"/>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_v_experience" value="true" checked />
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_v_help"/>
 				</td>
 			</tr>
 			<tr>
@@ -220,6 +232,9 @@
 				<td>
 					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_experience"/>
 				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_help"/>
+				</td>
 			</tr>
 			<tr>
 				<td>
@@ -229,10 +244,13 @@
 					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_knowledge"/>
 				</td>
 				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_skills"/>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_skills" value="true" checked />
 				</td>
 				<td>
 					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_experience"/>
+				</td>
+				<td>
+					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_help" value="true" checked />
 				</td>
 			</tr>
 		</table>

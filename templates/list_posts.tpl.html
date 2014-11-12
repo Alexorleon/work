@@ -1,41 +1,5 @@
-<!DOCTYPE HTML>
-<html lang="ru">
-<head>
-<title>{$title}</title>
-<meta charset="utf-8">
-<link rel="stylesheet" href="{$tpl}css/main.css">
-
-<div id="error_mess"> {$error_} </div>
-
-<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
-<script type="text/javascript" src="{$js}migrate.js"></script>
-<script type="text/javascript" src="{$js}noselect.js"></script>
-</head>
-<body>
-<!--<form id="list_posts" name="list_posts" method="post">
-</form>-->
-
-<div id="menu-holder"></div>
-
-<main>
-
-<aside>
-
-	<!--<div align="left">
-        <div class="authlogo_admin"></div>
-    </div>-->
-
-	<menu>
-		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
-		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
-		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
-		<!--<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>-->
-		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
-	</menu>
-
-</aside>
-
-<article>
+{extends file="list.tpl.html"}
+{block name="article"}
 	<span class="title_menu_edit">Список должностей для терминала</span>
 
 	<div style="margin-left: 2px;" align="left"><a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить должность" onclick=""/></a></div>
@@ -79,23 +43,5 @@
 		<p>здесь могут быть похожие записи, слайдер, баннеры, миниатюры и т.д...</p>
 	</section>-->
 
-</article>
-
-</main>
-
-<footer id="bottom">
-	<!--<p>
-		<small>
-			<time>2004-05-24</time> © <a href="http://www.pixelcom.crimea.ua">Pixel.com</a>
-		</small>
-
-		<address>
-			<a href="mailto:js@example.com">Написать письмо</a>
-		</address>
-	</p>-->
-</footer>
-
-
-<script src="{$tpl}js/script.js"></script>
-</body>
-</html>
+{/block}
+{/extends}

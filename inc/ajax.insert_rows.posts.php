@@ -8,11 +8,11 @@
 		$db->GetConnect();
 		$error_='';
 		
-	if ($_POST){
+	if (!empty($_POST)){
 	
 		//print_r($_POST);
-		$dolj_id = $_POST['dolj_id'];
-		$test_id = $_POST['test_id'];
+		$dolj_id = filter_input(INPUT_POST, 'dolj_id', FILTER_SANITIZE_NUMBER_INT);//$_POST['dolj_id'];
+		$test_id = filter_input(INPUT_POST, 'test_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['test_id'];
 		
 		// проверяем на совпадение
 		$sql = <<<SQL

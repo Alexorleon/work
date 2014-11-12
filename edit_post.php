@@ -14,12 +14,12 @@
 	//$array_test_added = Array();	
 	$smarty->assign("cur_post_name", '');
 	
-	if ($_POST){
+	if (!empty($_POST)){
 		
 		//print_r($_POST);
 		//die();
 		
-		$postname = $_POST['postname']; // название должности
+		$postname = filter_input(INPUT_POST, 'postname', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['postname']; // название должности
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_post'] == 0){ // это добавление нового
@@ -45,8 +45,8 @@ SQL;
 		
 		}else if($_SESSION['add_or_edit_post'] == 1){ // это редактирование
 			
-			$dolj_id = $_POST['dolj_id']; // название должности
-			$postname = $_POST['postname'];
+			$dolj_id = filter_input(INPUT_POST, 'dolj_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['dolj_id']; // название должности
+			$postname = filter_input(INPUT_POST, 'postname', FILTER_SANITIZE_SPECIAL_CHARS);
 			
 			$temppost = iconv("utf-8", "windows-1251", $postname);
 			
@@ -75,24 +75,26 @@ SQL;
 		}
 	}
 	
-	if($_GET){
-		
-		if($_GET['posttype'] == 0){ // это добавление нового
+	if(!empty($_GET)){
+		$get_posttype = filter_input(INPUT_GET, 'posttype', FILTER_SANITIZE_NUMBER_INT);
+		if($get_posttype == 0){ // это добавление нового
 		
 			$_SESSION['add_or_edit_post'] = 0;
 			
 			// чистые значения
 			//$smarty->assign("cur_post_kod", );
 			$smarty->assign("cur_post_name", '');			
-		}else if($_GET['posttype'] == 1){ // это редактирование
+		}else if($get_posttype == 1){ // это редактирование
 	
 			$_SESSION['add_or_edit_post'] = 1;
-				
-			if(isset($_GET['post_kod']) && !empty($_GET['post_kod']) && $_GET['post_kod'] && isset($_GET['post_name']) && !empty($_GET['post_name']) && $_GET['post_name']){
+                        // получаем значения для задания их по умолчанию
+			$post_kod = filter_input(INPUT_GET, 'post_kod', FILTER_SANITIZE_NUMBER_INT);
+                        $post_name = filter_input(INPUT_GET, 'post_name', FILTER_SANITIZE_SPECIAL_CHARS);
+			if($post_kod && $post_name){
 
 				// получаем значения для задания их по умолчанию
-				$post_kod = $_GET['post_kod']; // id должности
-				$post_name = $_GET['post_name']; // название должности
+				//$post_kod = $_GET['post_kod']; // id должности
+				//$post_name = $_GET['post_name']; // название должности
 				
 				// получаем список тестов к должности
 				$sql = <<<SQL
@@ -126,13 +128,14 @@ SQL;
 			
 			die("У меня не прописано, что делать");
 		}
-		
-		if(isset($_GET['del_testid']) && !empty($_GET['del_testid']) && $_GET['del_testid']){
+		$del_testid = filter_input(INPUT_GET, 'del_testid', FILTER_SANITIZE_NUMBER_INT);
+		if($del_testid){
 
-			$del_testid = $_GET['del_testid']; // id теста
-
-			$post_kod = $_GET['post_kod']; // id должности
-			$post_name = $_GET['post_name']; // название должности
+			//$del_testid = $_GET['del_testid']; // id теста
+                        $post_kod = filter_input(INPUT_GET, 'post_kod', FILTER_SANITIZE_NUMBER_INT);// id должности
+                        $post_name = filter_input(INPUT_GET, 'post_name', FILTER_SANITIZE_SPECIAL_CHARS);// название должности
+			//$post_kod = $_GET['post_kod']; // id должности
+			//$post_name = $_GET['post_name']; // название должности
 			
 			// удаляем должность
 			$sql = <<<SQL

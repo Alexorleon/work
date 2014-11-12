@@ -177,7 +177,8 @@ function get_test(f){
 
 	if(($("#testname").val() == "") || ($("#testpenalty").val() == "")){ // не пустые значения
 
-		alert("Введите все данные!");		
+		//alert("Введите все данные!");
+		alert($("#chb_t_knowledge").val());
 	}else{
 	
 		$("#testname").val();

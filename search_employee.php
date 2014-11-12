@@ -5,10 +5,11 @@
 	$db->GetConnect();
 	$error_='';
 	
-	if ($_POST){
+	if (!empty($_POST)){
 		
 		// записываем фамилию
-		$surname = iconv("utf-8", "windows-1251", $_POST['tabnum']);
+                $surname = filter_input(INPUT_POST, 'tabnum', FILTER_SANITIZE_SPECIAL_CHARS);
+		$surname = iconv("utf-8", "windows-1251", $surname);
 		
 		$sql = <<<SQL
 		select SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, TABEL_KADR from stat.sotrud where 

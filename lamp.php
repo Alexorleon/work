@@ -6,7 +6,7 @@
 	$db->GetConnect();
 	$error_='';
 		
-	if ($_POST){
+	if (!empty($_POST)){
 	}
 	
 	//(ALLHISTORY.DATEEND >= to_date('$date_to',  'DD.MM.YYYY HH24:MI:SS')) and (VYD_DATA <= to_date('$date_do',  'DD.MM.YYYY HH24:MI:SS')))

@@ -12,13 +12,13 @@
 	$db->GetConnect();
 	$error_='';
 		
-	if ($_POST){
+	if (!empty($_POST)){
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_test'] == 0){ // это добавление нового
 		
-			$testname = $_POST['testname'];
-			$testpenalty = $_POST['testpenalty'];
+			$testname = filter_input(INPUT_POST, 'testname', FILTER_SANITIZE_SPECIAL_CHARS); //$_POST['testname'];
+			$testpenalty = filter_input(INPUT_POST, 'testpenalty', FILTER_SANITIZE_NUMBER_INT); //$_POST['testpenalty'];
 			
 			// TODO: по хорошему тут обязательно нужна транзакция
 			

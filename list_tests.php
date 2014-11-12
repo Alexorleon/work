@@ -40,6 +40,9 @@ SQL;
 SQL;
 	$array_tests = $db->go_result($sql);
 	
+        $role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
+    
+    $smarty->assign("role", $role);
 	$smarty->assign("error_", $error_);
 	
 	$smarty->assign("array_tests", $array_tests);
