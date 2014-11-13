@@ -1021,7 +1021,7 @@ outline:0;
 	text-shadow: 1px 1px 0px #fff;
 	background:#eaebec;
 	margin:2px;
-	border:#A9D0F5 1px solid;
+	border:#A9F5B8 1px solid;
 	border-collapse:separate;
 
 	-moz-border-radius:3px;
@@ -1040,9 +1040,9 @@ outline:0;
 	border-top:1px solid #fafafa;
 	border-bottom:1px solid #e0e0e0;
 
-	background: #A9D0F5;
-	background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5), to(#ebebeb));
-	background: -moz-linear-gradient(top,  #A9D0F5,  #ebebeb);
+	background: #A9F5B8;
+	background: -webkit-gradient(linear, left top, left bottom, from(#A9F5B8), to(#ebebeb));
+	background: -moz-linear-gradient(top,  #A9F5B8,  #ebebeb);
 }
 
 .table_competence tr{
@@ -1051,7 +1051,7 @@ outline:0;
 }
 .table_competence tr:nth-last-child(1) td
 {
-        background: #A9D0F5 !important;
+        background: #A9F5B8 !important;
         text-shadow: none;
 }
 .table_competence tr td {
