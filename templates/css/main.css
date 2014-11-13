@@ -18,22 +18,28 @@ border:0px;
 }
 
 input[type="num_button"], input[type="reset"]{
-background: url('/files/img/num_button_new.png') no-repeat 0 0;
-width:77px;
-height:77px;
-/*opacity:0.8;*/
-border:0px;
+background: rgb(0,155,213);
+background: -moz-linear-gradient(top, rgba(0,155,213,1) 0%, rgba(0,127,173,1) 50%, rgba(0,155,213,1) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,155,213,1)), color-stop(50%,rgba(0,127,173,1)), color-stop(100%,rgba(0,155,213,1)));
+background: -webkit-linear-gradient(top, rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%);
+background: -o-linear-gradient(top, rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%);
+background: -ms-linear-gradient(top, rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%);
+background: linear-gradient(to bottom, rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#009bd5', endColorstr='#009bd5',GradientType=0 );
+border-radius: 15px;
+width: 70px;
+height: 70px;
+/* opacity: 0.8; */
+box-shadow: 0px 0px 0px 2px #FFF, 0px 0px 0px 4px #004A6E, inset 0px 0px 10px 5px rgba(50, 50, 50, 0.75);
+border: 1px solid #000;
+cursor: pointer;
 text-align: center;
-text-decoration:none !important;
+text-decoration: none !important;
 font-size: 47px;
-font-weight:700;
-color:#fff;
-text-shadow:
-    rgba(0, 0, 0, 0.25) 2px 2px 0,
-    rgba(0, 0, 0, 0.25) -2px -2px 0,
-    rgba(0, 0, 0, 0.25) -2px 2px 0,
-    rgba(0, 0, 0, 0.25) 2px -2px 0,
-    rgba(0, 0, 0, 1) 0px 0px 20px;
+font-weight: 700;
+color: #fff;
+text-shadow: rgba(0, 0, 0, 0.25) 2px 2px 0, rgba(0, 0, 0, 0.25) -2px -2px 0, rgba(0, 0, 0, 0.25) -2px 2px 0, rgba(0, 0, 0, 0.25) 2px -2px 0, rgba(0, 0, 0, 1) 0px 0px 20px;
+margin: 9px;
 }
 
 /*input[type="search_button"]{
@@ -55,8 +61,8 @@ text-shadow:
 
 .search_button{
 background: url('/files/img/employee_search.png') 100% 100% no-repeat;
-background-size: 231px 77px;
-width: 231px;
+background-size: 256px 77px;
+width: 256px;
 height: 77px;
 border: 0px;
 cursor: pointer;
@@ -64,9 +70,10 @@ text-decoration: none !important;
 text-align: center;
 font-size: 21px;
 font-weight: 700;
-padding-left: 55px;
+padding-left: 30px;
 color: #fff;
 text-shadow: rgba(0, 0, 0, 0.25) 2px 2px 0, rgba(0, 0, 0, 0.25) -2px -2px 0, rgba(0, 0, 0, 0.25) -2px 2px 0, rgba(0, 0, 0, 0.25) 2px -2px 0, rgba(0, 0, 0, 1) 0px 0px 20px;
+margin: 2px 5px;
 }
 
 .next_button{
@@ -92,27 +99,37 @@ opacity:1;
 }
 
 .move_button{
-background: url('/files/img/move_button.png') 100% 100% no-repeat;
-background-size: 210px 100px;
-width: 210px;
-height: 100px;
-/*margin-top: 4%;*/
-/*opacity: 0.8;*/
-border: 0px;
-cursor: pointer;
-text-decoration: none !important;
-text-align: center;
-font-size: 22px;
+border-radius: 20px;
+font-size: 40px;
 color: #fff;
-text-shadow: 
-	black 1px 1px 0, 
-	black -1px -1px 0, 
-	black -1px 1px 0, 
-	black 1px -1px 0;
+text-shadow: black 1px 1px 0, black -1px -1px 0, black -1px 1px 0, black 1px -1px 0;
+padding: 10px 20px;
+margin: 10px;
+min-width: 200px;
+background: rgb(0,155,213); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(0,155,213,1) 0%, rgba(0,127,173,1) 50%, rgba(0,155,213,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,155,213,1)), color-stop(50%,rgba(0,127,173,1)), color-stop(100%,rgba(0,155,213,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(0,155,213,1) 0%,rgba(0,127,173,1) 50%,rgba(0,155,213,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#009bd5', endColorstr='#009bd5',GradientType=0 ); /* IE6-9 */
+-webkit-box-shadow: 0px 0px 0px 2px #FFF, 0px 0px 0px 4px #004A6E, inset 0px 0px 10px 5px rgba(50, 50, 50, 0.75);
+-moz-box-shadow: 0px 0px 0px 2px #FFF, 0px 0px 0px 4px #004A6E, inset 0px 0px 10px 5px rgba(50, 50, 50, 0.75);
+box-shadow: 0px 0px 0px 2px #FFF, 0px 0px 0px 4px #004A6E, inset 0px 0px 10px 5px rgba(50, 50, 50, 0.75);
+border: 1px solid #000;
+cursor: pointer;
 }
 
 .move_button:hover{
-opacity:1;
+background: rgb(0,127,173); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(0,127,173,1) 0%, rgba(0,158,211,1) 50%, rgba(0,127,173,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,127,173,1)), color-stop(50%,rgba(0,158,211,1)), color-stop(100%,rgba(0,127,173,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(0,127,173,1) 0%,rgba(0,158,211,1) 50%,rgba(0,127,173,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(0,127,173,1) 0%,rgba(0,158,211,1) 50%,rgba(0,127,173,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(0,127,173,1) 0%,rgba(0,158,211,1) 50%,rgba(0,127,173,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(0,127,173,1) 0%,rgba(0,158,211,1) 50%,rgba(0,127,173,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007fad', endColorstr='#007fad',GradientType=0 ); /* IE6-9 */
 }
 
 .quest_num{
@@ -164,6 +181,19 @@ color:#190707;
 	black 1px -1px 0;*/
 
 box-shadow: inset 0px 0px 10px 4px rgba(0, 0, 0, 0.75);
+}
+
+.interrupt_testing{
+background: #A9D0F5;
+min-height: 10px;
+width: 80%;
+word-wrap: normal;
+white-space: normal;
+cursor: pointer;
+text-decoration:none !important;
+text-align: center;
+font-size: 24px;
+color:#190707;
 }
 
 #bottom{
@@ -295,11 +325,12 @@ input[type="text"]{
 font-size: 50px;
 font-weight: 700;
 height: 64px;
-width: 235px;
+width: 256px;
 text-align: center;
 border: solid 3px #707070;
 box-shadow: inset 0 0 5px 1px #969696;
 border-radius: 10px;
+margin: 0 5px;
 }
 
 input[type="text_lamp"]{
@@ -426,7 +457,7 @@ quotes:"" "";
 
 .simple-little-table th {
 	font-weight:bold;
-	padding:21px 25px 22px 25px;
+	padding: 11px 15px 12px 15px;
 	border-top:1px solid #fafafa;
 	border-bottom:1px solid #e0e0e0;
 
@@ -973,6 +1004,88 @@ outline:0;
 -------------------------------------- END table_proposols --------------------------------------
 */
 
+/*
+-------------------------------------- BEGIN table_competence --------------------------------------
+*/
+
+/*Do not forget to describe the styles for:focus!*/
+:focus {
+outline:0;
+}
+
+.table_competence {
+	width: 99%;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#666;
+	font-size:14px;
+	text-shadow: 1px 1px 0px #fff;
+	background:#eaebec;
+	margin:2px;
+	border:#A9D0F5 1px solid;
+	border-collapse:separate;
+
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:1px;
+
+	-moz-box-shadow: 0 1px 2px #d1d1d1;
+	-webkit-box-shadow: 0 1px 2px #d1d1d1;
+	box-shadow: 0 1px 2px #d1d1d1;
+}
+
+.table_competence th {
+	font-weight:bold;
+        font-size: 30px;
+	/*padding:21px 25px 22px 25px;*/
+	border-top:1px solid #fafafa;
+	border-bottom:1px solid #e0e0e0;
+
+	background: #A9D0F5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5), to(#ebebeb));
+	background: -moz-linear-gradient(top,  #A9D0F5,  #ebebeb);
+}
+
+.table_competence tr{
+	text-align: center;
+	padding-left:2px;
+}
+.table_competence tr:nth-last-child(1) td
+{
+        background: #A9D0F5 !important;
+        text-shadow: none;
+}
+.table_competence tr td {
+	padding:8px;
+        font-size: 25px;
+	border-top: 1px solid #ffffff;
+	border-bottom:1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+	
+	background: #fafafa;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+}
+.table_competence tr td:nth-child(1)
+{
+    font-weight: bold;
+}
+.table_competence tr td:nth-child(2)
+{
+    font-weight: bold;
+    text-align: center;
+    font-size: 40px;
+}
+/*чередование строк цветом*/
+.table_competence tr:nth-child(even) td{
+	background: #f6f6f6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+	background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+}
+
+/*
+-------------------------------------- END table_competence --------------------------------------
+*/
+
 /*Выпадающий список*/
 div.selectBox {
 	width: 284px;
@@ -1174,7 +1287,13 @@ figure {
 }
 
 /*Циферблат*/
-.dial{
+.dial-ring{
+position: absolute;
+width: 900px;
+height: 900px;
+right: 50%;
+top: 0;
+margin-right: -450px;
 background: -moz-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%, rgba(144,232,125,0.68) 32%, rgba(172,204,229,0.14) 39%, rgba(133,234,126,0) 42%); /* FF3.6+ */
 background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(20%,rgba(255,255,255,1)), color-stop(32%,rgba(144,232,125,0.68)), color-stop(39%,rgba(172,204,229,0.14)), color-stop(42%,rgba(133,234,126,0))); /* Chrome,Safari4+ */
 background: -webkit-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%); /* Chrome10+,Safari5.1+ */
@@ -1182,9 +1301,52 @@ background: -o-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rg
 background: -ms-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%); /* IE10+ */
 background: radial-gradient(circle at center,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#0085ea7e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-
+z-index: -999;
+overflow: hidden;
+display: none;
 }
 
+.wrong_ans
+{
+    color: #F00;
+}
+#scrollable
+{
+    height: 740px;
+    overflow: auto;
+}
+#test_results
+{
+    font-size: 25px;
+}
+#test_results tr
+{
+    color: #04B404;
+}
+
+#test_results th
+{
+    color: #000;
+}
+
+#test_results .wrong_ans
+{
+    color: #F00;
+}
+
+.cv_head > td
+{
+    font-weight: bold;
+    color: #000;
+}
+
+.emp_data
+{
+    text-align: left;
+    font-size: 25px;
+    font-weight: 700;
+    margin: 5px 0 10px 45px;
+}
 .button_menu {
 	background: #E7F9D4;
 	min-height: 30px;

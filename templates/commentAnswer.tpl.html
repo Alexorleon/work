@@ -3,7 +3,8 @@
 
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
-
+<link type="text/css" href="{$tpl}js/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="{$tpl}js/jquery.jscrollpane.min.js"></script>
 <div id="error_mess"> {$error_} </div>
 <div id="commentAnswerDiv" align="center" >
 
@@ -11,6 +12,8 @@
 
 <!--смотрим какой экзаменатор-->
 {if $type_examiner eq "PE"}
+
+<input type='hidden' name='idans' value='{$idans}'/>
 
 	<!--Если ответ неправильный, выводим правильный ответ и сопутствующую информацию-->
 	{if $transitionOption neq '1'}
@@ -94,45 +97,150 @@
 
 {else} <!--контроль компетентности CC-->
 
-<table class="simple-little-table" cellspacing='0'>
+<div class="emp_data">
+    {$sotrud_fam} {$sotrud_im} {$sotrud_otch}, {$sotrud_dolj}, табельный номер: {$sotrud_tabkadr}
+</div>
+<div class="emp_data">
+    Всего штрафных баллов: <span style="font-weight: 900">{$final_price}</span>
+</div>
+<div id="scrollable">
+<table class="simple-little-table" id="test_results" cellspacing='0'>
 
 <tr>
 	<th>Вопрос</th>
 	<th>Ответ</th>
 	<th>Комментарий</th>
-</tr><!-- Table Header -->
+	<th>Штрафы</th>
+</tr>
 
-{$count = 0}
-{$type_ans = ''}
-{$type_color = "color:#FE2E2E"}
-{section name=gh loop=$array_final_qu}
-	<!--<option value="{$sotruds_vyd[gh]['SOTRUD_K']}" {if $signers['VYD_SOTR_K'] eq $sotruds_vyd[gh]['SOTRUD_K']}selected{/if}>{$sotruds_vyd[gh]['SOTRUD_FIO']}</option>-->
+{foreach from=$modules key=mkey item=module}
+    <tr class="cv_head">
+        <td colspan="3"  style='background: #A9D0F5;'>
+            {$module['TITLE']}
+        </td>
+        <td  style='background: #A9D0F5;'>
+            {$module['Price']}
+        </td>
+    </tr>
+    {assign var="num" value="1"}
+    {foreach from=$final_array_txt_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_txt_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            
+            <tr {$cls}>
+                <td>
+                    {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_txt_answers[$k]['Text']}
+                </td>
+                <td>
+                   {$final_array_txt_answers[$k]['Compet']}. {$final_array_txt_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_txt_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {assign var="num" value="1"}
+    {foreach from=$final_array_sf_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_sf_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            
+            <tr {$cls}>
+                <td>
+                   {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Text']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Compet']}. {$final_array_sf_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {foreach from=$final_array_sv_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_sv_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            
+            <tr {$cls}>
+                <td>
+                   {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Text']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Compet']}. {$final_array_sv_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {assign var="num" value="0"}
+    {foreach from=$final_array_cv_basic key=k item=basic}
+        {if ($basic['MID'] == $module['ID'])}
+            {assign var="num" value=$num+1}
+            <tr style='color:#000'>
+                <td colspan="4">
+                   {$num}. {$basic['TEXT']}
+                </td>
+            </tr>
+            {assign var="subnum" value="1"}
+            {foreach from=$final_array_cv_questions[$k] key=qk item=question}
+                {if ($final_array_cv_answers[$k][$qk]['Correct']=='F')}
+                    {assign var="cls" value="class=wrong_ans"}
+                {else}
+                    {assign var="cls" value=""}
+                {/if}
+                <tr {$cls}>
+                    <td>
+                        {$num}.{$subnum++}. {$question['Text']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Text']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Compet']}. {$final_array_cv_answers[$k][$qk]['Comment']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Price']}
+                    </td>
+                </tr>
+            {/foreach}
+        {/if}
+    {/foreach}
+{/foreach}
 
-	{$type_ans = $array_final_an[{$count}]}
-	{capture}{$count++}{/capture}
-{if $type_ans eq 'T'}
-
-	{$type_color = "color:#04B404"}
-{else}
-
-	{$type_color = "color:#B40404"}
-{/if}
-	<tr style={$type_color}>
-		<td>
-		{$array_final_qu[gh]} <!--это final_array_questions-->
-		</td>
-		<td>
-		{$array_final_an[{$count}]} <!--это final_array_answers-->
-		{capture}{$count++}{/capture}
-		</td>
-		<td>
-		{$array_final_an[{$count}]}
-		{capture}{$count++}{/capture}
-		</td>
-	</tr>
-{/section}
 </table>
-
+</div>
+<script>
+    {literal}
+$(function()
+{
+	$('#scrollable').jScrollPane({showArrows: true});
+});
+</script>
+{/literal}
 {/if}
 
 <!-- вариант для кнопки (повторить вопрос или выйти)-->

@@ -25,7 +25,15 @@ SQL;
 
 			// разрешаем вход в кабинет
 			$_SESSION['admin_access'] = TRUE;
-			die('<script>document.location.href= "'.lhost.'/list_posts"</script>');
+                        switch($_COOKIE['role'])
+                        {
+                            case 0: die('<script>document.location.href= "'.lhost.'/list_posts"</script>');
+                                break;
+                            case 1: die('<script>document.location.href= "'.lhost.'/list_employees"</script>');
+                                break;
+                        }
+                        
+			
 		}
 	}else{
 

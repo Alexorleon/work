@@ -1,5 +1,5 @@
 <?php
-session_start();//чтобы работать с сессиЯми, на каждой странице их надо стартануть, поэтому они в общем файле, который вЯжетсЯ к каждому файлигу
+session_start();//С‡С‚РѕР±С‹ СЂР°Р±РѕС‚Р°С‚СЊ СЃ СЃРµСЃСЃРёСЏРјРё, РЅР° РєР°Р¶РґРѕР№ СЃС‚СЂР°РЅРёС†Рµ РёС… РЅР°РґРѕ СЃС‚Р°СЂС‚Р°РЅСѓС‚СЊ, РїРѕСЌС‚РѕРјСѓ РѕРЅРё РІ РѕР±С‰РµРј С„Р°Р№Р»Рµ, РєРѕС‚РѕСЂС‹Р№ РІСЏР¶РµС‚СЃСЏ Рє РєР°Р¶РґРѕРјСѓ С„Р°Р№Р»РёРіСѓ
 	require $_SERVER['DOCUMENT_ROOT']."/libs/Smarty.class.php";
 	$smarty = new Smarty;
 	
@@ -8,33 +8,34 @@ session_start();//чтобы работать с сессиЯми, на каждой странице их надо стартану
 	
 	$smarty->force_compile = true;
 	$smarty->debugging = false;
-	$smarty->caching = false;//Кэш тоже выключить пока
+	$smarty->caching = false;//В СЌС€ С‚РѕР¶Рµ РІС‹РєР»СЋС‡РёС‚СЊ РїРѕРєР°
 	$smarty->cache_lifetime = 120;
 
 	$smarty->assign('lhost','http://'.$_SERVER['HTTP_HOST']);
 	$smarty->assign('tpl','http://'.$_SERVER['HTTP_HOST'].'/templates/');
 	$smarty->assign('js','http://'.$_SERVER['HTTP_HOST'].'/templates/js/');
-	$smarty->assign('photo','http://'.$_SERVER['HTTP_HOST'].'/storage/photo/');
+	$smarty->assign('photo_questions','http://'.$_SERVER['HTTP_HOST'].'/storage/photo_questions/');
+	$smarty->assign('video_questions','http://'.$_SERVER['HTTP_HOST'].'/storage/video_questions/');
 	$smarty->assign('picture','http://'.$_SERVER['HTTP_HOST'].'/files/img/');
-	zray_disable();
+	//zray_disable();
     require "/db.inc.php";
-	require_once(INC_DIR."functions.inc.php");//функции
-	require (INC_DIR."function.class.inc.php");//классы
+	require_once(INC_DIR."functions.inc.php");//С„СѓРЅРєС†РёРё
+	require (INC_DIR."function.class.inc.php");//РєР»Р°СЃСЃС‹
 	
-	$temp_ub = explode(' ', user_browser());//проверЯем версию браузера
+	$temp_ub = explode(' ', user_browser());//РїСЂРѕРІРµСЂСЏРµРј РІРµСЂСЃРёСЋ Р±СЂР°СѓР·РµСЂР°
 	//print_r($temp_ub);
 	if ($temp_ub[0]=='IE' && (int)$temp_ub[1]<9){
-		$smarty->assign('title','‚аш браузер устарел');
+		$smarty->assign('title','Р’Р°С€ Р±СЂР°СѓР·РµСЂ СѓСЃС‚Р°СЂРµР»');
 		$smarty->display('old_browser.tpl.html'); 
 		die(); 
 	}
 	
 	// init
 	
-	// параметр длЯ выборки по определенному предприЯтию
+	// РїР°СЂР°РјРµС‚СЂ РґР»СЏ РІС‹Р±РѕСЂРєРё РїРѕ РѕРїСЂРµРґРµР»РµРЅРЅРѕРјСѓ РїСЂРµРґРїСЂРёСЏС‚РёСЋ
 	/*
-	10 - Љокс-Њайнинг
-	2 - ‘“ќЉ
+	10 - РљРѕРєСЃ-РњР°Р№РЅРёРЅРі
+	2 - РЎРЈР­Рљ
 	*/
 	$predpr_k_glob = "10";
 ?>

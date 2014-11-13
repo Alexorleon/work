@@ -2,6 +2,12 @@
 	unset($_SESSION);
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 	
+	unset($_SESSION['type_question_chain']);
+	
+	/*$filename = md5(microtime() . rand(0, 9999));
+	print_r($filename);
+	die();*/
+	
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
@@ -12,14 +18,16 @@
 	$_SESSION['answer_attempt'] = 0; 	// количество попыток ответов на вопрос
 	$_SESSION['first_answerid'] = 0; 	// первый неправильный ответ
 	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
+	$_SESSION['bool_isComplexVideo'] = false; // флаг, что сейчас проходим видео цепочку
+	$_SESSION['go_answer'] = false;
 		
-	if ($_POST){
+	if (!empty($_POST)){
 		
-		$tabnum = $_POST['tabnum']; //получаем пост переменную табельного номера
-		$type_submit = $_POST['type_submit'];
+		$tabnum = filter_input(INPUT_POST, 'tabnum', FILTER_SANITIZE_NUMBER_INT);//$_POST['tabnum']; //получаем пост переменную табельного номера
+		$type_submit =filter_input(INPUT_POST, 'type_submit', FILTER_SANITIZE_NUMBER_INT); //$_POST['type_submit'];
 		
 		// переход к поиску сотрудника
-		if($type_submit == "4"){
+		if($type_submit == 4){
 
 			die('<script>document.location.href= "'.lhost.'/search_employee"</script>');
 		}
@@ -51,11 +59,13 @@ SQL;
 SQL;
 			$test_availabilty = $db->go_result_once($sql);
 			
-			// TODO: магическое число. транспорт подземный 66, посетители шахты 63.
+
+			// TODO: магическое число. Транспорт подземный 66.
+
 			if(empty($test_availabilty)){
 
 				$sql = <<<SQL
-					INSERT INTO stat.SPECIALITY_B (TESTNAMESID, DOLJNOSTKOD) VALUES('63', '$temp_dolj_kod')
+					INSERT INTO stat.SPECIALITY_B (TESTNAMESID, DOLJNOSTKOD) VALUES('66', '$temp_dolj_kod')
 SQL;
 				$db->go_query($sql);
 				

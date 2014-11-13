@@ -5,18 +5,20 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
 
-<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
+<script type="text/javascript" src="{$js}jquery-1.11.1.min.js"></script>
+
+<!--отключение выделения текста-->
 <script type="text/javascript" src="{$js}migrate.js"></script>
 <script type="text/javascript" src="{$js}noselect.js"></script>
 <script>
 jQuery(document).ready(function(){
-	$('#auth').disableTextSelect(); 
+    $('.dial-ring').show(500);
+	$('#auth').disableTextSelect();  
 });
 </script>
 
 {literal}
 <script>
-
 	jQuery(function($) {
 		
 		setInterval(function() {
@@ -27,7 +29,7 @@ jQuery(document).ready(function(){
 {/literal}
 
 </head>
-<body>
+<body onselectstart="return false">
 <div id="error_mess"> {$error_} </div>
 
 <div id="mainDiv" align="center" >
@@ -70,9 +72,8 @@ jQuery(document).ready(function(){
 
 <form id="auth" name="auth" method="post">
 <div class="dial">
-
-	
-
+<div class="dial-ring">
+</div>
 	<table >
                 <tr>
                         <td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
@@ -106,27 +107,19 @@ jQuery(document).ready(function(){
 		</tr>
 	</table>
 </div>
-<input id="type_submit" name="type_submit" type="hidden" value="1"/>
+    <input id="type_submit" name="type_submit" type="hidden" value="1"/>
 
-<!--
-<input type="move_button" onclick="go_auth()" value="Личный кабинет"/>
-
-<input type="move_button" onclick="go_pre_examiner()" value="Предсменный 
- экзаменатор"/>
-
-<input type="move_button" onclick="go_check_comp()" value="Контроль 
-компетентности"/>
--->
 
 <!-- Большой экзаменатор -->
-<!--<button class="move_button" onclick="go_auth()" >Личный<br>кабинет</button>
-
-<button class="move_button" onclick="go_pre_examiner()" >Предсменный<br>экзаменатор</button>
-
-<button class="move_button" onclick="go_check_comp()" >Контроль<br>компетентности</button>-->
+<button class="move_button" onclick="go_pre_examiner()" >Предсменный экзаменатор</button>
+<br>
+<button class="move_button" onclick="go_check_comp()" style="width: 544px;">Комплексный экзаменатор</button>
+<br>
+<button class="move_button" onclick="go_auth()" style="width: 544px;">Личный кабинет</button>
 
 <!-- Предсменный экзаменатор -->
-<button class="next_button" onclick="go_pre_examiner()" >Далее<br></button>
+<!--<button class="next_button" onclick="go_pre_examiner()" >Далее<br></button>-->
+
 </form>
 
 

@@ -1,16 +1,17 @@
 <?php	
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
-
+        error_reporting(E_ERROR);
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
 
 //print_r(date('Y-m-d H:i:s')); 2014-08-15 14:02:19
-
-if(isset($_GET['type_exam'])){
-
+$type_exam = filter_input(INPUT_GET, 'type_exam', FILTER_SANITIZE_NUMBER_INT);
+if($type_exam)
+{
+    
 	// это предсменный экзаменатор
-	if($_GET['type_exam'] == 1){
+	if($type_exam == 1){
 		
 		// как ответили (правильно или нет)
 		$transitionOption = $_SESSION['transitionOption'];
@@ -20,7 +21,11 @@ if(isset($_GET['type_exam'])){
 			// так как ответили не правильно, то выводим комментарий и правильный ответ
 			$temp_id = $_SESSION['ID_question'];
 			$temp_idans = $_SESSION['first_answerid'];
-			
+			if (array_key_exists('q', $_GET))
+				{
+					$temp_id = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);
+				}
+				
 			// получаем параметры неправильного ответа
 			$sql = <<<SQL
 			SELECT COMPETENCELEVELID, COMMENTARY, RISKLEVELID, FACTOR FROM stat.ALLANSWERS WHERE ALLANSWERS.ID='$temp_idans'
@@ -65,52 +70,160 @@ SQL;
 		
 		$type_examiner = "PE";
 	// это контроль компетентности
-	}else if($_GET['type_exam'] == 2){
+	}else if($type_exam == 2){
 
 		$type_examiner = "CC";
 		
 		$question_com = "Статистика теста";
 		$question_ans = '';
 		$transitionOption = 1;
+		$competencelevel_title = "";
+		$risklevel_title = "";
+		$factor_com = "";
+		$competencelevel_id = 21;
 		
 		// выводим статистику ответов
-		/*$array_final_qu = array(); // основной массив для ответов
-		
-		foreach ($q_final_array as $element){
-		
-			$_SESSION['q_final_array'][] = $element;
-		}*/
-		/*$array_final_qu = array();
-		for($count_i = 0; $count_i < count($_SESSION['q_final_array']); $count_i++){
-		
-			array_push($array_final_qu, $_SESSION['q_final_array'][$count_i]['ID']);
-		}*/
-		//print_r($_SESSION['final_array_questions']);
+		//print_r();
 		//echo "<br />";
-		//print_r($_SESSION['final_array_answers']);
+		//print_r();
 		//die();
 		//echo "<br />";
-		$smarty->assign("array_final_qu", $_SESSION['final_array_questions']);
-		$smarty->assign("array_final_an", $_SESSION['final_array_answers']);
+
+                $final_price = 0;
+		foreach($_SESSION['final_array_txt_answers'] as $answer)
+                {
+                    $final_price += $answer['Price'];
+                }
+                foreach($_SESSION['final_array_sf_answers'] as $answer)
+                {
+                    $final_price += $answer['Price'];
+                }
+                foreach($_SESSION['final_array_cv_answers'] as $answer)
+                {
+                    foreach($answer as $subanswer)
+                    {
+                        $final_price += $subanswer['Price'];
+                    }
+                }
+                
+                $sql_module = "SELECT ID, TITLE FROM stat.MODULE ORDER BY ID";
+                $res_module = $db->go_result($sql_module);
+                
+                $sql_compet = "SELECT TITLE, PENALTYPOINTS_MIN FROM stat.COMPETENCELEVEL ORDER BY PENALTYPOINTS_MAX";
+                $competencelevels = $db->go_result($sql_compet);
+                
+                foreach ($res_module as $mkey=>$module)
+                {
+                    $module_price = 0;
+                    foreach($_SESSION['final_array_txt_answers'] as $key=>$answer)
+                    {
+                        if ($_SESSION['final_array_txt_questions'][$key]['Module'] == $module['ID'])
+                        {
+                            $module_price += $answer['Price'];
+                            foreach($competencelevels as $clevel)
+                            {
+                                if ($answer['Price']>=$clevel['PENALTYPOINTS_MIN'])
+                                {
+                                    $_SESSION['final_array_txt_answers'][$key]['Compet'] = $clevel['TITLE'];
+                                }
+                            }
+                        }
+                    }
+                    foreach($_SESSION['final_array_sf_answers'] as $key=>$answer)
+                    {
+                        if ($_SESSION['final_array_sf_questions'][$key]['Module'] == $module['ID'])
+                        {
+                            $module_price += $answer['Price'];
+                            foreach($competencelevels as $clevel)
+                            {
+                                if ($answer['Price']>=$clevel['PENALTYPOINTS_MIN'])
+                                {
+                                    $_SESSION['final_array_sf_answers'][$key]['Compet'] = $clevel['TITLE'];
+                                }
+                            }
+                        }
+                    }
+                    foreach($_SESSION['final_array_sv_answers'] as $key=>$answer)
+                    {
+                        if ($_SESSION['final_array_sv_questions'][$key]['Module'] == $module['ID'])
+                        {
+                            $module_price += $answer['Price'];
+                            foreach($competencelevels as $clevel)
+                            {
+                                if ($answer['Price']>=$clevel['PENALTYPOINTS_MIN'])
+                                {
+                                    $_SESSION['final_array_sv_answers'][$key]['Compet'] = $clevel['TITLE'];
+                                }
+                            }
+                        }
+                    }
+                    foreach($_SESSION['final_array_cv_answers'] as $key=>$answer)
+                    {
+                        foreach($answer as $subkey=>$subanswer)
+                        {
+                            if ($_SESSION['final_array_cv_questions'][$key][$subkey]['Module'] == $module['ID'])
+                            {
+                                $module_price += $subanswer['Price'];
+                                foreach($competencelevels as $clevel)
+                                {
+                                    if ($subanswer['Price']>=$clevel['PENALTYPOINTS_MIN'])
+                                    {
+                                        $_SESSION['final_array_cv_answers'][$key][$subkey]['Compet'] = $clevel['TITLE'];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    $res_module[$mkey]['Price'] = $module_price;
+                    foreach($competencelevels as $clevel)
+                    {
+                        if ($module_price>$clevel['PENALTYPOINTS_MIN'])
+                        {
+                            $res_module[$mkey]['Compet'] = $clevel['TITLE'];
+                        }
+                    }
+                }
+                
+		$smarty->assign("final_array_txt_questions", $_SESSION['final_array_txt_questions']);
+		$smarty->assign("final_array_txt_answers", $_SESSION['final_array_txt_answers']);
+		
+		$smarty->assign("final_array_sf_questions", $_SESSION['final_array_sf_questions']);
+		$smarty->assign("final_array_sf_answers", $_SESSION['final_array_sf_answers']);
+		
+                $smarty->assign("final_array_sv_questions", $_SESSION['final_array_sv_questions']);
+		$smarty->assign("final_array_sv_answers", $_SESSION['final_array_sv_answers']);
+                
+		$smarty->assign("final_array_cv_basic", $_SESSION['final_array_cv_basic']);
+		$smarty->assign("final_array_cv_questions", $_SESSION['final_array_cv_questions']);
+		$smarty->assign("final_array_cv_answers", $_SESSION['final_array_cv_answers']);
+		
+                $smarty->assign("final_price", $final_price);
+                $smarty->assign("modules", $res_module);
+                
+		$smarty->assign("sotrud_fam", $_SESSION['sotrud_fam']);
+		$smarty->assign("sotrud_im", $_SESSION['sotrud_im']);
+		$smarty->assign("sotrud_otch", $_SESSION['sotrud_otch']);
+		$smarty->assign("sotrud_dolj", $_SESSION['sotrud_dolj']);
+		$smarty->assign("sotrud_tabkadr", $_SESSION['sotrud_tabkadr']);
 	}else{
 		
 		die("У меня не прописано, что делать");
 	}
 }
 	
-	if ($_POST){
+	if (!empty($_POST)){
 
 		// это предсменный экзаменатор
-		if($_GET['type_exam'] == 1){
+		if($type_exam == 1){
 			// выбираем вариант ответа
 			if ($transitionOption == 1){
-			
+                                
 				die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 			}else{
-			
-				die('<script>document.location.href= "'.lhost.'/question.php"</script>');
+			$returnto = (array_key_exists('q', $_GET)) ? "?q=".filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT) : ""; 
+				die('<script>document.location.href= "'.lhost.'/question.php'.$returnto.'"</script>');
 			}				
-		}else if($_GET['type_exam'] == 2){ // это контроль компетентности
+		}else if($type_exam == 2){ // это контроль компетентности
 			
 			die('<script>document.location.href= "'.lhost.'/index.php"</script>');
 		}else{
@@ -118,7 +231,8 @@ SQL;
 			die("У меня не прописано, что делать");
 		}
 	}
-
+        //var_dump($_POST);
+        
 	$smarty->assign("error_", $error_);
 
 	$smarty->assign("competencelevel_title", $competencelevel_title);
@@ -131,5 +245,10 @@ SQL;
 	$smarty->assign("transitionOption", $transitionOption);
 	
 	$smarty->assign("title", "Комментарий");
+        if (array_key_exists('q', $_GET))
+        {
+            $idans = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT);   
+            $smarty->assign("idans", $idans);
+        }
 	$smarty->display("commentAnswer.tpl.html");
  ?>

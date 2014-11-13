@@ -12,13 +12,19 @@
 	$db->GetConnect();
 	$error_='';
 		
-	if ($_POST){
+	if (!empty($_POST)){
+		$employeesur = filter_input(INPUT_POST, 'employeesur', FILTER_SANITIZE_SPECIAL_CHARS);
+		$employeesur = iconv("utf-8", "windows-1251", $employeesur); // фамилия
+                
+        $employeename = filter_input(INPUT_POST, 'employeename', FILTER_SANITIZE_SPECIAL_CHARS);
+		$employeename = iconv("utf-8", "windows-1251", $employeename); // имя
+                
+        $employeepat = filter_input(INPUT_POST, 'employeepat', FILTER_SANITIZE_SPECIAL_CHARS);
+		$employeepat = iconv("utf-8", "windows-1251", $employeepat); // отчество
+                
+		$type_doljnost = filter_input(INPUT_POST, 'type_doljnost', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['type_doljnost']; // должность
 		
-		$employeesur = iconv("utf-8", "windows-1251", $_POST['employeesur']); // фамилия
-		$employeename = iconv("utf-8", "windows-1251", $_POST['employeename']); // имя
-		$employeepat = iconv("utf-8", "windows-1251", $_POST['employeepat']); // отчество
-		$type_doljnost = $_POST['type_doljnost']; // должность
-		$employeetabel = $_POST['employeetabel']; // табельный
+        $employeetabel = filter_input(INPUT_POST, 'employeetabel', FILTER_SANITIZE_NUMBER_INT);//$_POST['employeetabel']; // табельный
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_employee'] == 0){ // это добавление нового
@@ -46,7 +52,7 @@ SQL;
 		
 		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
 	
-			$employee_id_hidden = $_POST['employee_hidden_id'];
+			$employee_id_hidden = filter_input(INPUT_POST, 'employee_hidden_id', FILTER_SANITIZE_NUMBER_INT);//$_POST['employee_hidden_id'];
 			//print_r($_POST);
 			//die();
 			
@@ -101,9 +107,9 @@ SQL;
 		}
 	}
 	
-	if(isset($_GET['posttype'])){
-
-		if($_GET['posttype'] == 0){ // это добавление нового
+	if(array_key_exists('posttype', $_GET)){
+                $posttype = filter_input(INPUT_GET, 'posttype', FILTER_SANITIZE_NUMBER_INT);
+		if($posttype == 0){ // это добавление нового
 		
 			$_SESSION['add_or_edit_employee'] = 0;
 			
@@ -113,17 +119,17 @@ SQL;
 			$smarty->assign("cur_employee_pat", '');
 			$smarty->assign("cur_employee_tabel", '');
 			$smarty->assign("cur_dolj_kod", '');
-		}else if($_GET['posttype'] == 1){ // это редактирование
+		}else if($posttype == 1){ // это редактирование
 	
 			$_SESSION['add_or_edit_employee'] = 1;
 			
 			// получаем значения для задания их по умолчанию
-			$employee_id = $_GET['employee_id']; // id сотрудника
-			$employee_cur = $_GET['employee_cur']; // фамилия
-			$employee_name = $_GET['employee_name']; // имя
-			$employee_pat = $_GET['employee_pat']; // отчество
-			$employee_tabel = $_GET['employee_tabel']; // табельный
-			$dolj_kod = $_GET['dolj']; // ID должности
+			$employee_id = filter_input(INPUT_GET, 'employee_id', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_id']; // id сотрудника
+			$employee_cur = filter_input(INPUT_GET, 'employee_cur', FILTER_SANITIZE_STRING); //$_GET['employee_cur']; // фамилия
+			$employee_name = filter_input(INPUT_GET, 'employee_name', FILTER_SANITIZE_STRING); //$_GET['employee_name']; // имя
+			$employee_pat = filter_input(INPUT_GET, 'employee_pat', FILTER_SANITIZE_STRING); //$_GET['employee_pat']; // отчество
+			$employee_tabel = filter_input(INPUT_GET, 'employee_tabel', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_tabel']; // табельный
+			$dolj_kod = filter_input(INPUT_GET, 'dolj', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID должности
 			
 			// запоминаем табельный
 			$_SESSION['check_employee_tabel'] = $employee_tabel;

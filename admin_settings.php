@@ -12,41 +12,46 @@
 	$db->GetConnect();
 	$error_='';
 	
-	if(isset($_POST['submit'])){
+	if(array_key_exists('submit', $_POST)){
 
 		$err = array();
 
 		// проверям логин
-		if(!preg_match("/^[a-zA-Z0-9]+$/",$_POST['login'])){
+                $temp_login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_SPECIAL_CHARS);
+                $temp_password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+                $temp_conf_password = filter_input(INPUT_POST, 'conf_password', FILTER_SANITIZE_SPECIAL_CHARS);
+                
+		if(!preg_match("/^[a-zA-Z0-9]+$/",$temp_login)){
 
 			$err[] = "Логин может состоять только из букв английского алфавита и цифр";
 		}
 
-		if(strlen($_POST['login']) < 3 or strlen($_POST['login']) > 30){
+		if(strlen($temp_login) < 3 or strlen($temp_login) > 30){
 
 			$err[] = "Логин должен быть не меньше 3-х символов и не больше 30";
 		}
 		
 		// проверям пароль
-		if(!preg_match("/^[a-zA-Z0-9]+$/",$_POST['password'])){
+		if(!preg_match("/^[a-zA-Z0-9]+$/",$temp_password)){
 
 			$err[] = "Пароль может состоять только из букв английского алфавита и цифр";
 		}
 
-		if(strlen($_POST['password']) < 4 or strlen($_POST['password']) > 32){
+		if(strlen($temp_password) < 4 or strlen($temp_password) > 32){
 
 			$err[] = "Пароль должен быть не меньше 4-х символов и не больше 32-х";
 		}
 		
 		// сверяем пароли
-		if($_POST['password'] != $_POST['conf_password']){
+		if($temp_password != $temp_conf_password){
 
 			$err[] = "Пароли не совпадают";
 		}
 
 		// TODO: экранируем
-		$good_login = $_POST['login'];
-		$good_password = $_POST['password'];
+                // Уже.
+		$good_login = $temp_login;
+		$good_password = $temp_password;
 		
 		//print_r($check_login);
 		//die();
@@ -73,7 +78,9 @@ SQL;
 			}
 		}
 	}
-	
+	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
+    
+    $smarty->assign("role", $role);
 	$smarty->assign("error_", $error_);
 
 	$smarty->assign("title", "Настройки");

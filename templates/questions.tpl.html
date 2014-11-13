@@ -28,14 +28,30 @@
 
 <meta charset="utf-8">
 <link rel="stylesheet" href="{$tpl}css/main.css">
+<link href="{$tpl}../libs/video-js/video-js.css" rel="stylesheet" type="text/css">
+<script src="{$tpl}../libs/video-js/video.js"></script>
+<!--<script src="{$tpl}../libs/video-js/uppod_api.js"></script>-->
+
+<script>
+	videojs.options.flash.swf = "{$tpl}../libs/video-js/video-js.swf";
+	
+	function uppodEvent(playerID, event){
+
+		if ( playerID == 'audioplayer' && event == 'end' ){
+
+			document.getElementById('end_play_video').onclick();
+		};
+	};
+
+</script>
 
 <div id="error_mess"> {$error_} </div>
 <div id="questionsDiv" align="center" >
 
 <form id="questions" name="questions" method="post">
 
+<!--выбор варианта прохождения теста (пробный или нет)-->
 <input id="answer" name="answer" type="hidden" value="1"/>
-
 <!-- Пройти тестирование или пробное тестирование-->
 <input type="hidden" id="comp_lvl_id" name="comp_lvl_id" value="0">
 <input type="hidden" id="answ_id" name="answ_id" value="0">
@@ -43,14 +59,14 @@
 
 {$k = 0}
 {if $typetest eq 1} <!-- Предсменный экзаменатор -->
+<input name='idans' type='hidden' value='{$idans}'/>
 
-<!-- В зависимости от типа вопроса и модуля сделать свое оформление -->
 <!--{$textmodule = "Проверка знаний"}-->
 <table style="width: 100%;" class="header-q-info">
 <tr>
-<td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}<span></div></td>
-<td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj['TEXT']}<span></div></td>
-<td><div class="text_sotrud_tabel"><span>Табельный номер: {$sm_sotrud_tabel['TABEL_KADR']}<span></div></td>
+<td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}</span></div></td>
+<td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj}</span></div></td>
+<td><div class="text_sotrud_tabel"><span>Табельный номер: {$sm_sotrud_tabel}</span></div></td>
 </tr>
 </table>
 <!--<div class="text_module"><span>МОДУЛЬ: {$textmodule}<span></div>-->
@@ -80,11 +96,11 @@
 <!--TODO: Магическое число 21-->
 	{if $type_question eq 21} <!--вопрос с простой картинкой-->
 
-		<img src="{$photo}/{$simplephoto}" alt="">
+		<img src="{$photo_questions}/{$simplephoto}" alt="">
 
 		<table style="width: 100%; background: #ffff99; min-height: 100px;">
 		<tr>
-		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}<span></div></td>
+		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}</span></div></td>
 		</tr>
 		</table>
 		
@@ -104,9 +120,9 @@
 		
 		<table style="width: 100%; background: #ffff99; margin-top: 16%; min-height: 100px;">
 		<tr>
-		<!--<td style="min-width: 110px;"><div class="text_ID_question"><span>№: {$sm_ID_question}<span></div></td>-->
-		<!--<td><div class="text_question"><span>{$question['TEXT']}<span></div></td>-->
-		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}<span></div></td>
+		<!--<td style="min-width: 110px;"><div class="text_ID_question"><span>№: {$sm_ID_question}</span></div></td>-->
+		<!--<td><div class="text_question"><span>{$question['TEXT']}</span></div></td>-->
+		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}</span></div></td>
 		</tr>
 		</table>
 
@@ -134,26 +150,38 @@
 	<!--<input class="move_button" type="button" onclick="typeTest(1)" value="Пробное тестирование"/>-->
 	<!--<input class="move_button" type="button" onclick="typeTest(2)" value="Тестирование"/>-->
 	<div id="bottom" style="margin-bottom: 30px;">
-		<button class="move_button" type="button" onclick="javascript:window.location='./lobby'"><br>Назад</button>
-		<button class="move_button" type="button" onclick="typeTest(1)" >Пробное<br>тестирование</button>
-		<button class="move_button" type="button" onclick="typeTest(2)" ><br>Тестирование</button>
+            <button class="move_button" type="button" onclick="javascript:window.location='./lobby'" style="height: 114px; vertical-align: top;">Назад</button>
+            <button class="move_button" type="button" onclick="typeTest(1)" style="width: 292px;vertical-align: top;">Пробное тестирование</button>
+            <button class="move_button" type="button" onclick="typeTest(2)" style="height: 114px;vertical-align: top;">Тестирование</button>
 	</div>
 	
 	<div id="bottom">
-		<div id="menu-holder-light"></div>
 		<div id="menu-holder"></div>
 	</div>
 {else} <!-- Контроль компетентности -->
 
+<input name='idans' type='hidden' value='{$idans}'/>
+
+<table style="width: 100%;" class="header-q-info">
+	<tr>
+		<td><div class="text_FIO"><span>{$sm_sotrud_fam} {$sm_sotrud_im} {$sm_sotrud_otch}</span></div></td>
+		<td><div class="text_sotrud_dolj"><span>{$sm_sotrud_dolj}</span></div></td>
+		<td><div class="text_sotrud_tabel"><span>Табельный номер: {$sm_sotrud_tabel}</span></div></td>
+		<td style="text-align: right"><input class="interrupt_testing" type="button" onclick="textAnswer(99904, 0, 0)" value="Прервать тестирование"/></td>
+	</tr>
+</table>
+
 <!--TODO: Магическое число 21-->
 	{if $type_question eq 21} <!--вопрос с простой картинкой-->
 
-		<img src="{$photo}/{$simplephoto}" alt="">
+		<img src="{$photo_questions}/{$simplephoto}" alt="">
 
 		<table style="width: 100%; background: #ffff99; min-height: 100px;">
-		<tr>
-		<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question['TEXT']}<span></div></td>
-		</tr>
+			<tr>
+				<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}</span></div></td>-->
+				<td style="width: 200;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Вопрос №{$counter_questions}</span></div></td>
+				<td align="left"><div style="margin-top: 1%;" class="text_question"><span>{$question}</span></div></td>
+			</tr>
 		</table>
 		
 		<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
@@ -172,7 +200,8 @@
 		
 		<table style="width: 100%; background: #ffff99; margin-top: 16%; min-height: 100px;">
 		<tr>
-			<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}<span></div></td>
+			<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}</span></div></td>-->
+			<td><div style="margin-top: 1%;" class="text_question"><span>{$question}</span></div></td>
 		</tr>
 		</table>
 
@@ -187,6 +216,161 @@
 				{capture}{$count++}{/capture}
 			{/section}
 		</table>
+	
+	{elseif $type_question eq 9} <!--простое видео-->
+	
+		<div class="img_answer">
+			<object id='playerA' type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="576" width="1024">
+				<param name="wmode" value="transparent">
+				<param name="allowFullScreen" value="true">
+				<param name="allowScriptAccess" value="always">
+				<param name="movie" value="{$lhost}/libs/uppod.swf">
+				<param name="FlashVars" value="uid=audioplayer&way={$lhost}/storage/video_questions/simple_video/{$simplevideo}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=1&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=62AEEZyTtj1cL2QfAFd0JL2Nf9v1X17Caktj1fRdwnY2KUiR3Nkbk1b1kOGk1mwXRWNvzW0679mwDzC5Ttj1iLK2Qy9mN6zsMip3b0kbk1Izv1l1fQ6DFdwkbCaW1xalH1fGkbSal1CGIRZdwf9vwjzC5btjZ1D6WQfF2wXzBGbDY31XZjOk82Mv3zsNo93w6T30cL7WNkbCab0jOk73i1XcsYDAjOk=WstiFWwXzC5kN3Q3EQ3Q3zkOkZ2NnT3WsfRdwnY31XZjdal1CMkbkYl1CGDtG2MfL2MvzsNorzC5kN3Q3Q3Q3zekOk1mwXRWN6L2sMXQ3QIz31X=jOFk=WsXT2NkbSal51fwkbk13Q2OLNnjYktj1LFdwbR6d0nTWwjzC5Wtj1EcQ2QXL2MvzsNoYzC5kN3QjY3YW1ykOkbdwhR60nTWSwjzfUl1SQD6dw5yT30cLWNkbk13aQ3Q3Q3Qktj1fRadwnYWQkzC5kauEYTcCYb1j1l1CQbVYv1XAJal1CGtaG2M6hdGIRdwf9svwjzC5Ttj1nzBf0kbSal1CGhpd0G6zv1X1Ca4Hj1l71k0nTWwjG3NXz4BGDY31X1SUhTd40ktj1n9sGhzC5Fk=j1l1CQDp3wnEYvMkbkYTtj1nzyC5btj1LpWMcRdrMkbk16L2MXR6waIzB5fp3Q3pvNXKe3wVT31l1f0XR930cLWwjzC5k42iQi63Gktj1ozfUrs">
+			</object>
+		</div>
+
+		<table style="width: 100%; background: #ffff99; min-height: 100px;">
+			<tr>
+				<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$sm_ID_question}   {$question}</span></div></td>-->
+				<td style="width: 200;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Вопрос №{$counter_questions}</span></div></td>
+				<td align="left"><div style="margin-top: 1%;" class="text_question"><span>{$question}</span></div></td>
+			</tr>
+		</table>
+		
+		<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+
+			{$count = 1}
+			{section name=i loop=$array_answers}
+				<tr>
+					<td><input class="quest_num" type="button" value={$count}></td>
+					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$array_answers[i]['COMPETENCELEVELID']}, {$array_answers[i]['ID']}, {$k++})" value="{$array_answers[i]['TEXT']}"/></td>
+				</tr>
+				{capture}{$count++}{/capture}
+			{/section}
+		</table>
+		
+	{elseif $type_question eq 10} <!--сложное видео-->
+		
+		<!-- без автоповтора 42AEcsal1CGDp30AhHm0DF30czC5SkAj1l1k0nTWwTj6BQnz31X1CaFktj1fRdwnYWQQkYsQcR3wkbSaHl1CQDpWscY2Q4f6dQ6zv1X1SGffzkOk03whT31nXAjYf=jOk0v16X=jOkZsGnT30BcLWNkbCal1kwDVG30hIdwf9vwDjzC5ctj1D6WQffF2wiL2QXzBGtDY31XAuamtj18tzC5Rpj5btj1RhRFQhRdwkbk1T3Q3Q3Q3Qktj1QiFWwXR60nTWwYjzC5c1jOk731nXNjOkZBMv630SD6WQfF2wkbk1N3Q3Q3Q3Qktj1QfRdwnY2QD6dwG3Q2GkzC5Ttj1AhRFwXF31X=jO9k431X1kQ36xO7WNj1l1SUhTd0kyzmwXRWNkbkYhl1CG3pdwD6WQhfF2wkbk13QWN6jQjYktj1XT2NbyzmwXRWNkXvOhke3wVTWsXzBGQDY31X1kQ3Q3QG3Q31l1k0nTWwyjG3Nkbk1JZxa8oZuaf1kOkZ2MSJzC5bajOkZBM2v62Qt9sGnT30EcLWNkbSal1fwtfHv1X1Ca4Hj1hl1k0nTWwjG3NFXzBGDY31X1SUDhTd0ktj1n9sGKhzC5k=j1l1CQtDp3wnYvMkbkY7Ttj1nzC5btj1FLpWMcRdMkbk186L2MXR6wIzB5ffp3Q3pvNXe3wKVT31l1f0XR30icLWwjzC5k42Qni63Gktj1ozfUr4 -->
+		<!-- с автоповтором 62AEEZyTtj1cL2QfAFd0JL2Nf9v1X17Caktj1fRdwnY2KUiR3Nkbk1b1kOGk1mwXRWNvzW0679mwDzC5Ttj1iLK2Qy9mN6zsMip3b0kbk1Izv1l1fQ6DFdwkbCaW1xalH1fGkbSal1CGIRZdwf9vwjzC5btjZ1D6WQfF2wXzBGbDY31XZjOk82Mv3zsNo93w6T30cL7WNkbCab0jOk73i1XcsYDAjOk=WstiFWwXzC5kN3Q3EQ3Q3zkOkZ2NnT3WsfRdwnY31XZjdal1CMkbkYl1CGDtG2MfL2MvzsNorzC5kN3Q3Q3Q3zekOk1mwXRWN6L2sMXQ3QIz31X=jOFk=WsXT2NkbSal51fwkbk13Q2OLNnjYktj1LFdwbR6d0nTWwjzC5Wtj1EcQ2QXL2MvzsNoYzC5kN3QjY3YW1ykOkbdwhR60nTWSwjzfUl1SQD6dw5yT30cLWNkbk13aQ3Q3Q3Qktj1fRadwnYWQkzC5kauEYTcCYb1j1l1CQbVYv1XAJal1CGtaG2M6hdGIRdwf9svwjzC5Ttj1nzBf0kbSal1CGhpd0G6zv1X1Ca4Hj1l71k0nTWwjG3NXz4BGDY31X1SUhTd40ktj1n9sGhzC5Fk=j1l1CQDp3wnEYvMkbkYTtj1nzyC5btj1LpWMcRdrMkbk16L2MXR6waIzB5fp3Q3pvNXKe3wVT31l1f0XR930cLWwjzC5k42iQi63Gktj1ozfUrs -->
+		
+		<!-- указываем какое видео открывать -->
+		{if $type_question_chain eq "INFO"}
+		
+			<table style="width: 100%; background: #ffff99; min-height: 100px;">
+				<tr>
+					<td><div class="text_question"><span>Видео цепочки</span></div></td>
+				</tr>
+			</table>
+			
+			<img src="{$photo_questions}fon.png" alt="">
+		
+			<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+				<tr>
+					<td><input class="quest_num" type="button" value="1"></td>
+					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer(99901, 0, 0)" value="Начать"/></td>
+				</tr>
+			</table>
+			
+		{elseif $type_question_chain eq "PROLOG"}
+		
+			<div class="img_answer">
+				<object id='playerA' type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="576" width="1024">
+					<param name="wmode" value="transparent">
+					<param name="allowFullScreen" value="true">
+					<param name="allowScriptAccess" value="always">
+					<param name="movie" value="{$lhost}/libs/uppod.swf">
+					<param name="FlashVars" value="uid=audioplayer&way={$lhost}/storage/video_questions/complex_video/{$complex_question_catalog}/{$complex_question_prolog}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=1&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=42AEcsal1CGDp30AhHm0DF30czC5SkAj1l1k0nTWwTj6BQnz31X1CaFktj1fRdwnYWQQkYsQcR3wkbSaHl1CQDpWscY2Q4f6dQ6zv1X1SGffzkOk03whT31nXAjYf=jOk0v16X=jOkZsGnT30BcLWNkbCal1kwDVG30hIdwf9vwDjzC5ctj1D6WQffF2wiL2QXzBGtDY31XAuamtj18tzC5Rpj5btj1RhRFQhRdwkbk1T3Q3Q3Q3Qktj1QiFWwXR60nTWwYjzC5c1jOk731nXNjOkZBMv630SD6WQfF2wkbk1N3Q3Q3Q3Qktj1QfRdwnY2QD6dwG3Q2GkzC5Ttj1AhRFwXF31X=jO9k431X1kQ36xO7WNj1l1SUhTd0kyzmwXRWNkbkYhl1CG3pdwD6WQhfF2wkbk13QWN6jQjYktj1XT2NbyzmwXRWNkXvOhke3wVTWsXzBGQDY31X1kQ3Q3QG3Q31l1k0nTWwyjG3Nkbk1JZxa8oZuaf1kOkZ2MSJzC5bajOkZBM2v62Qt9sGnT30EcLWNkbSal1fwtfHv1X1Ca4Hj1hl1k0nTWwjG3NFXzBGDY31X1SUDhTd0ktj1n9sGKhzC5k=j1l1CQtDp3wnYvMkbkY7Ttj1nzC5btj1FLpWMcRdMkbk186L2MXR6wIzB5ffp3Q3pvNXe3wKVT31l1f0XR30icLWwjzC5k42Qni63Gktj1ozfUr4">
+				</object>
+			</div>
+			
+			<table style="width: 100%; background: #ffff99; min-height: 100px;">
+				<tr>
+					<td style="width: 200;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Вопрос №{$counter_questions}</span></div></td>
+					<td align="left"><div class="text_question"><span>{$complex_question_text}</span></div></td>
+				</tr>
+			</table>
+			
+			<input id='end_play_video' type="hidden" onclick="textAnswer(99901, 0, 0)"/>
+			
+		{elseif $type_question_chain eq "EPILOG"}
+		
+			<div class="img_answer">
+				<object id='playerA' type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="576" width="1024">
+					<param name="wmode" value="transparent">
+					<param name="allowFullScreen" value="true">
+					<param name="allowScriptAccess" value="always">
+					<param name="movie" value="{$lhost}/libs/uppod.swf">
+					<param name="FlashVars" value="uid=audioplayer&way={$lhost}/storage/video_questions/complex_video/{$complex_question_catalog}/{$complex_question_epilog}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=1&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=42AEcsal1CGDp30AhHm0DF30czC5SkAj1l1k0nTWwTj6BQnz31X1CaFktj1fRdwnYWQQkYsQcR3wkbSaHl1CQDpWscY2Q4f6dQ6zv1X1SGffzkOk03whT31nXAjYf=jOk0v16X=jOkZsGnT30BcLWNkbCal1kwDVG30hIdwf9vwDjzC5ctj1D6WQffF2wiL2QXzBGtDY31XAuamtj18tzC5Rpj5btj1RhRFQhRdwkbk1T3Q3Q3Q3Qktj1QiFWwXR60nTWwYjzC5c1jOk731nXNjOkZBMv630SD6WQfF2wkbk1N3Q3Q3Q3Qktj1QfRdwnY2QD6dwG3Q2GkzC5Ttj1AhRFwXF31X=jO9k431X1kQ36xO7WNj1l1SUhTd0kyzmwXRWNkbkYhl1CG3pdwD6WQhfF2wkbk13QWN6jQjYktj1XT2NbyzmwXRWNkXvOhke3wVTWsXzBGQDY31X1kQ3Q3QG3Q31l1k0nTWwyjG3Nkbk1JZxa8oZuaf1kOkZ2MSJzC5bajOkZBM2v62Qt9sGnT30EcLWNkbSal1fwtfHv1X1Ca4Hj1hl1k0nTWwjG3NFXzBGDY31X1SUDhTd0ktj1n9sGKhzC5k=j1l1CQtDp3wnYvMkbkY7Ttj1nzC5btj1FLpWMcRdMkbk186L2MXR6wIzB5ffp3Q3pvNXe3wKVT31l1f0XR30icLWwjzC5k42Qni63Gktj1ozfUr4">
+				</object>
+			</div>
+			
+			<input id='end_play_video' type="hidden" onclick="textAnswer(99902, 0, 0)"/>
+			
+		{elseif $type_question_chain eq "QUESTION"}
+		
+			<div class="img_answer">
+				<object id='playerA' type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="576" width="1024">
+					<param name="wmode" value="transparent">
+					<param name="allowFullScreen" value="true">
+					<param name="allowScriptAccess" value="always">
+					<param name="movie" value="{$lhost}/libs/uppod.swf">
+					<param name="FlashVars" value="uid=audioplayer&way={$lhost}/storage/video_questions/complex_video/{$complex_question_catalog}/{$link_question_complex['SIMPLEVIDEO']}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=1&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=62AEEZyTtj1cL2QfAFd0JL2Nf9v1X17Caktj1fRdwnY2KUiR3Nkbk1b1kOGk1mwXRWNvzW0679mwDzC5Ttj1iLK2Qy9mN6zsMip3b0kbk1Izv1l1fQ6DFdwkbCaW1xalH1fGkbSal1CGIRZdwf9vwjzC5btjZ1D6WQfF2wXzBGbDY31XZjOk82Mv3zsNo93w6T30cL7WNkbCab0jOk73i1XcsYDAjOk=WstiFWwXzC5kN3Q3EQ3Q3zkOkZ2NnT3WsfRdwnY31XZjdal1CMkbkYl1CGDtG2MfL2MvzsNorzC5kN3Q3Q3Q3zekOk1mwXRWN6L2sMXQ3QIz31X=jOFk=WsXT2NkbSal51fwkbk13Q2OLNnjYktj1LFdwbR6d0nTWwjzC5Wtj1EcQ2QXL2MvzsNoYzC5kN3QjY3YW1ykOkbdwhR60nTWSwjzfUl1SQD6dw5yT30cLWNkbk13aQ3Q3Q3Qktj1fRadwnYWQkzC5kauEYTcCYb1j1l1CQbVYv1XAJal1CGtaG2M6hdGIRdwf9svwjzC5Ttj1nzBf0kbSal1CGhpd0G6zv1X1Ca4Hj1l71k0nTWwjG3NXz4BGDY31X1SUhTd40ktj1n9sGhzC5Fk=j1l1CQDp3wnEYvMkbkYTtj1nzyC5btj1LpWMcRdrMkbk16L2MXR6waIzB5fp3Q3pvNXKe3wVT31l1f0XR930cLWwjzC5k42iQi63Gktj1ozfUrs">
+				</object>
+			</div>
+			
+			<table style="width: 100%; background: #ffff99; min-height: 100px;">
+				<tr>
+					<td style="width: 200;" align="left"><div style="margin-top: 1%;" class="text_question"><span>Вопрос №{$counter_questions}</span></div></td>
+					<td align="left"><div class="text_question"><span>{$complex_question_text}</span></div></td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%; background: #F2F5A9; min-height: 100px;">
+				<tr>
+					<!--<td><div style="margin-top: 1%;" class="text_question"><span>№:{$link_question_complex['ID']}   {$link_question_complex['TITLE']}</span></div></td>-->
+					<!--{capture}{$count_complex_question--}{/capture}-->
+					<td style="width: 110;" align="left"><div style="margin-top: 1%;" class="text_question"><span>{$count_complex_question} из {$max_count_chain}</span></div></td>
+					<td><div align="left" style="margin-top: 1%;" class="text_question"><span>{$link_question_complex['TITLE']}</span></div></td>
+				</tr>
+			</table>
+			
+			<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+
+				{$count = 1}
+				{section name=i loop=$link_answer_complex}
+					<tr>
+						<td><input class="quest_num" type="button" value={$count}></td>
+						<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer({$link_answer_complex[i]['COMPETENCELEVELID']}, {$link_answer_complex[i]['ID']}, {$k++})" value="{$link_answer_complex[i]['TEXT']}"/></td>
+					</tr>
+					{capture}{$count++}{/capture}
+				{/section}
+			</table>
+		
+		{elseif $type_question_chain eq "ANSWER"}
+		
+			<div class="img_answer">
+				<object id='playerA' type="application/x-shockwave-flash" data="{$lhost}/libs/uppod.swf" height="576" width="1024">
+					<param name="wmode" value="transparent">
+					<param name="allowFullScreen" value="true">
+					<param name="allowScriptAccess" value="always">
+					<param name="movie" value="{$lhost}/libs/uppod.swf">
+					<param name="FlashVars" value="uid=audioplayer&way={$lhost}/storage/video_questions/complex_video/{$complex_question_catalog}/{$chain_answer_cv}&amp;swf={$lhost}/libs/uppod.swf&amp;w=1024&amp;h=576&amp;time_seconds=0&amp;auto=play&amp;replay=1&amp;tools=0&amp;q=&amp;&amp;volume=1&amp;comment=&amp;st=42AEcsal1CGDp30AhHm0DF30czC5SkAj1l1k0nTWwTj6BQnz31X1CaFktj1fRdwnYWQQkYsQcR3wkbSaHl1CQDpWscY2Q4f6dQ6zv1X1SGffzkOk03whT31nXAjYf=jOk0v16X=jOkZsGnT30BcLWNkbCal1kwDVG30hIdwf9vwDjzC5ctj1D6WQffF2wiL2QXzBGtDY31XAuamtj18tzC5Rpj5btj1RhRFQhRdwkbk1T3Q3Q3Q3Qktj1QiFWwXR60nTWwYjzC5c1jOk731nXNjOkZBMv630SD6WQfF2wkbk1N3Q3Q3Q3Qktj1QfRdwnY2QD6dwG3Q2GkzC5Ttj1AhRFwXF31X=jO9k431X1kQ36xO7WNj1l1SUhTd0kyzmwXRWNkbkYhl1CG3pdwD6WQhfF2wkbk13QWN6jQjYktj1XT2NbyzmwXRWNkXvOhke3wVTWsXzBGQDY31X1kQ3Q3QG3Q31l1k0nTWwyjG3Nkbk1JZxa8oZuaf1kOkZ2MSJzC5bajOkZBM2v62Qt9sGnT30EcLWNkbSal1fwtfHv1X1Ca4Hj1hl1k0nTWwjG3NFXzBGDY31X1SUDhTd0ktj1n9sGKhzC5k=j1l1CQtDp3wnYvMkbkY7Ttj1nzC5btj1FLpWMcRdMkbk186L2MXR6wIzB5ffp3Q3pvNXe3wKVT31l1f0XR30icLWwjzC5k42Qni63Gktj1ozfUr4">
+				</object>
+			</div>
+			
+			<input id='end_play_video' type="hidden" onclick="textAnswer(99903, 0, 0)"/>
+			<table id="bottom" class="list-answers-table" cellspacing='0' cellpadding='0'>
+				<tr>
+					<td><input class="quest_num" type="button" value="1"></td>
+					<td style="width:100%;"><input class="choice_button" type="button" onclick="textAnswer(99903, 0, 0)" value="Далее"/></td>
+				</tr>
+			</table>
+		{else}
+		{/if}
+		
+	{elseif $type_question eq 22} <!--сложное фото-->
+	
 		
 	{else}
 	{/if}

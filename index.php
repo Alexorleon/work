@@ -1,6 +1,33 @@
 <?php
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 
+	unset($_SESSION['type_question_chain']);
+	
+	unset($_SESSION['final_array_txt_questions']); // хранятся текстовые вопросы
+	unset($_SESSION['final_array_txt_answers']); // основной массив для ответов
+	
+	unset($_SESSION['final_array_sf_questions']); // хранится текст простых фото вопросов
+	unset($_SESSION['final_array_sf_answers']); // основной массив для ответов
+	
+	unset($_SESSION['final_array_sv_questions']); // хранится текст простых видео вопросов
+	unset($_SESSION['final_array_sv_answers']); // основной массив для ответов
+	
+	unset($_SESSION['final_array_cv_basic']); // хранятся заголовки видео цепочек
+	unset($_SESSION['final_array_cv_questions']); // хранятся вопросы видео цепочек
+	unset($_SESSION['final_array_cv_answers']); // ответы цепочек
+	
+	// инициализация переменных по умолчанию
+	$_SESSION['count_complex_question'] = 0; // счетчик для видео цепочки
+	$_SESSION['temp_count_ques'] = 0; // количество заданных вопросов
+	
+	$_SESSION['transitionOption'] = 1; 	// флаг правильности ответа
+	$_SESSION['ID_question'] = 0; 		// ID вопроса
+	$_SESSION['answer_attempt'] = 0; 	// количество попыток ответов на вопрос
+	$_SESSION['first_answerid'] = 0; 	// первый неправильный ответ
+	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
+	$_SESSION['bool_isComplexVideo'] = false; // флаг, что сейчас проходим видео цепочку
+	$_SESSION['go_answer'] = false;
+	
 	if ((!isset($_SESSION['sotrud_id'])) or (empty($_SESSION['sotrud_id'])))
 	{
 		die('<script>document.location.href= "'.lhost.'/auth.php"</script>');	
@@ -9,9 +36,9 @@
 	$db->GetConnect();//ПРоверяем коннект
 	$error_='';
 	
-	if ($_POST){
+	if (!empty($_POST)){
 		
-		$type_submit = $_POST['type_submit_main']; // по какой кнопке нажали. выбераем раздел.
+		$type_submit = filter_input(INPUT_POST, 'type_submit_main', FILTER_SANITIZE_NUMBER_INT); //$_POST['type_submit_main']; // по какой кнопке нажали. выбераем раздел.
 		
 		if ($type_submit == 1){ // нормативные документы
 		
