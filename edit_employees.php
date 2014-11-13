@@ -106,7 +106,9 @@ SQL;
 			die("У меня не прописано, что делать");
 		}
 	}
-	
+	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
+    
+        $smarty->assign("role", $role);
 	if(array_key_exists('posttype', $_GET)){
                 $posttype = filter_input(INPUT_GET, 'posttype', FILTER_SANITIZE_NUMBER_INT);
 		if($posttype == 0){ // это добавление нового
