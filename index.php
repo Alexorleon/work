@@ -27,6 +27,7 @@
 	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
 	$_SESSION['bool_isComplexVideo'] = false; // флаг, что сейчас проходим видео цепочку
 	$_SESSION['go_answer'] = false;
+	$_SESSION['max_count_chain'] = 0; // количество звеньев в видео цепочке
 	
 	if ((!isset($_SESSION['sotrud_id'])) or (empty($_SESSION['sotrud_id'])))
 	{
