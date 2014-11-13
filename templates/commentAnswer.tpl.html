@@ -75,17 +75,17 @@
 
               
 		<div class="text_status_ansT"><span>Правильный ответ:<span></div>
-		<div class="text_question_comment" style="background: #A9D0F5;"><div style="max-width: 90%; font-size:50px; font-weight: 600">{$question_ans}</div></div>
+		<div class="text_question_comment" style="background: #BCF5A9;"><div style="max-width: 90%; font-size:50px; font-weight: 600">{$question_ans}</div></div>
 		</div>
 		
 	{else}
 		
 		<div style="margin-top: 14%;">
-		<div class="text_status_ansT"><span>Правильно!<span></div>
+		<div class="text_status_ansT" style="font-size:50px;"><span>Правильно!<span></div>
                             <div>
                                 <img style="border-radius: 20px; width:300px;" src="/files/img/risk/21.png"/>
                             </div>
-                            <div><div class=risk_level><div>Уровень компетентности:</div><div class="title">Компетентен</div></div></div>
+                            <div><div class=risk_level style="padding:0;"><div>Уровень компетентности:</div><div class="title">Компетентен</div></div></div>
 		</div>
 		<!-- Выхом по таймеру -->
 		{literal}
@@ -115,10 +115,10 @@
 
 {foreach from=$modules key=mkey item=module}
     <tr class="cv_head">
-        <td colspan="3"  style='background: #A9D0F5;'>
+        <td colspan="3"  style='background: rgb(161,217,4);'>
             {$module['TITLE']}
         </td>
-        <td  style='background: #A9D0F5;'>
+        <td  style='background: rgb(161,217,4);'>
             {$module['Price']}
         </td>
     </tr>
