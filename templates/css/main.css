@@ -1292,6 +1292,7 @@ figure {
 .authlogo.auth {
 	background:url('/files/img/logo-admin.png') no-repeat center center transparent;
         left: 0px;
+        background-size: 100%;
 }
 
 /*Логотип в auth kuzbass cot*/
