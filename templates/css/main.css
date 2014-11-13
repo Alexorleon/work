@@ -1294,13 +1294,13 @@ height: 900px;
 right: 50%;
 top: 0;
 margin-right: -450px;
-background: -moz-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%, rgba(144,232,125,0.68) 32%, rgba(172,204,229,0.14) 39%, rgba(133,234,126,0) 42%); /* FF3.6+ */
-background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(20%,rgba(255,255,255,1)), color-stop(32%,rgba(144,232,125,0.68)), color-stop(39%,rgba(172,204,229,0.14)), color-stop(42%,rgba(133,234,126,0))); /* Chrome,Safari4+ */
-background: -webkit-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%); /* Chrome10+,Safari5.1+ */
-background: -o-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%); /* Opera 12+ */
-background: -ms-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%); /* IE10+ */
-background: radial-gradient(circle at center,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#0085ea7e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+background: -moz-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%, rgba(144,232,125,0.68) 32%, rgba(172,204,229,0.14) 39%, rgba(133,234,126,0) 42%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(20%,rgba(255,255,255,1)), color-stop(32%,rgba(144,232,125,0.68)), color-stop(39%,rgba(172,204,229,0.14)), color-stop(42%,rgba(133,234,126,0)));
+background: -webkit-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%);
+background: -o-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%);
+background: -ms-radial-gradient(center, circle cover,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%);
+background: radial-gradient(circle at center,  rgba(255,255,255,1) 20%,rgba(144,232,125,0.68) 32%,rgba(172,204,229,0.14) 39%,rgba(133,234,126,0) 42%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#0085ea7e',GradientType=1 );
 z-index: -999;
 overflow: hidden;
 display: none;

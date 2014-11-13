@@ -80,9 +80,8 @@ SQL;
 		}
                 
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
-                
 
-                $certainID = (array_key_exists('q', $_GET)) ? " AND ALLQUESTIONS.ID='".filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT)."'" : " AND ALLQUESTIONS.ID IN 
+        $certainID = (array_key_exists('q', $_GET)) ? " AND ALLQUESTIONS.ID='".filter_input(INPUT_GET, 'q', FILTER_SANITIZE_NUMBER_INT)."'" : " AND ALLQUESTIONS.ID IN
 		(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
 		(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) ORDER BY dbms_random.value";
 
@@ -110,7 +109,7 @@ SQL;
 		
 		// запоминаем имя картинки
 		$_SESSION['simplephoto'] = $s_res['SIMPLEPHOTO'];
-		
+
 		//$question_text = $s_res['TEXT']; TODO: вроде и не нужно
 	}
 

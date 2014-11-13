@@ -58,7 +58,6 @@ SQL;
 				SELECT ID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$temp_dolj_kod'
 SQL;
 			$test_availabilty = $db->go_result_once($sql);
-			
 
 			// TODO: магическое число. Транспорт подземный 66.
 
