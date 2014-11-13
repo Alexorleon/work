@@ -75,13 +75,13 @@ jQuery(document).ready(function(){
 <div class="dial-ring">
 </div>
 	<table >
-                <tr>
-                        <td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
-                </tr>
-                <tr>
-                    <td colspan="3"><button style="cursor: pointer;" class="search_button" onclick="go_search_employee()">Поиск по фамилии</button></td>
+		<tr>
+			<td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
 		</tr>
-                <tr>
+		<tr>
+			<td colspan="3"><button style="cursor: pointer;" class="search_button" onclick="go_search_employee()">Поиск по фамилии</button></td>
+		</tr>
+        <tr>
 			<td><input type="num_button" value="1" onclick="addToField(1)" style="cursor: pointer;"/></td>
 			<td><input type="num_button" value="2" onclick="addToField(2)" style="cursor: pointer;"/></td>
 			<td><input type="num_button" value="3" onclick="addToField(3)" style="cursor: pointer;"/></td>
