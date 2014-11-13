@@ -20,7 +20,6 @@
 	$_SESSION['counter_questions'] = 0; // счетчик заданных вопросов в контроле компетентности
 	$_SESSION['bool_isComplexVideo'] = false; // флаг, что сейчас проходим видео цепочку
 	$_SESSION['go_answer'] = false;
-	$_SESSION['max_count_chain'] = 0; // количество звеньев в видео цепочке
 		
 	if (!empty($_POST)){
 		
@@ -59,22 +58,15 @@ SQL;
 				SELECT ID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$temp_dolj_kod'
 SQL;
 			$test_availabilty = $db->go_result_once($sql);
-
+			
 			// TODO: магическое число. Транспорт подземный 66.
-
 			if(empty($test_availabilty)){
 
 				$sql = <<<SQL
 					INSERT INTO stat.SPECIALITY_B (TESTNAMESID, DOLJNOSTKOD) VALUES('66', '$temp_dolj_kod')
 SQL;
 				$db->go_query($sql);
-				
-				/*$sql = <<<SQL
-					INSERT INTO stat.SPECIALITY_B (TESTNAMESID, DOLJNOSTKOD) VALUES('66', '$temp_dolj_kod')
-SQL;
-				$db->go_query($sql);*/
 			}
-			
 			// переход на другую страницу, вместо header используем die.
 			if($type_submit == "1"){
 				die('<script>document.location.href= "'.lhost.'/index.php"</script>');
