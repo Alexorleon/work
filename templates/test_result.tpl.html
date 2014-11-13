@@ -1,0 +1,135 @@
+{extends file="list.tpl.html"}
+{block name="article"}
+<h1>{$title}</h1>
+<table class="simple-little-table" id="test_results_dir" cellspacing='0'>
+    <tr>
+            <th>Вопрос</th>
+            <th>Ответ</th>
+            <th>Комментарий</th>
+            <th>Штрафы</th>
+    </tr>
+    
+    {foreach from=$modules key=mkey item=module}
+    <tr class="cv_head">
+        <td colspan="3"  style='background: #A9D0F5;'>
+            {$module['TITLE']}
+        </td>
+        <td  style='background: #A9D0F5;'>
+            {$module['Price']}
+        </td>
+    </tr>
+    {assign var="num" value="1"}
+    {foreach from=$final_array_txt_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_txt_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            
+            <tr {$cls}>
+                <td>
+                    {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_txt_answers[$k]['Text']}
+                </td>
+                <td>
+                   {$final_array_txt_answers[$k]['Compet']}. {$final_array_txt_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_txt_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {assign var="num" value="1"}
+    {foreach from=$final_array_sf_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_sf_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            
+            <tr {$cls}>
+                <td>
+                   {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Text']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Compet']}. {$final_array_sf_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {foreach from=$final_array_sv_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_sv_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            
+            <tr {$cls}>
+                <td>
+                   {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Text']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Compet']}. {$final_array_sv_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {assign var="num" value="0"}
+    {foreach from=$final_array_cv_basic key=k item=basic}
+        {if ($basic['MID'] == $module['ID'])}
+            {assign var="num" value=$num+1}
+            <tr style='color:#000'>
+                <td colspan="4">
+                   {$num}. {$basic['TEXT']}
+                </td>
+            </tr>
+            {assign var="subnum" value="1"}
+            {foreach from=$final_array_cv_questions[$k] key=qk item=question}
+                {if ($final_array_cv_answers[$k][$qk]['Correct']=='F')}
+                    {assign var="cls" value="class=wrong_ans"}
+                {else}
+                    {assign var="cls" value=""}
+                {/if}
+                <tr {$cls}>
+                    <td>
+                        {$num}.{$subnum++}. {$question['Text']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Text']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Compet']}. {$final_array_cv_answers[$k][$qk]['Comment']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Price']}
+                    </td>
+                </tr>
+            {/foreach}
+        {/if}
+    {/foreach}
+{/foreach}
+</table>
+<div>
+    Всего штрафных баллов: {$final_price}
+</div>
+<button onclick='window.history.back()'>Назад</button>
+{/block}
+{/extends}
