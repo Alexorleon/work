@@ -1134,7 +1134,7 @@ div.selectOptions {
     position:absolute;
     top:28px;
     left:0;
-    width:250px;
+    width:279px;
     border:1px solid #ccc;
     border-bottom-right-radius:5px;
     border-bottom-left-radius:5px;
@@ -1146,7 +1146,7 @@ div.selectOptions {
  
 span.selectOption {
     display:block;
-    width:80%;
+    width:100%;
     line-height:20px;
     padding:5px 10%;
 }
