@@ -15,7 +15,7 @@ if ($temp_type == 1){//тут массив с сотрудниками
 		
 	$sql = <<<SQL
 	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
-	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
+	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEBEGIN >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
 	EXAMINERTYPE=1) ORDER BY TABEL_KADR
 SQL;
 	$array_sotrud = $db->go_result($sql);
@@ -50,14 +50,14 @@ SQL;
 		$temp_sotrud = $bool_sotrud['SOTRUD_K'];
 		
 		$sql = <<<SQL
-		SELECT to_char(MAX(DATEEND), 'DD.MM.YYYY HH24:MI:SS') AS DATEEND FROM stat.ALLHISTORY WHERE ALLHISTORY.SOTRUD_ID='$temp_sotrud' AND EXAMINERTYPE=1
+		SELECT to_char(MAX(DATEBEGIN), 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM stat.ALLHISTORY WHERE ALLHISTORY.SOTRUD_ID='$temp_sotrud' AND EXAMINERTYPE=1
 SQL;
 		$datemax = $db->go_result_once($sql);
 		
 		//print_r($datemax['DATEEND']);
 		//die();
 		
-		die("good_".$check_tab_num."_".$datemax['DATEEND']);
+		die("good_".$check_tab_num."_".$datemax['DATEBEGIN']);
 		//die("good_".$check_tab_num."_".$datemax);
 	}else{
 		die("none_".$check_tab_num);
