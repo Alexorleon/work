@@ -1109,7 +1109,7 @@ span.selected {
 }
 span.selectArrow {
     width:60px;
-    border:1px solid #60abf8;
+    border:1px solid #BAF860;
     border-top-right-radius:5px;
     border-bottom-right-radius:5px;
     text-align:center;
@@ -1119,7 +1119,7 @@ span.selectArrow {
     -moz-user-select: none;
     -o-user-select: none;
     user-select: none;
-    background:	#4096ee;
+    background:	#BBEE40;
     color:#fff;
 }
  
@@ -1153,7 +1153,7 @@ span.selectOption {
  
 span.selectOption:hover {
     color:#f6f6f6;
-    background:#4096ee;
+    background:#BBEE40;
 }
 
 /*статистика предложений руководству*/
