@@ -47,5 +47,24 @@
 	<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>
 
 </form>
+{if !empty($date_list)}
+<div class="test_list">
+    <h2>Итоги тестирования</h2>
+    <ul>
+        {foreach from=$date_list item=date}
+        <li>
+            <a href="/test_res.php?sid={$cur_employee_id}&dt={urlencode($date['DATEBEGIN'])}">
+                Тест за {$date['DATEBEGIN']}
+            </a>
+        </li>
+        {/foreach}
+    </ul>
+</div>
+{/if}
+{if $count_pt > 0}
+<div class="test_list">
+    <a href='test_res.php?sid={$cur_employee_id}'>Ответы по предсменному экзаменатору</a>
+</div>
+{/if}
 {/block}
 {/extends}

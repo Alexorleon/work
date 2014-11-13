@@ -116,6 +116,7 @@ SQL;
 			$_SESSION['add_or_edit_employee'] = 0;
 			
 			// чистые значения
+                        $smarty->assign("date_list", array());
 			$smarty->assign("cur_employee_cur", '');
 			$smarty->assign("cur_employee_name", '');
 			$smarty->assign("cur_employee_pat", '');
@@ -133,9 +134,16 @@ SQL;
 			$employee_tabel = filter_input(INPUT_GET, 'employee_tabel', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_tabel']; // табельный
 			$dolj_kod = filter_input(INPUT_GET, 'dolj', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID должности
 			
+                        //$sql_res = "SELECT * FROM stat.ALLHISTORY WHERE ";
+                        
 			// запоминаем табельный
 			$_SESSION['check_employee_tabel'] = $employee_tabel;
 			
+                        $date_list = GetTestDates($db, $employee_id);
+                        $count_pt = CountPT($db, $employee_id);
+                        //var_dump($dl);
+                        $smarty->assign("date_list", $date_list);
+                        $smarty->assign("count_pt", $count_pt);
 			$smarty->assign("cur_employee_id", $employee_id);
 			$smarty->assign("cur_employee_cur", $employee_cur);
 			$smarty->assign("cur_employee_name", $employee_name);
@@ -163,5 +171,19 @@ SQL;
 	$smarty->display("edit_employees.tpl.html");
 
 	// --- ФУНКЦИИ ---
+function GetTestDates($obj, $sid) //История сотрудника по сдаче тестов 
+{
+    $sql = "SELECT TO_CHAR(DATEBEGIN, 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM (SELECT DISTINCT DATEBEGIN FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sid' AND EXAMINERTYPE='2' AND DEL='N') ORDER BY DATEBEGIN";
+    $date_list = $obj->go_result($sql);
+   
+    return $date_list;
+}
 
+function CountPT($obj, $sid)
+{
+    $sql = "SELECT COUNT(ID) AS COUNT FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sid' AND EXAMINERTYPE='1' AND DEL='N'";
+    $result = $obj->go_result_once($sql);
+    
+    return $result['COUNT'];
+}
   ?>

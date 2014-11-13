@@ -1172,6 +1172,15 @@ span.selectOption:hover {
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
 
+.test_list ul
+{
+    list-style: square;
+    margin-top:0;
+}
+.test_list h2
+{
+    margin-bottom: 0;
+}
 /*
 -------------------------- BEGIN Разметка для администрирования ---------------------------
 */
