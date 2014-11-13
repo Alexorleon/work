@@ -9,6 +9,8 @@
 	$db->GetConnect();
 	$error_='';
 	$temp_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_NUMBER_INT);
+	$sotrud_tabel_kadr = filter_input(INPUT_POST, 'tabel_kadr', FILTER_SANITIZE_NUMBER_INT);
+	
 if ($temp_type == 1){//тут массив с сотрудниками	
 	$period = time() - (3 * 60 * 60); // TODO: установить нужный период
 	$current_date = date('d.m.Y H:i:s', $period);
@@ -63,6 +65,22 @@ SQL;
 		die("none_".$check_tab_num);
 	}
 	
+}else if ($temp_type == 3){ // тут надо получить данные по сотруднику
+
+	$sql = <<<SQL
+	SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$sotrud_tabel_kadr' AND PREDPR_K=$predpr_k_glob
+SQL;
+	$sotrud = $db->go_result_once($sql);
+	
+	$temp_sotrud = $sotrud['SOTRUD_K'];
+	
+	$sql = <<<SQL
+		SELECT to_char(MAX(DATEBEGIN), 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM stat.ALLHISTORY WHERE ALLHISTORY.SOTRUD_ID='$temp_sotrud' AND EXAMINERTYPE=1
+SQL;
+		$datemax = $db->go_result_once($sql);
+		
+		die("date".$datemax['DATEBEGIN']);
+}else{
 }
 //}
 ?>
