@@ -1,37 +1,5 @@
-<!DOCTYPE HTML>
-<html lang="ru">
-<head>
-<title>{$title}</title>
-<meta charset="utf-8">
-<link rel="stylesheet" href="{$tpl}css/main.css">
-
-<div id="error_mess"> {$error_} </div>
-
-<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>	
-<script type="text/javascript" src="{$js}migrate.js"></script>
-<script type="text/javascript" src="{$js}noselect.js"></script>
-</head>
-<body>
-<!--<form id="list_posts" name="list_posts" method="post">
-</form>-->
-
-<div id="menu-holder"></div>
-
-<main>
-
-<aside>
-
-	<menu>
-		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
-		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
-		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu set_cur" type="button" value="Сотрудники" onclick=""/>
-		<!--<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li></a></li>-->
-		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
-	</menu>
-
-</aside>
-
-<article>
+{extends file="list.tpl.html"}
+{block name="article"}
 <form id="edit_employee" name="edit_employee" method="post">
 
 	<span class="title_menu_edit">Редактирование сотрудника</span>
@@ -79,16 +47,24 @@
 	<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>
 
 </form>
-
-</article>
-
-</main>
-
-<footer id="bottom">
-
-</footer>
-
-
-<script src="{$tpl}js/script.js"></script>
-</body>
-</html>
+{if !empty($date_list)}
+<div class="test_list">
+    <h2>Итоги тестирования</h2>
+    <ul>
+        {foreach from=$date_list item=date}
+        <li>
+            <a href="/test_res.php?sid={$cur_employee_id}&dt={urlencode($date['DATEBEGIN'])}">
+                Тест за {$date['DATEBEGIN']}
+            </a>
+        </li>
+        {/foreach}
+    </ul>
+</div>
+{/if}
+{if $count_pt > 0}
+<div class="test_list">
+    <a href='test_res.php?sid={$cur_employee_id}'>Ответы по предсменному экзаменатору</a>
+</div>
+{/if}
+{/block}
+{/extends}
