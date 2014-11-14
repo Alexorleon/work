@@ -78,8 +78,9 @@ SQL;
 		SELECT to_char(MAX(DATEBEGIN), 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM stat.ALLHISTORY WHERE ALLHISTORY.SOTRUD_ID='$temp_sotrud' AND EXAMINERTYPE=1
 SQL;
 		$datemax = $db->go_result_once($sql);
-		
-		die("date".$datemax['DATEBEGIN']);
+
+		$date = $datemax['DATEBEGIN'];
+		die("date_".$date);
 }else{
 }
 //}

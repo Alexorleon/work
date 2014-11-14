@@ -260,7 +260,7 @@ function GetTotal($obj, $rows)
         $result['Danger'] = $result['K'];
     }
     
-    $result['CompetenceLevel'] = GetCompetenceShortText($obj, $result['Danger']).". ".$result['CompetenceLevel'];
+    $result['CompetenceLevel'] = GetCompetenceShortText($obj, $result['Danger']);
     return $result;
 }
 
