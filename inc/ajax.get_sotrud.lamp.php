@@ -9,13 +9,15 @@
 	$db->GetConnect();
 	$error_='';
 	$temp_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_NUMBER_INT);
+	$sotrud_tabel_kadr = filter_input(INPUT_POST, 'tabel_kadr', FILTER_SANITIZE_NUMBER_INT);
+	
 if ($temp_type == 1){//тут массив с сотрудниками	
 	$period = time() - (3 * 60 * 60); // TODO: установить нужный период
 	$current_date = date('d.m.Y H:i:s', $period);
 		
 	$sql = <<<SQL
 	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
-	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
+	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEBEGIN >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
 	EXAMINERTYPE=1) ORDER BY TABEL_KADR
 SQL;
 	$array_sotrud = $db->go_result($sql);
@@ -50,19 +52,35 @@ SQL;
 		$temp_sotrud = $bool_sotrud['SOTRUD_K'];
 		
 		$sql = <<<SQL
-		SELECT to_char(MAX(DATEEND), 'DD.MM.YYYY HH24:MI:SS') AS DATEEND FROM stat.ALLHISTORY WHERE ALLHISTORY.SOTRUD_ID='$temp_sotrud' AND EXAMINERTYPE=1
+		SELECT to_char(MAX(DATEBEGIN), 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM stat.ALLHISTORY WHERE ALLHISTORY.SOTRUD_ID='$temp_sotrud' AND EXAMINERTYPE=1
 SQL;
 		$datemax = $db->go_result_once($sql);
 		
 		//print_r($datemax['DATEEND']);
 		//die();
 		
-		die("good_".$check_tab_num."_".$datemax['DATEEND']);
+		die("good_".$check_tab_num."_".$datemax['DATEBEGIN']);
 		//die("good_".$check_tab_num."_".$datemax);
 	}else{
 		die("none_".$check_tab_num);
 	}
 	
+}else if ($temp_type == 3){ // тут надо получить данные по сотруднику
+
+	$sql = <<<SQL
+	SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$sotrud_tabel_kadr' AND PREDPR_K=$predpr_k_glob
+SQL;
+	$sotrud = $db->go_result_once($sql);
+	
+	$temp_sotrud = $sotrud['SOTRUD_K'];
+	
+	$sql = <<<SQL
+		SELECT to_char(MAX(DATEBEGIN), 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM stat.ALLHISTORY WHERE ALLHISTORY.SOTRUD_ID='$temp_sotrud' AND EXAMINERTYPE=1
+SQL;
+		$datemax = $db->go_result_once($sql);
+		
+		die("date".$datemax['DATEBEGIN']);
+}else{
 }
 //}
 ?>

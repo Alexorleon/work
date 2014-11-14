@@ -1,0 +1,54 @@
+{extends file="list.tpl.html"}
+{block name="article"}
+<h1>{$title}</h1>
+<table class="simple-little-table" id="test_results_dir" cellspacing='0'>
+    <tr>
+        <th>Дата</th>
+        <th>Модуль</th>
+        <th>Вопрос</th>
+        <th>Ответ</th>
+        <th>Комментарий</th>
+        <th>Штраф</th>
+    </tr>
+{assign var="price" value=0}
+{assign var="amount" value=count($results)}
+{foreach from=$results key=key item=result}
+    {if ($result['PRICE'] != 0)}
+        {assign var="cls" value="class=wrong_ans"}
+        {assign var="comment" value="{$result['COMMENTARY']} ({$result['FACTOR']})"}
+    {else}
+        {assign var="cls" value=""}
+        {assign var="comment" value="Отвечено верно"}
+    {/if}
+    <tr {$cls}>
+        <td>
+            {$result['DATEBEGIN']}
+        </td>
+        <td>
+            {$result['MTITLE']}
+        </td>
+        <td>
+            {$result['QTEXT']}
+        </td>
+        <td>
+            {$result['ATEXT']}
+        </td>
+        <td>
+            {$comment}
+        </td>
+        <td>
+            {$result['PRICE']}
+        </td>
+    </tr>
+{assign var="price" value=$price+$result['PRICE']}
+{/foreach}
+</table>
+<div>
+    Всего штрафных баллов: {$price}
+</div>
+<div>
+    Средний балл: -{round($price/$amount)}
+</div>
+<button onclick='window.history.back()'>Назад</button>
+{/block}
+{/extends}

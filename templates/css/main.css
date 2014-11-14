@@ -144,6 +144,12 @@ vertical-align: middle;
 text-decoration:none !important;
 text-align: right;
 font-size: 36px;
+color:#fff;
+text-shadow: 
+	black 1px 1px 0, 
+	black -1px -1px 0, 
+	black -1px 1px 0, 
+	black 1px -1px 0;
 border-radius: 15px 0 0 15px;
 text-align: center;
 -webkit-box-shadow: inset 0px 0px 16px 9px rgba(0, 0, 0, 0.75);
@@ -908,7 +914,7 @@ bottom: 0px;
 	
 	background: #04B42E;
 	background: -webkit-gradient(linear, left top, left bottom, from(#04B42E), to(#04B42E));
-	background: -moz-linear-gradient(top,  #04B42E,  #04B42E);	
+	background: -moz-linear-gradient(top,  #04B42E,  #04B42E);
 }
 
 .scrolling_table_docs tbody {
@@ -954,7 +960,7 @@ outline:0;
 	text-shadow: 1px 1px 0px #fff;
 	background:#eaebec;
 	margin:2px;
-	border:#E7F9D4 1px solid;
+	border:#E7F9D4  1px solid;
 	border-collapse:separate;
 
 	-moz-border-radius:3px;
@@ -1051,7 +1057,7 @@ outline:0;
 }
 .table_competence tr:nth-last-child(1) td
 {
-        background: #A9F5B8 !important;
+        background: #A9F5B8  !important;
         text-shadow: none;
 }
 .table_competence tr td {
@@ -1166,6 +1172,15 @@ span.selectOption:hover {
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
 
+.test_list ul
+{
+    list-style: square;
+    margin-top:0;
+}
+.test_list h2
+{
+    margin-bottom: 0;
+}
 /*
 -------------------------- BEGIN Разметка для администрирования ---------------------------
 */
@@ -1649,13 +1664,13 @@ input.set_cur {
 .edit_tables_typeques tr:hover td{
 	background: #E7F9D4;
 	background: -webkit-gradient(linear, left top, left bottom, from(#E7F9D4), to(#E7F9D4));
-	background: -moz-linear-gradient(top,  #E7F9D4,  #E7F9D4);	
+	background: -moz-linear-gradient(top,  #E7F9D4,  #E7F9D4);
 }*/
 
 .edit_tables_typeques td:hover{
 	background: #E7F9D4;
 	background: -webkit-gradient(linear, left top, left bottom, from(#E7F9D4), to(#E7F9D4));
-	background: -moz-linear-gradient(top,  #E7F9D4,  #E7F9D4);	
+	background: -moz-linear-gradient(top,  #E7F9D4,  #E7F9D4);
 }
 
 .edit_tables_typeques a:link {
@@ -1855,7 +1870,6 @@ background: -o-linear-gradient(top,  rgba(180,227,145,1) 0%,rgba(97,196,25,1) 50
 background: -ms-linear-gradient(top,  rgba(180,227,145,1) 0%,rgba(97,196,25,1) 50%,rgba(180,227,145,1) 100%); /* IE10+ */
 background: linear-gradient(to bottom,  rgba(180,227,145,1) 0%,rgba(97,196,25,1) 50%,rgba(180,227,145,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4e391', endColorstr='#b4e391',GradientType=0 ); /* IE6-9 */
-
 }
 
 .competence_img{
