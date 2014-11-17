@@ -249,10 +249,20 @@
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
 		
 		/*
+		также необходимо сформировать количество и типы вопросов к тесту.
+		данная информация берется из таблицы testparameters
+		*/
+		$sql_test_parameters =
+			"SELECT ID, TESTNAMESID, TYPEQUESTIONSID, MODULEID, COEFFICIENT FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE=1 AND TESTPARAMETERS.TESTNAMESID=141";
+		$array_test_parameters = $obj->go_result($sql_test_parameters);
+		
+		print_r($array_test_parameters);
+		die();
+		
+		/*
 		формируем равномерный массив вопросов по уровню их риска.
 		для этого берем все вопросы по каждому риску. Это будет массив из ID вопросов.
-		*/		
-		
+		*/	
 		// простые фото вопросы
 		// вопросы по смертельному риску
 		$sql_ques =
