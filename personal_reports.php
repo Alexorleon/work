@@ -1,74 +1,132 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
-	
-// проверка доступа к странице
-if( !(isset($_SESSION['admin_access']) && $_SESSION['admin_access'] === TRUE))
+
+if ((!isset($_SESSION['sotrud_id'])) or (empty($_SESSION['sotrud_id'])))
 {
-    //если не авторизованы, то выкидываем на ивторизацию
-    die('<script>document.location.href= "'.lhost.'/login"</script>');
+    die('<script>document.location.href= "'.lhost.'/auth.php"</script>');	
 }
-else
+
+$db = new db;//Создаем
+$db->GetConnect();//ПРоверяем коннект
+$error_='';
+
+$date_list = GetPersonalDates($db, $_SESSION['sotrud_id']);
+
+$temp_doljnost_kod = $_SESSION['sotrud_dolj'];
+$sql = "SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$temp_doljnost_kod'";
+$sotrud_dolj_lobby = $db->go_result_once($sql);
+
+if (!empty($_POST))
 {
-    $db = new db;
-    $db->GetConnect();
-    $error_='';
-
-    $role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
-
-    $smarty->assign("role", $role);
-    $smarty->assign("error_", $error_);
-    $smarty->assign("title", "Результаты тестирования");
-        
-    if(array_key_exists('dt', $_GET))
+    $report_type = filter_input(INPUT_POST, 'reptype', FILTER_SANITIZE_NUMBER_INT);
+    $report_date = filter_input(INPUT_POST, 'pers_date', FILTER_SANITIZE_STRING);
+    if ($report_type)
     {
-        $test_date = filter_input(INPUT_GET, 'dt', FILTER_SANITIZE_NUMBER_INT);
-        $employee_id = filter_input(INPUT_GET, 'sid', FILTER_SANITIZE_NUMBER_INT);
-	
-        $test_QA = GetQA($db, $employee_id, $test_date);
-        
-        $employee = GetEmpInfo($db, $employee_id);
-        
-        $smarty->assign("final_array_txt_questions", $test_QA['txt_questions']);
-        $smarty->assign("final_array_txt_answers", $test_QA['txt_answers']);
+        switch ($report_type)
+        {
+            case 2:
+                $results = GetQA($db, $_SESSION['sotrud_id'], $report_date);
+                $template = 'personal_result_complex.tpl.html';
+                $title= "Комплексный экзаменатор";
+                $smarty->assign("modules", $results['modules']);
+                $smarty->assign("final_array_txt_questions", $results['txt_questions']);
+                $smarty->assign("final_array_txt_answers", $results['txt_answers']);
 
-        $smarty->assign("final_array_sf_questions", $test_QA['sf_questions']);
-        $smarty->assign("final_array_sf_answers", $test_QA['sf_answers']);
+                $smarty->assign("final_array_sf_questions", $results['sf_questions']);
+                $smarty->assign("final_array_sf_answers", $results['sf_answers']);
 
-        $smarty->assign("final_array_sv_questions", $test_QA['sv_questions']);
-        $smarty->assign("final_array_sv_answers", $test_QA['sv_answers']);
+                $smarty->assign("final_array_sv_questions", $results['sv_questions']);
+                $smarty->assign("final_array_sv_answers", $results['sv_answers']);
 
-        $smarty->assign("final_array_cv_basic", $test_QA['cv_basic']);
-        $smarty->assign("final_array_cv_questions", $test_QA['cv_questions']);
-        $smarty->assign("final_array_cv_answers", $test_QA['cv_answers']);
-
-        $smarty->assign("final_price", $test_QA['price']);
-        $smarty->assign("modules", $test_QA['modules']);
+                $smarty->assign("final_array_cv_basic", $results['cv_basic']);
+                $smarty->assign("final_array_cv_questions", $results['cv_questions']);
+                $smarty->assign("final_array_cv_answers", $results['cv_answers']);
+                break;
+            default: $results = GetPEResults($db, $_SESSION['sotrud_id']);
+                $template = 'personal_result.tpl.html';
+                $smarty->assign("results", $results);
+                $title = "Предсменный экзаменатор";
+                break;
+        }
         
-	$smarty->assign("cur_employee_id", $employee_id);
-	$smarty->assign("cur_employee_cur", $employee['SOTRUD_FAM']);
-	$smarty->assign("cur_employee_name", $employee['SOTRUD_IM']);
-	$smarty->assign("cur_employee_pat", $employee['SOTRUD_OTCH']);
-	$smarty->assign("cur_employee_tabel", $employee['TABEL_KADR']);
+        $smarty->assign("error_", $error_);
+
         
-        $smarty->display("test_result.tpl.html");
+        $smarty->assign("sotrud_tabkadr", $_SESSION['sotrud_tabkadr']);
+        $smarty->assign("sotrud_fam", $_SESSION['sotrud_fam']);
+        $smarty->assign("sotrud_im", $_SESSION['sotrud_im']);
+        $smarty->assign("sotrud_otch", $_SESSION['sotrud_otch']);
+        $smarty->assign("sotrud_dolj", $sotrud_dolj_lobby['TEXT']);
+
+        $smarty->assign("title", $title);
+
+        $smarty->display($template);
     }
     else
     {
-        $employee_id = filter_input(INPUT_GET, 'sid', FILTER_SANITIZE_NUMBER_INT);
-        
-        $PEResults = GetPEResults($db, $employee_id);
-        $employee = GetEmpInfo($db, $employee_id);
-        
-        $smarty->assign("results", $PEResults);
-        $smarty->assign("cur_employee_id", $employee_id);
-	$smarty->assign("cur_employee_cur", $employee['SOTRUD_FAM']);
-	$smarty->assign("cur_employee_name", $employee['SOTRUD_IM']);
-	$smarty->assign("cur_employee_pat", $employee['SOTRUD_OTCH']);
-	$smarty->assign("cur_employee_tabel", $employee['TABEL_KADR']);
-        
-        $smarty->display("test_PE_result.tpl.html");
+        $type_personal = filter_input(INPUT_POST,'type_personal', FILTER_SANITIZE_NUMBER_INT);//$_POST['type_personal'];
+        if ($type_personal)
+        {
+            switch($type_personal)
+            {
+                case 1: die('<script>document.location.href= "'.lhost.'/personal_reports.php"</script>'); //Отчеты
+                    break;
+                default: die('<script>document.location.href= "'.lhost.'/index.php"</script>'); //Назад в ЛК
+                    break;
+            }
+        }
+
+        $type_submit = filter_input(INPUT_POST, 'type_submit_main', FILTER_SANITIZE_NUMBER_INT); //$_POST['type_submit_main']; // по какой кнопке нажали. выбераем раздел.
+        if ($type_submit)
+        {
+            switch($type_submit)
+            {
+                case 1: die('<script>document.location.href= "'.lhost.'/personal_reports.php?reptype=1"</script>');
+                    break; // нормативные документы
+                case 2: set_numquestions($db); die('<script>document.location.href= "'.lhost.'/question.php?qtype=2"</script>');
+                    break; // контроль компетентности
+                case 3: die('<script>document.location.href= "'.lhost.'/documents.php?type_doc=2"</script>');
+                    break; // видеоинструктажи
+                case 4: die('<script>document.location.href= "'.lhost.'/question.php?qtype=1"</script>');
+                    break; // предсменный экзаменатор
+                case 5: die('<script>document.location.href= "'.lhost.'/documents.php?type_doc=3"</script>');
+                    break; // Компьютерные модели несчастных случаев
+                case 6: die('<script>document.location.href= "'.lhost.'/proposals"</script>');
+                    break;// Предложения руководству
+                case 7: die('<script>document.location.href= "'.lhost.'/personal_data.php"</script>');
+                    break;
+                default: die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
+                    break;
+
+            }
+        }    
     }
-    
+}
+else
+{    
+
+
+    $smarty->assign("error_", $error_);
+
+    $smarty->assign("date_list", $date_list);
+    $smarty->assign("sotrud_tabkadr", $_SESSION['sotrud_tabkadr']);
+    $smarty->assign("sotrud_fam", $_SESSION['sotrud_fam']);
+    $smarty->assign("sotrud_im", $_SESSION['sotrud_im']);
+    $smarty->assign("sotrud_otch", $_SESSION['sotrud_otch']);
+    $smarty->assign("sotrud_dolj", $sotrud_dolj_lobby['TEXT']);
+
+    $smarty->assign("title", "Отчеты");
+
+    $smarty->display('reports.tpl.html');
+}
+// --- ФУНКЦИИ ---
+
+function GetPersonalDates($obj, $sid) //История сотрудника по сдаче тестов 
+{
+    $sql = "SELECT TO_CHAR(DATEBEGIN, 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM (SELECT DISTINCT DATEBEGIN FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sid' AND EXAMINERTYPE='2' AND DEL='N') ORDER BY DATEBEGIN";
+    $date_list = $obj->go_result($sql);
+   
+    return $date_list;
 }
 
 function GetPEResults($obj,$sid)
@@ -81,7 +139,7 @@ function GetPEResults($obj,$sid)
     //var_dump($PEResults);
     return $PEResults;
 }
-	// --- ФУНКЦИИ ---
+
 function GetQA($obj, $sid, $date) //Все вопросы-ответы сотрудника за тест на определенную дату
 {
     $final_array_txt_questions = array();
@@ -292,17 +350,8 @@ function GetQA($obj, $sid, $date) //Все вопросы-ответы сотр�
     return $final_array;
 }
 
-function GetEmpInfo($obj, $sid)
-{
-    $sql = "SELECT * FROM stat.SOTRUD WHERE SOTRUD_K='$sid'";
-    $result = $obj->go_result_once($sql);
-    
-    return $result;
-}
-
 function array_end_key($array)
 {
     end($array);
     return key($array);
 }
-  ?>

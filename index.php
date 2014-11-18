@@ -72,9 +72,7 @@
 	}
 	
 	$temp_doljnost_kod = $_SESSION['sotrud_dolj'];
-	$sql = <<<SQL
-	SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$temp_doljnost_kod'
-SQL;
+	$sql = "SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$temp_doljnost_kod'";
 	$sotrud_dolj_lobby = $db->go_result_once($sql);
 	
 	$smarty->assign("error_", $error_);

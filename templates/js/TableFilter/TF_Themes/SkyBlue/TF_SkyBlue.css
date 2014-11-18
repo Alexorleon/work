@@ -56,7 +56,7 @@ div.tot, div.status{ border-right:0 !important; }
 	border:1px solid transparent !important; 
 } /* help button */
 .helpBtn:hover{ background-color:#FFE4AB; border:1px solid #FFB552 !important; text-decoration:none; }
-div.helpCont{ color:inherit !important: }
+div.helpCont{ color:inherit !important; }
 
 /* RESET BUTTON
 =====================================================*/

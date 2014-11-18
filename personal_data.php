@@ -8,13 +8,13 @@ $error_='';
 if (!empty($_POST))
 {
     $type_personal = filter_input(INPUT_POST,'type_personal', FILTER_SANITIZE_NUMBER_INT);//$_POST['type_personal'];
-    if ($type_personal == 0)
-    {   // новые документы
-        // переходим в лобби
-        die('<script>document.location.href= "'.lhost.'/index.php"</script>');
-    }
-    
-    
+    switch($type_personal)
+    {
+        case 1: die('<script>document.location.href= "'.lhost.'/personal_reports.php"</script>'); //Отчеты
+            break;
+        default: die('<script>document.location.href= "'.lhost.'/index.php"</script>'); //Назад в ЛК
+            break;
+    }    
 }
 // TODO: получить всю статистику сотрудника
 	

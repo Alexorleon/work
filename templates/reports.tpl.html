@@ -1,0 +1,85 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+	
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="{$tpl}css/main.css">
+<script type="text/javascript" src="{$js}jquery-2.1.1.js"></script>
+</head>
+<body>
+<div id="error_mess"> {$error_} </div>
+
+<div id="mainDiv" align="center" >
+
+<form id="mainpage" name="mainpage" method="post">
+
+
+
+<input id="type_submit_main" name="type_submit_main" type="hidden" value="1"/>
+<input id='pers_date' name='pers_date' type='hidden'/>
+<input id='reptype' name='reptype' type='hidden'/>
+
+<!-- menu-holder -->
+<div id="menu-holder"></div>
+<!-- ENDS menu-holder -->
+
+<div class="top-face">Отчеты</div>
+
+<div id="menu-holder"></div>
+
+<div class="info_sotrud_kab" align="left">
+	<table class="table_kab_stat">
+		<tr>
+			<td><span id="title_kab_stat">Номер:</span></td>
+			<td><span id="title_kab_stat">{$sotrud_tabkadr}</span></td>
+		<tr>
+		<tr>
+			<td><span id="title_kab_stat">Ваше имя:</span></td>
+			<td><span id="title_kab_stat">{$sotrud_fam} {$sotrud_im} {$sotrud_otch}</span></td>
+		<tr>
+		<tr>
+			<td><span id="title_kab_stat">Должность:</span></td>
+			<td><span id="title_kab_stat">{$sotrud_dolj}</span></td>
+		<tr>
+	</table>
+</div>
+
+<div style="margin-top: 3%;">
+<table class="table_menu_lobby" style="width:80%;">
+	<tr style="width:100%;">
+		<td><input class="choice_button" type="button" onclick="get_report(1,'')" value="Отчет по предсменному экзаменатору"/></td>
+	</tr>
+
+	<tr style="width:100%;">
+            <td>
+                <br><h1 style='text-align: center;'>Результаты комплексного тестирования</h1>
+            </td>
+	</tr>
+        {foreach from=$date_list item=date}
+	<tr style="width:100%;">
+            <td>
+                    <button class="choice_button" onclick="get_report(2,'{$date['DATEBEGIN']}')">Отчет за {$date['DATEBEGIN']}</button>
+                
+            </td>
+	</tr>
+        {/foreach}
+</table>
+</div>
+
+</form>
+<form id="personalPage" name="personalPage" method="post">
+
+<input id="type_personal" name="type_personal" type="hidden" value="1"/>
+
+<div id="bottom" style="margin-bottom: 30px;">
+	<input type="button" class="move_button" value="Назад" onclick='go_from_main(7)'/>
+</div>
+</form>
+
+<div id="bottom">
+	<div id="menu-holder"></div>
+</div>
+
+</div>
+<script src="{$tpl}js/script.js"></script>
+	
+{/block}
