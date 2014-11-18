@@ -3,7 +3,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php");
 
 if ((!isset($_SESSION['sotrud_id'])) or (empty($_SESSION['sotrud_id'])))
 {
-    die('<script>document.location.href= "'.lhost.'/auth.php"</script>');	
+    die('<script>document.location.href= "'.lhost.'/auth.php"</script>'); //Проебал сессию - иди поплачь на главную
 }
 
 $db = new db;//Создаем
@@ -16,10 +16,10 @@ $temp_doljnost_kod = $_SESSION['sotrud_dolj'];
 $sql = "SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$temp_doljnost_kod'";
 $sotrud_dolj_lobby = $db->go_result_once($sql);
 
-if (!empty($_POST))
+if (!empty($_POST)) //Если уже что-то тыкали на странице
 {
-    $report_type = filter_input(INPUT_POST, 'reptype', FILTER_SANITIZE_NUMBER_INT);
-    $report_date = filter_input(INPUT_POST, 'pers_date', FILTER_SANITIZE_STRING);
+    $report_type = filter_input(INPUT_POST, 'reptype', FILTER_SANITIZE_NUMBER_INT); //Тип отчета. 1 - предсмертный, 2 - комплексный.
+    $report_date = filter_input(INPUT_POST, 'pers_date', FILTER_SANITIZE_STRING); //Если комплексный, то нам нужна дата
     if ($report_type)
     {
         switch ($report_type)
@@ -51,7 +51,6 @@ if (!empty($_POST))
         
         $smarty->assign("error_", $error_);
 
-        
         $smarty->assign("sotrud_tabkadr", $_SESSION['sotrud_tabkadr']);
         $smarty->assign("sotrud_fam", $_SESSION['sotrud_fam']);
         $smarty->assign("sotrud_im", $_SESSION['sotrud_im']);
@@ -97,7 +96,6 @@ if (!empty($_POST))
                     break;
                 default: die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
                     break;
-
             }
         }    
     }
@@ -136,7 +134,6 @@ function GetPEResults($obj,$sid)
             WHERE (SOTRUD_ID='$sid' AND EXAMINERTYPE='1' AND DEL='N') AND ALLQUESTIONS.ID = ALLHISTORY.ALLQUESTIONSID AND ALLANSWERS.ID=ALLHISTORY.ALLANSWERSID AND MODULE.ID=ALLQUESTIONS.MODULEID
             ORDER BY ALLHISTORY.DATEBEGIN, MODULE.ID";
     $PEResults = $obj->go_result($sql);
-    //var_dump($PEResults);
     return $PEResults;
 }
 
@@ -163,7 +160,7 @@ function GetQA($obj, $sid, $date) //Все вопросы-ответы сотр�
         
         $sql = "SELECT * FROM stat.ALLANSWERS WHERE ID='{$data_answer['ALLANSWERSID']}'";
         $answer = $obj->go_result_once($sql);
-        
+
         $key = $question['ID'];
         switch($question['TYPEQUESTIONSID'])
         {
@@ -196,24 +193,24 @@ function GetQA($obj, $sid, $date) //Все вопросы-ответы сотр�
                     $final_array_cv_basic[$key]['TEXT'] = $question['TEXT'];
                     $final_array_cv_basic[$key]['MID'] = $question['MODULEID'];
                 }
-                
+
                 if (!array_key_exists($key, $final_array_cv_questions))
                 {
                     $final_array_cv_answers[$key] = array();
                     $final_array_cv_questions[$key] = array();
                 }
-                
+
                 $final_array_cv_answers[$key][] = array();
                 $final_array_cv_questions[$key][] = array();
                 $subkey = array_end_key($final_array_cv_questions[$key]);
-                
+
                 $sql = "SELECT * FROM stat.COMPLEXVIDEO WHERE ID='{$answer['COMPLEXVIDEOID']}'";
                 $cv_question = $obj->go_result_once($sql);
-                
+
                 $final_array_cv_questions[$key][$subkey]['Text'] = $cv_question['TITLE'];
                 $final_array_cv_questions[$key][$subkey]['Video'] = $cv_question['SIMPLEVIDEO'];
                 $final_array_cv_questions[$key][$subkey]['Module'] = $question['MODULEID'];
-                
+
                 $final_array_cv_answers[$key][$subkey]['Correct'] =  ($answer['RISKLEVELID'] == 21) ? 'T' : 'F';
                 $final_array_cv_answers[$key][$subkey]['Text'] = $answer['TEXT'];
                 $final_array_cv_answers[$key][$subkey]['Comment'] = $answer['COMMENTARY'];
@@ -224,7 +221,7 @@ function GetQA($obj, $sid, $date) //Все вопросы-ответы сотр�
                 $final_array_sf_answers[$key] = array();
                 $final_array_sf_questions[$key]['Text'] = $question['TEXT'];
                 $final_array_sf_questions[$key]['Module'] = $question['MODULEID'];
-                
+
                 $final_array_sf_answers[$key]['Correct'] = ($answer['RISKLEVELID'] == 21) ? 'T' : 'F';
                 $final_array_sf_answers[$key]['Text'] = $answer['TEXT'];
                 $final_array_sf_answers[$key]['Comment'] = $answer['COMMENTARY'];
@@ -234,7 +231,7 @@ function GetQA($obj, $sid, $date) //Все вопросы-ответы сотр�
             break;
         }
     }
-    
+
     $final_price = 0;
     foreach($final_array_txt_answers as $answer)
     {
@@ -325,7 +322,7 @@ function GetQA($obj, $sid, $date) //Все вопросы-ответы сотр�
         }
 
         $res_module[$mkey]['Price'] = $module_price;
-        
+
         foreach($competencelevels as $clevel)
         {
             if ($module_price>=$clevel['PENALTYPOINTS_MIN'])
