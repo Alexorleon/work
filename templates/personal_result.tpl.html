@@ -4,8 +4,9 @@
 <script src="{$js}jquery.popupoverlay.js"></script>
 <link type="text/css" href="{$tpl}js/jquery.jscrollpane.css" rel="stylesheet" media="all" />
 <script type="text/javascript" src="{$tpl}js/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src="{$tpl}js/fancybox/jquery.fancybox.pack.js"></script>
 <link rel="stylesheet" href="{$tpl}css/main.css">
-
+<link rel="stylesheet" href="{$tpl}js/fancybox/jquery.fancybox.css">
 <div id="error_mess"> {$error_} </div>
 
 <div id="menu-holder"></div>
@@ -40,6 +41,10 @@
             <tr {$cls}>
                 <td>
                    {$result['QTEXT']}
+                   {if $result['PHOTO']!=''}
+                   <br>
+                   <a class='fancybox' rel="group" href="/storage/photo_questions/{$result['PHOTO']}">[Посмотреть фото]</a>
+                   {/if}
                 </td>
                 <td>
                     {$result['ATEXT']}
@@ -79,6 +84,9 @@ $(function()
     <canvas id="peChart" width="800" height="200" style="display: none;"></canvas>
 {literal}
 <script>
+        $(document).ready(function() {
+		$(".fancybox").fancybox({closeClick: true, arrows: false});
+	});
     var ctx = $('#peChart').get(0).getContext("2d");
     var chartOptions = {bezierCurve : false};
     var data = {
