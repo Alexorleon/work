@@ -1,0 +1,62 @@
+{extends file="list.tpl.html"}
+{block name="article"}
+	<span class="title_menu_edit">Вопросы</span>
+
+	<!-- Меню редактирования -->
+	<div style="margin-left: 2px;" align="left"><a href="/new_employees"><input class="button_admin_edit" type="button" value="Добавить вопрос" onclick=""/></a></div>
+
+	{$count = 0}
+	<table class="edit_tables" id="questionslist">
+            <thead>
+		<tr>
+			<th style="width: 4%;">№</th>
+			<th style="width: 59%;">Вопрос</th>
+			<th style="width: 12%;">Модуль</th>
+			<th style="width: 12%;">Уровень риска</th>
+			<th style="width: 12%;">Тип вопроса</th>
+			<th style="width: 1%;"></th>
+		</tr>
+            </thead>
+            <tbody>
+		{section name=count loop=$array_questions}
+			<tr onclick="window.location='edit_employees?employee_id={$array_questions[{$count}]['ID']}" style="cursor: pointer;">
+				<td>
+				{$array_questions[{$count}]['ID']}
+				</td>
+				<td>
+				{$array_questions[{$count}]['TEXT']}
+				</td>
+				<td>
+				{$array_questions[{$count}]['T_MODULE']}
+				</td>
+				<td>
+				{$array_questions[{$count}]['T_RISK']}
+				</td>
+				<td>
+				{$array_questions[{$count}]['T_TYPE']}
+				</td>
+				<td class="deleteInTable" style="text-align: center;">
+				<a href="/list_questions?del_employeeid={$array_questions[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				</td>
+				{capture}{$count++}{/capture}
+			</tr>
+		{/section}
+            </tbody>
+	</table>
+        <script>
+            var table2_Props = {
+                                sort: true,
+                                mark_active_columns: true,
+                                col_0: "none",
+                                col_2: "select",
+                                col_3: "select",
+                                col_4: "select",
+                                col_5: "none",
+                                display_all_text: " [ Показать все ] ",
+                                sort_select: true,
+                                col_number_format: ['EU',null,null,null,null,'EU',null]
+                               };
+            var tf2 = setFilterGrid("questionslist", table2_Props);
+        </script>
+{/block}
+{/extends}
