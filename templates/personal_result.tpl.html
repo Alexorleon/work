@@ -1,0 +1,131 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+<script src="{$js}chart/Chart.js"></script>
+<script src="{$js}jquery.popupoverlay.js"></script>
+<link type="text/css" href="{$tpl}js/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="{$tpl}js/jquery.jscrollpane.min.js"></script>
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+
+<div id="menu-holder"></div>
+<div class="top-face">Предсменный экзаменатор</div>
+<div id="menu-holder"></div>
+
+<div id="mainDiv" align="center">
+    <div id="scrollable"  style="height: 700px">
+        <table class="simple-little-table" id="test_results" cellspacing='0'>
+            <tr>
+                <th>Вопрос</th>
+                <th>Ответ</th>
+                <th>Комментарий</th>
+                <th>Штрафы</th>
+            </tr>
+        {assign var="chartDates" value="'{$results[0]['DATEBEGIN']}'"}
+        {assign var="chartPrices" value="{$results[0]['PRICE']}"}
+        {assign var="wrongAnswers" value="0"}
+        {foreach from=$results key=key item=result}
+            {if $key != 0}
+                {assign var="chartDates" value="{$chartDates}, '{$result['DATEBEGIN']}'"}
+                {assign var="chartPrices" value="{$chartPrices}, {$result['PRICE']}"}
+            {/if}
+            {if $result['PRICE']!=0}
+                 {assign var="cls" value="class=wrong_ans"}
+                 {assign var="comment" value="{$result['COMMENTARY']} ({$result['FACTOR']})"}
+                 {assign var="wrongAnswers" value=$wrongAnswers+1}
+            {else}
+                {assign var="cls" value=""}
+                {assign var="comment" value="Отвечено верно"}
+            {/if}
+            <tr {$cls}>
+                <td>
+                   {$result['QTEXT']}
+                </td>
+                <td>
+                    {$result['ATEXT']}
+                </td>
+                <td>
+                   {$comment}
+                </td>
+                <td>
+                    {$result['PRICE']}
+                </td>
+            </tr>
+            
+        {/foreach}
+        </table>
+        
+        <script>
+    {literal}
+$(function()
+{
+	$('#scrollable').jScrollPane({showArrows: true});
+});
+{/literal}
+</script>
+    </div>
+    
+<div id='popupChart'  style="background: #fff;">
+    <div>
+        <strong>Всего вопросов:</strong> {count($results)}
+        <br>
+        <strong>Из них неправильных:</strong> {$wrongAnswers}
+        <br>
+        <strong>Процент правильных ответов:</strong> {100 - round(($wrongAnswers/count($results))*100)} %
+    </div>
+    <br>
+    <br>
+    <div style="text-align: center;"><button class="move_button" id="closeChart">Закрыть</button></div>
+    <canvas id="peChart" width="800" height="200" style="display: none;"></canvas>
+{literal}
+<script>
+    var ctx = $('#peChart').get(0).getContext("2d");
+    var chartOptions = {bezierCurve : false};
+    var data = {
+{/literal}
+                labels: [{$chartDates}],
+{literal}
+                datasets:[
+                {
+                    label: "График ответов",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+{/literal}
+                    data: [{$chartPrices}]
+{literal}
+                }    
+                ]
+            
+               };
+    var peLineChart = new Chart(ctx).Line(data, chartOptions);
+</script>
+{/literal}
+</div>
+<form id="personalPage" name="personalPage" method="post">
+
+
+<input id="type_personal" name="type_personal" type="hidden" value="1"/>
+
+<!-- TODO: вывод статистики-->
+
+<input type="button" class='move_button' value="Назад" onclick="get_personal(1)"/>
+<input type='button' class='move_button' id='showChart' value='Статистика'/>
+</form>
+</div>
+<script src="{$tpl}js/script.js"></script>
+<script>
+$(document).ready(function() {
+		$('#popupChart').popup(
+                                            {
+                                                openelement: '#showChart',
+                                                closeelement: '#closeChart',
+                                               // type: 'tooltip',
+                                               // vertical: 'topedge'
+                                            });
+                                        });
+</script>
+{/block}

@@ -1,0 +1,221 @@
+{extends file='index.tpl.html'}
+{block name=content}  
+<script src="{$js}chart/Chart.js"></script>
+<script src="{$js}jquery.popupoverlay.js"></script>
+<link type="text/css" href="{$tpl}js/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="{$tpl}js/jquery.jscrollpane.min.js"></script>
+<link rel="stylesheet" href="{$tpl}css/main.css">
+
+<div id="error_mess"> {$error_} </div>
+
+<div id="menu-holder"></div>
+<div class="top-face">Комплексный экзаменатор</div>
+<div id="menu-holder"></div>
+
+<div id="mainDiv" align="center" >
+    <div id="scrollable">
+        <table class="simple-little-table" id="test_results" cellspacing='0'>
+            <tr>
+            <th>Вопрос</th>
+            <th>Ответ</th>
+            <th>Комментарий</th>
+            <th>Штрафы</th>
+    </tr>
+    {assign var="wrongAnswers" value="0"}
+    {assign var="totalAnswers" value="0"}
+    {foreach from=$modules key=mkey item=module}
+    <tr class="cv_head">
+        <td colspan="3"  style='background: #A9D0F5;'>
+            {$module['TITLE']}
+        </td>
+        <td  style='background: #A9D0F5;'>
+            {$module['Price']}
+        </td>
+    </tr>
+    {assign var="num" value="1"}
+    {foreach from=$final_array_txt_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_txt_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+                {assign var="wrongAnswers" value=$wrongAnswers+1}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            {assign var="totalAnswers" value=$totalAnswers+1}
+            <tr {$cls}>
+                <td>
+                    {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_txt_answers[$k]['Text']}
+                </td>
+                <td>
+                   {$final_array_txt_answers[$k]['Compet']}. {$final_array_txt_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_txt_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {assign var="num" value="1"}
+    {foreach from=$final_array_sf_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_sf_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+                {assign var="wrongAnswers" value=$wrongAnswers+1}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            {assign var="totalAnswers" value=$totalAnswers+1}
+            <tr {$cls}>
+                <td>
+                   {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Text']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Compet']}. {$final_array_sf_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_sf_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {foreach from=$final_array_sv_questions key=k item=question}
+        {if ($question['Module'] == $module['ID'])}
+            {if ($final_array_sv_answers[$k]['Correct']=='F')}
+                {assign var="cls" value="class=wrong_ans"}
+                {assign var="wrongAnswers" value=$wrongAnswers+1}
+            {else}
+                {assign var="cls" value=""}
+            {/if}
+            {assign var="totalAnswers" value=$totalAnswers+1}
+            <tr {$cls}>
+                <td>
+                   {$num++}. {$question['Text']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Text']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Compet']}. {$final_array_sv_answers[$k]['Comment']}
+                </td>
+                <td>
+                    {$final_array_sv_answers[$k]['Price']}
+                </td>
+            </tr>
+        {/if}
+    {/foreach}
+    {assign var="num" value="0"}
+    {foreach from=$final_array_cv_basic key=k item=basic}
+        {if ($basic['MID'] == $module['ID'])}
+            {assign var="num" value=$num+1}
+            <tr style='color:#000'>
+                <td colspan="4">
+                   {$num}. {$basic['TEXT']}
+                </td>
+            </tr>
+            {assign var="subnum" value="1"}
+            {foreach from=$final_array_cv_questions[$k] key=qk item=question}
+                {if ($final_array_cv_answers[$k][$qk]['Correct']=='F')}
+                    {assign var="cls" value="class=wrong_ans"}
+                    {assign var="wrongAnswers" value=$wrongAnswers+1}
+                {else}
+                    {assign var="cls" value=""}
+                {/if}
+                {assign var="totalAnswers" value=$totalAnswers+1}
+                <tr {$cls}>
+                    <td>
+                        {$num}.{$subnum++}. {$question['Text']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Text']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Compet']}. {$final_array_cv_answers[$k][$qk]['Comment']}
+                    </td>
+                    <td>
+                        {$final_array_cv_answers[$k][$qk]['Price']}
+                    </td>
+                </tr>
+            {/foreach}
+        {/if}
+    {/foreach}
+{/foreach}
+</table>
+        <script>
+    {literal}
+$(function()
+{
+	$('#scrollable').jScrollPane({showArrows: true});
+});
+{/literal}
+</script>
+    </div>
+<div id='popupChart'>
+    <div>
+        <strong>Всего вопросов:</strong> {$totalAnswers}
+        <br>
+        <strong>Из них неправильных:</strong> {$wrongAnswers}
+        <br>
+        <strong>Процент правильных ответов:</strong> {100 - round(($wrongAnswers/$totalAnswers)*100)} %
+    </div>
+    <br>
+    <br>
+    <div style="text-align: center;"><button class="move_button" id="closeChart">Закрыть</button></div>
+    <canvas id="peChart" width="800" height="200" style="display: none;"></canvas>
+{literal}
+<script>
+    var ctx = $('#peChart').get(0).getContext("2d");
+    var chartOptions = {bezierCurve : false};
+    var data = {
+{/literal}
+                labels: [{$chartDates}],
+{literal}
+                datasets:[
+                {
+                    label: "График ответов",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+{/literal}
+                    data: [{$chartPrices}]
+{literal}
+                }    
+                ]
+            
+               };
+    var peLineChart = new Chart(ctx).Line(data, chartOptions);
+</script>
+{/literal}
+</div>
+<form id="personalPage" name="personalPage" method="post">
+
+
+<input id="type_personal" name="type_personal" type="hidden" value="1"/>
+
+<!-- TODO: вывод статистики-->
+
+<input type="button" class='move_button' value="Назад" onclick="get_personal(1)"/>
+<input type='button' class='move_button' id='showChart' value='Статистика'/>
+</form>
+</div>
+<script src="{$tpl}js/script.js"></script>
+<script>
+$(document).ready(function() {
+		$('#popupChart').popup(
+                                            {
+                                                openelement: '#showChart',
+                                                closeelement: '#closeChart',
+                                               // type: 'tooltip',
+                                               // vertical: 'topedge'
+                                            });
+                                        });
+</script>
+{/block}

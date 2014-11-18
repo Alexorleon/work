@@ -87,6 +87,13 @@ function get_personal(n){
 	$("#personalPage").submit();
 }
 
+//Personal reports by data
+function get_report(n,dt)
+{
+    $('#pers_date').val(dt);
+    $('#reptype').val(n);
+    $('#mainpage').submit();
+}
 // proposals
 function get_proposals(n){
 
