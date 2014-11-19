@@ -167,7 +167,7 @@ SQL;
 	$smarty->assign("error_", $error_);
 	
 	$smarty->assign("array_posts", $array_posts);
-
+        $smarty->assign("curPage", 2);
 	// TODO: через ИФ режактирование или создание новой
 	$smarty->assign("title", "Редактирование сотрудников");
 	$smarty->display("edit_employees.tpl.html");
