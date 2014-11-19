@@ -45,7 +45,7 @@ SQL;
     $smarty->assign("error_", $error_);
 	
     $smarty->assign("array_employees", $array_employees);
-
+    $smarty->assign("curPage", 2);
     $smarty->assign("title", "Список сотрудников");
     $smarty->display("list_employees.tpl.html");
 

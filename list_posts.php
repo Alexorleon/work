@@ -44,7 +44,7 @@ SQL;
     
     $smarty->assign("role", $role);
 	$smarty->assign("error_", $error_);
-	
+	$smarty->assign("curPage", 1);
 	$smarty->assign("array_posts", $array_posts);
 
 	$smarty->assign("title", "Список должностей");
