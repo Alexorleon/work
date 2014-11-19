@@ -1,0 +1,187 @@
+{extends file="list.tpl.html"}
+{block name="article"}
+
+{literal}
+<script>
+
+	function add_question(){
+	
+		$.ajax({
+			//type: 'POST', 
+			//data: {'typequestion': curVar},
+			//url: "./inc/ajax.get_questions.php",
+			//dataType: 'json',
+			error: function(req, text, error) {//обработчик, если произошла ошибка
+			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+			},
+			success: function (data) {
+
+				var download_video = "<input type=file id=download_video name=download_video accept=video/mp4></input>";
+				$("#generate").append(download_video);
+				$("#generate").append("</br>");
+			}
+		});
+	}
+</script>
+{/literal}
+
+<form id="edit_questions" name="edit_questions" enctype="multipart/form-data" method="post">
+
+	<span class="title_menu_edit">Редактирование вопросов</span>
+
+	<div style="margin-left: 2px;" align="left">
+		<a href="/list_questions"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+		<!--в зависимости от статуса добавляем или редактируем-->
+		<!--<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_employee(this.form)"/>-->
+	</div>
+	
+	<table>
+		<tr>
+			<td>Тип вопроса:</td>
+			<td>
+				<p style="font-size:14px"><select name="type_question" id="type_question">
+				{section name=j loop=$array_typequestions}
+					<option value="{$array_typequestions[j]['ID']}">{$array_typequestions[j]['TITLE']}</option>
+				{/section}
+				</select></p>
+			</td>
+		</tr>
+		<tr>
+			<td>Модуль:</td>
+			<td>
+				<p style="font-size:14px"><select name="module_question" id="module_question">
+				{section name=j loop=$array_module}
+					<option value="{$array_module[j]['ID']}">{$array_module[j]['TITLE']}</option>
+				{/section}
+				</select></p>
+			</td>
+		</tr>
+		<tr>
+			<td>Уровень риска:</td>
+			<td>
+				<p style="font-size:14px"><select name="risklevel_question" id="risklevel_question">
+				{section name=j loop=$array_risklevel}
+					<option value="{$array_risklevel[j]['ID']}">{$array_risklevel[j]['TITLE']}</option>
+				{/section}
+				</select></p>
+			</td>
+		</tr>
+		<tr>
+			<td>Текст вопроса:</td>
+			<td><input class="field_text_edit" id="text_question" name="text_question" value="{$text_question}"></td>
+		</tr>
+	</table>
+	
+	<p><div id="generate" style="margin-left: 1px;"></div></p>
+	
+<!-- ловим событие выбора -->
+{literal}
+<script>
+
+	$("#type_question").bind('change focus', function(){
+
+		var curVar = $(this).val();
+		
+		// TODO: добавить исключение на нажатие по тому же индексу
+		
+		if(!curVar) return false;
+		
+		// формируем шаблон параметров
+		$.ajax({
+			type: 'POST', 
+			data: {'typequestion': curVar},
+			url: "./inc/ajax.get_questions.php",
+			//dataType: 'json',
+			error: function(req, text, error) {//обработчик, если произошла ошибка
+			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+			},
+			success: function (data) {
+
+				// очищаем
+				$("#generate").find("input").remove();
+				$("#generate").find("br").remove();
+				$("#generate").find("p").remove();
+				
+				// TODO: магические числа
+				switch (curVar) {
+
+					// текст
+					case '8':
+
+					//console.log("");
+
+					break;
+
+					// простое видео
+					case '9':
+
+					var download_sv = "<input type=file id=download_sv name=download_sv accept=video/mp4>";
+					$("#generate").append(download_sv);
+					break;
+
+					// сложное видео
+					case '10':
+
+					var download_prolog = "<input type=file id=download_prolog name=download_prolog accept=video/mp4></input>";
+					$("#generate").append(download_prolog);
+					
+					var download_epilog = "<input type=file id=download_epilog name=download_epilog accept=video/mp4></input>";
+					$("#generate").append(download_epilog);
+					
+					$("#generate").append("</br>");
+					var btn_add_field = "<p><input type=button id=btn_add_field name=btn_add_field value='Добавить вопрос' onclick=add_question()></input></p>";
+					$("#generate").append(btn_add_field);
+					break;
+					
+					// простое фото
+					case '21':
+
+					var download_sf = "<input type=file id=download_sf name=download_sf accept=image/png,image/jpeg>";
+					$("#generate").append(download_sf);
+					break;
+
+					// сложное фото
+					case '22':
+
+					var download_cf = "<input type=label value='В разработке' readonly></input>";
+					$("#generate").append(download_cf);
+					break;
+
+					default:
+
+					console.log("default");
+
+					break;
+				}
+			}
+		});
+	});
+</script>
+{/literal}
+
+	<!-- id сотрудника для передачи -->
+	<!--<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
+
+</form>
+
+<!--{if !empty($date_list)}
+<div class="test_list">
+    <h2>Итоги тестирования</h2>
+    <ul>
+        {foreach from=$date_list item=date}
+        <li>
+            <a href="/test_res.php?sid={$cur_employee_id}&dt={urlencode($date['DATEBEGIN'])}">
+                Тест за {$date['DATEBEGIN']}
+            </a>
+        </li>
+        {/foreach}
+    </ul>
+</div>
+{/if}
+{if $count_pt > 0}
+<div class="test_list">
+    <a href='test_res.php?sid={$cur_employee_id}'>Ответы по предсменному экзаменатору</a>
+</div>
+{/if}-->
+{/block}
+{/extends}

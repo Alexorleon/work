@@ -85,17 +85,17 @@ SQL;
             }
             else
             {
-                $CType = mb_substr($value['name'],0,3);
+                $CType = mb_substr($value['KEY'],0);
                 //var_dump($CType);
-                if ($CType == "Кс ")
+                if ($CType == "ks")
                 {
                     $result[$key] = GetStand($obj, $sotrud_id, $result[$key], $key);
                 }
-                elseif($CType == "Кн ")
+                elseif($CType == "kd")
                 {
                     $result[$key] = GetEmpWarnings($obj, $sotrud_id, $result[$key], $key);
                 }
-                elseif($CType == "Кп ")
+                elseif($CType == "kp")
                 {
                     $result[$key] = GetProposes($obj, $sotrud_id, $result[$key], $key);
                 }
@@ -174,6 +174,7 @@ SQL;
     {
         $result[$ctype['ID']]['weight'] = $ctype['WEIGHT'];
         $result[$ctype['ID']]['name'] = $ctype['TITLE'];
+		$result[$ctype['ID']]['KEY'] = $ctype['KEY'];
         $result[$ctype['ID']]['K'] = 0;
         $result[$ctype['ID']]['Sum'] = 0;
         $result[$ctype['ID']]['Danger'] = 0;
@@ -216,6 +217,7 @@ SQL;
 }
 function GetRecommendations($obj, $data_row, $id)
 {
+
     $sql = <<<SQL
             SELECT TITLE FROM stat.RECOMMENDATIONSSOTRUD WHERE COMPETENCETYPEID='$id' AND MIN<={$data_row['Danger']} AND MAX>={$data_row['Danger']}
 SQL;

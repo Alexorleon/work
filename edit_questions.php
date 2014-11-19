@@ -11,8 +11,8 @@
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
-		
-	if (!empty($_POST)){
+	
+	/*if (!empty($_POST)){
 		$employeesur = filter_input(INPUT_POST, 'employeesur', FILTER_SANITIZE_SPECIAL_CHARS);
 		$employeesur = iconv("utf-8", "windows-1251", $employeesur); // фамилия
                 
@@ -27,7 +27,7 @@
         $employeetabel = filter_input(INPUT_POST, 'employeetabel', FILTER_SANITIZE_NUMBER_INT);//$_POST['employeetabel']; // табельный
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
-		if($_SESSION['add_or_edit_employee'] == 0){ // это добавление нового
+		if($_SESSION['add_or_edit_questions'] == 0){ // это добавление нового
 		
 			// проверяем табельный номер
 			$sql = <<<SQL
@@ -50,7 +50,7 @@ SQL;
 				$error_ = "Такой табельный уже есть!";
 			}
 		
-		}else if($_SESSION['add_or_edit_employee'] == 1){ // это редактирование
+		}else if($_SESSION['add_or_edit_questions'] == 1){ // это редактирование
 	
 			$employee_id_hidden = filter_input(INPUT_POST, 'employee_hidden_id', FILTER_SANITIZE_NUMBER_INT);//$_POST['employee_hidden_id'];
 			//print_r($_POST);
@@ -105,87 +105,61 @@ SQL;
 			
 			die("У меня не прописано, что делать");
 		}
-	}
+	}*/
 	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
     
-        $smarty->assign("role", $role);
+	$smarty->assign("role", $role);
 	if(array_key_exists('posttype', $_GET)){
-                $posttype = filter_input(INPUT_GET, 'posttype', FILTER_SANITIZE_NUMBER_INT);
+	
+		$posttype = filter_input(INPUT_GET, 'posttype', FILTER_SANITIZE_NUMBER_INT);
 		if($posttype == 0){ // это добавление нового
 		
-			$_SESSION['add_or_edit_employee'] = 0;
+			$_SESSION['add_or_edit_questions'] = 0;
 			
 			// чистые значения
-                        $smarty->assign("date_list", array());
-			$smarty->assign("cur_employee_cur", '');
-			$smarty->assign("cur_employee_name", '');
-			$smarty->assign("cur_employee_pat", '');
-			$smarty->assign("cur_employee_tabel", '');
-			$smarty->assign("cur_dolj_kod", '');
+			$smarty->assign("text_question", '');
 			
-			$smarty->assign("count_pt", 0);
 		}else if($posttype == 1){ // это редактирование
 	
-			$_SESSION['add_or_edit_employee'] = 1;
+			$_SESSION['add_or_edit_questions'] = 1;
 			
 			// получаем значения для задания их по умолчанию
-			$employee_id = filter_input(INPUT_GET, 'employee_id', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_id']; // id сотрудника
-			$employee_cur = filter_input(INPUT_GET, 'employee_cur', FILTER_SANITIZE_STRING); //$_GET['employee_cur']; // фамилия
-			$employee_name = filter_input(INPUT_GET, 'employee_name', FILTER_SANITIZE_STRING); //$_GET['employee_name']; // имя
-			$employee_pat = filter_input(INPUT_GET, 'employee_pat', FILTER_SANITIZE_STRING); //$_GET['employee_pat']; // отчество
-			$employee_tabel = filter_input(INPUT_GET, 'employee_tabel', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_tabel']; // табельный
-			$dolj_kod = filter_input(INPUT_GET, 'dolj', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID должности
-			
-                        //$sql_res = "SELECT * FROM stat.ALLHISTORY WHERE ";
-                        
-			// запоминаем табельный
-			$_SESSION['check_employee_tabel'] = $employee_tabel;
-			
-			$date_list = GetTestDates($db, $employee_id);
-			$count_pt = CountPT($db, $employee_id);
-			//var_dump($dl);
-			$smarty->assign("date_list", $date_list);
-			$smarty->assign("count_pt", $count_pt);
-			$smarty->assign("cur_employee_id", $employee_id);
-			$smarty->assign("cur_employee_cur", $employee_cur);
-			$smarty->assign("cur_employee_name", $employee_name);
-			$smarty->assign("cur_employee_pat", $employee_pat);
-			$smarty->assign("cur_employee_tabel", $employee_tabel);
-			$smarty->assign("cur_dolj_kod", $dolj_kod);
+			//$employee_id = filter_input(INPUT_GET, 'employee_id', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_id']; // id сотрудника
+
+			$smarty->assign("text_question", "-TEST-");
 		}else{
 			
 			die("У меня не прописано, что делать");
 		}
 	}
 	
-	// получаем список всех должностей. 10 - кокс-майнинг
+	// получаем список типов вопросов. в зависимости от выбора, свои настройки составления вопроса.
 	$sql = <<<SQL
-	SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K='$predpr_k_glob'
+	SELECT ID, TITLE FROM stat.TYPEQUESTIONS ORDER BY ID
 SQL;
-	$array_posts = $db->go_result($sql);	
+	$array_typequestions = $db->go_result($sql);
+	
+	// модуль и риск присутствуют во всех типах
+	$sql = <<<SQL
+	SELECT ID, TITLE FROM stat.MODULE ORDER BY ID
+SQL;
+	$array_module = $db->go_result($sql);
+	
+	$sql = <<<SQL
+	SELECT ID, TITLE FROM stat.RISKLEVEL ORDER BY ID
+SQL;
+	$array_risklevel = $db->go_result($sql);
 	
 	$smarty->assign("error_", $error_);
 	
-	$smarty->assign("array_posts", $array_posts);
+	$smarty->assign("array_typequestions", $array_typequestions);
+	$smarty->assign("array_module", $array_module);
+	$smarty->assign("array_risklevel", $array_risklevel);
 
 	// TODO: через ИФ режактирование или создание новой
-	$smarty->assign("title", "Редактирование сотрудников");
-	$smarty->display("edit_employees.tpl.html");
+	$smarty->assign("title", "Редактирование вопросов");
+	$smarty->display("edit_questions.tpl.html");
 
 	// --- ФУНКЦИИ ---
-function GetTestDates($obj, $sid) //История сотрудника по сдаче тестов 
-{
-    $sql = "SELECT TO_CHAR(DATEBEGIN, 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM (SELECT DISTINCT DATEBEGIN FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sid' AND EXAMINERTYPE='2' AND DEL='N') ORDER BY DATEBEGIN";
-    $date_list = $obj->go_result($sql);
-   
-    return $date_list;
-}
 
-function CountPT($obj, $sid)
-{
-    $sql = "SELECT COUNT(ID) AS COUNT FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sid' AND EXAMINERTYPE='1' AND DEL='N'";
-    $result = $obj->go_result_once($sql);
-    
-    return $result['COUNT'];
-}
   ?>
