@@ -1,7 +1,31 @@
 {extends file="list.tpl.html"}
 {block name="article"}
 
-<form id="edit_questions" name="edit_questions" method="post">
+{literal}
+<script>
+
+	function add_question(){
+	
+		$.ajax({
+			//type: 'POST', 
+			//data: {'typequestion': curVar},
+			//url: "./inc/ajax.get_questions.php",
+			//dataType: 'json',
+			error: function(req, text, error) {//обработчик, если произошла ошибка
+			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+			},
+			success: function (data) {
+
+				var download_video = "<input type=file id=download_video name=download_video accept=video/mp4></input>";
+				$("#generate").append(download_video);
+				$("#generate").append("</br>");
+			}
+		});
+	}
+</script>
+{/literal}
+
+<form id="edit_questions" name="edit_questions" enctype="multipart/form-data" method="post">
 
 	<span class="title_menu_edit">Редактирование вопросов</span>
 
@@ -12,18 +36,6 @@
 	</div>
 	
 	<table>
-		<!--<tr>
-			<td>Фамилия:</td>
-			<td><input type="field_text_edit" id="employeesur" name="employeesur" value="{$cur_employee_cur}"></td>
-		</tr>
-		<tr>
-			<td>Имя:</td>
-			<td><input type="field_text_edit" id="employeename" name="employeename" value="{if !empty($employeename)}{$employeename}{else}{$cur_employee_name}{/if}"></td>
-		</tr>
-		<tr>
-			<td>Отчество:</td>
-			<td><input type="field_text_edit" id="employeepat" name="employeepat" value="{$cur_employee_pat}"></td>
-		</tr>-->
 		<tr>
 			<td>Тип вопроса:</td>
 			<td>
@@ -59,7 +71,9 @@
 			<td><input class="field_text_edit" id="text_question" name="text_question" value="{$text_question}"></td>
 		</tr>
 	</table>
-
+	
+	<p><div id="generate" style="margin-left: 1px;"></div></p>
+	
 <!-- ловим событие выбора -->
 {literal}
 <script>
@@ -67,7 +81,9 @@
 	$("#type_question").bind('change focus', function(){
 
 		var curVar = $(this).val();
-
+		
+		// TODO: добавить исключение на нажатие по тому же индексу
+		
 		if(!curVar) return false;
 		
 		// формируем шаблон параметров
@@ -81,42 +97,54 @@
 			},
 			success: function (data) {
 
+				// очищаем
+				$("#generate").find("input").remove();
+				$("#generate").find("br").remove();
+				$("#generate").find("p").remove();
+				
 				// TODO: магические числа
 				switch (curVar) {
 
 					// текст
 					case '8':
 
-					console.log(data);
+					//console.log("");
 
 					break;
 
 					// простое видео
 					case '9':
 
-					console.log("9999999999");
-
+					var download_sv = "<input type=file id=download_sv name=download_sv accept=video/mp4>";
+					$("#generate").append(download_sv);
 					break;
 
 					// сложное видео
 					case '10':
 
-					console.log("1000000");
-
+					var download_prolog = "<input type=file id=download_prolog name=download_prolog accept=video/mp4></input>";
+					$("#generate").append(download_prolog);
+					
+					var download_epilog = "<input type=file id=download_epilog name=download_epilog accept=video/mp4></input>";
+					$("#generate").append(download_epilog);
+					
+					$("#generate").append("</br>");
+					var btn_add_field = "<p><input type=button id=btn_add_field name=btn_add_field value='Добавить вопрос' onclick=add_question()></input></p>";
+					$("#generate").append(btn_add_field);
 					break;
 					
 					// простое фото
 					case '21':
 
-					console.log("11111111");
-
+					var download_sf = "<input type=file id=download_sf name=download_sf accept=image/png,image/jpeg>";
+					$("#generate").append(download_sf);
 					break;
 
 					// сложное фото
 					case '22':
 
-					console.log("222222222222");
-
+					var download_cf = "<input type=label value='В разработке' readonly></input>";
+					$("#generate").append(download_cf);
 					break;
 
 					default:
@@ -125,27 +153,6 @@
 
 					break;
 				}
-				/*$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
-				var tail_table = "";
-				var big_data_table = "";
-				big_data_table += "<tr>";
-				var cnt = 0;
-				var cnt2 = 1;
-				var num_cols = 14;
-				$(data).each(function() {
-				if (cnt == (num_cols*cnt2)) {big_data_table += "</tr><tr>";cnt2++;}
-				big_data_table += "<td id=r"+$(this).attr('TABEL_KADR')+" onclick='get_info_tab("+$(this).attr('TABEL_KADR')+")'>"+$(this).attr('TABEL_KADR')+"</td>";//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
-				cnt++;
-				});
-				//big_data_table += "</tr>";
-				for (var i = 0; i < ((num_cols * cnt2) - cnt); i++) {
-				   tail_table += "<td>&nbsp;</td>";
-				}
-				$("#sotruds tbody").append(big_data_table + tail_table + "</tr>");
-				
-				$("#tabnum_status").html("№ "+tab_num+" - Контроль пройден"+" : "+date[1]);
-				$("#tabnum_status").css("color", "green");
-				$("#r"+id).css("background", "green");*/
 			}
 		});
 	});

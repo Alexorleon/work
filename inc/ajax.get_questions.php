@@ -12,7 +12,6 @@
 	switch ($type_question) {
 		case 8:
 			
-			
 			break;
 		case 9:
 			
