@@ -28,7 +28,7 @@ table.TF td{ padding:5px 5px 5px 5px; border-bottom:1px solid #D0D0D0; border-ri
 }
 .fltrow td, .fltrow th{ padding:2px !important; } 
 .btnflt{ /* button appearance */
-	font-size:11px; vertical-align:middle;
+	font-size:15px; vertical-align:middle;
 	margin:0 2px 0 2px; padding:0 1px 0 1px;	
 }
 .btnflt_icon{ /* button appearance when displayIcons is true */
@@ -37,26 +37,26 @@ table.TF td{ padding:5px 5px 5px 5px; border-bottom:1px solid #D0D0D0; border-ri
 	background:transparent url(TF_Themes/btn_filter.png) center center no-repeat !important;
 }
 input[type="text"].flt, .flt { /* filter (input) appearance */
-	background-color:#fff; font-size:10px;
+	background-color:#fff; font-size:15px;
 	border:1px solid #ccc;
 	margin:0; width:97%; vertical-align:middle;height:32px;
 }
 select.flt{ /* select filter */
 	background-color:#fff; border:1px solid #ccc; 
-	margin:0 1px 1px 0; width:99%; font-size:9px; vertical-align:middle;
+	margin:0 1px 1px 0; width:99%; font-size:15px; vertical-align:middle;
 }
 select.flt_multi{ /* multiple select filter */
 	background-color:#fff; border:1px solid #ccc; 
 	margin:0 1px 1px 0; width:99%; height:100px;
-	font-size:9px; vertical-align:middle;
+	font-size:15px; vertical-align:middle;
 }
 .flt_s{ /* small filter (input) appearance */
-	background-color:#fff; font-size:10px;
+	background-color:#fff; font-size:15px;
 	border:1px solid #ccc;
 	margin:0; width:80%; vertical-align:middle;
 }
 .single_flt{ /* single filter appearance (input) */
-	background-color:#fff; font-size:11px;
+	background-color:#fff; font-size:15px;
 	border-left:1px solid #999; border-right:1px solid #ccc;
 	border-top:1px solid #ccc; border-bottom:1px solid #999;
 	margin:0; width:120px; vertical-align:middle;
@@ -74,7 +74,7 @@ select.flt_multi{ /* multiple select filter */
 
 .div_checklist ul.flt_checklist{ padding:0 !important; margin:0 !important; list-style: none !important; }
 .div_checklist li.flt_checklist_item{ /*check list item*/
-	padding:1px !important; margin:0 !important; font-size:10px !important;
+	padding:1px !important; margin:0 !important; font-size:15px !important;
 	border-bottom:1px solid #ccc !important;
 }
 .div_checklist li.flt_checklist_item:hover{
@@ -103,7 +103,7 @@ input.reset:hover{ background:#CAD1D6 url(TF_Themes/btn_clear_filters.png) cente
 =====================================================*/
 .inf{ /* div containing left, middle and right divs */
 	clear:both; width:auto; height:25px; 
-	background:#f4f4f4; font-size:12px; 
+	background:#f4f4f4; font-size:15px; 
 	margin:0; padding:1px 3px 1px 3px; 
 	border:1px solid #ccc; overflow:hidden;
 }
@@ -117,15 +117,15 @@ input.reset:hover{ background:#CAD1D6 url(TF_Themes/btn_clear_filters.png) cente
 .rdiv{ /* right div */
 	float:right; width:30%; position:inherit; text-align:right; 
 }
-select.pgSlc{ height:20px; vertical-align:middle; font-size:10px; }/*paging drop-down list*/
+select.pgSlc{ height:20px; vertical-align:middle; font-size:15px; }/*paging drop-down list*/
 input.pgNbInp{/*paging text-box*/ 
 	width:25px; height:16px; margin:1px;
-	font-size:11px; vertical-align:middle; 
+	font-size:15px; vertical-align:middle; 
 }
 input.pgInp{ /*paging buttons (Next/Previous)*/
 	vertical-align: middle;
 	width:19px; height:19px; cursor:pointer !important;
-	border:0 !important; font-weight:bold; font-size:11px;
+	border:0 !important; font-weight:bold; font-size:15px;
 }
 .nextPage{ background:transparent url(TF_Themes/btn_next_page.gif) center center no-repeat !important; }
 .previousPage{ background:transparent url(TF_Themes/btn_previous_page.gif) center center no-repeat !important; }
@@ -143,9 +143,9 @@ div.tot{ /* rows counter appearance */
 	margin:0 5px 0 2px;
 	padding:0 2px 0 2px;
 }
-div.tot span{ font-weight:bold; font-size:11px; }
+div.tot span{ font-weight:bold; font-size:15px; }
 select.rspg{ width:50px; margin:1px 5px 0 5px; vertical-align:middle; }/*results per page select*/
-span.rspgSpan{ font-size:11px; } /*results per page select label*/
+span.rspgSpan{ font-size:15px; } /*results per page select label*/
 
 
 /* BEHAVIOURS
@@ -158,7 +158,7 @@ span.keyword{ background-color: #ffcc00;}/*highlighted word*/
 .loader{ /* loader appearance */
 	position:absolute; padding: 5px 10px 5px 10px;
 	margin:20px 0 0 20px; width:auto; 
-	z-index:1000; font-size:12px; font-weight:bold;
+	z-index:1000; font-size:15px; font-weight:bold;
 	border:1px solid #666; background:#f4f4f4; 
 	vertical-align:middle;
 }
@@ -170,7 +170,7 @@ div.status{ /* status bar appearance */
 	margin:0 5px 0 2px;
 	padding:0 2px 0 2px;
 }
-div.status span{ font-weight:bold; font-size:11px; }
+div.status span{ font-weight:bold; font-size:15px; }
 
 div.cont{ /*table container div*/
 	height:200px; overflow: auto;
@@ -184,7 +184,7 @@ div.helpCont{ /* help container */
 	max-width:300px; overflow:auto;
 	padding:7px 7px 7px 7px; margin:15px 0;
 	border:1px solid #CCC; line-height:19px; 
-	font-size:12px; color:#333; 
+	font-size:15px; color:#333; 
 	background:#fff; text-align:left;
 	border-radius:4px;
 	-moz-border-radius:4px;
@@ -197,7 +197,7 @@ div.helpCont a{ color:#cc0000; text-decoration:underline; font-weight:normal; }
 div.helpCont a:hover{ text-decoration:none; }
 div.helpCont hr{ border:1px solid #ccc; }
 div.helpFooter{ margin:10px 0 0 0; }
-div.helpFooter h4{ margin:2px 2px 2px 2px; font-size:13px; color:#333; }
+div.helpFooter h4{ margin:2px 2px 2px 2px; font-size:16px; color:#333; }
 
 /* Pop-up filters elements */
 div.popUpFilter{ 
@@ -232,7 +232,7 @@ div.grd_headTblCont{ /*headers' table container*/
 }
 
 div.grd_tblCont table, div.grd_headTblCont table{ /*Tables*/
-	font-size:12px; border-collapse:collapse;
+	font-size:15px; border-collapse:collapse;
 	table-layout:fixed;
 }
 div.grd_tblCont table{ border-right:1px solid #99BBE8; }
@@ -261,7 +261,7 @@ div.grd_tblCont table td{
 
 .grd_inf{ /* div containing left, middle and right divs */
 	clear:both; width:auto; height:25px; 
-	background:#C8E0FB; font-size:11px; 
+	background:#C8E0FB; font-size:15px; 
 	margin:0; padding:1px 3px 1px 3px;
 	border-top:1px solid #99BBE8;
 }
@@ -297,7 +297,7 @@ select[multiple="multiple"].ezSelectEditor{ height:35px; }
 /* Command type editor */
 .ezCommandEditor{ margin:2px; }
 .ezCommandEditor button, .ezCommandEditor input[type="button"] { 
-	font-size:11px;	min-height:22px;
+	font-size:15px;	min-height:22px;
 	margin:1px; padding:3px;
 	border:1px solid #ccc; background:#fff;
 	border-radius:4px 4px 4px 4px;
