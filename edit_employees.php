@@ -122,6 +122,8 @@ SQL;
 			$smarty->assign("cur_employee_pat", '');
 			$smarty->assign("cur_employee_tabel", '');
 			$smarty->assign("cur_dolj_kod", '');
+			
+			$smarty->assign("count_pt", 0);
 		}else if($posttype == 1){ // это редактирование
 	
 			$_SESSION['add_or_edit_employee'] = 1;
@@ -139,11 +141,11 @@ SQL;
 			// запоминаем табельный
 			$_SESSION['check_employee_tabel'] = $employee_tabel;
 			
-                        $date_list = GetTestDates($db, $employee_id);
-                        $count_pt = CountPT($db, $employee_id);
-                        //var_dump($dl);
-                        $smarty->assign("date_list", $date_list);
-                        $smarty->assign("count_pt", $count_pt);
+			$date_list = GetTestDates($db, $employee_id);
+			$count_pt = CountPT($db, $employee_id);
+			//var_dump($dl);
+			$smarty->assign("date_list", $date_list);
+			$smarty->assign("count_pt", $count_pt);
 			$smarty->assign("cur_employee_id", $employee_id);
 			$smarty->assign("cur_employee_cur", $employee_cur);
 			$smarty->assign("cur_employee_name", $employee_name);
