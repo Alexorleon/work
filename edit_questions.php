@@ -117,7 +117,7 @@ SQL;
 			$_SESSION['add_or_edit_questions'] = 0;
 			
 			// чистые значения
-			//$smarty->assign("cur_dolj_kod", '');
+			$smarty->assign("text_question", '');
 			
 		}else if($posttype == 1){ // это редактирование
 	
@@ -126,7 +126,7 @@ SQL;
 			// получаем значения для задания их по умолчанию
 			//$employee_id = filter_input(INPUT_GET, 'employee_id', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_id']; // id сотрудника
 
-			//$smarty->assign("cur_dolj_kod", $dolj_kod);
+			$smarty->assign("text_question", "-TEST-");
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -137,11 +137,24 @@ SQL;
 	$sql = <<<SQL
 	SELECT ID, TITLE FROM stat.TYPEQUESTIONS ORDER BY ID
 SQL;
-	$array_typequestions = $db->go_result($sql);	
+	$array_typequestions = $db->go_result($sql);
+	
+	// модуль и риск присутствуют во всех типах
+	$sql = <<<SQL
+	SELECT ID, TITLE FROM stat.MODULE ORDER BY ID
+SQL;
+	$array_module = $db->go_result($sql);
+	
+	$sql = <<<SQL
+	SELECT ID, TITLE FROM stat.RISKLEVEL ORDER BY ID
+SQL;
+	$array_risklevel = $db->go_result($sql);
 	
 	$smarty->assign("error_", $error_);
 	
 	$smarty->assign("array_typequestions", $array_typequestions);
+	$smarty->assign("array_module", $array_module);
+	$smarty->assign("array_risklevel", $array_risklevel);
 
 	// TODO: через ИФ режактирование или создание новой
 	$smarty->assign("title", "Редактирование вопросов");

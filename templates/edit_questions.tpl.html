@@ -1,10 +1,6 @@
 {extends file="list.tpl.html"}
 {block name="article"}
 
-
-
-
-
 <form id="edit_questions" name="edit_questions" method="post">
 
 	<span class="title_menu_edit">Редактирование вопросов</span>
@@ -33,18 +29,39 @@
 			<td>
 				<p style="font-size:14px"><select name="type_question" id="type_question">
 				{section name=j loop=$array_typequestions}
-					{if $cur_dolj_kod eq $array_typequestions[j]['ID']} <!-- ищем в списке нужный -->
-						<option value="{$array_typequestions[j]['ID']}" selected="selected">{$array_typequestions[j]['TITLE']}</option>
-					{else}
-						<option value="{$array_typequestions[j]['ID']}">{$array_typequestions[j]['TITLE']}</option>
-					{/if}
+					<option value="{$array_typequestions[j]['ID']}">{$array_typequestions[j]['TITLE']}</option>
 				{/section}
 				</select></p>
 			</td>
 		</tr>
+		<tr>
+			<td>Модуль:</td>
+			<td>
+				<p style="font-size:14px"><select name="module_question" id="module_question">
+				{section name=j loop=$array_module}
+					<option value="{$array_module[j]['ID']}">{$array_module[j]['TITLE']}</option>
+				{/section}
+				</select></p>
+			</td>
+		</tr>
+		<tr>
+			<td>Уровень риска:</td>
+			<td>
+				<p style="font-size:14px"><select name="risklevel_question" id="risklevel_question">
+				{section name=j loop=$array_risklevel}
+					<option value="{$array_risklevel[j]['ID']}">{$array_risklevel[j]['TITLE']}</option>
+				{/section}
+				</select></p>
+			</td>
+		</tr>
+		<tr>
+			<td>Текст вопроса:</td>
+			<td><input class="field_text_edit" id="text_question" name="text_question" value="{$text_question}"></td>
+		</tr>
 	</table>
 
 <!-- ловим событие выбора -->
+{literal}
 <script>
 
 	$("#type_question").bind('change focus', function(){
@@ -55,67 +72,67 @@
 		
 		// формируем шаблон параметров
 		$.ajax({
-			type: 'POST',
-			data: {'type': curVar},
+			type: 'POST', 
+			data: {'typequestion': curVar},
 			url: "./inc/ajax.get_questions.php",
 			//dataType: 'json',
 			error: function(req, text, error) {//обработчик, если произошла ошибка
 			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
 			},
 			success: function (data) {
-				
+
 				// TODO: магические числа
 				switch (curVar) {
 
 					// текст
-					case 8:
+					case '8':
 
-					alert("888888888");
+					console.log(data);
 
-					[break]
+					break;
 
 					// простое видео
-					case 9:
+					case '9':
 
-					alert("9999999999");
+					console.log("9999999999");
 
-					[break]
+					break;
 
 					// сложное видео
-					case 10:
+					case '10':
 
-					alert("1000000");
+					console.log("1000000");
 
-					[break]
+					break;
 					
 					// простое фото
-					case 21:
+					case '21':
 
-					alert("11111111");
+					console.log("11111111");
 
-					[break]
+					break;
 
 					// сложное фото
-					case 22:
+					case '22':
 
-					alert("222222222222");
+					console.log("222222222222");
 
-					[break]
+					break;
 
 					default:
 
-					alert("default");
+					console.log("default");
 
-					[break]
+					break;
 				}
-				$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
+				/*$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
 				var tail_table = "";
 				var big_data_table = "";
 				big_data_table += "<tr>";
 				var cnt = 0;
 				var cnt2 = 1;
 				var num_cols = 14;
-				$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
+				$(data).each(function() {
 				if (cnt == (num_cols*cnt2)) {big_data_table += "</tr><tr>";cnt2++;}
 				big_data_table += "<td id=r"+$(this).attr('TABEL_KADR')+" onclick='get_info_tab("+$(this).attr('TABEL_KADR')+")'>"+$(this).attr('TABEL_KADR')+"</td>";//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
 				cnt++;
@@ -128,11 +145,12 @@
 				
 				$("#tabnum_status").html("№ "+tab_num+" - Контроль пройден"+" : "+date[1]);
 				$("#tabnum_status").css("color", "green");
-				$("#r"+id).css("background", "green");
+				$("#r"+id).css("background", "green");*/
 			}
 		});
 	});
 </script>
+{/literal}
 
 	<!-- id сотрудника для передачи -->
 	<!--<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
