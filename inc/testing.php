@@ -245,89 +245,102 @@
 	
 	// подготовка
 	function preparation(&$obj){
-	
+		
+		// подготовка финальных массивов каждого типа
+		$_SESSION['final_array_txt_questions'] = array(); // хранятся текстовые вопросы
+		$_SESSION['final_array_txt_answers'] = array(); // основной массив для ответов
+		
+		$_SESSION['final_array_sf_questions'] = array(); // хранится текст простых фото вопросов
+		$_SESSION['final_array_sf_answers'] = array(); // основной массив для ответов
+		
+		$_SESSION['final_array_sv_questions'] = array(); // хранится текст простых видео вопросов
+		$_SESSION['final_array_sv_answers'] = array(); // основной массив для ответов
+		
+		$_SESSION['final_array_cv_basic'] = array(); // хранятся заголовки видео цепочек
+		$_SESSION['final_array_cv_questions'] = array(); // хранятся вопросы видео цепочек
+		$_SESSION['final_array_cv_answers'] = array(); // ответы цепочек
+		$_SESSION['count_complex_question'] = 0; // счетчик для видео цепочки
+		$_SESSION['temp_count_ques'] = 0; // количество заданных вопросов
+		
+		$_SESSION['DATEBEGIN'] = time(); // общее время для СС в истории
+		//die();
+		
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
 		
 		/*
-		формируем равномерный массив вопросов по уровню их риска.
-		для этого берем все вопросы по каждому риску. Это будет массив из ID вопросов.
-		*/		
+		также необходимо сформировать количество и типы вопросов к тесту.
+		данная информация берется из таблицы testparameters
+		*/
+		// подготовка массивов под каждый тип
+		$array_death_risk_sf = array();
+		$array_high_risk_sf = array();
+		$array_sign_risk_sf = array();
 		
+		$array_death_risk_cv = array();
+		$array_high_risk_cv = array();
+		$array_sign_risk_cv = array();
+		
+		$array_death_risk_sv = array();
+		$array_high_risk_sv = array();
+		$array_sign_risk_sv = array();
+		
+		// получаем массив модулей
+		$sql_module =
+			"SELECT ID FROM stat.MODULE";
+		$array_modules = $obj->go_result($sql_module);
+		
+		// получаем массив вопросов по всем рискам
+		$sql_test_parameters =
+			"SELECT ID, RISKLEVELID, TYPEQUESTIONSID,  MODULEID FROM stat.ALLQUESTIONS WHERE 
+			ALLQUESTIONS.MODULEID IN (SELECT MODULEID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
+			ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
+			ALLQUESTIONS.ID IN (SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
+		$array_test_parameters = $obj->go_result($sql_test_parameters);
+		
+		for($count_module = 0; $count_module < count($array_modules); $count_module++){
+		
+			//$array_modules[$count_module]['ID'];
+		}
+		print_r($array_test_parameters);
+		die();
+
 		// простые фото вопросы
 		// вопросы по смертельному риску
-		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
-			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
-		$array_death_risk_sf = $obj->go_result($sql_ques);
 		shuffle($array_death_risk_sf);
-
 		// вопросы по высокому риску
-		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
-			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
-		$array_high_risk_sf = $obj->go_result($sql_ques);
 		shuffle($array_high_risk_sf);
-
 		// вопросы по существенному риску
-		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='5' AND ALLQUESTIONS.TYPEQUESTIONSID='21' AND ALLQUESTIONS.ID IN 
-			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
-		$array_sign_risk_sf = $obj->go_result($sql_ques);
 		shuffle($array_sign_risk_sf);
 		
 		// видео цепочки
 		// вопросы по смертельному риску
 		// TODO: заглушка. первую помощь сделать здесь, т.к. у нее риск смертельный
-		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='61' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
-			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
-		$array_death_risk_cv = $obj->go_result($sql_ques);
 		shuffle($array_death_risk_cv);
-		
 		// вопросы по высокому риску
-		$sql_ques =
-			"SELECT ID, MODULEID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
-			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
-		$array_high_risk_cv = $obj->go_result($sql_ques);
 		shuffle($array_high_risk_cv);
-
 		// вопросы по существенному риску
-		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='21' AND ALLQUESTIONS.TYPEQUESTIONSID='10' AND ALLQUESTIONS.ID IN 
-			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
-		$array_sign_risk_cv = $obj->go_result($sql_ques);
 		shuffle($array_sign_risk_cv);
 		
 		// простое видео
 		// вопросы по смертельному риску
-		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=7 AND ALLQUESTIONS.MODULEID='22' AND ALLQUESTIONS.TYPEQUESTIONSID='9' AND ALLQUESTIONS.ID IN 
-			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
-		$array_death_risk_sv = $obj->go_result($sql_ques);
 		shuffle($array_death_risk_sv);
 		// вопросы по высокому риску
-		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=8 AND ALLQUESTIONS.MODULEID='22' AND ALLQUESTIONS.TYPEQUESTIONSID='9' AND ALLQUESTIONS.ID IN 
-			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
-		$array_high_risk_sv = $obj->go_result($sql_ques);
 		shuffle($array_high_risk_sv);
-		
 		// вопросы по существенному риску
-		$sql_ques =
-			"SELECT ID FROM stat.ALLQUESTIONS WHERE ALLQUESTIONS.RISKLEVELID=9 AND ALLQUESTIONS.MODULEID='22' AND ALLQUESTIONS.TYPEQUESTIONSID='9' AND ALLQUESTIONS.ID IN 
-			(SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN 
-			(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
-		$array_sign_risk_sv = $obj->go_result($sql_ques);
 		shuffle($array_sign_risk_sv);
 		
+		print_r($array_death_risk_sf);
+		print_r($array_high_risk_sf);
+		print_r($array_sign_risk_sf);
+		
+		print_r($array_death_risk_cv);
+		print_r($array_high_risk_cv);
+		print_r($array_sign_risk_cv);
+		
+		print_r($array_death_risk_sv);
+		print_r($array_high_risk_sv);
+		print_r($array_sign_risk_sv);
+		die();
 		// если нет вопросов, выходим
 		if(empty($array_death_risk_sf) and empty($array_high_risk_sf) and empty($array_sign_risk_sf) 
 		and empty($array_death_risk_cv) and empty($array_high_risk_cv) and empty($array_sign_risk_cv)
@@ -568,25 +581,6 @@
 		echo "</br>";
 		print_r($q_final_array);
 		die();*/
-		
-		// подготовка финальных массивов каждого типа
-		$_SESSION['final_array_txt_questions'] = array(); // хранятся текстовые вопросы
-		$_SESSION['final_array_txt_answers'] = array(); // основной массив для ответов
-		
-		$_SESSION['final_array_sf_questions'] = array(); // хранится текст простых фото вопросов
-		$_SESSION['final_array_sf_answers'] = array(); // основной массив для ответов
-		
-		$_SESSION['final_array_sv_questions'] = array(); // хранится текст простых видео вопросов
-		$_SESSION['final_array_sv_answers'] = array(); // основной массив для ответов
-		
-		$_SESSION['final_array_cv_basic'] = array(); // хранятся заголовки видео цепочек
-		$_SESSION['final_array_cv_questions'] = array(); // хранятся вопросы видео цепочек
-		$_SESSION['final_array_cv_answers'] = array(); // ответы цепочек
-		$_SESSION['count_complex_question'] = 0; // счетчик для видео цепочки
-		$_SESSION['temp_count_ques'] = 0; // количество заданных вопросов
-		
-		$_SESSION['DATEBEGIN'] = time(); // общее время для СС в истории
-		//die();
 	}
 	
 	// задаем вопрос

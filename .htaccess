@@ -34,6 +34,10 @@ RewriteRule ^list_employees$ /list_employees.php [L,QSA]
 RewriteRule ^new_employees$ /edit_employees.php?posttype=0 [L,QSA]
 RewriteRule ^edit_employees$ /edit_employees.php?posttype=1 [L,QSA]
 
+RewriteRule ^list_questions$ /list_questions.php [L,QSA]
+RewriteRule ^new_questions$ /edit_questions.php?posttype=0 [L,QSA]
+RewriteRule ^edit_questions$ /edit_questions.php?posttype=1 [L,QSA]
+
 RewriteRule ^list_tests$ /list_tests.php [L,QSA]
 RewriteRule ^new_test$ /edit_test.php?testtype=0 [L,QSA]
 RewriteRule ^edit_test$ /edit_test.php?testtype=1 [L,QSA]
