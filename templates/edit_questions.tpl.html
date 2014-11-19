@@ -1,0 +1,162 @@
+{extends file="list.tpl.html"}
+{block name="article"}
+
+
+
+
+
+<form id="edit_questions" name="edit_questions" method="post">
+
+	<span class="title_menu_edit">Редактирование вопросов</span>
+
+	<div style="margin-left: 2px;" align="left">
+		<a href="/list_questions"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+		<!--в зависимости от статуса добавляем или редактируем-->
+		<!--<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_employee(this.form)"/>-->
+	</div>
+	
+	<table>
+		<!--<tr>
+			<td>Фамилия:</td>
+			<td><input type="field_text_edit" id="employeesur" name="employeesur" value="{$cur_employee_cur}"></td>
+		</tr>
+		<tr>
+			<td>Имя:</td>
+			<td><input type="field_text_edit" id="employeename" name="employeename" value="{if !empty($employeename)}{$employeename}{else}{$cur_employee_name}{/if}"></td>
+		</tr>
+		<tr>
+			<td>Отчество:</td>
+			<td><input type="field_text_edit" id="employeepat" name="employeepat" value="{$cur_employee_pat}"></td>
+		</tr>-->
+		<tr>
+			<td>Тип вопроса:</td>
+			<td>
+				<p style="font-size:14px"><select name="type_question" id="type_question">
+				{section name=j loop=$array_typequestions}
+					{if $cur_dolj_kod eq $array_typequestions[j]['ID']} <!-- ищем в списке нужный -->
+						<option value="{$array_typequestions[j]['ID']}" selected="selected">{$array_typequestions[j]['TITLE']}</option>
+					{else}
+						<option value="{$array_typequestions[j]['ID']}">{$array_typequestions[j]['TITLE']}</option>
+					{/if}
+				{/section}
+				</select></p>
+			</td>
+		</tr>
+	</table>
+
+<!-- ловим событие выбора -->
+<script>
+
+	$("#type_question").bind('change focus', function(){
+
+		var curVar = $(this).val();
+
+		if(!curVar) return false;
+		
+		// формируем шаблон параметров
+		$.ajax({
+			type: 'POST',
+			data: {'type': curVar},
+			url: "./inc/ajax.get_questions.php",
+			//dataType: 'json',
+			error: function(req, text, error) {//обработчик, если произошла ошибка
+			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+			},
+			success: function (data) {
+				
+				// TODO: магические числа
+				switch (curVar) {
+
+					// текст
+					case 8:
+
+					alert("888888888");
+
+					[break]
+
+					// простое видео
+					case 9:
+
+					alert("9999999999");
+
+					[break]
+
+					// сложное видео
+					case 10:
+
+					alert("1000000");
+
+					[break]
+					
+					// простое фото
+					case 21:
+
+					alert("11111111");
+
+					[break]
+
+					// сложное фото
+					case 22:
+
+					alert("222222222222");
+
+					[break]
+
+					default:
+
+					alert("default");
+
+					[break]
+				}
+				$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
+				var tail_table = "";
+				var big_data_table = "";
+				big_data_table += "<tr>";
+				var cnt = 0;
+				var cnt2 = 1;
+				var num_cols = 14;
+				$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
+				if (cnt == (num_cols*cnt2)) {big_data_table += "</tr><tr>";cnt2++;}
+				big_data_table += "<td id=r"+$(this).attr('TABEL_KADR')+" onclick='get_info_tab("+$(this).attr('TABEL_KADR')+")'>"+$(this).attr('TABEL_KADR')+"</td>";//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+				cnt++;
+				});
+				//big_data_table += "</tr>";
+				for (var i = 0; i < ((num_cols * cnt2) - cnt); i++) {
+				   tail_table += "<td>&nbsp;</td>";
+				}
+				$("#sotruds tbody").append(big_data_table + tail_table + "</tr>");
+				
+				$("#tabnum_status").html("№ "+tab_num+" - Контроль пройден"+" : "+date[1]);
+				$("#tabnum_status").css("color", "green");
+				$("#r"+id).css("background", "green");
+			}
+		});
+	});
+</script>
+
+	<!-- id сотрудника для передачи -->
+	<!--<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
+
+</form>
+
+<!--{if !empty($date_list)}
+<div class="test_list">
+    <h2>Итоги тестирования</h2>
+    <ul>
+        {foreach from=$date_list item=date}
+        <li>
+            <a href="/test_res.php?sid={$cur_employee_id}&dt={urlencode($date['DATEBEGIN'])}">
+                Тест за {$date['DATEBEGIN']}
+            </a>
+        </li>
+        {/foreach}
+    </ul>
+</div>
+{/if}
+{if $count_pt > 0}
+<div class="test_list">
+    <a href='test_res.php?sid={$cur_employee_id}'>Ответы по предсменному экзаменатору</a>
+</div>
+{/if}-->
+{/block}
+{/extends}
