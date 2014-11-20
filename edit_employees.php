@@ -136,7 +136,7 @@ SQL;
 			$employee_tabel = filter_input(INPUT_GET, 'employee_tabel', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_tabel']; // табельный
 			$dolj_kod = filter_input(INPUT_GET, 'dolj', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID должности
 			
-                        //$sql_res = "SELECT * FROM stat.ALLHISTORY WHERE ";
+            //$sql_res = "SELECT * FROM stat.ALLHISTORY WHERE ";
                         
 			// запоминаем табельный
 			$_SESSION['check_employee_tabel'] = $employee_tabel;

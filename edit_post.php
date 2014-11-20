@@ -24,7 +24,7 @@
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_post'] == 0){ // это добавление нового
 		
-			$temppost = iconv("utf-8", "windows-1251", $postname);
+			$temppost = trim(iconv("UTF-8", "windows-1251", $postname));
 			
 			// проверяем, есть ли уже такая должность
 			$sql = <<<SQL
@@ -35,7 +35,7 @@ SQL;
 			if(empty($check_post)){ // если пусто, то такой должности нет. добовляем.
 
 				$sql = <<<SQL
-				INSERT INTO stat.DOLJNOST (TEXT, PREDPR_K) VALUES ('$postname', '$predpr_k_glob')
+				INSERT INTO stat.DOLJNOST (TEXT, PREDPR_K) VALUES ('$temppost', '$predpr_k_glob')
 SQL;
 				$db->go_query($sql);
 			}else{
@@ -48,7 +48,7 @@ SQL;
 			$dolj_id = filter_input(INPUT_POST, 'dolj_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['dolj_id']; // название должности
 			$postname = filter_input(INPUT_POST, 'postname', FILTER_SANITIZE_SPECIAL_CHARS);
 			
-			$temppost = iconv("utf-8", "windows-1251", $postname);
+			$temppost = iconv(mb_detect_encoding($postname), "windows-1251", $postname);
 			
 			// проверяем, есть ли уже такая должность
 			$sql = <<<SQL
@@ -59,7 +59,7 @@ SQL;
 			if(empty($check_post)){ // если пусто, то такой должности нет. обновляем.
 
 				$sql = <<<SQL
-				UPDATE stat.DOLJNOST SET TEXT='$postname' WHERE 
+				UPDATE stat.DOLJNOST SET TEXT='$temppost' WHERE 
 				DOLJNOST.PREDPR_K='$predpr_k_glob' AND DOLJNOST.KOD='$dolj_id'
 SQL;
 				$db->go_query($sql);
