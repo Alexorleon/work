@@ -181,9 +181,10 @@ function GetTestDates($obj, $sid) //История сотрудника по с�
     return $date_list;
 }
 
-function CountPT($obj, $sid)
+function CountPT($obj, $sid, $isntDel=false)
 {
-    $sql = "SELECT COUNT(ID) AS COUNT FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sid' AND EXAMINERTYPE='1' AND DEL='N'";
+    $delSQL = ($isntDel) ? " AND DEL='N'" : "";
+    $sql = "SELECT COUNT(ID) AS COUNT FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sid' AND EXAMINERTYPE='1'$delSQL";
     $result = $obj->go_result_once($sql);
     
     return $result['COUNT'];

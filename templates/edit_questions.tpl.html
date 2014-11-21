@@ -23,69 +23,90 @@
 		});
 	}
 </script>
+
 {/literal}
+<script type="text/javascript" src="{$js}form-validator/jquery.form-validator.min.js"></script>
 
-<form id="edit_questions" name="edit_questions" enctype="multipart/form-data" method="post">
+<form id="edit_questions" name="edit_questions" enctype="multipart/form-data" method="post"  action novalidate="novalidate">
+    <input type="hidden" name="id" id="question-id" value=""/>
+    <span class="title_menu_edit">
+        Редактирование вопросов
+    </span>
 
-	<span class="title_menu_edit">Редактирование вопросов</span>
+    <div style="margin-left: 2px;" align="left">
+        <a href="/list_questions"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+	<!--в зависимости от статуса добавляем или редактируем-->
+	<!--<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_employee(this.form)"/>-->
+    </div>
 
-	<div style="margin-left: 2px;" align="left">
-		<a href="/list_questions"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
-		<!--в зависимости от статуса добавляем или редактируем-->
-		<!--<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_employee(this.form)"/>-->
-	</div>
-	
-	<table>
-		<tr>
-			<td>Тип вопроса:</td>
-			<td>
-				<p style="font-size:14px"><select name="type_question" id="type_question">
-				{section name=j loop=$array_typequestions}
-					<option value="{$array_typequestions[j]['ID']}">{$array_typequestions[j]['TITLE']}</option>
-				{/section}
-				</select></p>
-			</td>
-		</tr>
-		<tr>
-			<td>Модуль:</td>
-			<td>
-				<p style="font-size:14px"><select name="module_question" id="module_question">
-				{section name=j loop=$array_module}
-					<option value="{$array_module[j]['ID']}">{$array_module[j]['TITLE']}</option>
-				{/section}
-				</select></p>
-			</td>
-		</tr>
-		<tr>
-			<td>Уровень риска:</td>
-			<td>
-				<p style="font-size:14px"><select name="risklevel_question" id="risklevel_question">
-				{section name=j loop=$array_risklevel}
-					<option value="{$array_risklevel[j]['ID']}">{$array_risklevel[j]['TITLE']}</option>
-				{/section}
-				</select></p>
-			</td>
-		</tr>
-		<tr>
-			<td>Текст вопроса:</td>
-			<td><input class="field_text_edit" id="text_question" name="text_question" value="{$text_question}"></td>
-		</tr>
-	</table>
-	
-	<p><div id="generate" style="margin-left: 1px;"></div></p>
-	
-<!-- ловим событие выбора -->
-{literal}
-<script>
+    <table>
+        <tr>
+            <td>
+                Тип вопроса:
+            </td>
+            <td>
+                <select name="type_question" id="type_question">
+                {section name=j loop=$array_typequestions}
+                    <option value="{$array_typequestions[j]['ID']}">{$array_typequestions[j]['TITLE']}</option>
+                {/section}
+		</select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Модуль:
+            </td>
+            <td>
+                <select name="module_question" id="module_question">
+                {section name=j loop=$array_module}
+                    <option value="{$array_module[j]['ID']}">{$array_module[j]['TITLE']}</option>
+		{/section}
+		</select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Уровень риска:
+            </td>
+            <td>
+                <select name="risklevel_question" id="risklevel_question">
+                {section name=j loop=$array_risklevel}
+                    <option value="{$array_risklevel[j]['ID']}">{$array_risklevel[j]['TITLE']}</option>
+                {/section}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Тест:
+            </td>
+            <td>
+                <select name="testname_question" id="testname_question">
+                {section name=j loop=$array_testnames}
+                    <option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
+                {/section}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Текст вопроса:
+            </td>
+            <td>
+                <textarea name="text_question" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!"></textarea>
+            </td>
+        </tr>
+    </table>
 
-	$("#type_question").bind('change focus', function(){
-
+    <div id="generate" style="margin-left: 1px;"></div>	
+    <!-- ловим событие выбора -->
+    {literal}
+    <script>
+    $("#type_question").change(
+            function(){
 		var curVar = $(this).val();
 		
-		// TODO: добавить исключение на нажатие по тому же индексу
-		
 		if(!curVar) return false;
-		
 		// формируем шаблон параметров
 		$.ajax({
 			type: 'POST', 
@@ -96,71 +117,18 @@
 			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
 			},
 			success: function (data) {
-
-				// очищаем
-				$("#generate").find("input").remove();
-				$("#generate").find("br").remove();
-				$("#generate").find("p").remove();
-				
+				$("#generate").html(data);
+                                $.validate();
 				// TODO: магические числа
-				switch (curVar) {
-
-					// текст
-					case '8':
-
-					//console.log("");
-
-					break;
-
-					// простое видео
-					case '9':
-
-					var download_sv = "<input type=file id=download_sv name=download_sv accept=video/mp4>";
-					$("#generate").append(download_sv);
-					break;
-
-					// сложное видео
-					case '10':
-
-					var download_prolog = "<input type=file id=download_prolog name=download_prolog accept=video/mp4></input>";
-					$("#generate").append(download_prolog);
-					
-					var download_epilog = "<input type=file id=download_epilog name=download_epilog accept=video/mp4></input>";
-					$("#generate").append(download_epilog);
-					
-					$("#generate").append("</br>");
-					var btn_add_field = "<p><input type=button id=btn_add_field name=btn_add_field value='Добавить вопрос' onclick=add_question()></input></p>";
-					$("#generate").append(btn_add_field);
-					break;
-					
-					// простое фото
-					case '21':
-
-					var download_sf = "<input type=file id=download_sf name=download_sf accept=image/png,image/jpeg>";
-					$("#generate").append(download_sf);
-					break;
-
-					// сложное фото
-					case '22':
-
-					var download_cf = "<input type=label value='В разработке' readonly></input>";
-					$("#generate").append(download_cf);
-					break;
-
-					default:
-
-					console.log("default");
-
-					break;
-				}
 			}
-		});
-	});
-</script>
-{/literal}
+                });
+    });
 
-	<!-- id сотрудника для передачи -->
-	<!--<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
+    $("document").ready($("#type_question").change()); //Инициализируем тип вопроса по умолчанию
+    </script>
+{/literal}
+<!-- id сотрудника для передачи -->
+<!--<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
 
 </form>
 

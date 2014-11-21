@@ -19,7 +19,7 @@
             </thead>
             <tbody>
 		{section name=count loop=$array_questions}
-			<tr onclick="window.location='edit_questions?question_id={$array_questions[{$count}]['ID']}" style="cursor: pointer;">
+			<tr onclick="window.location='edit_questions?question_id={$array_questions[{$count}]['ID']}'" style="cursor: pointer;">
 				<td>
 				{$array_questions[{$count}]['ID']}
 				</td>

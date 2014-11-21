@@ -17,6 +17,18 @@ height:30px;
 border:0px;
 }
 
+input[type="text"].admin_input_text
+{
+font-size: 12px;
+font-weight: 100;
+height: auto;
+width: auto;
+border: solid 1px #707070;
+box-shadow: none;
+border-radius: 0px;
+margin: 0;
+}
+
 input[type="num_button"], input[type="reset"]{
 background: rgb(0,155,213);
 background: -moz-linear-gradient(top, rgba(0,155,213,1) 0%, rgba(0,127,173,1) 50%, rgba(0,155,213,1) 100%);
