@@ -134,28 +134,25 @@ SQL;
 	}
 	
 	// получаем список типов вопросов. в зависимости от выбора, свои настройки составления вопроса.
-	$sql = <<<SQL
-	SELECT ID, TITLE FROM stat.TYPEQUESTIONS ORDER BY ID
-SQL;
+	$sql = "SELECT ID, TITLE FROM stat.TYPEQUESTIONS ORDER BY ID";
 	$array_typequestions = $db->go_result($sql);
 	
 	// модуль и риск присутствуют во всех типах
-	$sql = <<<SQL
-	SELECT ID, TITLE FROM stat.MODULE ORDER BY ID
-SQL;
+	$sql = "SELECT ID, TITLE FROM stat.MODULE ORDER BY ID";
 	$array_module = $db->go_result($sql);
 	
-	$sql = <<<SQL
-	SELECT ID, TITLE FROM stat.RISKLEVEL ORDER BY ID
-SQL;
+	$sql ="SELECT ID, TITLE FROM stat.RISKLEVEL ORDER BY ID";
 	$array_risklevel = $db->go_result($sql);
 	
+        $sql ="SELECT ID,TITLE FROM stat.TESTNAMES";
+        $array_testnames = $db->go_result($sql);
+        
 	$smarty->assign("error_", $error_);
 	
 	$smarty->assign("array_typequestions", $array_typequestions);
 	$smarty->assign("array_module", $array_module);
 	$smarty->assign("array_risklevel", $array_risklevel);
-
+        $smarty->assign("array_testnames", $array_testnames);
 	// TODO: через ИФ режактирование или создание новой
 	$smarty->assign("title", "Редактирование вопросов");
 	$smarty->display("edit_questions.tpl.html");
