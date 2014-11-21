@@ -47,12 +47,12 @@
 		{if $add_or_edit_test eq 0} <!-- новый тест -->
 		
 			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
-			<input class="button_admin_edit" type="button" value="Добавить тест" onclick="get_test(this.form)"/>
+			<input class="button_admin_edit" type="button" value="Добавить тест" onclick="get_test('add_test', this.form)"/>
 		{else} <!-- редактирование -->
 		
 			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
-			<input class="button_admin_edit" type="button" value="Сохранить изменения" onclick="get_test(this.form)"/>
-			<input class="button_admin_edit" type="button" value="Добавить вопрос" onclick="get_test(this.form)"/>
+			<input class="button_admin_edit" type="button" value="Сохранить изменения" onclick="get_test('save', this.form)"/>
+			<input class="button_admin_edit" type="button" value="Добавить вопрос" onclick="get_test('add_question', this.form)"/>
 		{/if}
 	</div>
 	
@@ -99,10 +99,10 @@
 						<td>
 							{if $active_modules_questions[{$smarty.section.second.index}]['ACTIVE'] eq 1}
 							
-								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" value="true" checked />
+								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="true" checked />
 							{else}
 							
-								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="{$active_modules_questions[{$smarty.section.second.index}]['ID']}"/>
+								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]"/>
 							{/if}
 						</td>
 					{/section}
@@ -116,6 +116,8 @@
 	<!--  -->
 	<!--<td><input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
 
+	<input id="status_edit_test" name="status_edit_test" type="hidden" value="save"/>
+	<input id="cur_test_id" name="cur_test_id" type="hidden" value="{$cur_test_id}"/>
 </form>
 
 </article>

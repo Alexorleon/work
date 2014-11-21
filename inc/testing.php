@@ -287,8 +287,8 @@
 		// , RISKLEVELID, TYPEQUESTIONSID
 		$sql_test_parameters =
 			"SELECT ID, MODULEID FROM stat.ALLQUESTIONS WHERE 
-			ALLQUESTIONS.MODULEID IN (SELECT MODULEID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
-			ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
+			ALLQUESTIONS.MODULEID IN (SELECT MODULEID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE='1' AND TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
+			ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE='1' AND TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
 			ALLQUESTIONS.ID IN (SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_test_parameters = $obj->go_result($sql_test_parameters);
 		
@@ -343,13 +343,18 @@
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}
 		
+		/*print_r($array_module_knowledge);
+		print_r($array_module_skills);
+		print_r($array_module_experiences);
+		print_r($array_module_firsthelp);
+		die();*/
 		shuffle($array_module_knowledge);
 		shuffle($array_module_skills);
 		shuffle($array_module_experiences);
 		shuffle($array_module_firsthelp);
 		
 		// просто обнуляем и в дальнейшем используем как счетчик количества недостающих вопросов
-		$count_index = 0;
+		//$count_index = 0;
 		
 		// количество задаваемых вопросов
 		$count_module_knowledge = 0;
@@ -362,7 +367,7 @@
 		if(count($array_module_skills) < 1){
 		
 			$add_num = 1 - count($array_module_skills);
-			$count_index += $add_num;
+			//$count_index += $add_num;
 			$count_module_skills = count($array_module_skills); // задаем сколько есть
 		}else{
 		
@@ -372,7 +377,7 @@
 		if(count($array_module_experiences) < 2){
 		
 			$add_num = 2 - count($array_module_experiences);
-			$count_index += $add_num;
+			//$count_index += $add_num;
 			$count_module_experiences = count($array_module_experiences); // задаем сколько есть
 		}else{
 		
@@ -382,7 +387,7 @@
 		if(count($array_module_firsthelp) < 1){
 		
 			$add_num = 1 - count($array_module_firsthelp);
-			$count_index += $add_num;
+			//$count_index += $add_num;
 			$count_module_firsthelp = count($array_module_firsthelp); // задаем сколько есть
 		}else{
 		
@@ -392,7 +397,7 @@
 		$tempcount = $_SESSION['numquestions']; // необходимое количество вопросов
 		
 		// определяем сколько нужно вопросов из модуля - знания
-		$need_knowledge_questions = ($tempcount - ($count_module_skills + $count_module_experiences + $count_module_firsthelp)) + $count_index;
+		$need_knowledge_questions = ($tempcount - ($count_module_skills + $count_module_experiences + $count_module_firsthelp));
 		
 		if(count($array_module_knowledge) < $need_knowledge_questions){
 		

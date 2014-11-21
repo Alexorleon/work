@@ -58,7 +58,7 @@ SQL;
 					$int_all_typ = (int)$all_types_ques[$typ]['ID'];
 					$sql = <<<SQL
 					INSERT INTO stat.TESTPARAMETERS (ACTIVE, COEFFICIENT, TESTNAMESID, TYPEQUESTIONSID, MODULEID) 
-					VALUES ('', 50, '$last_testid', '$int_all_typ', '$int_all_mod')
+					VALUES ('0', 50, '$last_testid', '$int_all_typ', '$int_all_mod')
 SQL;
 					$db->go_query($sql);
 				}
@@ -69,19 +69,24 @@ SQL;
 		
 		}else if($_SESSION['add_or_edit_test'] == 1){ // это редактирование
 	
-			//print_r($_POST);
-			
+			$cur_test_id = $_POST['cur_test_id'];
+
 			$sql = <<<SQL
-				UPDATE stat.TESTNAMES SET SOTRUD_FAM='$', WHERE 
+				UPDATE stat.TESTPARAMETERS SET ACTIVE='0' WHERE TESTPARAMETERS.TESTNAMESID='$cur_test_id'
 SQL;
 			$db->go_query($sql);
 			
-			// обновляем данные в полях
-			$_GET['employee_cur'] = $employeesur; // фамилия
-			$_GET['employee_name'] = $employeename; // имя
-			$_GET['employee_pat'] = $employeepat; // отчество
-			$_GET['employee_tabel'] = $employeetabel; // табельный
-			$_GET['dolj'] = $type_doljnost; // ID должности
+			if(isset($_POST['arraytest_id'])){
+				$arraytest_id = $_POST['arraytest_id'];
+				foreach($arraytest_id as $key=>$value)
+				{
+					$sql = <<<SQL
+					UPDATE stat.TESTPARAMETERS SET ACTIVE='1' WHERE TESTPARAMETERS.ID=$key
+SQL;
+					$db->go_query($sql);
+				}
+			}
+			
 		}else{
 			
 			die("У меня не прописано, что делать");
