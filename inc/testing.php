@@ -271,18 +271,12 @@
 		также необходимо сформировать количество и типы вопросов к тесту.
 		данная информация берется из таблицы testparameters
 		*/
-		// подготовка массивов под каждый тип
-		$array_death_risk_sf = array();
-		$array_high_risk_sf = array();
-		$array_sign_risk_sf = array();
 		
-		$array_death_risk_cv = array();
-		$array_high_risk_cv = array();
-		$array_sign_risk_cv = array();
-		
-		$array_death_risk_sv = array();
-		$array_high_risk_sv = array();
-		$array_sign_risk_sv = array();
+		// модули
+		$array_module_knowledge = array(); // текст, фото
+		$array_module_skills = array(); // видео цепочки
+		$array_module_experiences = array(); // простое видео
+		$array_module_firsthelp = array(); // видео цепочки
 		
 		// получаем массив модулей
 		$sql_module =
@@ -290,84 +284,171 @@
 		$array_modules = $obj->go_result($sql_module);
 		
 		// получаем массив вопросов по всем рискам
+		// , RISKLEVELID, TYPEQUESTIONSID
 		$sql_test_parameters =
-			"SELECT ID, RISKLEVELID, TYPEQUESTIONSID,  MODULEID FROM stat.ALLQUESTIONS WHERE 
-			ALLQUESTIONS.MODULEID IN (SELECT MODULEID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
-			ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
+			"SELECT ID, MODULEID FROM stat.ALLQUESTIONS WHERE 
+			ALLQUESTIONS.MODULEID IN (SELECT MODULEID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE='1' AND TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
+			ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE='1' AND TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
 			ALLQUESTIONS.ID IN (SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_test_parameters = $obj->go_result($sql_test_parameters);
 		
-		for($count_module = 0; $count_module < count($array_modules); $count_module++){
-		
-			//$array_modules[$count_module]['ID'];
+		//$array_modules[$count_module]['ID'];
+		// TODO: магические числа
+		$count_index = 0;
+		for($count_test_parameters = 0; $count_test_parameters < count($array_test_parameters); $count_test_parameters++){
+	
+			if($array_test_parameters[$count_test_parameters]['MODULEID'] == 5){
+			
+				$array_module_knowledge[$count_index] = $array_test_parameters[$count_test_parameters]['ID'];
+				$count_index++;
+			}
 		}
-		print_r($array_test_parameters);
-		die();
-
-		// простые фото вопросы
-		// вопросы по смертельному риску
-		shuffle($array_death_risk_sf);
-		// вопросы по высокому риску
-		shuffle($array_high_risk_sf);
-		// вопросы по существенному риску
-		shuffle($array_sign_risk_sf);
 		
-		// видео цепочки
-		// вопросы по смертельному риску
-		// TODO: заглушка. первую помощь сделать здесь, т.к. у нее риск смертельный
-		shuffle($array_death_risk_cv);
-		// вопросы по высокому риску
-		shuffle($array_high_risk_cv);
-		// вопросы по существенному риску
-		shuffle($array_sign_risk_cv);
+		$count_index = 0;
 		
-		// простое видео
-		// вопросы по смертельному риску
-		shuffle($array_death_risk_sv);
-		// вопросы по высокому риску
-		shuffle($array_high_risk_sv);
-		// вопросы по существенному риску
-		shuffle($array_sign_risk_sv);
+		for($count_test_parameters = 0; $count_test_parameters < count($array_test_parameters); $count_test_parameters++){
+	
+			if($array_test_parameters[$count_test_parameters]['MODULEID'] == 21){
+			
+				$array_module_skills[$count_index] = $array_test_parameters[$count_test_parameters]['ID'];
+				$count_index++;
+			}
+		}
 		
-		print_r($array_death_risk_sf);
-		print_r($array_high_risk_sf);
-		print_r($array_sign_risk_sf);
+		$count_index = 0;
 		
-		print_r($array_death_risk_cv);
-		print_r($array_high_risk_cv);
-		print_r($array_sign_risk_cv);
+		for($count_test_parameters = 0; $count_test_parameters < count($array_test_parameters); $count_test_parameters++){
+	
+			if($array_test_parameters[$count_test_parameters]['MODULEID'] == 22){
+			
+				$array_module_experiences[$count_index] = $array_test_parameters[$count_test_parameters]['ID'];
+				$count_index++;
+			}
+		}
 		
-		print_r($array_death_risk_sv);
-		print_r($array_high_risk_sv);
-		print_r($array_sign_risk_sv);
-		die();
+		$count_index = 0;
+		
+		for($count_test_parameters = 0; $count_test_parameters < count($array_test_parameters); $count_test_parameters++){
+	
+			if($array_test_parameters[$count_test_parameters]['MODULEID'] == 61){
+			
+				$array_module_firsthelp[$count_index] = $array_test_parameters[$count_test_parameters]['ID'];
+				$count_index++;
+			}
+		}
+		
 		// если нет вопросов, выходим
-		if(empty($array_death_risk_sf) and empty($array_high_risk_sf) and empty($array_sign_risk_sf) 
-		and empty($array_death_risk_cv) and empty($array_high_risk_cv) and empty($array_sign_risk_cv)
-		and empty($array_death_risk_sv) and empty($array_high_risk_sv) and empty($array_sign_risk_sv)){
+		if(empty($array_module_knowledge) and empty($array_module_skills) and empty($array_module_experiences) and empty($array_module_experiences)){
 		
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}
 		
+		/*print_r($array_module_knowledge);
+		print_r($array_module_skills);
+		print_r($array_module_experiences);
+		print_r($array_module_firsthelp);
+		die();*/
+		shuffle($array_module_knowledge);
+		shuffle($array_module_skills);
+		shuffle($array_module_experiences);
+		shuffle($array_module_firsthelp);
+		
+		// просто обнуляем и в дальнейшем используем как счетчик количества недостающих вопросов
+		//$count_index = 0;
+		
+		// количество задаваемых вопросов
+		$count_module_knowledge = 0;
+		$count_module_skills = 0;
+		$count_module_experiences = 0;
+		$count_module_firsthelp = 0;
+		
+		// определяем недостающее количество вопросов каждого модуля кроме основного - знания
+		// TODO: магические числа заменить на выборку из БД
+		if(count($array_module_skills) < 1){
+		
+			$add_num = 1 - count($array_module_skills);
+			//$count_index += $add_num;
+			$count_module_skills = count($array_module_skills); // задаем сколько есть
+		}else{
+		
+			$count_module_skills = 1; // задаем нужное количество
+		}
+		
+		if(count($array_module_experiences) < 2){
+		
+			$add_num = 2 - count($array_module_experiences);
+			//$count_index += $add_num;
+			$count_module_experiences = count($array_module_experiences); // задаем сколько есть
+		}else{
+		
+			$count_module_experiences = 2; // задаем нужное количество
+		}
+		
+		if(count($array_module_firsthelp) < 1){
+		
+			$add_num = 1 - count($array_module_firsthelp);
+			//$count_index += $add_num;
+			$count_module_firsthelp = count($array_module_firsthelp); // задаем сколько есть
+		}else{
+		
+			$count_module_firsthelp = 1; // задаем нужное количество
+		}
+		
+		$tempcount = $_SESSION['numquestions']; // необходимое количество вопросов
+		
+		// определяем сколько нужно вопросов из модуля - знания
+		$need_knowledge_questions = ($tempcount - ($count_module_skills + $count_module_experiences + $count_module_firsthelp));
+		
+		if(count($array_module_knowledge) < $need_knowledge_questions){
+		
+			$count_module_knowledge = count($array_module_knowledge);
+		}else{
+		
+			$count_module_knowledge = $need_knowledge_questions;
+		}
+		
+		$count_all_questions = $count_module_knowledge + $count_module_skills + $count_module_experiences + $count_module_firsthelp;
+		
+		// если получившееся общее количество вопросов меньше нужного количества, возьмем сколько есть
+		if($count_all_questions < $tempcount){
+		
+			$_SESSION['numquestions'] = $count_all_questions;
+		}
+		
 		// формируем основной массив вопросов необходимого количества
-		$tempcount = $_SESSION['numquestions']; // необходимое количество
 		$q_final_array = array(); // основной массив для вопросов
 		
-		// берем поочередно из каждого массива ID вопроса
+		/*print_r($array_module_knowledge);
+		print_r($array_module_skills);
+		print_r($array_module_experiences);
+		print_r($array_module_firsthelp);*/
+		
+		for($count_tempindex = 0; $count_tempindex < $count_module_knowledge; $count_tempindex++){
+	
+			array_push($q_final_array, $array_module_knowledge[$count_tempindex]);
+		}
+		
+		for($count_tempindex = 0; $count_tempindex < $count_module_skills; $count_tempindex++){
+	
+			array_push($q_final_array, $array_module_skills[$count_tempindex]);
+		}
+		
+		for($count_tempindex = 0; $count_tempindex < $count_module_experiences; $count_tempindex++){
+	
+			array_push($q_final_array, $array_module_experiences[$count_tempindex]);
+		}
+		
+		for($count_tempindex = 0; $count_tempindex < $count_module_firsthelp; $count_tempindex++){
+	
+			array_push($q_final_array, $array_module_firsthelp[$count_tempindex]);
+		}
+		
+		/*// берем поочередно из каждого массива ID вопроса
 		$count_i = 0;
-		$b_dr_sf = false;
-		$b_hr_sf = false;
-		$b_sr_sf = false;
-		
-		// видео цепочка
-		$b_dr_cv = false;
-		$b_hr_cv = false;
-		$b_sr_cv = false;
-		
-		// простое видео
-		$b_dr_sv = false;
-		$b_hr_sv = false;
-		$b_sr_sv = false;
+		$b_module_knowledge = false;
+		$b_module_skills = false;
+		$b_module_experiences = false;
+		$b_module_firsthelp = false;
 		
 		$count_ques = 0;
 		do{
@@ -376,176 +457,71 @@
 			
 			if($count_ques >= $tempcount) break; // набрали нужное количество вопросов
 			
-			// фото
+			// знания
 			// если массив себя исчерпал, проходим мимо
-			if(count($array_death_risk_sf) <= $count_i){
+			if(count($array_module_knowledge) <= $count_i){
 			
 				// берем значение из другого массива
 			}else{
 				// если еще не добавили
-				if(!$b_dr_sf){
-					array_push($q_final_array, $array_death_risk_sf[$count_i]);
-					$b_dr_sf = true;
+				if(!$b_module_knowledge){
+					array_push($q_final_array, $array_module_knowledge[$count_i]);
+					$b_module_knowledge = true;
 					$count_ques++;
 				}
 			}
 						
 			if($count_ques >= $tempcount) break;
 			
-			// фото
-			if(count($array_high_risk_sf) <= $count_i){
+			// умения
+			if(count($array_module_skills) <= $count_i){
 			}else{
-				if(!$b_hr_sf){
-					array_push($q_final_array, $array_high_risk_sf[$count_i]);
-					$b_hr_sf = true;
+				if(!$b_module_skills){
+					array_push($q_final_array, $array_module_skills[$count_i]);
+					$b_module_skills = true;
 					$count_ques++;
 				}
 			}
 			
 			if($count_ques >= $tempcount) break;
 			
-			// видео цепочка
-			if(count($array_high_risk_cv) <= $count_i){
+			// опыт
+			if(count($array_module_experiences) <= $count_i){
 			
 				// берем значение из другого массива
 			}else{
 				// если еще не добавили
-				if(!$b_hr_cv){
-					array_push($q_final_array, $array_high_risk_cv[$count_i]);
-					$b_hr_cv = true;
+				if(!$b_module_experiences){
+					array_push($q_final_array, $array_module_experiences[$count_i]);
+					$b_module_experiences = true;
 					$count_ques++;
 				}
 			}
 			
 			if($count_ques >= $tempcount) break;
 			
-			// фото
-			if(count($array_sign_risk_sf) <= $count_i){
+			// первая помощь
+			if(count($array_module_firsthelp) <= $count_i){
 			}else{
-				if(!$b_sr_sf){
-					array_push($q_final_array, $array_sign_risk_sf[$count_i]);
-					$b_sr_sf = true;
+				if(!$b_module_firsthelp){
+					array_push($q_final_array, $array_module_firsthelp[$count_i]);
+					$b_module_firsthelp = true;
 					$count_ques++;
 				}
 			}
 			
 			if($count_ques >= $tempcount) break;
-			
-			// видео цепочка
-			if(count($array_sign_risk_cv) <= $count_i){
-			
-				// берем значение из другого массива
-			}else{
-				// если еще не добавили
-				if(!$b_sr_cv){
-					array_push($q_final_array, $array_sign_risk_cv[$count_i]);
-					$b_sr_cv = true;
-					$count_ques++;
-				}
-			}
-			
-			// простое видео
-			if($count_ques >= $tempcount) break;
-			
-			// видео цепочка
-			if(count($array_death_risk_sv) <= $count_i){
-			
-				// берем значение из другого массива
-			}else{
-				// если еще не добавили
-				if(!$b_sr_sv){
-					array_push($q_final_array, $array_death_risk_sv[$count_i]);
-					$b_sr_sv = true;
-					$count_ques++;
-				}
-			}
-			
-			// простое видео
-			if($count_ques >= $tempcount) break;
-			
-			// видео цепочка
-			if(count($array_high_risk_sv) <= $count_i){
-			
-				// берем значение из другого массива
-			}else{
-				// если еще не добавили
-				if(!$b_sr_sv){
-					array_push($q_final_array, $array_high_risk_sv[$count_i]);
-					//$b_sr_sv = true;
-					$count_i++; // TODO: убрать потом
-					
-					$count_ques++;
-				}
-			}
-			
-			// TODO: заглушка - еще раз возьмем простое видео
-			// простое видео
-			if($count_ques >= $tempcount) break;
-			
-			// видео цепочка
-			if(count($array_high_risk_sv) <= $count_i){
-			
-				// берем значение из другого массива
-			}else{
-				// если еще не добавили
-				if(!$b_sr_sv){
-					array_push($q_final_array, $array_high_risk_sv[$count_i]);
-					$b_sr_sv = true;
-					$count_ques++;
-				}
-			}
-			
-			// простое видео
-			if($count_ques >= $tempcount) break;
-			
-			// видео цепочка
-			if(count($array_sign_risk_sv) <= $count_i){
-			
-				// берем значение из другого массива
-			}else{
-				// если еще не добавили
-				if(!$b_sr_sv){
-					array_push($q_final_array, $array_sign_risk_sv[$count_i]);
-					$b_sr_sv = true;
-					$count_ques++;
-				}
-			}
-			
-			// TODO: заглушка
-			$count_i--;
-			if($count_ques >= $tempcount) break;
-			
-			// видео цепочка
-			if(count($array_death_risk_cv) <= $count_i){
-			
-				// берем значение из другого массива
-			}else{
-				// если еще не добавили
-				if(!$b_dr_cv){
-					array_push($q_final_array, $array_death_risk_cv[$count_i]);
-					$b_dr_cv = true;
-					$count_ques++;
-				}
-			}
 			
 			// проверяем что все вложились или больше нечего добавить
-			if($b_dr_sf == true && $b_hr_sf == true && $b_sr_sf == true && $b_dr_cv == true && $b_hr_cv == true && $b_sr_cv == true
-			&& $b_dr_sv == true && $b_hr_sv == true && $b_sr_sv == true){ // все гуд, с каждого по вопросу
+			if($b_module_knowledge == true && $b_module_skills == true && $b_module_experiences == true && $b_module_firsthelp == true ){ // все гуд
 			
 				$count_i++;
-				$b_dr_sf = false;
-				$b_hr_sf = false;
-				$b_sr_sf = false;
+				$b_module_knowledge = false;
+				$b_module_skills = false;
+				$b_module_experiences = false;
+				$b_module_firsthelp = false;
 				
-				$b_dr_cv = false;
-				$b_hr_cv = false;
-				$b_sr_cv = false;
-				
-				$b_dr_sv = false;
-				$b_hr_sv = false;
-				$b_sr_sv = false;
-			}elseif($b_dr_sf == false && $b_hr_sf == false && $b_sr_sf == false && $b_dr_cv == false && $b_hr_cv == false && $b_sr_cv == false
-			&& $b_dr_sv == false && $b_hr_sv == false && $b_sr_sv == false){ // опаньки, закончились вопросы в массивах
+			}elseif($b_module_knowledge == false && $b_module_skills == false && $b_module_experiences == false && $b_module_firsthelp == false){ // опаньки, закончились вопросы в массивах
 			
 				// поэтому требуемое количество вопросов заменим на доступное
 				$_SESSION['numquestions'] = count($q_final_array);
@@ -553,21 +529,14 @@
 			}else{ // ага, кто то не вложидся, берем у других
 				
 				$count_i++;
-				$b_dr_sf = false;
-				$b_hr_sf = false;
-				$b_sr_sf = false;
-				
-				$b_dr_cv = false;
-				$b_hr_cv = false;
-				$b_sr_cv = false;
-				
-				$b_dr_sv = false;
-				$b_hr_sv = false;
-				$b_sr_sv = false;
+				$b_module_knowledge = false;
+				$b_module_skills = false;
+				$b_module_experiences = false;
+				$b_module_firsthelp = false;
 				
 				goto more_question;
 			}
-		}while ($count_ques < $tempcount);
+		}while ($count_ques < $tempcount);*/
 
 		// основной массив всех сформированных вопросов
 		$_SESSION['q_final_array'] = array(); // в нем хранятся ID
@@ -600,7 +569,7 @@
 			//print_r($testid['ID']);
 			//die();
 			
-			$temp_testid = (int)$testid['ID'];
+			$temp_testid = (int)$testid;
 			$_SESSION['global_temp_testid'] = $temp_testid; // запоминаем id вопроса
 				
 			// TODO: опять магические числа

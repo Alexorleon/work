@@ -47,12 +47,12 @@
 		{if $add_or_edit_test eq 0} <!-- новый тест -->
 		
 			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
-			<input class="button_admin_edit" type="button" value="Добавить тест" onclick="get_test(this.form)"/>
+			<input class="button_admin_edit" type="button" value="Добавить тест" onclick="get_test('add_test', this.form)"/>
 		{else} <!-- редактирование -->
 		
 			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
-			<input class="button_admin_edit" type="button" value="Сохранить изменения" onclick="get_test(this.form)"/>
-			<input class="button_admin_edit" type="button" value="Добавить вопрос" onclick="get_test(this.form)"/>
+			<input class="button_admin_edit" type="button" value="Сохранить изменения" onclick="get_test('save', this.form)"/>
+			<input class="button_admin_edit" type="button" value="Добавить вопрос" onclick="get_test('add_question', this.form)"/>
 		{/if}
 	</div>
 	
@@ -68,84 +68,6 @@
 			</tr>
 		</table>
 		
-		<!--<table class="edit_tables_typeques">
-			<tr>
-				<th style="width: 25%;"></th>
-				<th style="width: 25%;">Проверка знаний</th>
-				<th style="width: 25%;">Проверка умений</th>
-				<th style="width: 25%;">Проверка опыта</th>
-			</tr>
-			<tr>
-				<td>
-				Текстовый
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_t_knowledge" checked />
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_t_skills"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_t_experience"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				Фото
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_f_knowledge"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_f_skills"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_f_experience"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				Видео
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_v_knowledge"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_v_skills"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_v_experience"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				Сложное фото
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_knowledge"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_skills"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_experience"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				Сложное видео
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_knowledge"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_skills"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_experience"/>
-				</td>
-			</tr>
-		</table>-->
 	{else} <!-- редактирование -->
 		<table>
 			<tr>
@@ -166,103 +88,36 @@
 				<th style="width: 20%;">Проверка опыта</th>
 				<th style="width: 20%;">Первая помощь</th>
 			</tr>
-			
+
 			<!-- TODO: задать одинаковые имена. будет проще распределять динамически -->
-			<tr>
-				<td>
-				Текстовый
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" id="chb_t_knowledge" name="chb_t_knowledge"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_t_skills"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_t_experience"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_t_help"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				Фото
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_f_knowledge" value="true" checked />
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_f_skills"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_f_experience"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_f_help"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				Видео
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_v_knowledge"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_v_skills"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_v_experience" value="true" checked />
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_v_help"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				Сложное фото
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_knowledge"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_skills"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_experience"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cf_help"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				Сложное видео
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_knowledge"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_skills" value="true" checked />
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_experience"/>
-				</td>
-				<td>
-					<input class="checkboxInTable_style" type="checkbox" name="chb_cv_help" value="true" checked />
-				</td>
-			</tr>
+			{section name=first start=0 loop=$active_modules_questions step=4}
+				<tr>
+					<td>
+						{$active_modules_questions[{$smarty.section.first.index}]['TITLE']}
+					</td>
+					{section name=second start=$smarty.section.first.index loop=$active_modules_questions max=4}
+						<td>
+							{if $active_modules_questions[{$smarty.section.second.index}]['ACTIVE'] eq 1}
+							
+								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="true" checked />
+							{else}
+							
+								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]"/>
+							{/if}
+						</td>
+					{/section}
+				</tr>
+			{/section}
 		</table>
 		
 		<p style="margin-left: 2px;"><span>Вопросы к этому тесту</span></p>
-		
-		
 	{/if}
 	
 	<!--  -->
 	<!--<td><input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
 
+	<input id="status_edit_test" name="status_edit_test" type="hidden" value="save"/>
+	<input id="cur_test_id" name="cur_test_id" type="hidden" value="{$cur_test_id}"/>
 </form>
 
 </article>

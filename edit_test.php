@@ -58,7 +58,7 @@ SQL;
 					$int_all_typ = (int)$all_types_ques[$typ]['ID'];
 					$sql = <<<SQL
 					INSERT INTO stat.TESTPARAMETERS (ACTIVE, COEFFICIENT, TESTNAMESID, TYPEQUESTIONSID, MODULEID) 
-					VALUES ('', 50, '$last_testid', '$int_all_typ', '$int_all_mod')
+					VALUES ('0', 50, '$last_testid', '$int_all_typ', '$int_all_mod')
 SQL;
 					$db->go_query($sql);
 				}
@@ -69,19 +69,24 @@ SQL;
 		
 		}else if($_SESSION['add_or_edit_test'] == 1){ // это редактирование
 	
-			//print_r($_POST);
-			
+			$cur_test_id = $_POST['cur_test_id'];
+
 			$sql = <<<SQL
-				UPDATE stat.TESTNAMES SET SOTRUD_FAM='$', WHERE 
+				UPDATE stat.TESTPARAMETERS SET ACTIVE='0' WHERE TESTPARAMETERS.TESTNAMESID='$cur_test_id'
 SQL;
 			$db->go_query($sql);
 			
-			// обновляем данные в полях
-			$_GET['employee_cur'] = $employeesur; // фамилия
-			$_GET['employee_name'] = $employeename; // имя
-			$_GET['employee_pat'] = $employeepat; // отчество
-			$_GET['employee_tabel'] = $employeetabel; // табельный
-			$_GET['dolj'] = $type_doljnost; // ID должности
+			if(isset($_POST['arraytest_id'])){
+				$arraytest_id = $_POST['arraytest_id'];
+				foreach($arraytest_id as $key=>$value)
+				{
+					$sql = <<<SQL
+					UPDATE stat.TESTPARAMETERS SET ACTIVE='1' WHERE TESTPARAMETERS.ID=$key
+SQL;
+					$db->go_query($sql);
+				}
+			}
+			
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -107,14 +112,26 @@ SQL;
 			$test_title = $_GET['test_title']; // название
 			$test_penalty = $_GET['test_penalty']; // штрафные баллы
 			
+			// получаем таблицу активности вопросов
+			// TODO: модули должны располагаться в БД строго как - знания, умения, опыт, ПП
+			$sql = <<<SQL
+				SELECT TESTPARAMETERS.ID, TESTPARAMETERS.ACTIVE, TESTPARAMETERS.TYPEQUESTIONSID, TESTPARAMETERS.MODULEID, TYPEQUESTIONS.TITLE 
+				FROM stat.TESTPARAMETERS, stat.TYPEQUESTIONS 
+				WHERE TESTPARAMETERS.TESTNAMESID='$test_id' AND TESTPARAMETERS.TYPEQUESTIONSID=TYPEQUESTIONS.ID 
+				ORDER BY TESTPARAMETERS.TYPEQUESTIONSID, TESTPARAMETERS.MODULEID
+SQL;
+			$active_modules_questions = $db->go_result($sql);
+
 			$smarty->assign("cur_test_id", $test_id);
 			$smarty->assign("cur_test_title", $test_title);
 			$smarty->assign("cur_test_penalty", $test_penalty);
+			
+			$smarty->assign("active_modules_questions", $active_modules_questions);
 		}else{
 			
 			die("У меня не прописано, что делать");
 		}
-	}	
+	}
 	
 	$smarty->assign("error_", $error_);
 

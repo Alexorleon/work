@@ -180,7 +180,7 @@ function get_employee(f){
 }
 
 // add or edit tests
-function get_test(f){
+function get_test(status, f){
 
 	if(($("#testname").val() == "") || ($("#testpenalty").val() == "")){ // не пустые значения
 
@@ -188,6 +188,22 @@ function get_test(f){
 		alert($("#chb_t_knowledge").val());
 	}else{
 	
+		switch(status){
+		
+			case 'add_test':
+			
+			break;
+		
+			case 'save':
+			$("#status_edit_test").val(status);
+			$("#cur_test_id").val();
+			break;
+		
+			case 'add_question':
+			$("#status_edit_test").val(status);
+			break;
+		}
+		
 		$("#testname").val();
 		$("#testpenalty").val();
 		$("#edit_test").submit();

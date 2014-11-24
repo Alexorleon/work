@@ -82,7 +82,7 @@ SQL;
     
     $smarty->assign("role", $role);
 	$smarty->assign("error_", $error_);
-        $smarty->assign("curPage", 3);
+    $smarty->assign("curPage", 4);
 	$smarty->assign("title", "Настройки");
 	$smarty->display("admin_settings.tpl.html");
 
