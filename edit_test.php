@@ -66,27 +66,16 @@ SQL;
 			
 			// TODO: после успешной записи запомнить ID. и активировать кнопку редактирования последней этой записи.
 			
-		}else if($_SESSION['add_or_edit_test'] == 1){ // это редактирование
+		}elseif($_SESSION['add_or_edit_test'] == 1){ // это редактирование
 
 			if(isset($_POST['status_edit_test'])){
 				
 				$status_edit_test = filter_input(INPUT_POST, 'status_edit_test', FILTER_SANITIZE_SPECIAL_CHARS); // $_POST['status_edit_test'];
 
-				$_SESSION['status_edit_test'] = $status_edit_test;
-				// добавляем вопросы к тесту
-				if($status_edit_test == "add_question"){
-
-					// получаем все вопросы
-					$sql = <<<SQL
-						SELECT ALLQUESTIONS.ID, ALLQUESTIONS.TEXT, MODULE.TITLE AS T_MODULE, RISKLEVEL.TITLE AS T_RISK, TYPEQUESTIONS.TITLE AS T_TYPE FROM stat.ALLQUESTIONS, stat.MODULE, stat.RISKLEVEL, stat.TYPEQUESTIONS 
-						WHERE ALLQUESTIONS.MODULEID=MODULE.ID AND ALLQUESTIONS.RISKLEVELID=RISKLEVEL.ID AND ALLQUESTIONS.TYPEQUESTIONSID=TYPEQUESTIONS.ID
-SQL;
-					$all_questions = $db->go_result($sql);
+				if($status_edit_test == "save"){
 				
-					$smarty->assign("all_questions", $all_questions);
-					$smarty->assign("status_add_question", $status_edit_test);
-				}elseif($status_edit_test == "save"){
-				
+					// TODO: начать транзакцию
+					
 					$cur_test_id = filter_input(INPUT_POST, 'cur_test_id', FILTER_SANITIZE_NUMBER_INT); // $_POST['cur_test_id'];
 					
 					$sql = <<<SQL
@@ -96,7 +85,8 @@ SQL;
 					
 					if(isset($_POST['arraytest_id'])){
 
-						$arraytest_id = filter_input(INPUT_POST, 'arraytest_id', FILTER_SANITIZE_NUMBER_INT); // $_POST['arraytest_id'];
+						$arraytest_id = filter_input(INPUT_POST, 'arraytest_id', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); // $_POST['arraytest_id'];
+
 						foreach($arraytest_id as $key=>$value)
 						{
 							$sql = <<<SQL
@@ -105,11 +95,14 @@ SQL;
 							$db->go_query($sql);
 						}
 					}
-					
-					$_SESSION['status_edit_test'] = '';
-					$smarty->assign("status_add_question", '');
+				}elseif($status_edit_test == "add_question"){
+
+					$_SESSION['add_or_edit_test'] = 2;
 				}
 			}
+		}elseif($_SESSION['add_or_edit_test'] == 2){ // это добавление вопроса
+
+
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -128,7 +121,21 @@ SQL;
 			$smarty->assign("cur_test_penalty", '');
 		}else if($_GET['testtype'] == 1){ // это редактирование
 	
-			$_SESSION['add_or_edit_test'] = 1;
+			if($_SESSION['add_or_edit_test'] == 2){
+			
+				// получаем все вопросы
+				// TODO: минус которые уже есть в тесте
+				$sql = <<<SQL
+					SELECT ALLQUESTIONS.ID, ALLQUESTIONS.TEXT, MODULE.TITLE AS T_MODULE, RISKLEVEL.TITLE AS T_RISK, TYPEQUESTIONS.TITLE AS T_TYPE FROM stat.ALLQUESTIONS, stat.MODULE, stat.RISKLEVEL, stat.TYPEQUESTIONS 
+					WHERE ALLQUESTIONS.MODULEID=MODULE.ID AND ALLQUESTIONS.RISKLEVELID=RISKLEVEL.ID AND ALLQUESTIONS.TYPEQUESTIONSID=TYPEQUESTIONS.ID
+SQL;
+				$all_questions = $db->go_result($sql);
+			
+				$smarty->assign("all_questions", $all_questions);
+			
+			}else{
+				$_SESSION['add_or_edit_test'] = 1;
+			}
 			
 			if(array_key_exists('disabled_questionid', $_GET))
 			{
@@ -174,6 +181,12 @@ SQL;
 			$smarty->assign("active_modules_questions", $active_modules_questions);
 			$smarty->assign("questions_this_test", $questions_this_test);
 			$smarty->assign("status_add_question", $_SESSION['status_edit_test']);
+			
+		}elseif($_GET['testtype'] == 2){ // добавление вопросов
+
+			$_SESSION['add_or_edit_test'] = 2;
+			
+			
 		}else{
 			
 			die("У меня не прописано, что делать");

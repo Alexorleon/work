@@ -212,12 +212,6 @@ function get_test(status, f){
 	}
 }
 
-function get_status_test(){
-
-	$("#status_edit_test").val('');
-	$("#edit_test").submit();
-}
-
 /*
 -------------------------------------- BEGIN таймер --------------------------------------
 */
