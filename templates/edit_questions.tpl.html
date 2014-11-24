@@ -116,6 +116,30 @@
                 </textarea>
             </td>
         </tr>
+        <tr>
+            <td>
+                Комментарий (к неправильному ответу):
+            </td>
+            <td>
+                <textarea name="answer_comment" maxlength="300" rows="4" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max300" data-validation-error-msg="Допустимая длина не более 300 символов!">
+{strip}
+{trim($question_data['commentary'])}
+{/strip}
+                </textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Фактор риска:
+            </td>
+            <td>
+                <textarea name="answer_factor" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
+{strip}
+{trim($question_data['factor'])}
+{/strip}
+                </textarea>
+            </td>
+        </tr>
     </table>
     <input type='hidden' name='id_answer[0]' value="{$question_data['answers'][0]['ID']}"/>
     <input type='hidden' name='id_answer[1]' value="{$question_data['answers'][1]['ID']}"/>
