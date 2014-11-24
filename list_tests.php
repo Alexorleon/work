@@ -14,6 +14,7 @@
 	
 	// инициализация
 	$_SESSION['add_or_edit_test'] = 0; // добавление
+	$_SESSION['status_edit_test'] = '';
 	
 	if($_GET){
 		

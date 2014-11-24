@@ -195,11 +195,13 @@ function get_test(status, f){
 			break;
 		
 			case 'save':
+			
 			$("#status_edit_test").val(status);
 			$("#cur_test_id").val();
 			break;
 		
 			case 'add_question':
+			
 			$("#status_edit_test").val(status);
 			break;
 		}
@@ -208,6 +210,12 @@ function get_test(status, f){
 		$("#testpenalty").val();
 		$("#edit_test").submit();
 	}
+}
+
+function get_status_test(){
+
+	$("#status_edit_test").val('');
+	$("#edit_test").submit();
 }
 
 /*
