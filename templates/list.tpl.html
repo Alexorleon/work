@@ -45,8 +45,15 @@
                 {else}
                 {assign var="selected" value=""}
                 {/if}
-                <li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu{$selected}" type="button" value="Настройки" onclick=""/></a></li>
+                <li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu{$selected}" type="button" value="Тесты" onclick=""/></a></li>
             
+		{if $curPage==4}
+                {assign var="selected" value=" set_cur"}
+                {else}
+                {assign var="selected" value=""}
+                {/if}
+                <li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu{$selected}" type="button" value="Настройки" onclick=""/></a></li>
+        
             {elseif $role==1}
                 {if $curPage==2}
                     {assign var="selected" value=" set_cur"}
@@ -54,7 +61,7 @@
                     {assign var="selected" value=""}
                 {/if}
                 <li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu{$selected}" type="button" value="Сотрудники" onclick=""/></a></li>
-            {/if}
+        {/if}
 	</menu>
 
 </aside>
