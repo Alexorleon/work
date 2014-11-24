@@ -44,7 +44,7 @@ SQL;
     
     $smarty->assign("role", $role);
 	$smarty->assign("error_", $error_);
-	
+	$smarty->assign("curPage", 3);
 	$smarty->assign("array_tests", $array_tests);
 
 	$smarty->assign("title", "Список тестов");
