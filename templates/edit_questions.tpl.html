@@ -27,7 +27,7 @@
 {/literal}
 <script type="text/javascript" src="{$js}form-validator/jquery.form-validator.min.js"></script>
 
-<form id="edit_questions" name="edit_questions" enctype="multipart/form-data" method="post"  action novalidate="novalidate">
+<form id="edit_questions" name="edit_questions" enctype="multipart/form-data" method="post">
     <input type="hidden" name="id" id="question-id" value=""/>
     <span class="title_menu_edit">
         Редактирование вопросов
@@ -36,7 +36,7 @@
     <div style="margin-left: 2px;" align="left">
         <a href="/list_questions"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 	<!--в зависимости от статуса добавляем или редактируем-->
-	<!--<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_employee(this.form)"/>-->
+	<input class="button_admin_edit" type="submit" value="Сохранить"/><!-- onclick="get_employee(this.form)"/>-->
     </div>
 
     <table>
@@ -47,7 +47,11 @@
             <td>
                 <select name="type_question" id="type_question">
                 {section name=j loop=$array_typequestions}
-                    <option value="{$array_typequestions[j]['ID']}">{$array_typequestions[j]['TITLE']}</option>
+                    {assign var="sel" value=""}
+                    {if $question_data['type']==$array_typequestions[j]['ID']}
+                        {assign var="sel" value=" selected"}
+                    {/if}
+                    <option value="{$array_typequestions[j]['ID']}"{$sel}>{$array_typequestions[j]['TITLE']}</option>
                 {/section}
 		</select>
             </td>
@@ -59,7 +63,11 @@
             <td>
                 <select name="module_question" id="module_question">
                 {section name=j loop=$array_module}
-                    <option value="{$array_module[j]['ID']}">{$array_module[j]['TITLE']}</option>
+                    {assign var="sel" value=""}
+                    {if $question_data['module']==$array_module[j]['ID']}
+                        {assign var="sel" value=" selected"}
+                    {/if}
+                    <option value="{$array_module[j]['ID']}"{$sel}>{$array_module[j]['TITLE']}</option>
 		{/section}
 		</select>
             </td>
@@ -71,7 +79,11 @@
             <td>
                 <select name="risklevel_question" id="risklevel_question">
                 {section name=j loop=$array_risklevel}
-                    <option value="{$array_risklevel[j]['ID']}">{$array_risklevel[j]['TITLE']}</option>
+                    {assign var="sel" value=""}
+                    {if $question_data['risk']==$array_risklevel[j]['ID']}
+                        {assign var="sel" value=" selected"}
+                    {/if}
+                    <option value="{$array_risklevel[j]['ID']}"{$sel}>{$array_risklevel[j]['TITLE']}</option>
                 {/section}
                 </select>
             </td>
@@ -83,7 +95,11 @@
             <td>
                 <select name="testname_question" id="testname_question">
                 {section name=j loop=$array_testnames}
-                    <option value="{$array_testnames[j]['ID']}">{$array_testnames[j]['TITLE']}</option>
+                    {assign var="sel" value=""}
+                    {if $question_data['test']==$array_testnames[j]['ID']}
+                        {assign var="sel" value=" selected"}
+                    {/if}
+                    <option value="{$array_testnames[j]['ID']}"{$sel}>{$array_testnames[j]['TITLE']}</option>
                 {/section}
                 </select>
             </td>
@@ -93,24 +109,39 @@
                 Текст вопроса:
             </td>
             <td>
-                <textarea name="text_question" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!"></textarea>
+                <textarea name="text_question" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
+{strip}
+{trim($question_data['text'])}
+{/strip}
+                </textarea>
             </td>
         </tr>
     </table>
-
-    <div id="generate" style="margin-left: 1px;"></div>	
+    <input type='hidden' name='id_answer[0]' value="{$question_data['answers'][0]['ID']}"/>
+    <input type='hidden' name='id_answer[1]' value="{$question_data['answers'][1]['ID']}"/>
+    <input type='hidden' name='id_answer[2]' value="{$question_data['answers'][2]['ID']}"/>
+    <div id="generate" style="margin-left: 1px;">
+        <input type='hidden' name='download_sv' id ="download_sv" value="{$question_data['video']}"/>
+        <input type='hidden' name='download_sf' id="download_sf" value="{$question_data['photo']}"/>
+        <input type='hidden' name='text_answer[0]' id="text_answer_0" value="{$question_data['answers'][0]['TEXT']}"/>
+        <input type='hidden' name='answer_price[0]'id="text_price_0" value="{$question_data['answers'][0]['PRICE']}"/>
+        <input type='hidden' name='text_answer[1]' id="text_answer_1" value="{$question_data['answers'][1]['TEXT']}"/>
+        <input type='hidden' name='answer_price[1]' id="text_price_1" value="{$question_data['answers'][1]['PRICE']}"/>
+        <input type='hidden' name='text_answer[2]' id="text_answer_2" value="{$question_data['answers'][2]['TEXT']}"/>
+        <input type='hidden' name='answer_price[2]' id="text_price_2" value="{$question_data['answers'][2]['PRICE']}"/>
+    </div>	
     <!-- ловим событие выбора -->
     {literal}
     <script>
     $("#type_question").change(
             function(){
 		var curVar = $(this).val();
-		
+		var formData = $("#edit_questions").serialize();
 		if(!curVar) return false;
 		// формируем шаблон параметров
 		$.ajax({
 			type: 'POST', 
-			data: {'typequestion': curVar},
+			data: formData,
 			url: "./inc/ajax.get_questions.php",
 			//dataType: 'json',
 			error: function(req, text, error) {//обработчик, если произошла ошибка
