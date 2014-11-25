@@ -83,7 +83,7 @@ if (!$this->connect) $this->GetConnect();
 	$s = OCIParse($c, $sql_in);		
 	if (!OCIExecute($s, OCI_DEFAULT)) {
 		$e = oci_error($s);
-		die("Oracle Error [".$e['message']."]");
+		die("Oracle Error [".$e['message']."] [--$sql_in--]");
 	}
 	$out = Array();
 	if ($res = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)){
