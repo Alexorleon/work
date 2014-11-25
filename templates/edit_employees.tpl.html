@@ -60,10 +60,18 @@
         {/foreach}
     </ul>
 </div>
+{else}
+<div class="test_list">
+    Сотрудник не проходил тестирования
+</div>
 {/if}
 {if $count_pt > 0}
 <div class="test_list">
     <a href='test_res.php?sid={$cur_employee_id}'>Ответы по предсменному экзаменатору</a>
+</div>
+{else}
+<div class="test_list">
+    Сотрудник не отвечал на вопросы предсменного экзаменатора
 </div>
 {/if}
 {/block}

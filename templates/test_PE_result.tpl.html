@@ -1,7 +1,25 @@
 {extends file="list.tpl.html"}
 {block name="article"}
 <script src="{$js}chart/Chart.js"></script>
+<script type="text/javascript" src="{$tpl}js/fancybox/jquery.fancybox.pack.js"></script>
+<link rel="stylesheet" href="{$tpl}js/fancybox/jquery.fancybox.css">
 <h1>{$title}</h1>
+<form method="POST" id="date_form">
+    Отфильтровать по датам:<br>
+    С <select name='date_begin' id="date_begin">
+        {foreach from=$dates item=date}
+        <option value='{$date} 00:00:00'>{$date}</option>
+        {/foreach}
+    </select>
+    До <select name='date_end' id="date_end">
+        {foreach from=$dates item=date}
+        <option value='{$date} 23:59:59'>{$date}</option>
+        {/foreach}
+    </select>
+    <input type="hidden" name="sid" value="{$cur_employee_id}"/>
+    <input type="button" onclick="filterDates();" value="Показать"/>
+</form>
+<div id="pe_result">
 <table class="simple-little-table" id="test_results_dir" cellspacing='0'>
     <tr>
         <th>Дата</th>
@@ -12,17 +30,15 @@
         <th>Штраф</th>
     </tr>
 {assign var="price" value=0}
+{assign var="wrongs" value=0}
 {assign var="amount" value=count($results)}
 {assign var="chartDates" value="'{$results[0]['DATEBEGIN']}'"}
 {assign var="chartPrices" value="{$results[0]['PRICE']}"}
 {foreach from=$results key=key item=result}
-{if $key != 0}
-    {assign var="chartDates" value="{$chartDates}, '{$result['DATEBEGIN']}'"}
-    {assign var="chartPrices" value="{$chartPrices}, {$result['PRICE']}"}
-{/if}
     {if ($result['PRICE'] != 0)}
         {assign var="cls" value="class=wrong_ans"}
         {assign var="comment" value="{$result['COMMENTARY']} ({$result['FACTOR']})"}
+        {assign var="wrongs" value=$wrongs+1}
     {else}
         {assign var="cls" value=""}
         {assign var="comment" value="Отвечено верно"}
@@ -36,6 +52,9 @@
         </td>
         <td>
             {$result['QTEXT']}
+            {if $result['PHOTO']!=''}
+            <br><a class="fancybox" rel="group" href="/storage/photo_questions/{$result['PHOTO']}">[Посмотреть фото]</a>
+            {/if}
         </td>
         <td>
             {$result['ATEXT']}
@@ -50,41 +69,65 @@
 {assign var="price" value=$price+$result['PRICE']}
 {/foreach}
 </table>
+<div>
+<br>
 <canvas id="peChart" width="800" height="400"></canvas>
-
+</div>
 {literal}
 <script>
     var ctx = $('#peChart').get(0).getContext("2d");
-    var chartOptions = {bezierCurve : false};
-    var data = {
-{/literal}
-                labels: [{$chartDates}],
+    var chartOptions = {segmentShowStroke : true, animationSteps : 1};
+    var data = [
+        {
+{/literal}            
+            value: {$wrongs},
 {literal}
-                datasets:[
-                {
-                    label: "График ответов",
-                    fillColor: "rgba(151,187,205,0.2)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(151,187,205,1)",
-{/literal}
-                    data: [{$chartPrices}]
+        color:"#F7464A",
+        highlight: "#8E2323",
+        label: "Неправильные ответы"
+        },
+        {
+{/literal}            
+            value: {($amount-$wrongs)},
 {literal}
-                }    
-                ]
-            
-               };
-    var peLineChart = new Chart(ctx).Line(data, chartOptions);
+        color: "#A9D0F5",
+        highlight: "#005E9A",
+        label: "Правильные ответы"
+        }
+    ];
+    var pieChart = new Chart(ctx).Pie(data, chartOptions);
 </script>
 {/literal}
-<div>
-    Всего штрафных баллов: {$price}
 </div>
+<!--<div>
+    Всего штрафных баллов: {$price}
+</div>-->
 <div>
-    Средний балл: -{round($price/$amount)}
+    Средний балл: {round(-$price/$amount)}
 </div>
 <button onclick='window.history.back()'>Назад</button>
+{literal}
+<script>
+    $(document).ready(function() {
+        $(".fancybox").fancybox({closeClick: true, arrows: false});
+    });
+    
+    function filterDates()
+    {
+        var datedata = $('#date_form').serialize();
+        $.ajax({
+                type: 'POST', 
+                data: datedata,
+                url: "./inc/ajax.test_PE_result_filterdate.php",
+		error: function(req, text, error) {//обработчик, если произошла ошибка
+                    //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+		},
+		success: function (data) {
+                    $("#pe_result").html(data);
+                    }
+                });
+    }
+</script>
+{/literal}
 {/block}
 {/extends}
