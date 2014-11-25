@@ -6,6 +6,8 @@
 	
 	/*$filename = md5(microtime() . rand(0, 9999));
 	print_r($filename);
+	echo "</br>";
+	print_r("Временно не работает");
 	die();*/
 	
 	$db = new db;

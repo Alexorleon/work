@@ -31,7 +31,7 @@
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
 					
-					<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+					<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center" onclick="return confirm('Удалить?');"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>	
