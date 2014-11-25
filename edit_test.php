@@ -132,13 +132,19 @@ SQL;
 			$smarty->assign("cur_test_penalty", '');
 		}else if($_GET['testtype'] == 1){ // это редактирование
 	
-			if($_SESSION['add_or_edit_test'] == 2){
+			// получаем значения для задания их по умолчанию
+			$test_id = $_GET['test_id']; // id теста
+			$test_title = $_GET['test_title']; // название
+			$test_penalty = $_GET['test_penalty']; // штрафные баллы
 			
-				// получаем все вопросы
-				// TODO: минус которые уже есть в тесте
+			if($_SESSION['add_or_edit_test'] == 2){
+
+				// получаем уже добавленные вопросы к тесту и исключаем их из всех вопросов
 				$sql = <<<SQL
 					SELECT ALLQUESTIONS.ID, ALLQUESTIONS.TEXT, MODULE.TITLE AS T_MODULE, RISKLEVEL.TITLE AS T_RISK, TYPEQUESTIONS.TITLE AS T_TYPE FROM stat.ALLQUESTIONS, stat.MODULE, stat.RISKLEVEL, stat.TYPEQUESTIONS 
-					WHERE ALLQUESTIONS.MODULEID=MODULE.ID AND ALLQUESTIONS.RISKLEVELID=RISKLEVEL.ID AND ALLQUESTIONS.TYPEQUESTIONSID=TYPEQUESTIONS.ID
+					WHERE ALLQUESTIONS.MODULEID=MODULE.ID AND ALLQUESTIONS.RISKLEVELID=RISKLEVEL.ID AND ALLQUESTIONS.TYPEQUESTIONSID=TYPEQUESTIONS.ID AND 
+					ALLQUESTIONS.ID NOT IN (SELECT ALLQUESTIONS.ID FROM stat.ALLQUESTIONS_B, stat.ALLQUESTIONS WHERE ALLQUESTIONS_B.ALLQUESTIONSID = ALLQUESTIONS.ID AND ALLQUESTIONS.ID IN (SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID='$test_id'))
+				
 SQL;
 				$all_questions = $db->go_result($sql);
 			
@@ -161,11 +167,6 @@ SQL;
 					//unset($_GET['disabled_questionid']);
 				}
 			}
-			
-			// получаем значения для задания их по умолчанию
-			$test_id = $_GET['test_id']; // id теста
-			$test_title = $_GET['test_title']; // название
-			$test_penalty = $_GET['test_penalty']; // штрафные баллы
 			
 			// получаем таблицу активности вопросов
 			// TODO: модули должны располагаться в БД строго как - знания, умения, опыт, ПП
