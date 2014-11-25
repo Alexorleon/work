@@ -1936,3 +1936,18 @@ clear: both;
     padding:5px;
     text-align: center;
 }
+.sotrud_lamp_table
+{
+    width: 33%;
+    display: inline-block;
+}
+
+.sotrud_lamp_table  td
+{
+    cursor: pointer;
+}
+
+.tab_num_selected > td
+{
+    background: #04B404 !important;
+}
