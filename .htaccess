@@ -41,6 +41,7 @@ RewriteRule ^edit_questions$ /edit_questions.php?posttype=1 [L,QSA]
 RewriteRule ^list_tests$ /list_tests.php [L,QSA]
 RewriteRule ^new_test$ /edit_test.php?testtype=0 [L,QSA]
 RewriteRule ^edit_test$ /edit_test.php?testtype=1 [L,QSA]
+RewriteRule ^add_question_test$ /edit_test.php?testtype=2 [L,QSA]
 
 RewriteRule ^search_employee$ /search_employee.php [L,QSA]
 

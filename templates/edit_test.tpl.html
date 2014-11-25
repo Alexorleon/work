@@ -10,6 +10,7 @@
 <script type="text/javascript" src="{$js}jquery-1.11.1.min.js"></script>	
 <script type="text/javascript" src="{$js}migrate.js"></script>
 <script type="text/javascript" src="{$js}noselect.js"></script>
+<script type="text/javascript" src="{$js}TableFilter/tablefilter_min.js"></script>
 </head>
 <body>
 <!--<form id="list_posts" name="list_posts" method="post">
@@ -37,9 +38,12 @@
 	{if $add_or_edit_test eq 0} <!-- новый тест -->
 		
 		<span class="title_menu_edit">Создание теста</span>
-	{else}
-	
+	{elseif $add_or_edit_test eq 1}
+
 		<span class="title_menu_edit">Редактирование теста</span>
+	{else}
+		
+		<span class="title_menu_edit">Добавление вопросов</span>
 	{/if}
 	
 	<div style="margin-left: 2px;" align="left">
@@ -48,11 +52,14 @@
 		
 			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 			<input class="button_admin_edit" type="button" value="Добавить тест" onclick="get_test('add_test', this.form)"/>
-		{else} <!-- редактирование -->
-		
+		{elseif $add_or_edit_test eq 1} <!-- редактирование -->
+
 			<a href="/list_tests"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
 			<input class="button_admin_edit" type="button" value="Сохранить изменения" onclick="get_test('save', this.form)"/>
-			<input class="button_admin_edit" type="button" value="Добавить вопрос" onclick="get_test('add_question', this.form)"/>
+			<input class="button_admin_edit" type="button" value="Добавить вопросы" onclick="get_test('add_question', this.form)"/>
+		{else}
+			<!--<a href="/edit_test?test_id={$cur_test_id}&test_title={$cur_test_title}&test_penalty={$cur_test_penalty}" style="cursor: pointer;"><input class="button_admin_edit" type="button" value="Назад" onclick="get_test('exit', this.form)"/></a>-->
+			<input class="button_admin_edit" type="button" value="Назад" onclick="window.location='edit_test?test_id={$cur_test_id}&test_title={$cur_test_title}&test_penalty={$cur_test_penalty}&exit=exit'" style="cursor: pointer;"/>
 		{/if}
 	</div>
 	
@@ -68,7 +75,8 @@
 			</tr>
 		</table>
 		
-	{else} <!-- редактирование -->
+	{elseif $add_or_edit_test eq 1} <!-- редактирование -->
+
 		<table>
 			<tr>
 				<td>Название:</td>
@@ -89,7 +97,7 @@
 				<th style="width: 20%;">Первая помощь</th>
 			</tr>
 
-			<!-- TODO: задать одинаковые имена. будет проще распределять динамически -->
+			<!-- формируем таблицу соотношей модулей для теста -->
 			{section name=first start=0 loop=$active_modules_questions step=4}
 				<tr>
 					<td>
@@ -111,6 +119,114 @@
 		</table>
 		
 		<p style="margin-left: 2px;"><span>Вопросы к этому тесту</span></p>
+		
+		<!-- Вопросы к этому тесту -->
+		{$count = 0}
+		<table class="edit_tables" id="questions_this_test">
+				<thead>
+			<tr>
+				<th style="width: 4%;">№</th>
+				<th style="width: 65%;">Вопрос</th>
+				<th style="width: 10%;">Тип вопроса</th>
+				<th style="width: 10%;">Модуль</th>
+				<th style="width: 10%;">Уровень риска</th>
+				<th style="width: 1%;"></th>
+			</tr>
+				</thead>
+				<tbody>
+			{section name=count loop=$questions_this_test}
+				<!--<tr onclick="window.location='edit_tests?employee_id={$questions_this_test[{$count}]['SOTRUD_K']}&employee_cur={$questions_this_test[{$count}]['SOTRUD_FAM']}&employee_name={$questions_this_test[{$count}]['SOTRUD_IM']}&employee_pat={$questions_this_test[{$count}]['SOTRUD_OTCH']}&employee_tabel={$questions_this_test[{$count}]['TABEL_KADR']}&dolj={$questions_this_test[{$count}]['KOD']}'" style="cursor: pointer;">-->
+				<tr>
+					<td>
+					{$questions_this_test[{$count}]['ID']}
+					</td>
+					<td>
+					{$questions_this_test[{$count}]['TEXT']}
+					</td>
+					<td>
+					{$questions_this_test[{$count}]['T_MODULE']}
+					</td>
+					<td>
+					{$questions_this_test[{$count}]['T_RISK']}
+					</td>
+					<td>
+					{$questions_this_test[{$count}]['T_TYPE']}
+					</td>
+					<td class="deleteInTable" style="text-align: center;">
+					<a href="/edit_test?disabled_questionid={$questions_this_test[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+					</td>
+					{capture}{$count++}{/capture}
+				</tr>	
+			{/section}
+				</tbody>
+		</table>
+		<script>
+			var table2_Props = {
+								sort: true,
+								mark_active_columns: true,
+								col_0: "none",
+								col_2: "select",
+								col_3: "select",
+								col_4: "select",
+								col_5: "none",
+								display_all_text: " [ Показать все ] ",
+								sort_select: true,
+								col_number_format: ['EU', null,null,null,null, 'EU']
+							   };
+			var tf2 = setFilterGrid("questions_this_test", table2_Props);
+		</script>
+
+	{else} <!-- добавление вопроса -->
+	
+		{$count = 0}
+		<table class="edit_tables" id="question_list">
+				<thead>
+			<tr>
+				<th style="width: 4%;">№</th>
+				<th style="width: 66%;">Вопрос</th>
+				<th style="width: 10%;">Тип вопроса</th>
+				<th style="width: 10%;">Модуль</th>
+				<th style="width: 10%;">Уровень риска</th>
+			</tr>
+				</thead>
+				<tbody>
+			{section name=count loop=$all_questions}
+				<!--<tr onclick="window.location='edit_tests?employee_id={$all_questions[{$count}]['SOTRUD_K']}&employee_cur={$all_questions[{$count}]['SOTRUD_FAM']}&employee_name={$all_questions[{$count}]['SOTRUD_IM']}&employee_pat={$all_questions[{$count}]['SOTRUD_OTCH']}&employee_tabel={$all_questions[{$count}]['TABEL_KADR']}&dolj={$all_questions[{$count}]['KOD']}'" style="cursor: pointer;">-->
+				<tr>
+					<td>
+					{$all_questions[{$count}]['ID']}
+					</td>
+					<td>
+					{$all_questions[{$count}]['TEXT']}
+					</td>
+					<td>
+					{$all_questions[{$count}]['T_MODULE']}
+					</td>
+					<td>
+					{$all_questions[{$count}]['T_RISK']}
+					</td>
+					<td>
+					{$all_questions[{$count}]['T_TYPE']}
+					</td>
+					{capture}{$count++}{/capture}
+				</tr>	
+			{/section}
+				</tbody>
+		</table>
+		<script>
+			var table2_Props = {
+								sort: true,
+								mark_active_columns: true,
+								col_0: "none",
+								col_2: "select",
+								col_3: "select",
+								col_4: "select",
+								display_all_text: " [ Показать все ] ",
+								sort_select: true,
+								col_number_format: ['EU', null,null,null,null]
+							   };
+			var tf2 = setFilterGrid("question_list", table2_Props);
+		</script>
 	{/if}
 	
 	<!--  -->
