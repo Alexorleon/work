@@ -174,7 +174,7 @@ SQL;
     {
         $result[$ctype['ID']]['weight'] = $ctype['WEIGHT'];
         $result[$ctype['ID']]['name'] = $ctype['TITLE'];
-		$result[$ctype['ID']]['KEY'] = $ctype['KEY'];
+        $result[$ctype['ID']]['KEY'] = $ctype['KEY'];
         $result[$ctype['ID']]['K'] = 0;
         $result[$ctype['ID']]['Sum'] = 0;
         $result[$ctype['ID']]['Danger'] = 0;

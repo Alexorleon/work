@@ -55,8 +55,10 @@ else
     else
     {
         $employee_id = filter_input(INPUT_GET, 'sid', FILTER_SANITIZE_NUMBER_INT);
-        
+
         $PEResults = GetPEResults($db, $employee_id);
+        $dates = GetFilterDates($PEResults);
+        $smarty->assign("dates", $dates);
         $employee = GetEmpInfo($db, $employee_id);
         
         $smarty->assign("results", $PEResults);
@@ -73,11 +75,15 @@ else
 
 function GetPEResults($obj,$sid)
 {
-    $sql = "SELECT TO_CHAR(ALLHISTORY.DATEBEGIN, 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN, ALLQUESTIONS.TEXT AS QTEXT, ALLANSWERS.TEXT AS ATEXT, ALLANSWERS.PRICE AS PRICE, ALLANSWERS.COMMENTARY AS COMMENTARY, ALLANSWERS.FACTOR as FACTOR, MODULE.TITLE AS MTITLE
+    $sql = "SELECT TO_CHAR(ALLHISTORY.DATEBEGIN, 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN,
+            ALLQUESTIONS.TEXT AS QTEXT, ALLQUESTIONS.SIMPLEPHOTO AS PHOTO, ALLQUESTIONS.SIMPLEVIDEO AS VIDEO,
+            ALLANSWERS.TEXT AS ATEXT, ALLANSWERS.PRICE AS PRICE, ALLANSWERS.COMMENTARY AS COMMENTARY, ALLANSWERS.FACTOR as FACTOR,
+            MODULE.TITLE AS MTITLE
             FROM stat.ALLHISTORY, stat.ALLQUESTIONS, stat.ALLANSWERS, stat.MODULE
             WHERE (SOTRUD_ID='$sid' AND EXAMINERTYPE='1' AND DEL='N') AND ALLQUESTIONS.ID = ALLHISTORY.ALLQUESTIONSID AND ALLANSWERS.ID=ALLHISTORY.ALLANSWERSID AND MODULE.ID=ALLQUESTIONS.MODULEID
             ORDER BY ALLHISTORY.DATEBEGIN, MODULE.ID";
     $PEResults = $obj->go_result($sql);
+    
     //var_dump($PEResults);
     return $PEResults;
 }
@@ -298,6 +304,17 @@ function GetEmpInfo($obj, $sid)
     $result = $obj->go_result_once($sql);
     
     return $result;
+}
+
+function GetFilterDates($dates)
+{
+    $results = array();
+    foreach($dates as $date)
+    {
+        $results[] = date('d.m.Y', strtotime($date['DATEBEGIN']));
+    }
+    
+    return array_unique($results);
 }
 
 function array_end_key($array)
