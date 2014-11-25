@@ -58,7 +58,8 @@
 			<input class="button_admin_edit" type="button" value="Сохранить изменения" onclick="get_test('save', this.form)"/>
 			<input class="button_admin_edit" type="button" value="Добавить вопросы" onclick="get_test('add_question', this.form)"/>
 		{else}
-			<a href="/edit_test?test_id={$cur_test_id}&test_title={$cur_test_title}&test_penalty={$cur_test_penalty}" style="cursor: pointer;"><input class="button_admin_edit" type="button" value="Назад" onclick="get_status_test()"/></a>
+			<!--<a href="/edit_test?test_id={$cur_test_id}&test_title={$cur_test_title}&test_penalty={$cur_test_penalty}" style="cursor: pointer;"><input class="button_admin_edit" type="button" value="Назад" onclick="get_test('exit', this.form)"/></a>-->
+			<input class="button_admin_edit" type="button" value="Назад" onclick="window.location='edit_test?test_id={$cur_test_id}&test_title={$cur_test_title}&test_penalty={$cur_test_penalty}&exit=exit'" style="cursor: pointer;"/>
 		{/if}
 	</div>
 	

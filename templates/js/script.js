@@ -191,21 +191,26 @@ function get_test(status, f){
 		switch(status){
 		
 			case 'add_test':
-			
 			break;
 		
 			case 'save':
 			
-			$("#status_edit_test").val(status);
-			$("#cur_test_id").val();
+				//$("#status_edit_test").val(status);
+				$("#cur_test_id").val();
 			break;
 		
 			case 'add_question':
 			
-			$("#status_edit_test").val(status);
+				//$("#status_edit_test").val(status);
+			break;
+			
+			case 'exit':
+			
+				//$("#status_edit_test").val(status);
 			break;
 		}
 		
+		$("#status_edit_test").val(status);
 		$("#testname").val();
 		$("#testpenalty").val();
 		$("#edit_test").submit();

@@ -11,7 +11,14 @@
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
+	
+	if(isset($_GET['exit'])){
+		if($_GET['exit'] == 'exit'){
 		
+			$_SESSION['add_or_edit_test'] = 1;
+		}
+	}
+
 	if (!empty($_POST)){
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
@@ -98,10 +105,15 @@ SQL;
 				}elseif($status_edit_test == "add_question"){
 
 					$_SESSION['add_or_edit_test'] = 2;
+					
+				}elseif($status_edit_test == "exit"){
+			
+					$_SESSION['add_or_edit_test'] = 1;
+		print_r("dfgdfgdfdfgdf");
+				}else{
 				}
 			}
 		}elseif($_SESSION['add_or_edit_test'] == 2){ // это добавление вопроса
-
 
 		}else{
 			
@@ -110,7 +122,6 @@ SQL;
 	}
 	
 	if(isset($_GET['testtype'])){
-
 		if($_GET['testtype'] == 0){ // это добавление нового
 		
 			$_SESSION['add_or_edit_test'] = 0;
@@ -180,7 +191,6 @@ SQL;
 			
 			$smarty->assign("active_modules_questions", $active_modules_questions);
 			$smarty->assign("questions_this_test", $questions_this_test);
-			$smarty->assign("status_add_question", $_SESSION['status_edit_test']);
 			
 		}elseif($_GET['testtype'] == 2){ // добавление вопросов
 
