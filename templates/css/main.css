@@ -1274,9 +1274,9 @@ figure {
 
 /*Логотип в админке*/
 .authlogo_admin {
-	background:url('/files/img/logo-admin.png') no-repeat scroll center 0 transparent;
-	width: 218px;
-	height: 151px;
+	background:url('/files/img/logo-green.png') no-repeat scroll center 0 transparent;
+	width: 216px;
+	height: 207px;
 	margin-left: 10px;
 	margin-top: 4px;
 	margin-bottom: 10px;
