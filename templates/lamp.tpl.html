@@ -5,188 +5,69 @@
 {literal}
 <script>
 
+    jQuery(function($)
+    {
+        $("#tabnum_lamp").focus();
+        get_sotrud(0);
+        go_timer();
+    });
 
-	jQuery(function($) {
-		$("#tabnum_lamp").focus();
-		go_timer();
-	});
-	/*$().toastmessage('showErrorToast', 'ПРивет, я ошибка');
-	$().toastmessage('showWarningToast', 'ПРивет, я Уведомлялка');
-	$().toastmessage('showNoticeToast', 'ПРивет, я Уведомлялка');
-	$().toastmessage('showSuccessToast', 'ПРивет, я Уведомлялка');*/
-	
-	function get_info_tab(tab_num){
-	
-		//alert(tab_num);
-		var id = tab_num;
-		// Получаем данные сотрудника
-		$.ajax({ //стартуем аякс
-				type: 'POST', //обращаемся к скрипту методом ПОСТ
-				data: {'type': '3', 'tabel_kadr': $("#tabnum_status").text(tab_num)},
-				url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
-				dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
-				error: function(req, text, error) {//обработчик, если произошла ошибка
-				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
-				},
-				success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
-					//console.log(data);
-					$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
-					var tail_table = "";
-					var big_data_table = "";
-					big_data_table += "<tr>";
-					var cnt = 0;
-					var cnt2 = 1;
-					var num_cols = 14;
-					$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
-					if (cnt == (num_cols*cnt2)) {big_data_table += "</tr><tr>";cnt2++;}
-					big_data_table += "<td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td>";//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
-					cnt++;
-					});
-					//big_data_table += "</tr>";
-					for (var i = 0; i < ((num_cols * cnt2) - cnt); i++) {
-					   tail_table += "<td>&nbsp;</td>";
-					}
-					$("#sotruds tbody").append(big_data_table + tail_table + "</tr>");
+    function get_info_tab(tab_num)
+    {
+        var current_num = tab_num;
+    // Получаем данные сотрудника
+        get_sotrud(current_num);
+        $("#tb_"+tab_num).addClass("tab_num_selected");
+    }
 
-					$("#tabnum_status").html("№ "+tab_num+" - Контроль пройден"+" : "+date);
-					$("#r"+id).css("background", "green");
-				}
-			});
-	}
-	
-	/*Обновляем таблу чувачков*/
-	function get_sotrud(check_tab_num) {	//создал функцию, чтобы запускать по событию
-		//console.log(check_tab_num);
-		
-		if(check_tab_num == 0){
-			
-			//$("#tabnum_status").html('');
-			//console.log('ajax started1');
-			$.ajax({ //стартуем аякс
-				type: 'POST', //обращаемся к скрипту методом ПОСТ
-				data: {'type': '1'},
-				url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
-				dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
-				error: function(req, text, error) {//обработчик, если произошла ошибка
+    /*Обновляем таблу чувачков*/
+    function get_sotrud(check_tab_num)
+    {	//создал функцию, чтобы запускать по событию
+        $.ajax({ //стартуем аякс
+                type: 'POST', //обращаемся к скрипту методом ПОСТ
+                data: {'type': '1', 'tabel_kadr': check_tab_num},
+                url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
+                error: function(req, text, error) {//обработчик, если произошла ошибка
+                //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+                },
+                success: function (data)
+                         {
+                            $("#sotruds").html(data);
+                         }
+               });
+        if(check_tab_num !=0)
+        {
+            var id = $("#tabnum_lamp").val();
+            $.ajax({ //стартуем аякс
+                    type: 'POST', //обращаемся к скрипту методом ПОСТ
+                    data: {'check_tab_num': check_tab_num, 'type': '2'},
+                    url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
+                    error: function(req, text, error) {//обработчик, если произошла ошибка
 				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
 				},
-				success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
-					//console.log(data);
-					$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
-					var tail_table = "";
-					var big_data_table = "";
-					big_data_table += "<tr>";
-					var cnt = 0;
-					var cnt2 = 1;
-					var num_cols = 14;
-					$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
-					if (cnt == (num_cols*cnt2)) {big_data_table += "</tr><tr>";cnt2++;}
-					big_data_table += "<td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td>";//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
-					cnt++;
-					});
-					//big_data_table += "</tr>";
-					for (var i = 0; i < ((num_cols * cnt2) - cnt); i++) {
-					   tail_table += "<td>&nbsp;</td>";
-					}
-					$("#sotruds tbody").append(big_data_table + tail_table + "</tr>");
-				}
-			});
-		}else{
-			//console.log('ajax started2');
-			var id = $("#tabnum_lamp").val();
-			$.ajax({ //стартуем аякс
-				type: 'POST', //обращаемся к скрипту методом ПОСТ
-				//data: {'check_tab_num' : check_tab_num},//если нужно передать какие-то параметры, передаем. Первое параметр в ПОСТ, второе значение. Делаю всегда одинаковые, чтобы не путаться.
-				//data: {'check_tab_num': check_tab_num},
-				data: {'check_tab_num': check_tab_num, 'type': '2'},
-				//data: '{"check_tab_num":"' + check_tab_num + '"}',
-				url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
-				//dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
-				error: function(req, text, error) {//обработчик, если произошла ошибка
-				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
-				},
-				success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
-					//console.log(data);
-					dataarr = data.split('_')
-					if (dataarr[0] != "none"){
-						//Если такой есть, тада
-						
-						//$("#tabnum_status").html("Поиск по табельному "+data);
-						//и поперли наполнять таблицу
-						$.ajax({ //стартуем аякс
-							type: 'POST', //обращаемся к скрипту методом ПОСТ
-							//data: {'check_tab_num' : check_tab_num},//если нужно передать какие-то параметры, передаем. Первое параметр в ПОСТ, второе значение. Делаю всегда одинаковые, чтобы не путаться.
-							//data: {'check_tab_num': check_tab_num},
-							data: {'type': '1'},
-							//data: '{"check_tab_num":"' + check_tab_num + '"}',
-							url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
-							dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
-							error: function(req, text, error) {//обработчик, если произошла ошибка
-							//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
-							},
-							success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
-								$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
-								var tail_table = "";
-								var big_data_table = "";
-								big_data_table += "<tr>";
-								var cnt = 0;
-								var cnt2 = 1;
-								var num_cols = 14;
-								$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
-								if (cnt == (num_cols*cnt2)) {big_data_table += "</tr><tr>";cnt2++;}
-								big_data_table += "<td id=r"+$(this).attr('TABEL_KADR')+">"+$(this).attr('TABEL_KADR')+"</td>";//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
-								cnt++;
-								});
-								//big_data_table += "</tr>";
-								for (var i = 0; i < ((num_cols * cnt2) - cnt); i++) {
-								   tail_table += "<td>&nbsp;</td>";
-								}
-								$("#sotruds tbody").append(big_data_table + tail_table + "</tr>");
-								
-								if($("#r"+id).size() == 0){
-								//if ($("#r"+id).html() == ""){
-									$("#tabnum_status").html("№ "+dataarr[1]+" - Контроль не пройден");
-									$("#tabnum_status").css("color", "red");
-									//alert(dataarr[1]+" - Контроль не пройден");
-								}else{
-									if (id != ""){
-										$("#tabnum_status").html("№ "+dataarr[1]+" - Контроль пройден"+" : "+dataarr[2]);
-										//$("#tabnum_status").html("Контроль пройден");
-										//$("#text_status_ansT").html(check_tab_num);
-										//$("#r"+id).css("background-color", "red");
-										$("#r"+id).css("background", "green");
-										$("#tabnum_status").css("color", "green");
-										//console.log("#r"+id);
-									}
-								}
-							}
-						});
-					}else{
-						$("#tabnum_status").html("№ "+dataarr[1]+" - Такого табельного не существует");
-						$("#tabnum_status").css("color", "red");
-					}
-				}
-			});
-			/*
-			//alert(id);
-			*/
-		}
-	}
-	
-	// нажатие enter
-	$(document).ready(function(){
-		$("#tabnum_lamp").keypress(function(e){
-			if(e.keyCode==13){
-				get_sotrud($("#tabnum_lamp").val());
-				$("#tabnum_lamp").val('');
-				stop_timers_to(10);
-			}
-		});
-	});
-	
+                    success: function (data)
+                             {
+                                 $("#tabnum_status").html(data);
+                             }
+                    });
+        }
+    }
+
+    // нажатие enter
+    $(document).ready(function()
+                      {
+                        $("#tabnum_lamp").keypress(function(e)
+                        {
+                            if(e.keyCode==13)
+                            {
+                                get_info_tab($("#tabnum_lamp").val());
+                                $("#tabnum_lamp").val('');
+                                stop_timers_to(10);
+                            }
+                        });
+                      });
 </script>
 {/literal}
-
 <div id="error_mess"> {$error_} </div>
 <div id="lampDiv">
 
@@ -209,25 +90,6 @@
 </table>
 
 <div id="sotruds" class="lamp_table">
-	{$count = 0}
-	{$count2 = 1}
-	{$num_cols = 14}
-	<table id="sotruds" class="simple-little-table" cellspacing='0' style="font-size: 28px;">
-	<div id="temp_test"></div>
-	<tr>
-	{section name=h loop=$array_sotrud}
-		{if $count++ eq $num_cols*$count2}</tr>{capture}{$count2++}{/capture}<tr>{/if}
-		<td onclick="get_info_tab({$array_sotrud[h]['TABEL_KADR']})">
-			{$array_sotrud[h]['TABEL_KADR']}
-		</td>
-	{/section}
-	{for $foo=1 to $num_cols*$count2-$count}
-		<td>&nbsp;</td>
-	{/for}
-	</tr>
-	</table>
-<!--{table_foreach from=$array_sotrud item=book key=id cols=13 td_attr='bgcolor="#FFEEDD"'}{$array_sotrud[{$id}]['TABEL_KADR']}
-{/table_foreach}-->
 </div>
 
 </form>
