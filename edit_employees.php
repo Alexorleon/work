@@ -136,16 +136,18 @@ SQL;
 			$employee_tabel = filter_input(INPUT_GET, 'employee_tabel', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_tabel']; // табельный
 			$dolj_kod = filter_input(INPUT_GET, 'dolj', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID должности
 			
+
             //$sql_res = "SELECT * FROM stat.ALLHISTORY WHERE ";
-                        
+ 
 			// запоминаем табельный
 			$_SESSION['check_employee_tabel'] = $employee_tabel;
-			
+
 			$date_list = GetTestDates($db, $employee_id);
 			$count_pt = CountPT($db, $employee_id);
 			//var_dump($dl);
 			$smarty->assign("date_list", $date_list);
 			$smarty->assign("count_pt", $count_pt);
+
 			$smarty->assign("cur_employee_id", $employee_id);
 			$smarty->assign("cur_employee_cur", $employee_cur);
 			$smarty->assign("cur_employee_name", $employee_name);
@@ -185,6 +187,7 @@ function CountPT($obj, $sid, $isntDel=false)
 {
     $delSQL = ($isntDel) ? " AND DEL='N'" : "";
     $sql = "SELECT COUNT(ID) AS COUNT FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sid' AND EXAMINERTYPE='1'$delSQL";
+
     $result = $obj->go_result_once($sql);
     
     return $result['COUNT'];
