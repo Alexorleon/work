@@ -1,0 +1,43 @@
+<input type='hidden' name='download_sv' value='{$download_sv}'/>
+<input type='hidden' name='download_sf' value='{$download_sf}'/>
+<table>
+{block name="special_question_block"}
+
+{/block}
+    <tr>
+        <td>Ответ 1:</td>
+        <td>
+            <textarea min-length=2 aria-required="true" name="text_answer[0]" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{$text_answer[0]}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>Штраф за ответ:</td>
+        <td>
+            <input  class="admin_input_text"  type="text" size="2" name="answer_price[0]" value="{$answer_price[0]}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Ответ 2:</td>
+            <td>
+                <textarea name="text_answer[1]" maxlength="150" rows="2" cols="75" required style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{$text_answer[1]}</textarea>
+            </td>
+    </tr>
+    <tr>
+        <td>Штраф за ответ:</td>
+        <td>
+            <input class="admin_input_text" type="text" size="2" name="answer_price[1]" value="{$answer_price[1]}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Ответ 3:</td>
+        <td>
+            <textarea name="text_answer[2]" maxlength="150" rows="2" cols="75" required style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{$text_answer[2]}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>Штраф за ответ:</td>
+        <td>
+            <input class="admin_input_text" type="text" size="2" name="answer_price[2]" value="{$answer_price[2]}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+</table>

@@ -12,7 +12,8 @@
 	$db->GetConnect();
 	$error_='';
 	$question_id = filter_input(INPUT_GET, 'question_id', FILTER_SANITIZE_NUMBER_INT); //ID вопроса
-        
+        $dir_photo = $_SERVER['DOCUMENT_ROOT']."/storage/photo_questions/";
+        $dir_video = $_SERVER['DOCUMENT_ROOT']."/storage/video_questions/simple_video/";
         
         if (!empty($_POST))
         {
@@ -100,6 +101,40 @@
                 $sql_AQB = "INSERT INTO stat.ALLQUESTIONS_B (TESTNAMESID, ALLQUESTIONSID) VALUES ('$testname_question', '$current_id')";
             }
             $db->go_query($sql_AQB);
+            
+            if ((isset($_FILES['download_sf']['tmp_name']))&&(isset($_FILES['download_sf']['name'])))
+            {
+                if (move_uploaded_file($_FILES['download_sf']['tmp_name'], "".$dir_photo."z".$_FILES['download_sf']['name']))
+                {
+                    chmod($dir_photo."z".$_FILES['download_sf']['name'], 0644);
+                    $ext = pathinfo($_FILES['download_sf']['name'], PATHINFO_EXTENSION);
+                    $ts=time();
+                    $ts = "z".$ts.".".$ext;
+                    $sql = "SELECT SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ID='$current_id'";
+                    $old_img = $db->go_result_once($sql)['SIMPLEPHOTO'];
+                    rename($dir_photo."z".$_FILES['download_sf']['name'], "".$dir_photo."$ts");
+                    $sql = "UPDATE stat.ALLQUESTIONS SET SIMPLEPHOTO='$ts' WHERE ID='$current_id'";
+                    $db->go_query($sql);
+                    @unlink("".$dir_photo."$old_img");
+                }
+            }
+            if ((isset($_FILES['download_sv']['tmp_name']))&&(isset($_FILES['download_sv']['name'])))
+            {
+                if (move_uploaded_file($_FILES['download_sv']['tmp_name'], "".$dir_video."z".$_FILES['download_sv']['name']))
+                {
+                    chmod($dir_video."z".$_FILES['download_sv']['name'], 0644);
+                    $ext = pathinfo($_FILES['download_sv']['name'], PATHINFO_EXTENSION);
+                    $ts=time();
+                    $ts = "z".$ts.".".$ext;
+                    $sql = "SELECT SIMPLEVIDEO FROM stat.ALLQUESTIONS WHERE ID='$current_id'";
+                    $old_video = $db->go_result_once($sql)['SIMPLEVIDEO'];
+                    rename($dir_video."z".$_FILES['download_sv']['name'], "".$dir_video."$ts");
+                    $sql = "UPDATE stat.ALLQUESTIONS SET SIMPLEVIDEO='$ts' WHERE ID='$current_id'";
+                    $db->go_query($sql);
+                    @unlink("".$dir_video."$old_video");
+                }
+            }
+            die('<script>document.location.href= "/edit_questions?question_id='.$current_id.'"</script>');
         }
         
         $question_data = array();
@@ -145,6 +180,8 @@
             $question_data['text'] = '';
             $question_data['photo'] = '';
             $question_data['video'] = '';
+            $question_data['commentary'] = '';
+            $question_data['factor'] = '';
             $question_data['answers'] = array();
             $question_data['answers'][0] = array();
             $question_data['answers'][0]['ID'] = '';

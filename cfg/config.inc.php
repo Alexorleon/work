@@ -2,7 +2,7 @@
 session_start();//чтобы работать с сессиями, на каждой странице их надо стартануть, поэтому они в общем файле, который вяжется к каждому файлигу
 	require $_SERVER['DOCUMENT_ROOT']."/libs/Smarty.class.php";
 	$smarty = new Smarty;
-	
+error_reporting(E_ALL & ~E_NOTICE);
 	define('INC_DIR',$_SERVER['DOCUMENT_ROOT'].'/inc/');
 	define('lhost','http://'.$_SERVER['HTTP_HOST']);
 	
