@@ -11,7 +11,80 @@
 <script type="text/javascript" src="{$js}migrate.js"></script>
 <script type="text/javascript" src="{$js}noselect.js"></script>
 <script type="text/javascript" src="{$js}TableFilter/tablefilter_min.js"></script>
+<script type="text/javascript" src="{$js}jquery.toast.js"></script>
 </head>
+
+{literal}
+<script>
+/*$().toastmessage('showErrorToast', 'Ошибка');
+$().toastmessage('showWarningToast', 'Предупреждение');
+$().toastmessage('showNoticeToast', 'Сообщение');
+$().toastmessage('showSuccessToast', 'Вопрос добавлен.');*/
+function add_question(id_question){
+
+	var id = id_question;
+	var test_id = $("#cur_test_id").val();
+	//console.log(test_id);
+	// добавляем вопрос к тесту
+	$.ajax({
+		type: 'POST',
+		data: {'id_question': id, 'test_id': test_id},
+		url: "./inc/ajax.add_questions.tests.php",
+		error: function(req, text, error) {
+			console.log('Ошибка AJAX: ' + text + ' | ' + error);
+		},
+		success: function (data) {
+			console.log(data);
+			date = data.split('_');
+			if(data == "true"){
+			
+				var str = "Вопрос №"+id+" добавлен.";
+				$().toastmessage('showSuccessToast', str);
+			}else{
+			
+				$().toastmessage('showErrorToast', 'Ошибка добавления');
+			}
+			/*$.ajax({ //стартуем аякс
+				type: 'POST', //обращаемся к скрипту методом ПОСТ
+				//data: {'check_tab_num' : check_tab_num},//если нужно передать какие-то параметры, передаем. Первое параметр в ПОСТ, второе значение. Делаю всегда одинаковые, чтобы не путаться.
+				//data: {'check_tab_num': check_tab_num},
+				data: {'type': '1'},
+				//data: '{"check_tab_num":"' + check_tab_num + '"}',
+				url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
+				dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
+				error: function(req, text, error) {//обработчик, если произошла ошибка
+				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+				},
+				success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
+					$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
+					var tail_table = "";
+					var big_data_table = "";
+					big_data_table += "<tr>";
+					var cnt = 0;
+					var cnt2 = 1;
+					var num_cols = 14;
+					$(data).each(function() {//так как мы получили структуированные данные от скрипта, запускаем по ним цикл
+					if (cnt == (num_cols*cnt2)) {big_data_table += "</tr><tr>";cnt2++;}
+					big_data_table += "<td id=r"+$(this).attr('TABEL_SPUSK')+" onclick='get_info_tab("+$(this).attr('TABEL_SPUSK')+")'>"+$(this).attr('TABEL_SPUSK')+"</td>";//добавляем в конец таблицы строки с каждым циклом и подставляем в ячейки данные
+					cnt++;
+					});
+					//big_data_table += "</tr>";
+					for (var i = 0; i < ((num_cols * cnt2) - cnt); i++) {
+					   tail_table += "<td>&nbsp;</td>";
+					}
+					$("#sotruds tbody").append(big_data_table + tail_table + "</tr>");
+					
+					$("#tabnum_status").html("№ "+tab_num+" - Контроль пройден"+" : "+date[1]);
+					$("#tabnum_status").css("color", "green");
+					$("#r"+id).css("background", "green");
+				}
+			});*/
+		}
+	});
+}
+</script>
+{/literal}
+
 <body>
 <!--<form id="list_posts" name="list_posts" method="post">
 </form>-->
@@ -153,7 +226,7 @@
 					{$questions_this_test[{$count}]['T_TYPE']}
 					</td>
 					<td class="deleteInTable" style="text-align: center;">
-					<a href="/edit_test?disabled_questionid={$questions_this_test[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+					<a href="/edit_test?disabled_questionid={$questions_this_test[{$count}]['ID']}&test_id={$cur_test_id}&test_title={$cur_test_title}&test_penalty={$cur_test_penalty}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 					</td>
 					{capture}{$count++}{/capture}
 				</tr>	
@@ -191,8 +264,7 @@
 				</thead>
 				<tbody>
 			{section name=count loop=$all_questions}
-				<!--<tr onclick="window.location='edit_tests?employee_id={$all_questions[{$count}]['SOTRUD_K']}&employee_cur={$all_questions[{$count}]['SOTRUD_FAM']}&employee_name={$all_questions[{$count}]['SOTRUD_IM']}&employee_pat={$all_questions[{$count}]['SOTRUD_OTCH']}&employee_tabel={$all_questions[{$count}]['TABEL_SPUSK']}&dolj={$all_questions[{$count}]['KOD']}'" style="cursor: pointer;">-->
-				<tr>
+				<tr onclick="add_question({$all_questions[{$count}]['ID']})" style="cursor: pointer;">
 					<td>
 					{$all_questions[{$count}]['ID']}
 					</td>
