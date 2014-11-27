@@ -339,15 +339,21 @@ border-radius: 10px;
 margin: 0 5px;
 }
 
-input[type="text_lamp"]{
+input[type="text"].text_lamp{
 font-size: 54px;
 height:64px;
 width:250px;
 margin-left: 20px;
 /*opacity:0.6;*/
 text-align: center;
+border-radius: 0px;
+border: none;
 }
-
+select.text_lamp
+{
+font-size: 38px;
+height:64px;
+}
 /*строка ввода для редактирования названия должности*/
 /*input[type="field_postname"]{
 font-size: 14px;

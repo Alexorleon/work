@@ -48,7 +48,7 @@ else
 	$smarty->assign("cur_employee_cur", $employee['SOTRUD_FAM']);
 	$smarty->assign("cur_employee_name", $employee['SOTRUD_IM']);
 	$smarty->assign("cur_employee_pat", $employee['SOTRUD_OTCH']);
-	$smarty->assign("cur_employee_tabel", $employee['TABEL_KADR']);
+	$smarty->assign("cur_employee_tabel", $employee['TABEL_SPUSK']);
         
         $smarty->display("test_result.tpl.html");
     }
@@ -66,7 +66,7 @@ else
 	$smarty->assign("cur_employee_cur", $employee['SOTRUD_FAM']);
 	$smarty->assign("cur_employee_name", $employee['SOTRUD_IM']);
 	$smarty->assign("cur_employee_pat", $employee['SOTRUD_OTCH']);
-	$smarty->assign("cur_employee_tabel", $employee['TABEL_KADR']);
+	$smarty->assign("cur_employee_tabel", $employee['TABEL_SPUSK']);
         
         $smarty->display("test_PE_result.tpl.html");
     }

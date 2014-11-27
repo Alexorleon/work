@@ -25,7 +25,7 @@
     {	//создал функцию, чтобы запускать по событию
         $.ajax({ //стартуем аякс
                 type: 'POST', //обращаемся к скрипту методом ПОСТ
-                data: {'type': '1', 'tabel_kadr': check_tab_num},
+                data: {'type': '1', 'tabel_spusk': check_tab_num, 'window': $('#window').val()},
                 url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
                 error: function(req, text, error) {//обработчик, если произошла ошибка
                 //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
@@ -52,7 +52,11 @@
                     });
         }
     }
-
+function window_change()
+{
+    $("#tabnum_status").html("");
+    get_sotrud(0);
+}
     // нажатие enter
     $(document).ready(function()
                       {
@@ -75,18 +79,24 @@
 
 <table style="width: 100%;">
 <tr>
-<td><p style="margin-left: 20px;" align="left"><span class="title-lamp">Предсменный контроль</span></p></td>
-<td><p style="margin-right: 20px;" align="right"><span>Прошедшие предсменный контроль за последние 3 часа</span></p></td>
-<tr>
+    <td><p style="margin-left: 20px;" align="left"><span class="title-lamp">Предсменный контроль</span></p></td>
+    <td><p style="margin-right: 20px;" align="right"><span>Прошедшие предсменный контроль за последние 3 часа</span></p></td>
+</tr>
 </table>
 
 <p style="margin-left: 20px; margin-bottom: 0px;"><span>Поиск табельного</span></p>
 
 <table>
 <tr>
-<td><input type="text_lamp" id="tabnum_lamp" name="tabnum_lamp" onkeypress="if((event.keyCode < 48)||(event.keyCode > 57)) event.returnValue=false"/></td>
+<td><input type="text" class="text_lamp" id="tabnum_lamp" name="tabnum_lamp" onkeypress="if((event.keyCode < 48)||(event.keyCode > 57)) event.returnValue=false"/></td>
+<td><select class="text_lamp" name='current_window' id='window' onchange="window_change();">
+        <option value='1'>Окно №1</option>
+        <option value='2'>Окно №2</option>
+        <option value='3'>Окно №3</option>
+    </select>
+</td>
 <td><span id="tabnum_status" class="status_search_tabnum"></span></td>
-<tr>
+</tr>
 </table>
 
 <div id="sotruds" class="lamp_table">
