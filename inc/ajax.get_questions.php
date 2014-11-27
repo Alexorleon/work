@@ -26,7 +26,7 @@ switch ($type_question)
     case 9: //Видео-вопрос
         $smarty->display($_SERVER['DOCUMENT_ROOT']."/templates/ajax.get_questions/simple_video.tpl.html");
     break;
-                case 10: //Видеоцепочка
+    case 10: //Видеоцепочка
 		?>
                    <!-- <input type=file id=download_prolog name=download_prolog accept=video/mp4>
                     <input type=file id=download_epilog name=download_epilog accept=video/mp4>
@@ -42,12 +42,10 @@ switch ($type_question)
     case 21: //Фото-вопрос
         $smarty->display($_SERVER['DOCUMENT_ROOT']."/templates/ajax.get_questions/simple_photo.tpl.html");
     break;
-		case 22://Фотоцепочка
+    case 22://Фотоцепочка
 		?>
                     <input type=label value='В разработке' readonly>
                 <?php	
-			break;
-	}
-	
-	//die($type_question);
+    break;
+}
 ?>

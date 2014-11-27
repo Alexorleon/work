@@ -137,7 +137,7 @@
             die('<script>document.location.href= "/edit_questions?question_id='.$current_id.'"</script>');
         }
         
-        $question_data = array();
+        $question_data = GetEmptyQuestionArray();
         if ($question_id)
         {
             $sql = "SELECT
@@ -147,56 +147,80 @@
                     FROM ALLQUESTIONS, ALLQUESTIONS_B
                     WHERE ALLQUESTIONS.ID=$question_id AND ALLQUESTIONS_B.ALLQUESTIONSID=ALLQUESTIONS.ID";
             $q_res = $db->go_result_once($sql);
-            $sql = "SELECT ID, TEXT, PRICE, COMMENTARY, FACTOR FROM stat.ALLANSWERS WHERE ALLQUESTIONSID='$question_id'";
-            $a_res = $db->go_result($sql);
-            foreach($a_res as $answer)
+            if ($q_res['TYPE']!=22 && $q_res['TYPE']!=10)
             {
-                if ($answer['PRICE']!=0)
+                $sql = "SELECT ID, TEXT, PRICE, COMMENTARY, FACTOR FROM stat.ALLANSWERS WHERE ALLQUESTIONSID='$question_id'";
+                $a_res = $db->go_result($sql);
+                foreach($a_res as $answer)
                 {
-                    $question_data['commentary'] = $answer['COMMENTARY'];
-                    $question_data['factor'] = $answer['FACTOR'];
-                    break;
+                    if ($answer['PRICE']!=0)
+                    {
+                        $question_data['commentary'] = $answer['COMMENTARY'];
+                        $question_data['factor'] = $answer['FACTOR'];
+                        break;
+                    }
+                }
+                $question_data['id'] = $question_id;
+                $question_data['type'] = $q_res['TYPE'];
+                $question_data['module'] = $q_res['MID'];
+                $question_data['risk'] = $q_res['RISK'];
+                $question_data['test'] = $q_res['TEST'];
+                $question_data['text'] = $q_res['TEXT'];
+                $question_data['photo'] = $q_res['PHOTO'];
+                $question_data['video'] = $q_res['VIDEO'];
+                $question_data['answers'] = $a_res;
+            }
+            else
+            {
+                if ($q_res['TYPE']==10)
+                {
+                    $sql = "SELECT
+                            ALLQUESTIONS.TYPEQUESTIONSID AS TYPE, ALLQUESTIONS.MODULEID AS MID, ALLQUESTIONS.RISKLEVELID AS RISK, ALLQUESTIONS.TEXT AS TEXT,
+                            ALLQUESTIONS.PROLOGVIDEO AS PROLOG,  ALLQUESTIONS.CATALOG AS CATALOG, EPILOGVIDEO AS EPILOG,
+                            ALLQUESTIONS_B.TESTNAMESID AS TEST
+                            FROM ALLQUESTIONS, ALLQUESTIONS_B
+                            WHERE ALLQUESTIONS.ID=$question_id AND ALLQUESTIONS_B.ALLQUESTIONSID=ALLQUESTIONS.ID";
+                    $q_res = $db->go_result_once($sql);
+                    
+                    $sql_chain_q = "SELECT ID, POSITION, SIMPLEVIDEO, TITLE
+                                    FROM COMPLEXVIDEO WHERE COMPLEXVIDEOID='$question_id' ORDER BY POSITION";
+                    $question_data['chain_questions'] = $db->go_result($sql_chain_q);
+                    
+                    $sql_chain_answers = "SELECT
+                                          TEXT, SIMPLEVIDEO, COMPETENCELEVELID, RISKLEVELID, PRICE, COMPLEXVIDEOID, COMMENTARY, FACTOR
+                                          FROM ALLANSWERS WHERE COMPLEXVIDEOID IN (SELECT ID FROM COMPLEXVIDEO WHERE COMPLEXVIDEOID='$question_id' ORDER BY POSITION)";
+                    $answers_chain = $db->go_result($sql_chain_answers);
+                    foreach($question_data['chain_questions'] as $key=>$chained)
+                    {
+                        $question_data['chain_questions'][$key]['answers'] = array();
+                        foreach ($answers_chain as $ch_answer)
+                        {
+                            if ($ch_answer['COMPLEXVIDEOID']==$chained['ID'])
+                            {
+                                $question_data['chain_questions'][$key]['answers'][] = $ch_answer;
+                                if ($ch_answer['COMMENTARY']!='')
+                                {
+                                    $question_data['commentary']= $ch_answer['COMMENTARY'];
+                                }
+                                if ($ch_answer['FACTOR']!='')
+                                {
+                                    $question_data['factor'] = $ch_answer['FACTOR'];
+                                }
+                            }
+                        }
+                        $question_data['id'] = $question_id;
+                        $question_data['type'] = $q_res['TYPE'];
+                        $question_data['module'] = $q_res['MID'];
+                        $question_data['risk'] = $q_res['RISK'];
+                        $question_data['test'] = $q_res['TEST'];
+                        $question_data['text'] = $q_res['TEXT'];
+                        $question_data['prolog'] = $q_res['PROLOG'];
+                        $question_data['catalog'] = $q_res['CATALOG'];
+                        $question_data['epilog'] = $q_res['EPILOG'];
+                    } 
                 }
             }
-            $question_data['id'] = $question_id;
-            $question_data['type'] = $q_res['TYPE'];
-            $question_data['module'] = $q_res['MID'];
-            $question_data['risk'] = $q_res['RISK'];
-            $question_data['test'] = $q_res['TEST'];
-            $question_data['text'] = $q_res['TEXT'];
-            $question_data['photo'] = $q_res['PHOTO'];
-            $question_data['video'] = $q_res['VIDEO'];
-          //  $question_data['commentary'] = $a_res[0]['COMMENTARY'];
-          //  $question_data['factor'] = $a_res[0]['FACTOR'];
-            $question_data['answers'] = $a_res;
-            }
-        else
-        {
-            $question_data['id'] = 0;
-            $question_data['type'] = 0;
-            $question_data['module'] = 0;
-            $question_data['risk'] = 0;
-            $question_data['test'] = 0;
-            $question_data['text'] = '';
-            $question_data['photo'] = '';
-            $question_data['video'] = '';
-            $question_data['commentary'] = '';
-            $question_data['factor'] = '';
-            $question_data['answers'] = array();
-            $question_data['answers'][0] = array();
-            $question_data['answers'][0]['ID'] = '';
-            $question_data['answers'][0]['TEXT'] = '';
-            $question_data['answers'][0]['PRICE'] = '';
-            $question_data['answers'][1] = array();
-            $question_data['answers'][1]['ID'] = '';
-            $question_data['answers'][1]['TEXT'] = '';
-            $question_data['answers'][1]['PRICE'] = '';
-            $question_data['answers'][2] = array();
-            $question_data['answers'][2]['ID'] = '';
-            $question_data['answers'][2]['TEXT'] = '';
-            $question_data['answers'][2]['PRICE'] = '';
         }
-        
 
 	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
 
@@ -266,5 +290,37 @@ SQL;
         }
     }
     return  $result;
+}
+
+function GetEmptyQuestionArray()
+{
+    $question_data = array();
+    $question_data['id'] = 0;
+    $question_data['type'] = 0;
+    $question_data['module'] = 0;
+    $question_data['risk'] = 0;
+    $question_data['test'] = 0;
+    $question_data['text'] = '';
+    $question_data['photo'] = '';
+    $question_data['video'] = '';
+    $question_data['commentary'] = '';
+    $question_data['factor'] = '';
+    $question_data['answers'] = array();
+    $question_data['answers'][0] = array();
+    $question_data['answers'][0]['ID'] = '';
+    $question_data['answers'][0]['TEXT'] = '';
+    $question_data['answers'][0]['PRICE'] = '';
+    $question_data['answers'][1] = array();
+    $question_data['answers'][1]['ID'] = '';
+    $question_data['answers'][1]['TEXT'] = '';
+    $question_data['answers'][1]['PRICE'] = '';
+    $question_data['answers'][2] = array();
+    $question_data['answers'][2]['ID'] = '';
+    $question_data['answers'][2]['TEXT'] = '';
+    $question_data['answers'][2]['PRICE'] = '';
+    $question_data['chain_questions'] = array();
+    $question_data['prolog'] = '';
+    $question_data['catalog'] = '';
+    $question_data['epilog'] = '';
 }
   ?>
