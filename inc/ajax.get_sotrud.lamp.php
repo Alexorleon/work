@@ -6,6 +6,7 @@ $db->GetConnect();
 $error_='';
 $temp_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_NUMBER_INT);
 $sotrud_tabel_spusk = filter_input(INPUT_POST, 'tabel_spusk', FILTER_SANITIZE_NUMBER_INT);
+
 $window = filter_input(INPUT_POST, 'window', FILTER_SANITIZE_NUMBER_INT);
 
 $current_hour = date("G");
@@ -37,7 +38,7 @@ if ($temp_type == 1)
     $array_sotrud = $db->go_result($sql);
     $amount = round(count($array_sotrud)/3);
     $cur_key = 0;
-    
+
     $smarty->assign("array_sotrud",$array_sotrud);
     $smarty->assign("amount", $amount);
     $smarty->assign("sotrud_tabel_spusk", $sotrud_tabel_spusk);
