@@ -66,15 +66,22 @@ jQuery(document).ready(function(){
 			</td>
 		{/section}
 		</tr>
-	{/section}
+	{sectionelse}
+        <tr>
+            <td colspan="4" style="text-align:center;">
+                Сообщений нет
+            </td>
+        </tr>
+        {/section}
+        
 </tbody>
 </table>
 {/section}
 </div>
 
 <div id="bottom" style="margin-bottom: 30px;">
-<a href="/lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
-<a href="/addproposals"><input class="move_button" type="button" value="Добавить" onclick=""/></a>
+<a href="/addproposals"><input class="move_button" type="button" value="Назад" onclick=""/></a>
+<a href="/lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
 </div>
 
 {elseif $type_prop eq "add"} <!--добавить новое предложение-->
@@ -93,7 +100,7 @@ jQuery(document).ready(function(){
 		</div>
 	</li>
 </ul>
-<textarea type="field_proposol" id="tabnum" name="tabnum" readonly></textarea>
+<textarea type="field_proposol" id="tabnum" name="tabnum" readonly placeholder="Введите Ваше сообщение"></textarea>
 
 <input type="hidden" name="typemessage" id="typemessage" value="">
 <!-- bool для определения выбирали ли чего из списка -->
@@ -165,7 +172,7 @@ jQuery(document).ready(function(){
 <p style="font-size:8px">
 <td><input type="reset" value="X" id="resetnum_button"/></td>
 <td><input type="num_button" value="<" onclick="del()" style="cursor: pointer;"/></td>
-<td><input type="num_button" value=" " onclick="addToField(' ')" style="cursor: pointer;"/></td>
+<td><input type="button" value="                                   " class="move_button" onclick="addToField(' ')" style="cursor: pointer;"></td>
 <td><input type="num_button" value="," onclick="addToField(',')" style="cursor: pointer;"/></td>
 <td><input type="num_button" value="." onclick="addToField('.')" style="cursor: pointer;"/></td>
 </p>
@@ -174,9 +181,9 @@ jQuery(document).ready(function(){
 
 <div id="bottom" style="margin-bottom: 30px;">
 <!--<input type="num_button" value="Назад" onclick="get_proposals(0)"/>-->
-<a href="/proposals"><input class="move_button" type="button" value="Назад" onclick=""/></a>
-<a href="/lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
+<a href="/lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 <input class="move_button" type="button" value="Отправить" onclick="get_proposals(1)"/>
+<div style="position: absolute;right: 0px;bottom: 0px;"><a href="/proposals"><button class="move_button" type="button">Ответы<br>руководства</button></a></div>
 </div>
 
 {else}
