@@ -5,16 +5,16 @@ $db = new db;
 $db->GetConnect();
 $error_='';
 $temp_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_NUMBER_INT);
-$sotrud_tabel_kadr = filter_input(INPUT_POST, 'tabel_kadr', FILTER_SANITIZE_NUMBER_INT);
+$sotrud_tabel_spusk = filter_input(INPUT_POST, 'tabel_spusk', FILTER_SANITIZE_NUMBER_INT);
 
 $period = time() - (3 * 60 * 60); // TODO: установить нужный период
 $current_date = date('d.m.Y H:i:s', $period);
 if ($temp_type == 1)
 {//тут массив с сотрудниками	
 
-    $sql = "SELECT SOTRUD.TABEL_KADR AS TABEL, SOTRUD.SOTRUD_FAM AS FAM, SOTRUD.SOTRUD_IM AS IM, SOTRUD.SOTRUD_OTCH AS OTCH FROM stat.SOTRUD
+    $sql = "SELECT SOTRUD.TABEL_SPUSK AS TABEL, SOTRUD.SOTRUD_FAM AS FAM, SOTRUD.SOTRUD_IM AS IM, SOTRUD.SOTRUD_OTCH AS OTCH FROM stat.SOTRUD
             WHERE (SOTRUD.SOTRUD_K IN (SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEBEGIN >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
-            EXAMINERTYPE=1)) ORDER BY TABEL_KADR";
+            EXAMINERTYPE=1)) ORDER BY TABEL_SPUSK";
  
     $array_sotrud = $db->go_result($sql);
     $amount = round(count($array_sotrud)/3);
@@ -34,7 +34,7 @@ if ($temp_type == 1)
     
     for ($tab_iter=0; $tab_iter<$amount; $tab_iter++)
     {
-        $sel = ($sotrud_tabel_kadr == $array_sotrud[$tab_iter]['TABEL']) ? "class='tab_num_selected'" : "";
+        $sel = ($sotrud_tabel_spusk == $array_sotrud[$tab_iter]['TABEL']) ? "class='tab_num_selected'" : "";
     ?>
     <tr id="tb_<?=$array_sotrud[$tab_iter]['TABEL']?>" onclick="get_info_tab(<?=$array_sotrud[$tab_iter]['TABEL']?>)" <?=$sel?>>
         <td>
@@ -63,7 +63,7 @@ if ($temp_type == 1)
     $iterator_count = $cur_key;
     for ($tab_iter=$iterator_count; $tab_iter<$iterator_count+$amount; $tab_iter++)
     {
-        $sel = ($sotrud_tabel_kadr == $array_sotrud[$tab_iter]['TABEL']) ? "class='tab_num_selected'" : "";
+        $sel = ($sotrud_tabel_spusk == $array_sotrud[$tab_iter]['TABEL']) ? "class='tab_num_selected'" : "";
     ?>
     <tr id="tb_<?=$array_sotrud[$tab_iter]['TABEL']?>" onclick="get_info_tab(<?=$array_sotrud[$tab_iter]['TABEL']?>)" <?=$sel?>>
         <td>
@@ -92,7 +92,7 @@ if ($temp_type == 1)
     //$cur_key = key($array_sotrud)+1;
     for ($tab_iter=$iterator_count; $tab_iter<count($array_sotrud); $tab_iter++)
     {
-        $sel = ($sotrud_tabel_kadr == $array_sotrud[$tab_iter]['TABEL']) ? "class='tab_num_selected'" : "";
+        $sel = ($sotrud_tabel_spusk == $array_sotrud[$tab_iter]['TABEL']) ? "class='tab_num_selected'" : "";
     ?>
     <tr id="tb_<?=$array_sotrud[$tab_iter]['TABEL']?>" onclick="get_info_tab(<?=$array_sotrud[$tab_iter]['TABEL']?>)" <?=$sel?>>
         <td>
@@ -113,7 +113,7 @@ else if ($temp_type == 2)
     // получаем табельный и ищем его
     $check_tab_num = filter_input(INPUT_POST, 'check_tab_num', FILTER_SANITIZE_NUMBER_INT);//$_POST['check_tab_num'];
 
-    $sql = "SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$check_tab_num' AND PREDPR_K=$predpr_k_glob";
+    $sql = "SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_SPUSK='$check_tab_num' AND PREDPR_K=$predpr_k_glob";
     $bool_sotrud = $db->go_result_once($sql);
 
     if ($bool_sotrud)
@@ -146,7 +146,7 @@ else if ($temp_type == 2)
 else if ($temp_type == 3)
 { // тут надо получить данные по сотруднику
 
-    $sql = "SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$sotrud_tabel_kadr' AND PREDPR_K=$predpr_k_glob";
+    $sql = "SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_SPUSK='$sotrud_tabel_spusk' AND PREDPR_K=$predpr_k_glob";
 
     $sotrud = $db->go_result_once($sql);
 

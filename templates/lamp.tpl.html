@@ -25,7 +25,7 @@
     {	//создал функцию, чтобы запускать по событию
         $.ajax({ //стартуем аякс
                 type: 'POST', //обращаемся к скрипту методом ПОСТ
-                data: {'type': '1', 'tabel_kadr': check_tab_num},
+                data: {'type': '1', 'tabel_spusk': check_tab_num},
                 url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
                 error: function(req, text, error) {//обработчик, если произошла ошибка
                 //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
