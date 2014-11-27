@@ -19,9 +19,9 @@
 	// получаем список сотрудников прошедших предсменный экзаменатор за выбранный период
 //	select sotrud_id, TO_CHAR(ALLHISTORY.DATEEND, 'YY-mm-dd HH24:MI:SS') AS DATEEND from stat.allhistory where ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND EXAMINERTYPE=1
 	$sql = <<<SQL
-	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
+	SELECT TABEL_SPUSK FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
 	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEBEGIN >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
-	EXAMINERTYPE=1) ORDER BY TABEL_KADR
+	EXAMINERTYPE=1) ORDER BY TABEL_SPUSK
 SQL;
 	$array_sotrud = $db->go_result($sql);
 
@@ -31,15 +31,15 @@ SQL;
 		$temp_sotrudid = $array_sotrud[$i]['SOTRUD_ID'];
 				
 		$sql = <<<SQL
-		SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$temp_sotrudid' AND PREDPR_K=$predpr_k_glob
+		SELECT TABEL_SPUSK FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$temp_sotrudid' AND PREDPR_K=$predpr_k_glob
 SQL;
 		$temp_tabkadr = $db->go_result_once($sql);
 		
-		$array_sotrud[$i]['SOTRUD_ID'] = $temp_tabkadr['TABEL_KADR'];
+		$array_sotrud[$i]['SOTRUD_ID'] = $temp_tabkadr['TABEL_SPUSK'];
 	}*/
 	
 	/*$sql = <<<SQL
-	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
+	SELECT TABEL_SPUSK FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
 	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
 	EXAMINERTYPE=1)
 SQL;*/

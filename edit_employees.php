@@ -31,7 +31,7 @@
 		
 			// проверяем табельный номер
 			$sql = <<<SQL
-			SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_KADR='$employeetabel'
+			SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_SPUSK='$employeetabel'
 SQL;
 			$check_employees_tabel = $db->go_result_once($sql);
 
@@ -39,7 +39,7 @@ SQL;
 				$error_='';//нулим ошибку,если повторно будет
 				$smarty->assign("employeename", "");
 				$sql = <<<SQL
-				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_KADR) 
+				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_SPUSK) 
 				VALUES ('$employeesur', '$employeename', '$employeepat', '$predpr_k_glob', '$type_doljnost', '$employeetabel')
 SQL;
 				$db->go_query($sql);
@@ -60,14 +60,14 @@ SQL;
 			if($_SESSION['check_employee_tabel'] != $employeetabel){
 
 				$sql = <<<SQL
-				SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_KADR='$employeetabel'
+				SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_SPUSK='$employeetabel'
 SQL;
 				$check_employees_tabel = $db->go_result_once($sql);
 
 				if(empty($check_employees_tabel)){ // если пусто, то такого табельного нет. добовляем.
 
 					$sql = <<<SQL
-					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_SPUSK='$employeetabel' WHERE 
 					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 					$db->go_query($sql);
@@ -89,7 +89,7 @@ SQL;
 			}else{
 			
 				$sql = <<<SQL
-					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_SPUSK='$employeetabel' WHERE 
 					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 				$db->go_query($sql);
