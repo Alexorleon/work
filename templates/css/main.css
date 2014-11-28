@@ -1971,3 +1971,12 @@ clear: both;
 {
     background: #04B404 !important;
 }
+
+#popupChart
+{
+   background: #fff;
+   border-radius: 20px;
+   padding: 20px;
+   position: relative;
+    font-size: 30px;
+}
