@@ -97,7 +97,7 @@ SQL;
 		$s_res = $db->go_result_once($sql);
 
 		if(empty($s_res)){
-		
+                        $_SESSION['your_PE_is_empty'] = 1;
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}
 		
