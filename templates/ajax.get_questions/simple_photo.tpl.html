@@ -5,8 +5,8 @@
         Изображение:
     </td>
     <td>
-    {if ($download_sf)}
-        <img src="/storage/photo_questions/{$download_sf}" height="100"/>
+    {if ($question_data['photo'])}
+        <img src="/storage/photo_questions/{$question_data['photo']}" height="100"/>
     {/if}
         <input type=file id=download_sf name=download_sf accept=image/png,image/jpeg>
     </td>

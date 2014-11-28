@@ -142,11 +142,16 @@
         {
             $sql = "SELECT
                     ALLQUESTIONS.TYPEQUESTIONSID AS TYPE, ALLQUESTIONS.MODULEID AS MID, ALLQUESTIONS.RISKLEVELID AS RISK, ALLQUESTIONS.TEXT AS TEXT,
-                    ALLQUESTIONS.SIMPLEPHOTO AS PHOTO, ALLQUESTIONS.SIMPLEVIDEO AS VIDEO,
-                    ALLQUESTIONS_B.TESTNAMESID AS TEST
-                    FROM ALLQUESTIONS, ALLQUESTIONS_B
-                    WHERE ALLQUESTIONS.ID=$question_id AND ALLQUESTIONS_B.ALLQUESTIONSID=ALLQUESTIONS.ID";
+                    ALLQUESTIONS.SIMPLEPHOTO AS PHOTO, ALLQUESTIONS.SIMPLEVIDEO AS VIDEO
+                    FROM ALLQUESTIONS
+                    WHERE ALLQUESTIONS.ID='$question_id'";
             $q_res = $db->go_result_once($sql);
+            
+            $sql = "SELECT
+                    TESTNAMESID
+                    FROM stat.ALLQUESTIONS_B
+                    WHERE ALLQUESTIONSID='$question_id'";
+            $q_res['TEST'] = $db->go_result_once($sql)['TESTNAMESID'];
             if ($q_res['TYPE']!=22 && $q_res['TYPE']!=10)
             {
                 $sql = "SELECT ID, TEXT, PRICE, COMMENTARY, FACTOR FROM stat.ALLANSWERS WHERE ALLQUESTIONSID='$question_id'";
@@ -176,11 +181,16 @@
                 {
                     $sql = "SELECT
                             ALLQUESTIONS.TYPEQUESTIONSID AS TYPE, ALLQUESTIONS.MODULEID AS MID, ALLQUESTIONS.RISKLEVELID AS RISK, ALLQUESTIONS.TEXT AS TEXT,
-                            ALLQUESTIONS.PROLOGVIDEO AS PROLOG,  ALLQUESTIONS.CATALOG AS CATALOG, EPILOGVIDEO AS EPILOG,
-                            ALLQUESTIONS_B.TESTNAMESID AS TEST
-                            FROM ALLQUESTIONS, ALLQUESTIONS_B
-                            WHERE ALLQUESTIONS.ID=$question_id AND ALLQUESTIONS_B.ALLQUESTIONSID=ALLQUESTIONS.ID";
+                            ALLQUESTIONS.PROLOGVIDEO AS PROLOG,  ALLQUESTIONS.CATALOG AS CATALOG, EPILOGVIDEO AS EPILOG
+                            FROM ALLQUESTIONS
+                            WHERE ALLQUESTIONS.ID=$question_id";
                     $q_res = $db->go_result_once($sql);
+                    
+                    $sql = "SELECT
+                    TESTNAMESID
+                    FROM stat.ALLQUESTIONS_B
+                    WHERE ALLQUESTIONSID='$question_id'";
+                    $q_res['TEST'] = $db->go_result_once($sql)['TESTNAMESID'];
                     
                     $sql_chain_q = "SELECT ID, POSITION, SIMPLEVIDEO, TITLE
                                     FROM COMPLEXVIDEO WHERE COMPLEXVIDEOID='$question_id' ORDER BY POSITION";
@@ -188,7 +198,8 @@
                     
                     $sql_chain_answers = "SELECT
                                           TEXT, SIMPLEVIDEO, COMPETENCELEVELID, RISKLEVELID, PRICE, COMPLEXVIDEOID, COMMENTARY, FACTOR
-                                          FROM ALLANSWERS WHERE COMPLEXVIDEOID IN (SELECT ID FROM COMPLEXVIDEO WHERE COMPLEXVIDEOID='$question_id' ORDER BY POSITION)";
+                                          FROM ALLANSWERS WHERE COMPLEXVIDEOID IN (SELECT ID AS COMPLEXVIDEOID FROM COMPLEXVIDEO WHERE COMPLEXVIDEOID='$question_id')";
+                    
                     $answers_chain = $db->go_result($sql_chain_answers);
                     foreach($question_data['chain_questions'] as $key=>$chained)
                     {
@@ -208,16 +219,16 @@
                                 }
                             }
                         }
-                        $question_data['id'] = $question_id;
-                        $question_data['type'] = $q_res['TYPE'];
-                        $question_data['module'] = $q_res['MID'];
-                        $question_data['risk'] = $q_res['RISK'];
-                        $question_data['test'] = $q_res['TEST'];
-                        $question_data['text'] = $q_res['TEXT'];
-                        $question_data['prolog'] = $q_res['PROLOG'];
-                        $question_data['catalog'] = $q_res['CATALOG'];
-                        $question_data['epilog'] = $q_res['EPILOG'];
-                    } 
+                    }
+                    $question_data['id'] = $question_id;
+                    $question_data['type'] = 10;
+                    $question_data['module'] = $q_res['MID'];
+                    $question_data['risk'] = $q_res['RISK'];
+                    $question_data['test'] = $q_res['TEST'];
+                    $question_data['text'] = $q_res['TEXT'];
+                    $question_data['prolog'] = $q_res['PROLOG'];
+                    $question_data['catalog'] = $q_res['CATALOG'];
+                    $question_data['epilog'] = $q_res['EPILOG'];
                 }
             }
         }
@@ -266,6 +277,7 @@
 	$smarty->assign("error_", $error_);
 	
         $smarty->assign("question_data", $question_data);
+        $smarty->assign("json_data", urlencode(json_encode($question_data, JSON_UNESCAPED_UNICODE)));
 	$smarty->assign("array_typequestions", $array_typequestions);
 	$smarty->assign("array_module", $array_module);
 	$smarty->assign("array_risklevel", $array_risklevel);

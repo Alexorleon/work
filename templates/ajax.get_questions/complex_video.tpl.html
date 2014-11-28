@@ -1,10 +1,51 @@
+<input type='hidden' name='json_refresh' value='{$json_data}'/>
 <table>
     <tr>
         <td>
             Пролог:
         </td>
         <td>
-            {if 
+            {if $question_data['prolog']}
+                Текущий видеофайл: {$question_data['prolog']}
+            {/if}
+            <input type="file" name="download_prolog"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Эпилог:
+        </td>
+        <td>
+            {if $question_data['epilog']}
+                Текущий видеофайл: {$question_data['epilog']}
+            {/if}
+            <input type="file" name="download_epilog"/>           
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Каталог:
+        </td>
+        <td>
+            <input type="text" class="admin_input_text" name="catalog" value="{$question_data['catalog']}"/>
         </td>
     </tr>
 </table>
+{foreach from=$question_data['chain_questions'] item=chain_q key=q_key}
+<div><strong>Вопрос {$q_key+1}</strong></div>
+<table id='chains'>
+    <tr id='chain_{$q_key}'>
+        <td>Текст вопроса:</td>
+        <td>
+            <textarea name="chain_title[]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid">{$chain_q['TITLE']}</textarea>
+        </td>
+    </tr>
+</table>
+
+<script>
+    function add_question_field(q_key)
+    {
+        if ()
+    }
+</script>
+{/foreach}
