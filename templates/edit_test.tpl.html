@@ -11,7 +11,47 @@
 <script type="text/javascript" src="{$js}migrate.js"></script>
 <script type="text/javascript" src="{$js}noselect.js"></script>
 <script type="text/javascript" src="{$js}TableFilter/tablefilter_min.js"></script>
+<script type="text/javascript" src="{$js}jquery.toast.js"></script>
 </head>
+
+{literal}
+<script>
+
+	function add_question(id_question){
+
+		var id = id_question;
+		var test_id = $("#cur_test_id").val();
+		var symbol = "#q_";
+		//console.log(test_id);
+		// добавляем вопрос к тесту
+		$.ajax({
+			type: 'POST',
+			data: {'id_question': id, 'test_id': test_id},
+			url: "./inc/ajax.add_questions.tests.php",
+			error: function(req, text, error) {
+				console.log('Ошибка AJAX: ' + text + ' | ' + error);
+			},
+			success: function (data) {
+				console.log(data);
+				date = data.split('_');
+				if(data == "true"){
+				
+					var str = "Вопрос №"+id+" добавлен.";
+					$().toastmessage('showSuccessToast', str);
+					
+					symbol = symbol+id; // формируем id, для удаления строки из таблицы
+					$(symbol).remove();
+					console.log(symbol);
+				}else{
+				
+					$().toastmessage('showErrorToast', 'Ошибка добавления');
+				}
+			}
+		});
+	}
+</script>
+{/literal}
+
 <body>
 <!--<form id="list_posts" name="list_posts" method="post">
 </form>-->
@@ -127,15 +167,15 @@
 			<tr>
 				<th style="width: 4%;">№</th>
 				<th style="width: 65%;">Вопрос</th>
-				<th style="width: 10%;">Тип вопроса</th>
 				<th style="width: 10%;">Модуль</th>
 				<th style="width: 10%;">Уровень риска</th>
+				<th style="width: 10%;">Тип вопроса</th>
 				<th style="width: 1%;"></th>
 			</tr>
 				</thead>
 				<tbody>
 			{section name=count loop=$questions_this_test}
-				<!--<tr onclick="window.location='edit_tests?employee_id={$questions_this_test[{$count}]['SOTRUD_K']}&employee_cur={$questions_this_test[{$count}]['SOTRUD_FAM']}&employee_name={$questions_this_test[{$count}]['SOTRUD_IM']}&employee_pat={$questions_this_test[{$count}]['SOTRUD_OTCH']}&employee_tabel={$questions_this_test[{$count}]['TABEL_KADR']}&dolj={$questions_this_test[{$count}]['KOD']}'" style="cursor: pointer;">-->
+				<!--<tr onclick="window.location='edit_tests?employee_id={$questions_this_test[{$count}]['SOTRUD_K']}&employee_cur={$questions_this_test[{$count}]['SOTRUD_FAM']}&employee_name={$questions_this_test[{$count}]['SOTRUD_IM']}&employee_pat={$questions_this_test[{$count}]['SOTRUD_OTCH']}&employee_tabel={$questions_this_test[{$count}]['TABEL_SPUSK']}&dolj={$questions_this_test[{$count}]['KOD']}'" style="cursor: pointer;">-->
 				<tr>
 					<td>
 					{$questions_this_test[{$count}]['ID']}
@@ -153,7 +193,7 @@
 					{$questions_this_test[{$count}]['T_TYPE']}
 					</td>
 					<td class="deleteInTable" style="text-align: center;">
-					<a href="/edit_test?disabled_questionid={$questions_this_test[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+					<a href="/edit_test?disabled_questionid={$questions_this_test[{$count}]['ID']}&test_id={$cur_test_id}&test_title={$cur_test_title}&test_penalty={$cur_test_penalty}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 					</td>
 					{capture}{$count++}{/capture}
 				</tr>	
@@ -184,15 +224,15 @@
 			<tr>
 				<th style="width: 4%;">№</th>
 				<th style="width: 66%;">Вопрос</th>
-				<th style="width: 10%;">Тип вопроса</th>
 				<th style="width: 10%;">Модуль</th>
 				<th style="width: 10%;">Уровень риска</th>
+				<th style="width: 10%;">Тип вопроса</th>
 			</tr>
 				</thead>
 				<tbody>
 			{section name=count loop=$all_questions}
-				<!--<tr onclick="window.location='edit_tests?employee_id={$all_questions[{$count}]['SOTRUD_K']}&employee_cur={$all_questions[{$count}]['SOTRUD_FAM']}&employee_name={$all_questions[{$count}]['SOTRUD_IM']}&employee_pat={$all_questions[{$count}]['SOTRUD_OTCH']}&employee_tabel={$all_questions[{$count}]['TABEL_KADR']}&dolj={$all_questions[{$count}]['KOD']}'" style="cursor: pointer;">-->
-				<tr>
+				
+				<tr id="q_{$all_questions[{$count}]['ID']}" onclick="add_question({$all_questions[{$count}]['ID']})" style="cursor: pointer;">
 					<td>
 					{$all_questions[{$count}]['ID']}
 					</td>
@@ -209,7 +249,7 @@
 					{$all_questions[{$count}]['T_TYPE']}
 					</td>
 					{capture}{$count++}{/capture}
-				</tr>	
+				</tr>
 			{/section}
 				</tbody>
 		</table>
