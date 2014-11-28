@@ -1,20 +1,28 @@
-function go_auth(){
-	$("#type_submit").val("1");
+function go_auth(exam_type){
+	$("#type_submit").val(exam_type);
 	if (($.isNumeric($("#tabnum").val()) == true)){// && ($("#tabnum").val()!="")){
-		$("#auth" ).submit();
+            $.ajax({
+               type:'POST',
+               data:{'tabnum': $("#tabnum").val()},
+               url:"/inc/ajax.check_tabel.auth.php",
+               error: function(req, text, error) {
+				$("#auth" ).submit(); //Щито поделать, обойдемся проверкой на серваке
+				},
+               success: function(data)
+               {
+                   if (data=="1")
+                   {
+                       $("#auth" ).submit();
+                   }
+                   else
+                   {
+                       $("#tabnum").toastmessage('showErrorToast', 'Такого номера не существует');
+                   }
+               }
+            }); 
 	}else{
-		alert("Введите корректный табельный номер");
-	}
-}
-
-// предсменный экзаменатор
-function go_pre_examiner(){
-	//document.location.href = './questions.php';
-	$("#type_submit").val("2");
-	if (($.isNumeric($("#tabnum").val()) == true)){// && ($("#tabnum").val()!="")){
-		$("#auth" ).submit();
-	}else{
-		alert("Введите корректный табельный номер");
+		$("#tabnum").toastmessage('showErrorToast', 'Введите корректный табельный номер');
+                return false;
 	}
 }
 
@@ -22,17 +30,6 @@ function go_pre_examiner(){
 function go_pre_examiner_fromsearch(tab){
 
 	window.location="./auth.php?tab="+tab;
-}
-
-// контроль компетентности
-function go_check_comp(){
-	//document.location.href = './questions.php';
-	$("#type_submit").val("3");
-	if (($.isNumeric($("#tabnum").val()) == true)){// && ($("#tabnum").val()!="")){
-		$("#auth" ).submit();
-	}else{
-		alert("Введите корректный табельный номер");
-	}
 }
 
 // переходим к поиску по фамилии сотрудника

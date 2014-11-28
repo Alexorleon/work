@@ -1,7 +1,9 @@
 <?php	
-	unset($_SESSION);
-	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
-	
+        require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
+	$empty_PE = (isset($_SESSION['your_PE_is_empty'])) ? 1 : 0;
+        $empty_BigEx = (isset($_SESSION['your_BigEx_is_empty']))? 1 : 0;
+        unset($_SESSION['your_PE_is_empty']);
+	unset($_SESSION['your_BigEx_is_empty']);
 	unset($_SESSION['type_question_chain']);
 	
 	/*$filename = md5(microtime() . rand(0, 9999));
@@ -94,6 +96,8 @@ SQL;
 		}
 	}
 
+        $smarty->assign("empty_PE", $empty_PE);
+        $smarty->assign("empty_BigEx", $empty_BigEx);
 	$smarty->assign("error_", $error_);
 
 	$smarty->assign("title", "Авторизация");
