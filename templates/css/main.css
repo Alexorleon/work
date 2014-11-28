@@ -986,6 +986,7 @@ outline:0;
 
 .table_proposols th {
 	font-weight:bold;
+	font-size: 25px;
 	padding:21px 25px 22px 25px;
 	border-top:1px solid #fafafa;
 	border-bottom:1px solid #e0e0e0;
@@ -1002,6 +1003,7 @@ outline:0;
 
 .table_proposols tr td {
 	padding:8px;
+	font-size: 25px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;

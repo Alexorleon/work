@@ -5,6 +5,12 @@
 {literal}
 <script>
 
+    jQuery(function($)
+    {
+        $("#tabnum_lamp").focus();
+        get_sotrud(0);
+        go_timer();
+    });
 
 	jQuery(function($) {
 		$("#tabnum_lamp").focus();
@@ -67,26 +73,32 @@
 					}
 				});
 
-			}
-		});
-	}
-	
-	/*Обновляем таблу чувачков*/
-	function get_sotrud(check_tab_num) {	//создал функцию, чтобы запускать по событию
-		//console.log(check_tab_num);
-		
-		if(check_tab_num == 0){
-			
-			//$("#tabnum_status").html('');
-			//console.log('ajax started1');
-			$.ajax({ //стартуем аякс
-				type: 'POST', //обращаемся к скрипту методом ПОСТ
-				data: {'type': '1'},
-				url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
-				dataType: 'json',//так как мы по ответу скрипта получаем данные, которые нужно парсить яваскриптом, говорим аяксу,что получим обратно структуированные данные с формате джейсон. Если просто возвращать выполнил или нет( 0 или 1 или еще че нить), то эту строку просто ремируем.
-				error: function(req, text, error) {//обработчик, если произошла ошибка
+    /*Обновляем таблу чувачков*/
+    function get_sotrud(check_tab_num)
+    {	//создал функцию, чтобы запускать по событию
+        $.ajax({ //стартуем аякс
+                type: 'POST', //обращаемся к скрипту методом ПОСТ
+                data: {'type': '1', 'tabel_spusk': check_tab_num, 'window': $('#window').val()},
+                url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
+                error: function(req, text, error) {//обработчик, если произошла ошибка
+                //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+                },
+                success: function (data)
+                         {
+                            $("#sotruds").html(data);
+                         }
+               });
+        if(check_tab_num !=0)
+        {
+            var id = $("#tabnum_lamp").val();
+            $.ajax({ //стартуем аякс
+                    type: 'POST', //обращаемся к скрипту методом ПОСТ
+                    data: {'check_tab_num': check_tab_num, 'type': '2'},
+                    url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
+                    error: function(req, text, error) {//обработчик, если произошла ошибка
 				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
 				},
+
 				success: function (data) {//что делать,если получили ответ от РНР, данные будут в переменной data
 					//console.log(data+"update");
 					$("#sotruds").find("tr").remove();	//удаляем все, кроме первой строки таблицы(заголовок)
@@ -200,7 +212,7 @@
 			}
 		});
 	});
-	
+
 </script>
 {/literal}
 <div id="error_mess"> {$error_} </div>
@@ -210,21 +222,28 @@
 
 <table style="width: 100%;">
 <tr>
-<td><p style="margin-left: 20px;" align="left"><span class="title-lamp">Предсменный контроль</span></p></td>
-<td><p style="margin-right: 20px;" align="right"><span>Прошедшие предсменный контроль за последние 3 часа</span></p></td>
-<tr>
+    <td><p style="margin-left: 20px;" align="left"><span class="title-lamp">Предсменный контроль</span></p></td>
+    <td><p style="margin-right: 20px;" align="right"><span>Прошедшие предсменный контроль за последние 3 часа</span></p></td>
+</tr>
 </table>
 
 <p style="margin-left: 20px; margin-bottom: 0px;"><span>Поиск табельного</span></p>
 
 <table>
 <tr>
-<td><input type="text_lamp" id="tabnum_lamp" name="tabnum_lamp" onkeypress="if((event.keyCode < 48)||(event.keyCode > 57)) event.returnValue=false"/></td>
+<td><input type="text" class="text_lamp" id="tabnum_lamp" name="tabnum_lamp" onkeypress="if((event.keyCode < 48)||(event.keyCode > 57)) event.returnValue=false"/></td>
+<td><select class="text_lamp" name='current_window' id='window' onchange="window_change();">
+        <option value='1'>Окно №1</option>
+        <option value='2'>Окно №2</option>
+        <option value='3'>Окно №3</option>
+    </select>
+</td>
 <td><span id="tabnum_status" class="status_search_tabnum"></span></td>
-<tr>
+</tr>
 </table>
 
 <div id="sotruds" class="lamp_table">
+
 	{$count = 0}
 	{$count2 = 1}
 	{$num_cols = 14}
@@ -244,6 +263,7 @@
 	</table>
 <!--{table_foreach from=$array_sotrud item=book key=id cols=13 td_attr='bgcolor="#FFEEDD"'}{$array_sotrud[{$id}]['TABEL_SPUSK']}
 {/table_foreach}-->
+
 </div>
 
 </form>

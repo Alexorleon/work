@@ -82,6 +82,6 @@ SQL;
 		$date = $datemax['DATEBEGIN'];
 		die("date_".$date);
 }else{
+
 }
-//}
 ?>

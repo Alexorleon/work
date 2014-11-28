@@ -83,7 +83,7 @@ function GetPEResults($obj,$sid)
             WHERE (SOTRUD_ID='$sid' AND EXAMINERTYPE='1' AND DEL='N') AND ALLQUESTIONS.ID = ALLHISTORY.ALLQUESTIONSID AND ALLANSWERS.ID=ALLHISTORY.ALLANSWERSID AND MODULE.ID=ALLQUESTIONS.MODULEID
             ORDER BY ALLHISTORY.DATEBEGIN, MODULE.ID";
     $PEResults = $obj->go_result($sql);
-    
+
     //var_dump($PEResults);
     return $PEResults;
 }

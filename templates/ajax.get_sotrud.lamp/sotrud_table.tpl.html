@@ -1,0 +1,86 @@
+<table class="sotrud_lamp_table">
+    <tr>
+        <th>
+            Табельный номер
+        </th>
+        <th>
+            ФИО
+        </th>
+    </tr>
+{if count($array_sotrud)>0}}
+    {assign var=cur_key value=0}
+    {for $tab_iter=0 to $amount}
+        {if $sotrud_tabel_spusk == $array_sotrud[$tab_iter]['TABEL']}
+            {assign var=cls value="class='tab_num_selected'"}
+        {else}
+            {assign var=cls value=""}
+        {/if}
+        <tr id="tb_{$array_sotrud[$tab_iter]['TABEL']}" onclick="get_info_tab({$array_sotrud[$tab_iter]['TABEL']})" {$cls}>
+            <td>
+                {$array_sotrud[$tab_iter]['TABEL']}
+            </td>
+            <td>
+                {$array_sotrud[$tab_iter]['FAM']} {$array_sotrud[$tab_iter]['IM']} {$array_sotrud[$tab_iter]['OTCH']}
+            </td>
+        </tr>
+        {assign var=cur_key value=$cur_key+1}
+    {/for}
+{/if}
+</table>
+<table class="sotrud_lamp_table">
+    <tr>
+        <th>
+            Табельный номер
+        </th>
+        <th>
+            ФИО
+        </th>
+    </tr>
+{assign var=iterator_count value=$cur_key}
+{if count($array_sotrud) > $cur_key}
+    {for $tab_iter=$iterator_count to ($iterator_count+$amount)}
+        {if $sotrud_tabel_spusk == $array_sotrud[$tab_iter]['TABEL']}
+            {assign var=cls value="class='tab_num_selected'"}
+        {else}
+            {assign var=cls value=""}
+        {/if}
+        <tr id="tb_{$array_sotrud[$tab_iter]['TABEL']}" onclick="get_info_tab({$array_sotrud[$tab_iter]['TABEL']})" {$cls}>
+            <td>
+                {$array_sotrud[$tab_iter]['TABEL']}
+            </td>
+            <td>
+                {$array_sotrud[$tab_iter]['FAM']} {$array_sotrud[$tab_iter]['IM']} {$array_sotrud[$tab_iter]['OTCH']}
+            </td>
+        </tr>
+        {assign var=cur_key value=$cur_key+1}
+    {/for}
+{/if}
+    </table>
+    <table class="sotrud_lamp_table">
+        <tr>
+            <th>
+                Табельный номер
+            </th>
+            <th>
+                ФИО
+            </th>
+        </tr>
+{if count($array_sotrud) > $cur_key}
+    {assign var=iterator_count value=$cur_key}
+    {for $tab_iter=$iterator_count to count($array_sotrud)}
+        {if $sotrud_tabel_spusk == $array_sotrud[$tab_iter]['TABEL']}
+            {assign var=cls value="class='tab_num_selected'"}
+        {else}
+            {assign var=cls value=""}
+        {/if}
+        <tr id="tb_{$array_sotrud[$tab_iter]['TABEL']}" onclick="get_info_tab({$array_sotrud[$tab_iter]['TABEL']})" {$cls}>
+            <td>
+                {$array_sotrud[$tab_iter]['TABEL']}
+            </td>
+            <td>
+                {$array_sotrud[$tab_iter]['FAM']} {$array_sotrud[$tab_iter]['IM']} {$array_sotrud[$tab_iter]['OTCH']}
+            </td>
+        </tr>
+    {/for}
+{/if}
+</table>

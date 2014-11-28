@@ -1,5 +1,6 @@
 {extends file="list.tpl.html"}
 {block name="article"}
+
 <script src="{$js}chart/Chart.js"></script>
 <script type="text/javascript" src="{$tpl}js/fancybox/jquery.fancybox.pack.js"></script>
 <link rel="stylesheet" href="{$tpl}js/fancybox/jquery.fancybox.css">
@@ -20,6 +21,7 @@
     <input type="button" onclick="filterDates();" value="Показать"/>
 </form>
 <div id="pe_result">
+
 <table class="simple-little-table" id="test_results_dir" cellspacing='0'>
     <tr>
         <th>Дата</th>
@@ -30,14 +32,17 @@
         <th>Штраф</th>
     </tr>
 {assign var="price" value=0}
+
 {assign var="wrongs" value=0}
 {assign var="amount" value=count($results)}
 {assign var="chartDates" value="'{$results[0]['DATEBEGIN']}'"}
 {assign var="chartPrices" value="{$results[0]['PRICE']}"}
+
 {foreach from=$results key=key item=result}
     {if ($result['PRICE'] != 0)}
         {assign var="cls" value="class=wrong_ans"}
         {assign var="comment" value="{$result['COMMENTARY']} ({$result['FACTOR']})"}
+
         {assign var="wrongs" value=$wrongs+1}
     {else}
         {assign var="cls" value=""}
@@ -52,9 +57,11 @@
         </td>
         <td>
             {$result['QTEXT']}
+
             {if $result['PHOTO']!=''}
             <br><a class="fancybox" rel="group" href="/storage/photo_questions/{$result['PHOTO']}">[Посмотреть фото]</a>
             {/if}
+
         </td>
         <td>
             {$result['ATEXT']}

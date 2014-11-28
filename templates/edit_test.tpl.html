@@ -231,7 +231,6 @@
 				</thead>
 				<tbody>
 			{section name=count loop=$all_questions}
-				
 				<tr id="q_{$all_questions[{$count}]['ID']}" onclick="add_question({$all_questions[{$count}]['ID']})" style="cursor: pointer;">
 					<td>
 					{$all_questions[{$count}]['ID']}
