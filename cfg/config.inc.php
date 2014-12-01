@@ -37,5 +37,5 @@ error_reporting(E_ALL & ~E_NOTICE);
 	10 - Кокс-Майнинг
 	2 - СУЭК
 	*/
-	$predpr_k_glob = "10";
+	$predpr_k_glob = "2";
 ?>
