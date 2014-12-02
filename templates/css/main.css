@@ -2003,3 +2003,9 @@ color: #fff;
 text-shadow: black 1px 1px 0, black -1px -1px 0, black -1px 1px 0, black 1px -1px 0;
 margin: 9px;
 }
+
+#PE_stats
+{
+    padding: 20px;
+    border-radius: 5px;
+}

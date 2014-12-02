@@ -3,7 +3,10 @@
 	<span class="title_menu_edit">Сотрудники для терминала</span>
 
 	<!-- Меню редактирования -->
-	<div style="margin-left: 2px;" align="left"><a href="/new_employees"><input class="button_admin_edit" type="button" value="Добавить сотрудника" onclick=""/></a></div>
+	<div style="margin-left: 2px;" align="left">
+            <a href="/new_employees"><input class="button_admin_edit" type="button" value="Добавить сотрудника" onclick=""/></a>
+            <input class="button_admin_edit" type="button" value="Статистика" id="popup_PE_stat"/>
+        </div>
 
 	{$count = 0}
 	<table class="edit_tables" id="employeelist">
@@ -47,6 +50,10 @@
 		{/section}
             </tbody>
 	</table>
+        <div id="PE_stats" onclick="getPEStats();" style="background:#fff;">
+        </div>
+        <script src="{$js}jquery.popupoverlay.js"></script>
+{literal}
         <script>
             var table2_Props = {
                                 sort: true,
@@ -59,6 +66,44 @@
                                 col_number_format: ['EU',null,null,null,null,'EU',null]
                                };
             var tf2 = setFilterGrid("employeelist", table2_Props);
+            
+            $(document).ready(function() {
+                getPEStats();
+		$('#PE_stats').popup(   
+                                            {
+                                                openelement: '#popup_PE_stat',
+                                                closeelement: '#closePE_stats',
+                                                onopen: function(){getPEStats();}
+                                            });
+                                        });
+            function getPEStats()
+            {
+                var emp_ids = [];
+                
+                $("#employeelist tbody>tr").each(
+                        function()
+                        {
+                            if ($(this).css('display')!='none')
+                            {
+                                emp_ids.push($(this).children('td:first-child').text());
+                            }
+                        }
+                        );
+                
+                $.ajax({
+                type: 'POST', //обращаемся к скрипту методом ПОСТ
+                data: {'emp_ids':emp_ids},
+                url: "./inc/ajax.PE_stats.list_employees.php",//путь к скрипту, от корня
+                error: function(req, text, error) {//обработчик, если произошла ошибка
+                //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+                },
+                success: function (data)
+                         {
+                            $("#PE_stats").html(data);
+                         }
+               });
+            }
         </script>
+{/literal}
 {/block}
 {/extends}

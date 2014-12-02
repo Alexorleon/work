@@ -1,0 +1,33 @@
+<div style="text-align: center"><canvas id="PE_chart" width="300" height="300"></canvas></div>
+<div><strong>Всего тестов сдано за выбранный период:</strong> {$passed}</div>
+<div><strong>Из них ошибочных:</strong> {$wrongs}</div>
+<div></div>
+<div><strong>Всего человек в выборке:</strong> {$total}</div>
+<div><strong>Всего человек сдавало:</strong> {$passed_emps}</div>
+<div style="width:100%; text-align: center;"><br><a href="" id="closePE_stats">Закрыть</a></div>
+<script src="{$js}chart/Chart.js"></script>
+<script>
+{literal}
+    var ctx = $('#PE_chart').get(0).getContext("2d");
+    var chartOptions = {segmentShowStroke : true, animationSteps : 1};
+    var data = [
+        {
+{/literal}            
+            value: {$wrongs},
+{literal}
+        color:"#F7464A",
+        highlight: "#8E2323",
+        label: "Неправильные ответы"
+        },
+        {
+{/literal}            
+            value: {($passed-$wrongs)},
+{literal}
+        color: "#A9D0F5",
+        highlight: "#005E9A",
+        label: "Правильные ответы"
+        }
+    ];
+    var pieChart = new Chart(ctx).Pie(data, chartOptions);
+</script>
+{/literal}
