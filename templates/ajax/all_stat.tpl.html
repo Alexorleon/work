@@ -1,0 +1,24 @@
+{foreach from=$results
+
+<canvas id="peChart" width="400" height="400"></canvas>
+<div>Всего сотрудников:</div>
+<div>Из них сдавало тест:</div>
+<script>
+    var ctx = $('#peChart').get(0).getContext("2d");
+    var chartOptions = {segmentShowStroke : true, animationSteps : 1};
+    var data = [
+        {
+            value: <?=$wrongs?>,
+            color:"#F7464A",
+            highlight: "#8E2323",
+            label: "Неправильные ответы"
+        },
+        {
+            value: <?=($amount-$wrongs)?>,
+            color: "#A9D0F5",
+            highlight: "#005E9A",
+            label: "Правильные ответы"
+        }
+    ];
+    var pieChart = new Chart(ctx).Pie(data, chartOptions);
+</script>
