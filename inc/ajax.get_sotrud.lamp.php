@@ -70,6 +70,7 @@ else if ($temp_type == 2)
         $sql = "SELECT to_char(MAX(DATEBEGIN), 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM stat.ALLHISTORY WHERE ALLHISTORY.SOTRUD_ID='$temp_sotrud' AND EXAMINERTYPE=1";
 
         $datemax = $db->go_result_once($sql);
+        
         if (strtotime($datemax['DATEBEGIN']) >=  strtotime($current_date_min) && strtotime($datemax['DATEBEGIN']) <=  strtotime($current_date_max))
         {
 	?>

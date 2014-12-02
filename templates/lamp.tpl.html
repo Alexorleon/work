@@ -40,7 +40,7 @@
             var id = $("#tabnum_lamp").val();
             $.ajax({ //стартуем аякс
                     type: 'POST', //обращаемся к скрипту методом ПОСТ
-                    data: {'check_tab_num': check_tab_num, 'type': '2', 'date_lamp': $('#date_lamp').val()},
+                    data: {'check_tab_num': check_tab_num, 'type': '2', 'shift': $('#shift').val(), 'date_lamp': $('#date_lamp').val()},
                     url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
                     error: function(req, text, error) {//обработчик, если произошла ошибка
 				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
