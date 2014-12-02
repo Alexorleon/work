@@ -413,7 +413,7 @@ body {
 	line-height: 1;
 	margin: 0px;
 	color: #51565b;
-	background: #f1f1f1 url('/files/img/noise.png');
+	background: #f1f1f1 url('/files/img/dots.png');
 	font-family:Tahoma, Verdana, Arial, 'Sans Serif';
 	font-size:  100%;
 	
@@ -1964,4 +1964,25 @@ clear: both;
 .tab_num_selected > td
 {
     background: #04B404 !important;
+}
+
+#date_lamp
+{
+    height: 64px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 41px;
+    font-weight: 700;
+    border: solid 3px #707070;
+    box-shadow: inset 0 0 5px 1px #969696;
+    border-radius: 10px;
+}
+
+.text_lamp
+{
+    height: 64px;
+    font-weight: 700;
+    font-size: 50px;
+    border: solid 3px #707070;
+    box-shadow: inset 0 0 5px 1px #969696;
+    border-radius: 10px;
 }

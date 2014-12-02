@@ -25,7 +25,7 @@
     {	//создал функцию, чтобы запускать по событию
         $.ajax({ //стартуем аякс
                 type: 'POST', //обращаемся к скрипту методом ПОСТ
-                data: {'type': '1', 'tabel_spusk': check_tab_num, 'window': $('#window').val()},
+                data: {'type': '1', 'tabel_spusk': check_tab_num, 'window': $('#window').val(), 'shift': $('#shift').val(), 'date_lamp': $('#date_lamp').val()},
                 url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
                 error: function(req, text, error) {//обработчик, если произошла ошибка
                 //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
@@ -40,7 +40,7 @@
             var id = $("#tabnum_lamp").val();
             $.ajax({ //стартуем аякс
                     type: 'POST', //обращаемся к скрипту методом ПОСТ
-                    data: {'check_tab_num': check_tab_num, 'type': '2'},
+                    data: {'check_tab_num': check_tab_num, 'type': '2', 'date_lamp': $('#date_lamp').val()},
                     url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
                     error: function(req, text, error) {//обработчик, если произошла ошибка
 				//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
@@ -60,6 +60,7 @@ function window_change()
     // нажатие enter
     $(document).ready(function()
                       {
+                        $('#date_lamp').val(new Date().toDateInputValue());
                         $("#tabnum_lamp").keypress(function(e)
                         {
                             if(e.keyCode==13)
@@ -70,6 +71,12 @@ function window_change()
                             }
                         });
                       });
+    Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
+
 </script>
 {/literal}
 <div id="error_mess"> {$error_} </div>
@@ -80,7 +87,6 @@ function window_change()
 <table style="width: 100%;">
 <tr>
     <td><p style="margin-left: 20px;" align="left"><span class="title-lamp">Предсменный контроль</span></p></td>
-    <td><p style="margin-right: 20px;" align="right"><span>Прошедшие предсменный контроль за последние 3 часа</span></p></td>
 </tr>
 </table>
 
@@ -89,6 +95,13 @@ function window_change()
 <table>
 <tr>
 <td><input type="text" class="text_lamp" id="tabnum_lamp" name="tabnum_lamp" onkeypress="if((event.keyCode < 48)||(event.keyCode > 57)) event.returnValue=false"/></td>
+<td><input type="date" id="date_lamp" onchange="window_change();"/></td>
+<td><select class="text_lamp" name='current_shift' id='shift' onchange="window_change();">
+        <option value='1'>1 смена</option>
+        <option value='2'>2 смена</option>
+        <option value='3'>3 смена</option>
+    </select>
+</td>
 <td><select class="text_lamp" name='current_window' id='window' onchange="window_change();">
         <option value='1'>Окно №1</option>
         <option value='2'>Окно №2</option>

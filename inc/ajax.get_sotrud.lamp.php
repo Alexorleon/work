@@ -6,35 +6,45 @@ $db->GetConnect();
 $error_='';
 $temp_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_NUMBER_INT);
 $sotrud_tabel_spusk = filter_input(INPUT_POST, 'tabel_spusk', FILTER_SANITIZE_NUMBER_INT);
-
+$shift = filter_input(INPUT_POST, 'shift', FILTER_SANITIZE_NUMBER_INT);
 $window = filter_input(INPUT_POST, 'window', FILTER_SANITIZE_NUMBER_INT);
 
-$current_hour = date("G");
-
-if ($current_hour>=8 && $current_hour<16)
+if (filter_input(INPUT_POST, 'date_lamp', FILTER_SANITIZE_STRING))
 {
-    $current_date = date("d.m.Y")." 05:00:00";
-}
-elseif ($current_hour>=16 && $current_hour<24)
-{
-    $current_date = date("d.m.Y")." 13:00:00";
-}
-elseif($current_hour>=0 && $current_hour<9)
-{
-    $current_date = date("d.m.Y", time() - 60 * 60 * 24)." 21:00:00";
+    $date_lamp = date("d.m.Y.", strtotime(filter_input(INPUT_POST, 'date_lamp', FILTER_SANITIZE_STRING)));
 }
 else
 {
-    echo "Вы находитесь не на планете Земля, у вас в сутках часов больше 24. Если атмосфера текущей планеты не пригодна для дыхания, рекомендуется немедленно вернуться на Землю.";
+    $date_lamp = date("d.m.Y");
+}
+
+switch ($shift)
+{
+    case 1:
+        $current_date_min = $date_lamp." 05:00:00";
+        $current_date_max = $date_lamp." 09:00:00";
+    break;
+    case 2:
+        $current_date_min = $date_lamp." 13:00:00";
+        $current_date_max = $date_lamp." 17:00:00";
+    break;
+    case 3:
+        $current_date_min = date("d.m.Y", (strtotime($date_lamp) - 60 * 60 * 24))." 21:00:00";
+        $current_date_max = $date_lamp." 01:00:00";
+    break;
+    default:
+        $current_date_min = $date_lamp." 00:00:00";
+        $current_date_max = $date_lamp." 23:59:59";
+    break;
 }
 
 if ($temp_type == 1)
 {//тут массив с сотрудниками	
 
     $sql = "SELECT SOTRUD.TABEL_SPUSK AS TABEL, SOTRUD.SOTRUD_FAM AS FAM, SOTRUD.SOTRUD_IM AS IM, SOTRUD.SOTRUD_OTCH AS OTCH FROM stat.SOTRUD
-            WHERE (SOTRUD.SOTRUD_K IN (SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEBEGIN >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
+            WHERE (SOTRUD.SOTRUD_K IN (SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEBEGIN >= to_date('$current_date_min', 'DD.MM.YYYY HH24:MI:SS') AND ALLHISTORY.DATEBEGIN <= to_date('$current_date_max', 'DD.MM.YYYY HH24:MI:SS') AND 
             EXAMINERTYPE=1)) AND SOTRUD.WINDOW='$window' ORDER BY TABEL_SPUSK";
- 
+
     $array_sotrud = $db->go_result($sql);
     $amount = round(count($array_sotrud)/3);
     $cur_key = 0;
@@ -60,7 +70,7 @@ else if ($temp_type == 2)
         $sql = "SELECT to_char(MAX(DATEBEGIN), 'DD.MM.YYYY HH24:MI:SS') AS DATEBEGIN FROM stat.ALLHISTORY WHERE ALLHISTORY.SOTRUD_ID='$temp_sotrud' AND EXAMINERTYPE=1";
 
         $datemax = $db->go_result_once($sql);
-        if (strtotime($datemax['DATEBEGIN']) >=  strtotime($current_date))
+        if (strtotime($datemax['DATEBEGIN']) >=  strtotime($current_date_min) && strtotime($datemax['DATEBEGIN']) <=  strtotime($current_date_max))
         {
 	?>
         <span style="color: #04B404;">№<?=$check_tab_num?> Контроль пройден <?=$datemax['DATEBEGIN']?></span>
