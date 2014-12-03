@@ -9,7 +9,7 @@
 		
 		// записываем фамилию
                 $surname = filter_input(INPUT_POST, 'tabnum', FILTER_SANITIZE_SPECIAL_CHARS);
-		$surname = iconv("utf-8", "windows-1251", $surname);
+		//$surname = iconv("utf-8", "windows-1251", $surname);
 		
 		$sql = <<<SQL
 		select SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, TABEL_SPUSK from stat.sotrud where 

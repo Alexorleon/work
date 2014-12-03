@@ -60,7 +60,7 @@ SQL;
 				
 				//print_r(iconv ('utf-8', 'windows-1251', $video_instr['NAME']));
 				//die();
-				$smarty->assign("video_instr", iconv ('windows-1251', 'utf-8', $video_instr['NAME']));
+				$smarty->assign("video_instr", $video_instr['NAME']);//iconv ('windows-1251', 'utf-8', $video_instr['NAME']));
 				
 			}else{
 				

@@ -21,7 +21,7 @@
 			$sotrudID = $_SESSION['sotrud_id'];
 			$typemessage = filter_input(INPUT_POST,'typemessage', FILTER_SANITIZE_NUMBER_INT);//$_POST['typemessage'];
                         $message = filter_input(INPUT_POST,'tabnum', FILTER_SANITIZE_SPECIAL_CHARS);
-			$message = iconv("utf-8", "windows-1251", $message);
+			//$message = iconv("utf-8", "windows-1251", $message);
 			$current_date = date('d.m.Y H:i:s');
 			
 			$sql = <<<SQL

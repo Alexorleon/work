@@ -23,7 +23,7 @@
             $testname_question = filter_input(INPUT_POST,'testname_question', FILTER_SANITIZE_NUMBER_INT);
             
             $text_question = filter_input(INPUT_POST,'text_question', FILTER_SANITIZE_STRING);
-            $text_question = iconv(mb_detect_encoding($text_question), "windows-1251", $text_question);
+            //$text_question = iconv(mb_detect_encoding($text_question), "windows-1251", $text_question);
             
             $id_answer = filter_input(INPUT_POST, 'id_answer', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             $text_answer = filter_input(INPUT_POST, 'text_answer', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
@@ -54,11 +54,11 @@
             for ($ans_iter = 0; $ans_iter<3; $ans_iter++)
             {
                 $competencelevel_id = GetCompetenceLevelID($db, $answer_price);
-                $text_answer[$ans_iter] = iconv(mb_detect_encoding($text_answer[$ans_iter]), "windows-1251", $text_answer[$ans_iter]);
+                //$text_answer[$ans_iter] = iconv(mb_detect_encoding($text_answer[$ans_iter]), "windows-1251", $text_answer[$ans_iter]);
                 if ($answer_price[$ans_iter]!=0)
                 {
-                    $current_comment = iconv(mb_detect_encoding($answer_comment), "windows-1251", $answer_comment);
-                    $current_factor = iconv(mb_detect_encoding($answer_factor), "windows-1251", $answer_factor);
+                    $current_comment = $answer_comment;
+                    $current_factor = $answer_factor;
                     $current_risk = $risklevel_question;
                 }
                 else
