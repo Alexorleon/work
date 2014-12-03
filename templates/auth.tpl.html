@@ -10,6 +10,7 @@
 <!--отключение выделения текста-->
 <script type="text/javascript" src="{$js}migrate.js"></script>
 <script type="text/javascript" src="{$js}noselect.js"></script>
+<script type="text/javascript" src="{$js}jquery.toast.js"></script>
 <script>
 jQuery(document).ready(function(){
     $('.dial-ring').show(500);
@@ -20,14 +21,19 @@ jQuery(document).ready(function(){
 {literal}
 <script>
 	jQuery(function($) {
-		
 		setInterval(function() {
 			document.location.href= "/auth.php";
 		}, 180000);
 	});
 </script>
 {/literal}
-
+{if ($empty_PE || $empty_BigEx)}
+<script>
+	jQuery(function($) {
+            $().toastmessage('showWarningToast', 'На текущий момент тестов нет');
+	});
+</script>
+{/if}
 </head>
 <body onselectstart="return false">
 <div id="error_mess"> {$error_} </div>
@@ -75,13 +81,14 @@ jQuery(document).ready(function(){
 <div class="dial-ring">
 </div>
 	<table >
-                <tr>
-                        <td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
-                </tr>
-                <tr>
-                    <td colspan="3"><button style="cursor: pointer;" class="search_button" onclick="go_search_employee()">Поиск по фамилии</button></td>
+        <tr>
+			<td colspan="3"><input type="text" id="tabnum" name="tabnum" readonly value="{if !empty($smarty.get.tab)}{$smarty.get.tab}{/if}"/></td>
 		</tr>
-                <tr>
+		<tr>
+			<td colspan="3"><button style="cursor: pointer;" class="search_button" onclick="go_search_employee()">Поиск по фамилии</button></td>
+		</tr>
+
+        <tr>
 			<td><input type="num_button" value="1" onclick="addToField(1)" style="cursor: pointer;"/></td>
 			<td><input type="num_button" value="2" onclick="addToField(2)" style="cursor: pointer;"/></td>
 			<td><input type="num_button" value="3" onclick="addToField(3)" style="cursor: pointer;"/></td>
@@ -111,11 +118,10 @@ jQuery(document).ready(function(){
 
 
 <!-- Большой экзаменатор -->
-<button class="move_button" onclick="go_pre_examiner()" style="width: 600px;">Предсменный экзаменатор</button>
+<button class="move_button" onclick="go_auth(2); return false;" style="width: 400px;height: 180px;">Предсменный экзаменатор</button>
 <br>
-<button class="move_button" onclick="go_check_comp()" style="width: 600px;">Комплексный экзаменатор</button>
-<br>
-<button class="move_button" onclick="go_auth()" style="width: 600px;">Личный кабинет</button>
+<button class="move_button" onclick="go_auth(3); return false;" style="width: 600px;">Комплексный экзаменатор</button>
+<button class="move_button" onclick="go_auth(1); return false;" style="width: 600px;">Личный кабинет</button>
 
 <!-- Предсменный экзаменатор -->
 <!--<button class="move_button" onclick="go_pre_examiner()" style="width: 255px;"><br>Далее<br>&nbsp;</button>-->

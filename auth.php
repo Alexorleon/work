@@ -1,11 +1,15 @@
 <?php	
-	unset($_SESSION);
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
-	
+
+	$empty_PE = (isset($_SESSION['your_PE_is_empty'])) ? 1 : 0;
+	$empty_BigEx = (isset($_SESSION['your_BigEx_is_empty']))? 1 : 0;
+	unset($_SESSION['your_PE_is_empty']);
+	unset($_SESSION['your_BigEx_is_empty']);
 	unset($_SESSION['type_question_chain']);
-	
 	/*$filename = md5(microtime() . rand(0, 9999));
 	print_r($filename);
+	echo "</br>";
+	print_r("Временно не работает");
 	die();*/
 	
 	$db = new db;
@@ -36,7 +40,7 @@
 		$tabnum = trim(stripslashes(htmlspecialchars($tabnum)));
 		
 		$sql = <<<SQL
-			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K, TABEL_KADR from stat.sotrud where TABEL_KADR='$tabnum' and DEL IS NULL and predpr_k=$predpr_k_glob
+			select SOTRUD_K, SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, DOLJ_K, TABEL_SPUSK from stat.sotrud where TABEL_SPUSK='$tabnum' and DEL IS NULL and predpr_k=$predpr_k_glob
 SQL;
 		$s_res = $db->go_result_once($sql);
 
@@ -51,7 +55,7 @@ SQL;
 			$_SESSION['sotrud_im']=$s_res['SOTRUD_IM'];
 			$_SESSION['sotrud_otch']=$s_res['SOTRUD_OTCH'];
 			$_SESSION['sotrud_dolj']=$s_res['DOLJ_K'];
-			$_SESSION['sotrud_tabkadr']=$s_res['TABEL_KADR'];
+			$_SESSION['sotrud_tabkadr']=$s_res['TABEL_SPUSK'];
 			
 			// если у этой дожности нет теста, назначим ей общий
 			$temp_dolj_kod = $s_res['DOLJ_K'];
@@ -92,6 +96,8 @@ SQL;
 		}
 	}
 
+	$smarty->assign("empty_PE", $empty_PE);
+	$smarty->assign("empty_BigEx", $empty_BigEx);
 	$smarty->assign("error_", $error_);
 
 	$smarty->assign("title", "Авторизация");

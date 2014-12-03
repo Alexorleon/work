@@ -39,7 +39,7 @@ while ($row = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) {
     $out .= "<tr>\n";
     foreach ($row as $key=>$item) {
 	if ($i == 0) $head .= "<td>" . $key . "</td>\n";
-		$item = iconv( 'cp1251', 'utf-8', $item);
+		//$item = iconv( 'cp1251', 'utf-8', $item);
         $out .= "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "0") . "</td>\n";
     }
     $out .= "</tr>\n";
@@ -68,7 +68,7 @@ if (!$this->connect) $this->GetConnect();
 	$i = 0;
 while ($res = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)) {
     foreach ($res as $key=>$item) {
-		$item = iconv( 'cp1251', 'utf-8', $item);
+		//$item = iconv( 'cp1251', 'utf-8', $item);
 		$out[$i][$key] = ($item !== null ? htmlentities($item, ENT_QUOTES) : "0");						
     }
 		$i++;		
@@ -88,7 +88,7 @@ if (!$this->connect) $this->GetConnect();
 	$out = Array();
 	if ($res = oci_fetch_array($s, OCI_ASSOC+OCI_RETURN_NULLS)){
 		foreach ($res as $key=>$item) {
-			$item = iconv( 'cp1251', 'utf-8', $item);
+			//$item = iconv( 'cp1251', 'utf-8', $item);
 			$out[$key] = ($item !== null ? htmlentities($item, ENT_QUOTES) : "0");						
 		}	
 	}

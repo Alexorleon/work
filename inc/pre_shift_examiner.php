@@ -97,7 +97,7 @@ SQL;
 		$s_res = $db->go_result_once($sql);
 
 		if(empty($s_res)){
-		
+                        $_SESSION['your_PE_is_empty'] = 1;
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}
 		
@@ -138,9 +138,9 @@ SQL;
 	// получаем табельный
 	$temp_sotrud_id = $_SESSION['sotrud_id'];
 	$sql = <<<SQL
-	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$temp_sotrud_id'
+	SELECT TABEL_SPUSK FROM stat.SOTRUD WHERE SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$temp_sotrud_id'
 SQL;
-	$sm_sotrud_tabel = $db->go_result_once($sql)['TABEL_KADR'];
+	$sm_sotrud_tabel = $db->go_result_once($sql)['TABEL_SPUSK'];
 	
 	/*резерв
 	$sql = <<<SQL

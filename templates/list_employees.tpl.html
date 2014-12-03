@@ -23,7 +23,7 @@
             </thead>
             <tbody>
 		{section name=count loop=$array_employees}
-			<tr onclick="window.location='edit_employees?employee_id={$array_employees[{$count}]['SOTRUD_K']}&employee_cur={$array_employees[{$count}]['SOTRUD_FAM']}&employee_name={$array_employees[{$count}]['SOTRUD_IM']}&employee_pat={$array_employees[{$count}]['SOTRUD_OTCH']}&employee_tabel={$array_employees[{$count}]['TABEL_KADR']}&dolj={$array_employees[{$count}]['KOD']}'" style="cursor: pointer;">
+			<tr onclick="window.location='edit_employees?employee_id={$array_employees[{$count}]['SOTRUD_K']}&employee_cur={$array_employees[{$count}]['SOTRUD_FAM']}&employee_name={$array_employees[{$count}]['SOTRUD_IM']}&employee_pat={$array_employees[{$count}]['SOTRUD_OTCH']}&employee_tabel={$array_employees[{$count}]['TABEL_SPUSK']}&dolj={$array_employees[{$count}]['KOD']}'" style="cursor: pointer;">
 				<td>
 				{$array_employees[{$count}]['SOTRUD_K']}
 				</td>
@@ -40,7 +40,7 @@
 				{$array_employees[{$count}]['TEXT']}
 				</td>
 				<td>
-				{$array_employees[{$count}]['TABEL_KADR']}
+				{$array_employees[{$count}]['TABEL_SPUSK']}
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
 				<a href="/list_employees?del_employeeid={$array_employees[{$count}]['SOTRUD_K']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>

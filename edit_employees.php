@@ -14,13 +14,13 @@
 		
 	if (!empty($_POST)){
 		$employeesur = filter_input(INPUT_POST, 'employeesur', FILTER_SANITIZE_SPECIAL_CHARS);
-		$employeesur = iconv("utf-8", "windows-1251", $employeesur); // фамилия
+		//$employeesur = iconv("utf-8", "windows-1251", $employeesur); // фамилия
                 
         $employeename = filter_input(INPUT_POST, 'employeename', FILTER_SANITIZE_SPECIAL_CHARS);
-		$employeename = iconv("utf-8", "windows-1251", $employeename); // имя
+		//$employeename = iconv("utf-8", "windows-1251", $employeename); // имя
                 
         $employeepat = filter_input(INPUT_POST, 'employeepat', FILTER_SANITIZE_SPECIAL_CHARS);
-		$employeepat = iconv("utf-8", "windows-1251", $employeepat); // отчество
+		//$employeepat = iconv("utf-8", "windows-1251", $employeepat); // отчество
                 
 		$type_doljnost = filter_input(INPUT_POST, 'type_doljnost', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['type_doljnost']; // должность
 		
@@ -31,7 +31,7 @@
 		
 			// проверяем табельный номер
 			$sql = <<<SQL
-			SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_KADR='$employeetabel'
+			SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_SPUSK='$employeetabel'
 SQL;
 			$check_employees_tabel = $db->go_result_once($sql);
 
@@ -39,7 +39,7 @@ SQL;
 				$error_='';//нулим ошибку,если повторно будет
 				$smarty->assign("employeename", "");
 				$sql = <<<SQL
-				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_KADR) 
+				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_SPUSK) 
 				VALUES ('$employeesur', '$employeename', '$employeepat', '$predpr_k_glob', '$type_doljnost', '$employeetabel')
 SQL;
 				$db->go_query($sql);
@@ -60,14 +60,14 @@ SQL;
 			if($_SESSION['check_employee_tabel'] != $employeetabel){
 
 				$sql = <<<SQL
-				SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_KADR='$employeetabel'
+				SELECT SOTRUD_K FROM stat.SOTRUD WHERE PREDPR_K='$predpr_k_glob' AND SOTRUD.TABEL_SPUSK='$employeetabel'
 SQL;
 				$check_employees_tabel = $db->go_result_once($sql);
 
 				if(empty($check_employees_tabel)){ // если пусто, то такого табельного нет. добовляем.
 
 					$sql = <<<SQL
-					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_SPUSK='$employeetabel' WHERE 
 					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 					$db->go_query($sql);
@@ -89,7 +89,7 @@ SQL;
 			}else{
 			
 				$sql = <<<SQL
-					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_KADR='$employeetabel' WHERE 
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_SPUSK='$employeetabel' WHERE 
 					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 				$db->go_query($sql);
@@ -136,16 +136,18 @@ SQL;
 			$employee_tabel = filter_input(INPUT_GET, 'employee_tabel', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_tabel']; // табельный
 			$dolj_kod = filter_input(INPUT_GET, 'dolj', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID должности
 			
+
             //$sql_res = "SELECT * FROM stat.ALLHISTORY WHERE ";
-                        
+ 
 			// запоминаем табельный
 			$_SESSION['check_employee_tabel'] = $employee_tabel;
-			
+
 			$date_list = GetTestDates($db, $employee_id);
 			$count_pt = CountPT($db, $employee_id);
 			//var_dump($dl);
 			$smarty->assign("date_list", $date_list);
 			$smarty->assign("count_pt", $count_pt);
+
 			$smarty->assign("cur_employee_id", $employee_id);
 			$smarty->assign("cur_employee_cur", $employee_cur);
 			$smarty->assign("cur_employee_name", $employee_name);
@@ -185,6 +187,7 @@ function CountPT($obj, $sid, $isntDel=false)
 {
     $delSQL = ($isntDel) ? " AND DEL='N'" : "";
     $sql = "SELECT COUNT(ID) AS COUNT FROM stat.ALLHISTORY WHERE SOTRUD_ID='$sid' AND EXAMINERTYPE='1'$delSQL";
+
     $result = $obj->go_result_once($sql);
     
     return $result['COUNT'];

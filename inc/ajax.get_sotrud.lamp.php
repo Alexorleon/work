@@ -9,16 +9,16 @@
 	$db->GetConnect();
 	$error_='';
 	$temp_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_NUMBER_INT);
-	$sotrud_tabel_kadr = filter_input(INPUT_POST, 'tabel_kadr', FILTER_SANITIZE_NUMBER_INT);
+	$sotrud_tabel_spusk = filter_input(INPUT_POST, 'tabel_spusk', FILTER_SANITIZE_NUMBER_INT);
 	
 if ($temp_type == 1){//тут массив с сотрудниками	
 	$period = time() - (3 * 60 * 60); // TODO: установить нужный период
 	$current_date = date('d.m.Y H:i:s', $period);
 		
 	$sql = <<<SQL
-	SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
+	SELECT TABEL_SPUSK FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
 	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEBEGIN >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
-	EXAMINERTYPE=1) ORDER BY TABEL_KADR
+	EXAMINERTYPE=1) ORDER BY TABEL_SPUSK
 SQL;
 	$array_sotrud = $db->go_result($sql);
 
@@ -28,11 +28,11 @@ SQL;
 		$temp_sotrudid = $array_sotrud[$i]['SOTRUD_ID'];
 				
 		$sql = <<<SQL
-		SELECT TABEL_KADR FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$temp_sotrudid' AND PREDPR_K=$predpr_k_glob
+		SELECT TABEL_SPUSK FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$temp_sotrudid' AND PREDPR_K=$predpr_k_glob
 SQL;
 		$temp_tabkadr = $db->go_result_once($sql);
 		
-		$array_sotrud[$i]['SOTRUD_ID'] = $temp_tabkadr['TABEL_KADR'];
+		$array_sotrud[$i]['SOTRUD_ID'] = $temp_tabkadr['TABEL_SPUSK'];
 	}*/
 	
 	//$array_sotrud = $db->go_result($sql);
@@ -43,7 +43,7 @@ SQL;
 	$check_tab_num = filter_input(INPUT_POST, 'check_tab_num', FILTER_SANITIZE_NUMBER_INT);//$_POST['check_tab_num'];
 		
 	$sql = <<<SQL
-	SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$check_tab_num' AND PREDPR_K=$predpr_k_glob
+	SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_SPUSK='$check_tab_num' AND PREDPR_K=$predpr_k_glob
 SQL;
 	$bool_sotrud = $db->go_result_once($sql);
 
@@ -68,7 +68,7 @@ SQL;
 }else if ($temp_type == 3){ // тут надо получить данные по сотруднику
 
 	$sql = <<<SQL
-	SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_KADR='$sotrud_tabel_kadr' AND PREDPR_K=$predpr_k_glob
+	SELECT SOTRUD_K FROM stat.SOTRUD WHERE SOTRUD.TABEL_SPUSK='$sotrud_tabel_spusk' AND PREDPR_K=$predpr_k_glob
 SQL;
 	$sotrud = $db->go_result_once($sql);
 	
@@ -82,6 +82,6 @@ SQL;
 		$date = $datemax['DATEBEGIN'];
 		die("date_".$date);
 }else{
+
 }
-//}
 ?>

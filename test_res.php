@@ -48,7 +48,7 @@ else
 	$smarty->assign("cur_employee_cur", $employee['SOTRUD_FAM']);
 	$smarty->assign("cur_employee_name", $employee['SOTRUD_IM']);
 	$smarty->assign("cur_employee_pat", $employee['SOTRUD_OTCH']);
-	$smarty->assign("cur_employee_tabel", $employee['TABEL_KADR']);
+	$smarty->assign("cur_employee_tabel", $employee['TABEL_SPUSK']);
         
         $smarty->display("test_result.tpl.html");
     }
@@ -66,7 +66,7 @@ else
 	$smarty->assign("cur_employee_cur", $employee['SOTRUD_FAM']);
 	$smarty->assign("cur_employee_name", $employee['SOTRUD_IM']);
 	$smarty->assign("cur_employee_pat", $employee['SOTRUD_OTCH']);
-	$smarty->assign("cur_employee_tabel", $employee['TABEL_KADR']);
+	$smarty->assign("cur_employee_tabel", $employee['TABEL_SPUSK']);
         
         $smarty->display("test_PE_result.tpl.html");
     }
@@ -83,7 +83,7 @@ function GetPEResults($obj,$sid)
             WHERE (SOTRUD_ID='$sid' AND EXAMINERTYPE='1' AND DEL='N') AND ALLQUESTIONS.ID = ALLHISTORY.ALLQUESTIONSID AND ALLANSWERS.ID=ALLHISTORY.ALLANSWERSID AND MODULE.ID=ALLQUESTIONS.MODULEID
             ORDER BY ALLHISTORY.DATEBEGIN, MODULE.ID";
     $PEResults = $obj->go_result($sql);
-    
+
     //var_dump($PEResults);
     return $PEResults;
 }

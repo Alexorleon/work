@@ -339,7 +339,7 @@
 		
 		// если нет вопросов, выходим
 		if(empty($array_module_knowledge) and empty($array_module_skills) and empty($array_module_experiences) and empty($array_module_experiences)){
-		
+                        $_SESSION['your_BigEx_is_empty'] = 1;
 			die('<script>document.location.href= "'.lhost.'/auth.php"</script>');
 		}
 		
