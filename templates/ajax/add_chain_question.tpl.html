@@ -5,7 +5,7 @@
             <strong>Вопрос {$last+1}</strong>
         </td>
     </tr>
-    <tr id='chain_{$last}'>
+    <tr>
         <td>Текст вопроса:</td>
         <td>
 {strip}
@@ -16,13 +16,13 @@
     <tr>
         <td>Позиция:</td>
         <td>
-            <input type="text" class="admin_input_text" name="chain_position[{$last}]" value="{$last+1}"/>
+            <input type="text" class="admin_input_text" name="chain_position[{$last}]" value="{$last+1}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
         </td>
     </tr>
     <tr>
         <td>Видео вопроса</td>
         <td>
-            <input type="file" name="chain_video[{$last}]"/>
+            <input type="file" name="chain_video_{$last}"/>
         </td>
     </tr>
     <tr>
@@ -47,7 +47,7 @@
             Штраф:
         </td>
         <td>
-             <input type="text" class="admin_input_text" name="chain_price[{$last}][0]" value=""/>
+             <input type="text" class="admin_input_text" name="chain_price[{$last}][0]" value="" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
         </td>
     </tr>
     <tr>
@@ -67,7 +67,7 @@
             Видео:
         </td>
         <td>
-            <input type="file" name="chain_video_answer[{$last}][0]"/>
+            <input type="file" name="chain_video_answer_{$last}_0"/>
         </td>
     </tr>
     <tr>
@@ -92,7 +92,7 @@
             Штраф:
         </td>
         <td>
-             <input type="text" class="admin_input_text" name="chain_price[{$last}][0]" value=""/>
+             <input type="text" class="admin_input_text" name="chain_price[{$last}][1]" value="" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
         </td>
     </tr>
     <tr>
@@ -100,7 +100,7 @@
                 Уровень риска:
             </td>
             <td>
-                <select name="risklevel_answer[{$last}][1]" id="risklevel_answer[{$last}][0]">
+                <select name="risklevel_answer[{$last}][1]" id="risklevel_answer[{$last}][1]">
                 {section name=j loop=$array_risklevel}
                     <option value="{$array_risklevel[j]['ID']}"{$sel}>{$array_risklevel[j]['TITLE']}</option>
                 {/section}
@@ -112,7 +112,7 @@
             Видео:
         </td>
         <td>
-            <input type="file" name="chain_video_answer[{$last}][1]"/>
+            <input type="file" name="chain_video_answer_{$last}_1"/>
         </td>
     </tr>
     <tr>

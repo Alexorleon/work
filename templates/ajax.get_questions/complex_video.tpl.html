@@ -27,7 +27,7 @@
             Каталог:
         </td>
         <td>
-            <input type="text" class="admin_input_text" name="catalog" value="{$question_data['catalog']}"/>
+            <input type="text" class="admin_input_text" name="catalog" value="{$question_data['catalog']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
         </td>
     </tr>
 </table>
@@ -40,7 +40,7 @@
             <strong>Вопрос {$q_key+1}</strong>
         </td>
     </tr>
-    <tr id='chain_{$q_key}'>
+    <tr>
         <td>Текст вопроса:</td>
         <td>
 {strip}
@@ -62,7 +62,7 @@
             {if $question_data['chain_questions'][$q_key]['SIMPLEVIDEO']!=''}
             Текущий видеофайл: {$question_data['chain_questions'][$q_key]['SIMPLEVIDEO']}<br>
             {/if}
-            <input type="file" name="chain_video[{$q_key}]"/>
+            <input type="file" name="chain_video_{$q_key}"/>
         </td>
     </tr>
     <tr>
@@ -89,7 +89,7 @@
             Штраф:
         </td>
         <td>
-             <input type="text" class="admin_input_text" name="chain_price[{$q_key}][0]" value="{$chain_q['answers'][0]['PRICE']}"/>
+             <input type="text" class="admin_input_text" name="chain_price[{$q_key}][0]" value="{$chain_q['answers'][0]['PRICE']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
         </td>
     </tr>
     <tr>
@@ -116,13 +116,13 @@
             {if $chain_q["answers"][0]["SIMPLEVIDEO"]}
             Текущий видеофайл: {$chain_q["answers"][0]["SIMPLEVIDEO"]}<br>
             {/if}
-            <input type="file" name="chain_video_answer[{$q_key}][0]"/>
+            <input type="file" name="chain_video_answer_{$q_key}_0"/>
         </td>
     </tr>
     <tr>
         <td colspan="2">
             <hr>
-            <input type="hidden" name="chain_answer_id[{$q_key}][1]" value="{$chain_q['answers'][0]['ID']}"/>
+            <input type="hidden" name="chain_answer_id[{$q_key}][1]" value="{$chain_q['answers'][1]['ID']}"/>
             <strong>Ответ 2</strong>
         </td>
     </tr>
@@ -143,7 +143,7 @@
             Штраф:
         </td>
         <td>
-             <input type="text" class="admin_input_text" name="chain_price[{$q_key}][0]" value="{$chain_q['answers'][1]['PRICE']}"/>
+             <input type="text" class="admin_input_text" name="chain_price[{$q_key}][1]" value="{$chain_q['answers'][1]['PRICE']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
         </td>
     </tr>
     <tr>
@@ -170,7 +170,7 @@
             {if $chain_q["answers"][1]["SIMPLEVIDEO"]}
             Текущий видеофайл: {$chain_q["answers"][1]["SIMPLEVIDEO"]}<br>
             {/if}
-            <input type="file" name="chain_video_answer[{$q_key}][1]"/>
+            <input type="file" name="chain_video_answer_{$q_key}_1"/>
         </td>
     </tr>
     <tr>
@@ -186,8 +186,15 @@
 <script>
     function add_question_field()
     {
-        var nextNum = parseInt($(".chain").last().attr('id').substring(6)) + 1;
-        
+        var nextNum;
+        if ($(".chain").length>0)
+        {
+            nextNum = parseInt($(".chain").last().attr('id').substring(6)) + 1;
+        }
+        else
+        {
+            nextNum = 0;
+        }
         if ($(".chain").length<5)
         {
             $.ajax({
@@ -199,7 +206,7 @@
 			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
 			},
 			success: function (data) {
-				$("#chain_body").html($("#chain_body").html()+data);
+				$("#chain_body").append(data);
                                 }
                 });
         }

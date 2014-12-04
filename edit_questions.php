@@ -25,121 +25,314 @@ else
         $module_question = filter_input(INPUT_POST,'module_question', FILTER_SANITIZE_NUMBER_INT); //ID модуля вопроса
         $risklevel_question = filter_input(INPUT_POST,'risklevel_question', FILTER_SANITIZE_NUMBER_INT); //ID уровня риска вопроса
         $testname_question = filter_input(INPUT_POST,'testname_question', FILTER_SANITIZE_NUMBER_INT); //ID теста, к которому прикреплен вопрос
-
         $text_question = filter_input(INPUT_POST,'text_question', FILTER_SANITIZE_STRING); //Текст вопроса
-
-        $id_answer = filter_input(INPUT_POST, 'id_answer', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив ID-шников ответов
-        $text_answer = filter_input(INPUT_POST, 'text_answer', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов
-        $answer_price = filter_input(INPUT_POST, 'answer_price', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив штрафов к ответам
         $answer_comment = filter_input(INPUT_POST, 'answer_comment', FILTER_SANITIZE_STRING); //Комментарий к неправильному ответу
         $answer_factor = filter_input(INPUT_POST, 'answer_factor', FILTER_SANITIZE_STRING); //Фактор риска
-        if ($current_id) //Сохранение отредактированного вопроса
+        
+        if ($type_question!=10)
         {
-            $sql_question = "UPDATE stat.ALLQUESTIONS SET
-                                TEXT='$text_question',
-                                TYPEQUESTIONSID='$type_question',
-                                MODULEID='$module_question',
-                                RISKLEVELID='$risklevel_question'
-                                WHERE ID='$current_id'";
-                $db->go_query($sql_question);
+            $id_answer = filter_input(INPUT_POST, 'id_answer', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив ID-шников ответов
+            $text_answer = filter_input(INPUT_POST, 'text_answer', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов
+            $answer_price = filter_input(INPUT_POST, 'answer_price', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив штрафов к ответам
+            
+            if ($current_id) //Сохранение отредактированного вопроса
+            {
+                $sql_question = "UPDATE stat.ALLQUESTIONS SET
+                                    TEXT='$text_question',
+                                    TYPEQUESTIONSID='$type_question',
+                                    MODULEID='$module_question',
+                                    RISKLEVELID='$risklevel_question'
+                                    WHERE ID='$current_id'";
+                    $db->go_query($sql_question);
+            }
+            else //Сохранение нового вопроса
+            {
+                $sql_question = "INSERT INTO stat.ALLQUESTIONS
+                                (TEXT, TYPEQUESTIONSID, MODULEID, RISKLEVELID)
+                                VALUES
+                                ('$text_question', '$type_question', '$module_question', '$risklevel_question')
+                                returning ID into :mylastid"; //Запоминаем ID. Поэтому $db->go_query тут заюзать не получится
+                $stmt = OCIParse($c, $sql_question);
+                oci_bind_by_name($stmt, "mylastid", $current_id, 32, SQLT_INT); //Записываем полученный ID в $current_id
+                OCIExecute($stmt);
+            }
+
+            for ($ans_iter = 0; $ans_iter<3; $ans_iter++) //3 - патамушта максимум 3 вопроса
+            {
+                $competencelevel_id = GetCompetenceLevelID($db, $answer_price);
+
+                if ($answer_price[$ans_iter]!=0) //Если ответ неверный - записываем ему фактор и комментарий (общий для всех неправильных ответов)
+                {
+                    $current_comment = $answer_comment;
+                    $current_factor = $answer_factor;
+                    $current_risk = $risklevel_question;
+                }
+                else //Если ответ верный - фактор и риск пустые
+                {
+                    $current_comment = "";
+                    $current_factor = "";
+                    $current_risk = 21;
+                }
+
+                if ($id_answer[$ans_iter]!=0) //Если ответ уже есть в базе - апдейтим его
+                {
+                    $sql_answer = "UPDATE stat.ALLANSWERS SET
+                                   TEXT ='{$text_answer[$ans_iter]}',
+                                   ALLQUESTIONSID='$current_id',
+                                   COMPETENCELEVELID='$competencelevel_id',
+                                   COMMENTARY='$current_comment',
+                                   FACTOR='$current_factor',
+                                   RISKLEVELID='$current_risk',
+                                   PRICE='{$answer_price[$ans_iter]}'
+                                   WHERE ID='{$id_answer[$ans_iter]}'";
+                }
+                else //Если ответ новый - инсерт в базу
+                {
+                    $sql_answer = "INSERT INTO stat.ALLANSWERS
+                                   (TEXT, ALLQUESTIONSID, COMPETENCELEVELID, COMMENTARY, FACTOR, RISKLEVELID, PRICE)
+                                   VALUES
+                                   ('{$text_answer[$ans_iter]}','$current_id','$competencelevel_id','$current_comment','$current_factor','$current_risk','{$answer_price[$ans_iter]}')";
+                }
+                $db->go_query($sql_answer);
+            }
+
+            $sql_AQB = "SELECT ID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONSID='$current_id'"; //Ищем тест, которому принадлежит вопрос
+            $test_id = $db->go_result_once($sql_AQB)['ID'];
+            if ($test_id) //Если вопрос уже прикреплен к тесту
+            {
+                $sql_AQB = "UPDATE stat.ALLQUESTIONS_B SET TESTNAMESID='$testname_question' WHERE ID='$test_id'";
+            }
+            else
+            {
+                $sql_AQB = "INSERT INTO stat.ALLQUESTIONS_B (TESTNAMESID, ALLQUESTIONSID) VALUES ('$testname_question', '$current_id')";
+            }
+            $db->go_query($sql_AQB);
+
+            if ((isset($_FILES['download_sf']['tmp_name']))&&(isset($_FILES['download_sf']['name']))) //Сохранение фотографии к простому вопросу
+            {
+                if (move_uploaded_file($_FILES['download_sf']['tmp_name'], "".$dir_photo."z".$_FILES['download_sf']['name']))
+                {
+                    chmod($dir_photo."z".$_FILES['download_sf']['name'], 0644);
+                    $ext = pathinfo($_FILES['download_sf']['name'], PATHINFO_EXTENSION);
+                    $ts=time();
+                    $ts = "z".$ts.".".$ext;
+                    $sql = "SELECT SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ID='$current_id'";
+                    $old_img = $db->go_result_once($sql)['SIMPLEPHOTO'];
+                    rename($dir_photo."z".$_FILES['download_sf']['name'], "".$dir_photo."$ts");
+                    $sql = "UPDATE stat.ALLQUESTIONS SET SIMPLEPHOTO='$ts' WHERE ID='$current_id'";
+                    $db->go_query($sql);
+                    @unlink("".$dir_photo."$old_img");
+                }
+            }
+
+            if ((isset($_FILES['download_sv']['tmp_name']))&&(isset($_FILES['download_sv']['name']))) //Сохранение видео к простому вопросу
+            {
+                if (move_uploaded_file($_FILES['download_sv']['tmp_name'], "".$dir_video."z".$_FILES['download_sv']['name']))
+                {
+                    chmod($dir_video."z".$_FILES['download_sv']['name'], 0644);
+                    $ext = pathinfo($_FILES['download_sv']['name'], PATHINFO_EXTENSION);
+                    $ts=time();
+                    $ts = "z".$ts.".".$ext;
+                    $sql = "SELECT SIMPLEVIDEO FROM stat.ALLQUESTIONS WHERE ID='$current_id'";
+                    $old_video = $db->go_result_once($sql)['SIMPLEVIDEO'];
+                    rename($dir_video."z".$_FILES['download_sv']['name'], "".$dir_video."$ts");
+                    $sql = "UPDATE stat.ALLQUESTIONS SET SIMPLEVIDEO='$ts' WHERE ID='$current_id'";
+                    $db->go_query($sql);
+                    @unlink("".$dir_video."$old_video");
+                }
+            }
         }
-        else //Сохранение нового вопроса
+        else 
         {
-            $sql_question = "INSERT INTO stat.ALLQUESTIONS
-                            (TEXT, TYPEQUESTIONSID, MODULEID, RISKLEVELID)
+            $catalog = filter_input(INPUT_POST, 'catalog', FILTER_SANITIZE_NUMBER_INT); //Каталог видео (Э?)
+            $chain_ids = filter_input(INPUT_POST, 'chain_id', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив ID подвопросов
+            $chain_titles = filter_input(INPUT_POST, 'chain_title', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов подвопросов
+            $chain_positions= filter_input(INPUT_POST, 'chain_position', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив позиций подвопросов
+            $chain_answer_ids = filter_input(INPUT_POST,'chain_answer_id', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив ID ответов на подвопросы
+            $chain_answers = filter_input(INPUT_POST, 'chain_answer', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов на подвопросы
+            $chain_prices = filter_input(INPUT_POST, 'chain_price', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив штрафов за ответы на подвопросы
+            $chain_risks = filter_input(INPUT_POST, 'risklevel_answer', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив уровней рисков для ответов на подвопросы
+            
+            $dir_complex = $_SERVER['DOCUMENT_ROOT']."/storage/video_questions/complex_video/$catalog/"; //Директория для схоронения видео к вопросу
+            
+            if (!file_exists($dir_complex)) //Создаем директорию для схоронения, если ее еще нет
+            {
+                mkdir($dir_complex, 0644);
+            }
+            
+            if ($current_id) //Сложный вопрос уже существует
+            {
+                $sql = "UPDATE stat.ALLQUESTIONS 
+                        SET
+                        TEXT='$text_question',
+                        TYPEQUESTIONSID='$type_question',
+                        MODULEID='$module_question',
+                        RISKLEVELID='$risklevel_question',
+                        CATALOG='$catalog'
+                        WHERE
+                        ID='$current_id'";
+                $db->go_query($sql);
+            }
+            else //Сложный вопрос еще не существует
+            {
+                $sql = "INSERT INTO stat.ALLQUESTIONS
+                        (TEXT, TYPEQUESTIONSID, MODULEID, RISKLEVELID, CATALOG)
+                        VALUES
+                        ('$text_question', '$type_question', '$module_question', '$risklevel_question', '$catalog')
+                        returning ID into :mylastid"; //Аналогично простому вопросу, нам нужно выцепить ID
+                $stmt = OCIParse($c, $sql);
+                oci_bind_by_name($stmt, "mylastid", $current_id, 32, SQLT_INT); //Записываем полученный ID в $current_id
+                OCIExecute($stmt);
+            }
+
+            if (isset($_FILES['download_prolog']['tmp_name'])&&(isset($_FILES['download_prolog']['name']))) //Сохраняем пролог вопроса (если таковой есть)
+            {
+                if (move_uploaded_file($_FILES['download_prolog']['tmp_name'], "".$dir_complex."prolog_".$_FILES['download_prolog']['name']))
+                {
+                    chmod($dir_complex."prolog_".$_FILES['download_prolog']['name'], 0644);
+                    $ext = pathinfo($_FILES['download_prolog']['name'], PATHINFO_EXTENSION);
+                    //$ts=time();
+                    $ts = "INTRO.".$ext;
+                    $sql = "SELECT PROLOGVIDEO FROM stat.ALLQUESTIONS WHERE ID='$current_id'";
+                    $old_video = $db->go_result_once($sql)['PROLOGVIDEO'];
+                    rename($dir_complex."prolog_".$_FILES['download_prolog']['name'], "".$dir_complex."$ts");
+                    $sql = "UPDATE stat.ALLQUESTIONS SET PROLOGVIDEO='$ts' WHERE ID='$current_id'";
+                    $db->go_query($sql);
+                    @unlink("".$dir_complex."$old_video");
+                }                
+            }
+            
+            if (isset($_FILES['download_epilog']['tmp_name'])&&(isset($_FILES['download_epilog']['name']))) //Сохраняем эпилог вопроса (если таковой есть)
+            {
+                if (move_uploaded_file($_FILES['download_epilog']['tmp_name'], "".$dir_complex."epilog_".$_FILES['download_epilog']['name']))
+                {
+                    chmod($dir_complex."epilog_".$_FILES['download_epilog']['name'], 0644);
+                    $ext = pathinfo($_FILES['download_epilog']['name'], PATHINFO_EXTENSION);
+                    //$ts=time();
+                    $ts = "END.".$ext;
+                    $sql = "SELECT EPILOGVIDEO FROM stat.ALLQUESTIONS WHERE ID='$current_id'";
+                    $old_video = $db->go_result_once($sql)['EPILOGVIDEO'];
+                    rename($dir_complex."epilog_".$_FILES['download_epilog']['name'], "".$dir_complex."$ts");
+                    $sql = "UPDATE stat.ALLQUESTIONS SET EPILOGVIDEO='$ts' WHERE ID='$current_id'";
+                    $db->go_query($sql);
+                    @unlink("".$dir_complex."$old_video");
+                }                
+            }
+            
+            $sql_AQB = "SELECT ID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONSID='$current_id'"; //Ищем тест, которому принадлежит вопрос
+            $test_id = $db->go_result_once($sql_AQB)['ID'];
+            if ($test_id) //Если вопрос уже прикреплен к тесту
+            {
+                $sql_AQB = "UPDATE stat.ALLQUESTIONS_B SET TESTNAMESID='$testname_question' WHERE ID='$test_id'";
+            }
+            else
+            {
+                $sql_AQB = "INSERT INTO stat.ALLQUESTIONS_B (TESTNAMESID, ALLQUESTIONSID) VALUES ('$testname_question', '$current_id')";
+            }
+            $db->go_query($sql_AQB);
+            
+            foreach($chain_ids as $key=>$chain_id)
+            {
+                if ($chain_id)
+                {
+                    $sql = "UPDATE stat.COMPLEXVIDEO
+                            SET
+                            POSITION='{$chain_positions[$key]}',
+                            COMPLEXVIDEOID='$current_id',
+                            TITLE='{$chain_titles[$key]}'
+                            WHERE ID='$chain_id'";
+                    $db->go_query($sql);
+                }
+                else
+                {
+                    $sql = "INSERT INTO stat.COMPLEXVIDEO
+                            (POSITION, COMPLEXVIDEOID, TITLE)
                             VALUES
-                            ('$text_question', '$type_question', '$module_question', '$risklevel_question')
-                            returning ID into :mylastid"; //Запоминаем ID. Поэтому $db->go_query тут заюзать не получится
-            $stmt = OCIParse($c, $sql_question);
-            oci_bind_by_name($stmt, "mylastid", $current_id, 32, SQLT_INT); //Записываем полученный ID в $current_id
-            OCIExecute($stmt);
-        }
+                            ('{$chain_positions[$key]}','$current_id','{$chain_titles[$key]}')
+                            returning ID into :mylastid"; //Аналогично простому вопросу, нам нужно выцепить ID
+                    $stmt = OCIParse($c, $sql);
+                    oci_bind_by_name($stmt, "mylastid", $chain_ids[$key], 32, SQLT_INT); //Записываем полученный ID в $current_id
+                    OCIExecute($stmt);
+                }
+                
+                if (isset($_FILES['chain_video_'.$key]['tmp_name'])&&(isset($_FILES['chain_video_'.$key]['name']))) //Сохраняем видео вопроса (если таковое есть)
+                {
+                    if (move_uploaded_file($_FILES['chain_video_'.$key]['tmp_name'], "".$dir_complex."chain_q_".$_FILES['chain_video_'.$key]['name']))
+                    {
+                        chmod($dir_complex."chain_q_".$_FILES['chain_video_'.$key]['name'], 0644);
+                        $ext = pathinfo($_FILES['chain_video_'.$key]['name'], PATHINFO_EXTENSION);
+                        //$ts=time();
+                        $ts = "Q{$key}.".$ext;
+                        $sql = "SELECT SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE ID='{$chain_ids[$key]}'";
+                        $old_video = $db->go_result_once($sql)['SIMPLEVIDEO'];
+                        rename($dir_complex."chain_q_".$_FILES['chain_video_'.$key]['name'], "".$dir_complex."$ts");
+                        $sql = "UPDATE stat.COMPLEXVIDEO SET SIMPLEVIDEO='$ts' WHERE ID='{$chain_ids[$key]}'";
+                        $db->go_query($sql);
+                        @unlink("".$dir_complex."$old_video");
+                    }                
+                }
 
-        for ($ans_iter = 0; $ans_iter<3; $ans_iter++) //3 - патамушта максимум 3 вопроса
-        {
-            $competencelevel_id = GetCompetenceLevelID($db, $answer_price);
+                for ($i=0; $i<2; $i++)
+                {
+                    $competencelevel_id = GetCompetenceLevelID($db, $chain_prices[$key][$i]);
+                    
+                    if ($chain_prices[$key][$i]!=0)
+                    {
+                        $current_comment = $answer_comment;
+                        $current_factor = $answer_factor;
+                        $current_risk  = $chain_risks[$key][$i];
+                    }
+                    else
+                    {
+                        $current_comment = "";
+                        $current_factor = "";
+                        $current_risk = 21;
+                    }
 
-            if ($answer_price[$ans_iter]!=0) //Если ответ неверный - записываем ему фактор и комментарий (общий для всех неправильных ответов)
-            {
-                $current_comment = $answer_comment;
-                $current_factor = $answer_factor;
-                $current_risk = $risklevel_question;
-            }
-            else //Если ответ верный - фактор и риск пустые
-            {
-                $current_comment = "";
-                $current_factor = "";
-                $current_risk = 21;
-            }
-
-            if ($id_answer[$ans_iter]!=0) //Если ответ уже есть в базе - апдейтим его
-            {
-                $sql_answer = "UPDATE stat.ALLANSWERS SET
-                               TEXT ='{$text_answer[$ans_iter]}',
-                               ALLQUESTIONSID='$current_id',
-                               COMPETENCELEVELID='$competencelevel_id',
-                               COMMENTARY='$current_comment',
-                               FACTOR='$current_factor',
-                               RISKLEVELID='$current_risk',
-                               PRICE='{$answer_price[$ans_iter]}'
-                               WHERE ID='{$id_answer[$ans_iter]}'";
-            }
-            else //Если ответ новый - инсерт в базу
-            {
-                $sql_answer = "INSERT INTO stat.ALLANSWERS
-                               (TEXT, ALLQUESTIONSID, COMPETENCELEVELID, COMMENTARY, FACTOR, RISKLEVELID, PRICE)
-                               VALUES
-                               ('{$text_answer[$ans_iter]}','$current_id','$competencelevel_id','$current_comment','$current_factor','$current_risk','{$answer_price[$ans_iter]}')";
-            }
-            $db->go_query($sql_answer);
-        }
-
-        $sql_AQB = "SELECT ID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONSID='$current_id'"; //Ищем тест, которому принадлежит вопрос
-        $test_id = $db->go_result_once($sql_AQB)['ID'];
-        if ($test_id) //Если вопрос уже прикреплен к тесту
-        {
-            $sql_AQB = "UPDATE stat.ALLQUESTIONS_B SET TESTNAMESID='$testname_question' WHERE ID='$test_id'";
-        }
-        else
-        {
-            $sql_AQB = "INSERT INTO stat.ALLQUESTIONS_B (TESTNAMESID, ALLQUESTIONSID) VALUES ('$testname_question', '$current_id')";
-        }
-        $db->go_query($sql_AQB);
-    
-        if ((isset($_FILES['download_sf']['tmp_name']))&&(isset($_FILES['download_sf']['name']))) //Сохранение фотографии к простому вопросу
-        {
-            if (move_uploaded_file($_FILES['download_sf']['tmp_name'], "".$dir_photo."z".$_FILES['download_sf']['name']))
-            {
-                chmod($dir_photo."z".$_FILES['download_sf']['name'], 0644);
-                $ext = pathinfo($_FILES['download_sf']['name'], PATHINFO_EXTENSION);
-                $ts=time();
-                $ts = "z".$ts.".".$ext;
-                $sql = "SELECT SIMPLEPHOTO FROM stat.ALLQUESTIONS WHERE ID='$current_id'";
-                $old_img = $db->go_result_once($sql)['SIMPLEPHOTO'];
-                rename($dir_photo."z".$_FILES['download_sf']['name'], "".$dir_photo."$ts");
-                $sql = "UPDATE stat.ALLQUESTIONS SET SIMPLEPHOTO='$ts' WHERE ID='$current_id'";
-                $db->go_query($sql);
-                @unlink("".$dir_photo."$old_img");
+                    if ($chain_answer_ids[$key][$i])
+                    {
+                        $sql = "UPDATE stat.ALLANSWERS SET
+                                TEXT ='{$chain_answers[$key][$i]}',
+                                COMPETENCELEVELID='{$competencelevel_id}',
+                                COMMENTARY='$current_comment',
+                                FACTOR='$current_factor',
+                                RISKLEVELID='$current_risk',
+                                PRICE='{$chain_prices[$key][$i]}',
+                                COMPLEXVIDEOID='{$chain_ids[$key]}'    
+                                WHERE ID='{$chain_answer_ids[$key][$i]}'";
+                        $db->go_query($sql);
+                    }
+                    else
+                    {
+                        $sql = "INSERT INTO stat.ALLANSWERS
+                                (TEXT, COMPETENCELEVELID, COMMENTARY, FACTOR, RISKLEVELID, PRICE, COMPLEXVIDEOID)
+                                VALUES
+                                ('{$chain_answers[$key][$i]}','{$competencelevel_id}','$current_comment','$current_factor','$current_risk','{$chain_prices[$key][$i]}','{$chain_ids[$key]}')
+                                returning ID into :mylastid";
+                        $stmt = OCIParse($c, $sql);
+                        oci_bind_by_name($stmt, "mylastid", $chain_answer_ids[$key][$i], 32, SQLT_INT); //Записываем полученный ID в $current_id
+                        OCIExecute($stmt);
+                    }
+                    if (isset($_FILES['chain_video_answer_'.$key.'_'.$i]['tmp_name'])&&(isset($_FILES['chain_video_answer_'.$key.'_'.$i]['name']))) //Сохраняем видео вопроса (если таковое есть)
+                    {
+                        if (move_uploaded_file($_FILES['chain_video_answer_'.$key.'_'.$i]['tmp_name'], "".$dir_complex."chain_{$key}_{$i}_".$_FILES['chain_video_answer_'.$key.'_'.$i]['name']))
+                        {
+                            chmod($dir_complex."chain_{$key}_{$i}_".$_FILES['chain_video_answer_'.$key.'_'.$i]['name'], 0644);
+                            $ext = pathinfo($_FILES['chain_video_answer_'.$key.'_'.$i]['name'], PATHINFO_EXTENSION);
+                            //$ts=time();
+                            $ts = "Q{$key}_{$i}.".$ext;
+                            $sql = "SELECT SIMPLEVIDEO FROM stat.ALLANSWERS WHERE ID='{$chain_answer_ids[$key][$i]}'";
+                            $old_video = $db->go_result_once($sql)['SIMPLEVIDEO'];
+                            rename($dir_complex."chain_{$key}_{$i}_".$_FILES['chain_video_answer_'.$key.'_'.$i]['name'], "".$dir_complex."$ts");
+                            $sql = "UPDATE stat.ALLANSWERS SET SIMPLEVIDEO='$ts' WHERE ID='{$chain_answer_ids[$key][$i]}'";
+                            $db->go_query($sql);
+                            @unlink("".$dir_complex."$old_video");
+                        }                
+                    }
+                }
             }
         }
-
-        if ((isset($_FILES['download_sv']['tmp_name']))&&(isset($_FILES['download_sv']['name']))) //Сохранение видео к простому вопросу
-        {
-            if (move_uploaded_file($_FILES['download_sv']['tmp_name'], "".$dir_video."z".$_FILES['download_sv']['name']))
-            {
-                chmod($dir_video."z".$_FILES['download_sv']['name'], 0644);
-                $ext = pathinfo($_FILES['download_sv']['name'], PATHINFO_EXTENSION);
-                $ts=time();
-                $ts = "z".$ts.".".$ext;
-                $sql = "SELECT SIMPLEVIDEO FROM stat.ALLQUESTIONS WHERE ID='$current_id'";
-                $old_video = $db->go_result_once($sql)['SIMPLEVIDEO'];
-                rename($dir_video."z".$_FILES['download_sv']['name'], "".$dir_video."$ts");
-                $sql = "UPDATE stat.ALLQUESTIONS SET SIMPLEVIDEO='$ts' WHERE ID='$current_id'";
-                $db->go_query($sql);
-                @unlink("".$dir_video."$old_video");
-            }
-        }
-        die('<script>document.location.href= "/edit_questions?question_id='.$current_id.'"</script>'); //Все схоронили, мы молодцы, теперь валим на страницу вопроса
+        //die('<script>document.location.href= "/edit_questions?question_id='.$current_id.'"</script>'); //Все схоронили, мы молодцы, теперь валим на страницу вопроса
     }
     //Собсно, страница вопроса
     $question_data = GetEmptyQuestionArray(); //Забиваем массив пустыми значениями, чтобы нам не ебали мозги нотайсами (да, мы пехопе-перфекционисты)
