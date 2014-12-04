@@ -39,8 +39,8 @@ SQL;
 				$error_='';//нулим ошибку,если повторно будет
 				$smarty->assign("employeename", "");
 				$sql = <<<SQL
-				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_SPUSK) 
-				VALUES ('$employeesur', '$employeename', '$employeepat', '$predpr_k_glob', '$type_doljnost', '$employeetabel')
+				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_SPUSK, UCHAST_K) 
+				VALUES ('$employeesur', '$employeename', '$employeepat', '$predpr_k_glob', '$type_doljnost', '$employeetabel', '6000')
 SQL;
 				$db->go_query($sql);
 			
