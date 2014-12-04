@@ -262,7 +262,7 @@ else
                         chmod($dir_complex."chain_q_".$_FILES['chain_video_'.$key]['name'], 0644);
                         $ext = pathinfo($_FILES['chain_video_'.$key]['name'], PATHINFO_EXTENSION);
                         //$ts=time();
-                        $ts = "Q{$key}.".$ext;
+                        $ts = "Q".($key+1).".".$ext;
                         $sql = "SELECT SIMPLEVIDEO FROM stat.COMPLEXVIDEO WHERE ID='{$chain_ids[$key]}'";
                         $old_video = $db->go_result_once($sql)['SIMPLEVIDEO'];
                         rename($dir_complex."chain_q_".$_FILES['chain_video_'.$key]['name'], "".$dir_complex."$ts");
@@ -320,7 +320,7 @@ else
                             chmod($dir_complex."chain_{$key}_{$i}_".$_FILES['chain_video_answer_'.$key.'_'.$i]['name'], 0644);
                             $ext = pathinfo($_FILES['chain_video_answer_'.$key.'_'.$i]['name'], PATHINFO_EXTENSION);
                             //$ts=time();
-                            $ts = "Q{$key}_{$i}.".$ext;
+                            $ts = "Q".($key+1)."_".($i+1).".".$ext;
                             $sql = "SELECT SIMPLEVIDEO FROM stat.ALLANSWERS WHERE ID='{$chain_answer_ids[$key][$i]}'";
                             $old_video = $db->go_result_once($sql)['SIMPLEVIDEO'];
                             rename($dir_complex."chain_{$key}_{$i}_".$_FILES['chain_video_answer_'.$key.'_'.$i]['name'], "".$dir_complex."$ts");
@@ -387,7 +387,11 @@ else
                         FROM ALLQUESTIONS
                         WHERE ALLQUESTIONS.ID=$question_id";
                 $q_res = $db->go_result_once($sql);
-
+                
+                if (!is_dir($_SERVER['DOCUMENT_ROOT']."/storage/video_questions/complex_video/".$q_res['CATALOG']))
+                {
+                    $q_res['CATALOG'] = GetNewCatalog();
+                }
                 $sql = "SELECT
                         TESTNAMESID
                         FROM stat.ALLQUESTIONS_B
@@ -539,9 +543,26 @@ function GetEmptyQuestionArray()
     $question_data['answers'][2]['PRICE'] = '';
     $question_data['chain_questions'] = array();
     $question_data['prolog'] = '';
-    $question_data['catalog'] = '';
+    $question_data['catalog'] = GetNewCatalog();
     $question_data['epilog'] = '';
 
     return $question_data;
+}
+
+function GetNewCatalog()
+{
+    $files=scandir($_SERVER['DOCUMENT_ROOT']."/storage/video_questions/complex_video");
+    
+    $max = 0;
+    
+    foreach($files as $file)
+    {
+        if ($max<=intval($file))
+        {
+            $max = intval($file)+1;
+        }
+    }
+    
+    return $max;
 }
 ?>

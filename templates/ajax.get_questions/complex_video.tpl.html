@@ -27,13 +27,13 @@
             Каталог:
         </td>
         <td>
-            <input type="text" class="admin_input_text" name="catalog" value="{$question_data['catalog']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+            <input readonly type="text" class="admin_input_text" name="catalog" value="{$question_data['catalog']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
         </td>
     </tr>
 </table>
 <div id='chain_body'>
 {foreach from=$question_data['chain_questions'] item=chain_q key=q_key}
-<table class='chain' id='chain_{$q_key}' width="45%" style='display: inline-block;border: 1px solid black;'>
+<table class='chain' id='chain_{$q_key}' width="45%" style='display: inline-block;border: 1px solid black;min-width: 618px;'>
     <tr>
         <td colspan="2">
             <input type='hidden' name='chain_id[{$q_key}]' id="chain_id_{$q_key}" value='{$chain_q["ID"]}'/>
@@ -53,7 +53,7 @@
     <tr>
         <td>Позиция:</td>
         <td>
-            <input type="text" class="admin_input_text" name="chain_position[{$q_key}]" value="{$chain_q['POSITION']}"/>
+            <input type="text" class="admin_input_text chainposition" name="chain_position[{$q_key}]" value="{$chain_q['POSITION']}"/>
         </td>
     </tr>
     <tr>
@@ -175,7 +175,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <input type="button" value="УДОЛИЛ!" onclick="del_question_field({$q_key});"/>
+            <input type="button" value="Удалить подвопрос" onclick="del_question_field({$q_key});"/>
         </td>
     </tr>
 </table>
@@ -239,5 +239,20 @@
                 }
         });
     }
+    $(document).ready(function(){
+        $(".chainposition").focusout(function(){
+            var temp = $(this).val();
+            var currentP = this;
+            $(".chainposition").each(function(){
+                if ($(this)!=$(currentP))
+                {
+                    if ($(this).val()==$(currentP).val())
+                    {
+                        $(this).val("");
+                    }
+                }
+            });
+        });
+    });
 </script>
 {/literal}
