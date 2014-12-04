@@ -31,7 +31,7 @@
     <input type="hidden" name="id" id="question-id" value="{$question_data['id']}"/>
     <input type="hidden" name="question_data" id="question-data" value="{$json_data}"/>
     <span class="title_menu_edit">
-        Редактирование вопросов
+        {$title}
     </span>
 
     <div style="margin-left: 2px;" align="left">
@@ -110,11 +110,11 @@
                 Текст вопроса:
             </td>
             <td>
-                <textarea name="text_question" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
 {strip}
-{trim($question_data['text'])}
-{/strip}
+                <textarea name="text_question" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
+                    {trim($question_data['text'])}
                 </textarea>
+{/strip}
             </td>
         </tr>
         <tr>
@@ -122,11 +122,11 @@
                 Комментарий (к неправильному ответу):
             </td>
             <td>
-                <textarea name="answer_comment" maxlength="300" rows="4" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max300" data-validation-error-msg="Допустимая длина не более 300 символов!">
 {strip}
-{trim($question_data['commentary'])}
-{/strip}
+                <textarea name="answer_comment" maxlength="300" rows="4" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max300" data-validation-error-msg="Допустимая длина не более 300 символов!">
+                    {trim($question_data['commentary'])}
                 </textarea>
+{/strip}
             </td>
         </tr>
         <tr>
@@ -134,11 +134,11 @@
                 Фактор риска:
             </td>
             <td>
-                <textarea name="answer_factor" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
 {strip}
-{trim($question_data['factor'])}
-{/strip}
+                <textarea name="answer_factor" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
+                    {trim($question_data['factor'])}
                 </textarea>
+{/strip}
             </td>
         </tr>
     </table>
