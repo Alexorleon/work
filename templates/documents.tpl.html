@@ -3,8 +3,9 @@
 
 <link rel="stylesheet" href="{$tpl}css/main.css">
 <link href="{$tpl}../libs/video-js/video-js.css" rel="stylesheet" type="text/css">
+<link type="text/css" href="{$tpl}js/jquery.jscrollpane.css" rel="stylesheet" media="all" />
 <script src="{$tpl}../libs/video-js/video.js"></script>
-
+<script type="text/javascript" src="{$tpl}js/jquery.jscrollpane.min.js"></script>
 <script>
 	videojs.options.flash.swf = "{$tpl}../libs/video-js/video-js.swf";
 </script>
@@ -39,22 +40,24 @@
 		
 		<!-- TODO: заглушка с подстановкой нового документа -->
 		{$count = 0}
-		<table class="scrolling_table_docs">
-		<tbody>
-			{section name=j loop=$array_instr}
-				<tr onclick="javascript:window.location='./show_regulations_{$array_instr[j]['ID']}'" style="cursor: pointer;">
-					<td>
-					{if $count eq 0}
-						{$array_instr[j]['TITLE']} . (Новый документ)
-					{else}
-						{$array_instr[j]['TITLE']}
-					{/if}
-					{capture}{$count++}{/capture}
-					</td>
-				</tr>
-			{/section}
-		</tbody>
-		</table>
+                 <div id="scrollable" style="height:650px;width:1000px">
+                    <table class="scrolling_table_docs">
+                    <tbody style="width:100%">
+                            {section name=j loop=$array_instr}
+                                    <tr onclick="javascript:window.location='./show_regulations_{$array_instr[j]['ID']}'" style="cursor: pointer;">
+                                            <td>
+                                            {if $count eq 0}
+                                                    {$array_instr[j]['TITLE']} . (Новый документ)
+                                            {else}
+                                                    {$array_instr[j]['TITLE']}
+                                            {/if}
+                                            {capture}{$count++}{/capture}
+                                            </td>
+                                    </tr>
+                            {/section}
+                    </tbody>
+                    </table>
+                 </div>
 		<!--
 		{section name=j loop=$array_instr}
 			<p><a href="/show_regulations_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p>
@@ -75,8 +78,11 @@
 			<embed width="800" height="600" type="application/x-shockwave-flash" src="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" />
 			<embed src="way={$lhost}/storage/regulations/{$doc_instr['NAME']}#toolbar=0&amp;navpanes=0&amp;scrollbar=0" width="600" height="400" />
 		</object>-->
-		<iframe class="iframe" src="{$lhost}/storage/regulations/{$doc_instr['NAME']}" width="98%" height="96%" align="center"></iframe>
-		
+                <div id="scrollable" style="height:96%;width:100%">
+                    <div style="height: auto">
+                    <iframe class="iframe" src="{$lhost}/storage/regulations/{$doc_instr['NAME']}" width="98%" style="height:100%;" scrolling="no" align="center"></iframe>
+                    </div>
+                </div>
 		<div id="bottom" style="margin-bottom: 30px;">
 		<a href="./regulations"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 		<a href="./lobby"><input class="move_button" type="button" value="В меню" onclick=""/></a>
@@ -101,8 +107,9 @@
 		
 		<!-- TODO: заглушка с подстановкой нового документа -->
 		{$count = 0}
+                <div id="scrollable" style="height:650px;width:1000px">
 		<table class="scrolling_table_docs">
-		<tbody>
+		<tbody style="width:100%">
 			{section name=j loop=$array_instr}
 				<!--<tr><td><p><a href="/show_video_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p></td></tr>-->
 				<tr onclick="javascript:window.location='./show_video_{$array_instr[j]['ID']}'" style="cursor: pointer;">
@@ -118,7 +125,7 @@
 			{/section}
 		</tbody>
 		</table>
-		
+                </div>
 		<div id="bottom" style="margin-bottom: 30px;">
 			<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 		</div>
@@ -172,8 +179,9 @@
 		
 		<!-- TODO: заглушка с подстановкой нового документа -->
 		{$count = 0}
+                <div id="scrollable" style="height:650px;width:1000px">
 		<table class="scrolling_table_docs">
-		<tbody>
+		<tbody style="width:100%">
 			{section name=j loop=$array_instr}
 				<tr onclick="javascript:window.location='./show_compmodel_{$array_instr[j]['ID']}'" style="cursor: pointer;">
 					<td>
@@ -187,8 +195,8 @@
 				</tr>
 			{/section}
 		</tbody>
-		</table>
-		
+                </table>
+                </div>
 		<div id="bottom" style="margin-bottom: 30px;">
 			<a href="./lobby"><input class="move_button" type="button" value="Назад" onclick=""/></a>
 		</div>
@@ -196,6 +204,7 @@
 		<div id="bottom">
 			<div id="menu-holder"></div>
 		</div>
+                
 	{else}
 	
 		<div id="menu-holder"></div>
@@ -229,4 +238,12 @@
 </form>
 </div>
 <script src="{$tpl}js/script.js"></script>
+<script>
+    {literal}
+$(function()
+{
+	$('#scrollable').jScrollPane({showArrows: true});
+});
+</script>
+{/literal}
 {/block}

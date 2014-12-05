@@ -881,16 +881,15 @@ bottom: 0px;
 .scrolling_table_docs tr td {
 	padding:28px;
 	border-bottom:10px solid #e0e0e0;
-	
 	background: #E7F9D4;
 	background: -webkit-gradient(linear, left top, left bottom, from(#E7F9D4), to(#E7F9D4));
 	background: -moz-linear-gradient(top,  #E7F9D4,  #E7F9D4);
 }
 
 .scrolling_table_docs tr{
-	text-align: left;
-	padding-left:20px;
-	display: table;
+    text-align: left;
+    padding-left:20px;
+    display: table;
     width: 900px;
     table-layout: fixed;
 }
@@ -907,7 +906,6 @@ bottom: 0px;
 
 .scrolling_table_docs tbody {
     display: block;
-    height: 650px;
     width: 100%;
     overflow: hidden;
 	overflow-y: auto;
