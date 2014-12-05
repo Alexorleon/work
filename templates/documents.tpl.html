@@ -80,7 +80,7 @@
 		</object>-->
                 <div id="scrollable" style="height:96%;width:100%">
                     <div style="height: auto">
-                    <iframe class="iframe" src="{$lhost}/storage/regulations/{$doc_instr['NAME']}" width="98%" style="height:100%;" scrolling="no" align="center"></iframe>
+                        <iframe class="iframe" src="{$lhost}/pdfjs/web/viewer.html?file={$lhost}/storage/regulations/{$doc_instr['NAME']}" width="98%" style="height:100%;" scrolling="no" align="center"></iframe>
                     </div>
                 </div>
 		<div id="bottom" style="margin-bottom: 30px;">
@@ -240,7 +240,7 @@
 <script src="{$tpl}js/script.js"></script>
 <script>
     {literal}
-$(function()
+$( document ).ready(function()
 {
 	$('#scrollable').jScrollPane({showArrows: true});
 });
