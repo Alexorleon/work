@@ -112,7 +112,7 @@
             <td>
 {strip}
                 <textarea name="text_question" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
-                    {trim($question_data['text'])}
+                    {html_entity_decode(trim($question_data['text']))}
                 </textarea>
 {/strip}
             </td>
@@ -124,7 +124,7 @@
             <td>
 {strip}
                 <textarea name="answer_comment" maxlength="300" rows="4" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max300" data-validation-error-msg="Допустимая длина не более 300 символов!">
-                    {trim($question_data['commentary'])}
+                    {html_entity_decode(trim($question_data['commentary']))}
                 </textarea>
 {/strip}
             </td>
@@ -136,7 +136,7 @@
             <td>
 {strip}
                 <textarea name="answer_factor" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
-                    {trim($question_data['factor'])}
+                    {html_entity_decode(trim($question_data['factor']))}
                 </textarea>
 {/strip}
             </td>
@@ -183,29 +183,8 @@
     $("document").ready($("#type_question").change()); //Инициализируем тип вопроса по умолчанию
     </script>
 {/literal}
-<!-- id сотрудника для передачи -->
-<!--<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
 
 </form>
 
-<!--{if !empty($date_list)}
-<div class="test_list">
-    <h2>Итоги тестирования</h2>
-    <ul>
-        {foreach from=$date_list item=date}
-        <li>
-            <a href="/test_res.php?sid={$cur_employee_id}&dt={urlencode($date['DATEBEGIN'])}">
-                Тест за {$date['DATEBEGIN']}
-            </a>
-        </li>
-        {/foreach}
-    </ul>
-</div>
-{/if}
-{if $count_pt > 0}
-<div class="test_list">
-    <a href='test_res.php?sid={$cur_employee_id}'>Ответы по предсменному экзаменатору</a>
-</div>
-{/if}-->
 {/block}
 {/extends}

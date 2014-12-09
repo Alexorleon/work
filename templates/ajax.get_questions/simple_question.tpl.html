@@ -6,7 +6,7 @@
     <tr>
         <td>Ответ 1:</td>
         <td>
-            <textarea min-length=2 aria-required="true" name="text_answer[0]" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{$question_data['answers'][0]['TEXT']}</textarea>
+            <textarea min-length=2 aria-required="true" name="text_answer[0]" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{html_entity_decode($question_data['answers'][0]['TEXT'])}</textarea>
         </td>
     </tr>
     <tr>
@@ -18,7 +18,7 @@
     <tr>
         <td>Ответ 2:</td>
             <td>
-                <textarea name="text_answer[1]" maxlength="150" rows="2" cols="75" required style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{$question_data['answers'][1]['TEXT']}</textarea>
+                <textarea name="text_answer[1]" maxlength="150" rows="2" cols="75" required style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{html_entity_decode($question_data['answers'][1]['TEXT'])}</textarea>
             </td>
     </tr>
     <tr>
@@ -30,7 +30,7 @@
     <tr>
         <td>Ответ 3:</td>
         <td>
-            <textarea name="text_answer[2]" maxlength="150" rows="2" cols="75" required style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{$question_data['answers'][2]['TEXT']}</textarea>
+            <textarea name="text_answer[2]" maxlength="150" rows="2" cols="75" required style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{html_entity_decode($question_data['answers'][2]['TEXT'])}</textarea>
         </td>
     </tr>
     <tr>

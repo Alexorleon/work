@@ -147,7 +147,7 @@ else
             $catalog = filter_input(INPUT_POST, 'catalog', FILTER_SANITIZE_NUMBER_INT); //Каталог видео (Э?)
             $chain_ids = filter_input(INPUT_POST, 'chain_id', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив ID подвопросов
             $chain_titles = filter_input(INPUT_POST, 'chain_title', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов подвопросов
-            $chain_positions= filter_input(INPUT_POST, 'chain_position', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив позиций подвопросов
+            $chain_positions = filter_input(INPUT_POST, 'chain_position', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив позиций подвопросов
             $chain_answer_ids = filter_input(INPUT_POST,'chain_answer_id', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив ID ответов на подвопросы
             $chain_answers = filter_input(INPUT_POST, 'chain_answer', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов на подвопросы
             $chain_prices = filter_input(INPUT_POST, 'chain_price', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив штрафов за ответы на подвопросы
@@ -220,7 +220,12 @@ else
             }
             
             $sql_AQB = "SELECT ID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONSID='$current_id'"; //Ищем тест, которому принадлежит вопрос
-            $test_id = $db->go_result_once($sql_AQB)['ID'];
+            
+            if ($temp_res = $db->go_result_once($sql_AQB))
+            {
+                $test_id = $temp_res['ID'];
+            }
+            
             if ($test_id) //Если вопрос уже прикреплен к тесту
             {
                 $sql_AQB = "UPDATE stat.ALLQUESTIONS_B SET TESTNAMESID='$testname_question' WHERE ID='$test_id'";

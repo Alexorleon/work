@@ -45,7 +45,7 @@
         <td>
 {strip}
             <textarea name="chain_title[{$q_key}]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid">
-                {$chain_q['TITLE']|strip}
+                {html_entity_decode($chain_q['TITLE'])|strip}
             </textarea>
 {/strip}
         </td>
@@ -53,7 +53,7 @@
     <tr>
         <td>Позиция:</td>
         <td>
-            <input type="text" class="admin_input_text chainposition" name="chain_position[{$q_key}]" value="{$chain_q['POSITION']}"/>
+            <input type="text" class="admin_input_text chainposition" name="chain_position[{$q_key}]" value="{$chain_q['POSITION']}" autocomplete="off"  data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
         </td>
     </tr>
     <tr>
@@ -79,7 +79,7 @@
         <td>
 {strip}
             <textarea name="chain_answer[{$q_key}][0]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid">
-                {$chain_q["answers"][0]["TEXT"]|strip}
+                {html_entity_decode($chain_q["answers"][0]["TEXT"])|strip}
             </textarea>
 {/strip}
         </td>
@@ -89,7 +89,7 @@
             Штраф:
         </td>
         <td>
-             <input type="text" class="admin_input_text" name="chain_price[{$q_key}][0]" value="{$chain_q['answers'][0]['PRICE']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+             <input type="text" class="admin_input_text" name="chain_price[{$q_key}][0]" value="{$chain_q['answers'][0]['PRICE']}" autocomplete="off" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
         </td>
     </tr>
     <tr>
@@ -133,7 +133,7 @@
         <td>
 {strip}
             <textarea name="chain_answer[{$q_key}][1]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid">
-                {$chain_q["answers"][1]["TEXT"]|strip}
+                {html_entity_decode($chain_q["answers"][1]["TEXT"])|strip}
             </textarea>
 {/strip}
         </td>
@@ -240,15 +240,19 @@
         });
     }
     $(document).ready(function(){
-        $(".chainposition").focusout(function(){
+        $(".chainposition").keypress(function(e){
+            if ( e.which == 13 ) return false;
+        }); //Запрещаем сабмит по энтеру, чтобы всякие хитрые люди не засабмитили без проверки формы
+        $(".chainposition").focusout(function(){ //Проверка на одинаковые позиции
             var temp = $(this).val();
-            var currentP = this;
+            var currentP = $(this);
+            var tempName = currentP.attr('name');
             $(".chainposition").each(function(){
-                if ($(this)!=$(currentP))
+                if ($(this).attr('name')!=tempName)
                 {
-                    if ($(this).val()==$(currentP).val())
+                    if ($(this).val()==temp)
                     {
-                        $(this).val("");
+                        currentP.val("");
                     }
                 }
             });
