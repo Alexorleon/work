@@ -7,7 +7,7 @@
             ФИО
         </th>
     </tr>
-{if count($array_sotrud)>0}}
+{if count($array_sotrud)>0}
     {assign var=cur_key value=0}
     {for $tab_iter=0 to $amount}
         {if $sotrud_tabel_spusk == $array_sotrud[$tab_iter]['TABEL']}
