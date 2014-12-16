@@ -34,6 +34,7 @@ else
             $answer_price = filter_input(INPUT_POST, 'answer_price', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив штрафов к ответам
             $answer_comment = filter_input(INPUT_POST, 'comment_answer', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив комментариев
             $answer_factor = filter_input(INPUT_POST, 'answer_factor', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Фактор риска
+            $risklevel_question = GetRiskLevelID(max($answer_price));
             if ($current_id) //Сохранение отредактированного вопроса
             {
                 $sql_question = "UPDATE stat.ALLQUESTIONS SET
@@ -96,10 +97,10 @@ else
             }
 
             $sql_AQB = "SELECT ID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONSID='$current_id'"; //Ищем тест, которому принадлежит вопрос
-            $test_id = $db->go_result_once($sql_AQB)['ID'];
+            $test_id = $db->go_result_once($sql_AQB);
             if ($test_id) //Если вопрос уже прикреплен к тесту
             {
-                $sql_AQB = "UPDATE stat.ALLQUESTIONS_B SET TESTNAMESID='$testname_question' WHERE ID='$test_id'";
+                $sql_AQB = "UPDATE stat.ALLQUESTIONS_B SET TESTNAMESID='$testname_question' WHERE ID='{$test_id['ID']}'";
             }
             else
             {
@@ -154,7 +155,7 @@ else
             $chain_comment = filter_input(INPUT_POST, 'chain_comment', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов на подвопросы
             $chain_factor = filter_input(INPUT_POST, 'chain_factor', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов на подвопросы
             $dir_complex = $_SERVER['DOCUMENT_ROOT']."/storage/video_questions/complex_video/$catalog/"; //Директория для сохранения видео к вопросу
-            
+            $risklevel_question = min($chain_risks);
             if (!file_exists($dir_complex)) //Создаем директорию для схоронения, если ее еще нет
             {
                 mkdir($dir_complex, 0644);
