@@ -1,0 +1,262 @@
+<input type='hidden' name='json_refresh' value='{$json_data}'/>
+<table>
+    <tr>
+        <td>
+            Пролог:
+        </td>
+        <td>
+            {if $question_data['prolog']}
+                Текущий видеофайл: {$question_data['prolog']}
+            {/if}
+            <input type="file" name="download_prolog"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Эпилог:
+        </td>
+        <td>
+            {if $question_data['epilog']}
+                Текущий видеофайл: {$question_data['epilog']}
+            {/if}
+            <input type="file" name="download_epilog"/>           
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Каталог:
+        </td>
+        <td>
+            <input readonly type="text" class="admin_input_text" name="catalog" value="{$question_data['catalog']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+</table>
+<div id='chain_body'>
+{foreach from=$question_data['chain_questions'] item=chain_q key=q_key}
+<table class='chain' id='chain_{$q_key}' width="45%" style='display: inline-block;border: 1px solid black;min-width: 618px;'>
+    <tr>
+        <td colspan="2">
+            <input type='hidden' name='chain_id[{$q_key}]' id="chain_id_{$q_key}" value='{$chain_q["ID"]}'/>
+            <strong>Вопрос {$q_key+1}</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>Текст вопроса:</td>
+        <td>
+{strip}
+            <textarea name="chain_title[{$q_key}]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid">
+                {html_entity_decode($chain_q['TITLE'])|strip}
+            </textarea>
+{/strip}
+        </td>
+    </tr>
+    <tr>
+        <td>Позиция:</td>
+        <td>
+            <input type="text" class="admin_input_text chainposition" name="chain_position[{$q_key}]" value="{$chain_q['POSITION']}" autocomplete="off"  data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Видео вопроса</td>
+        <td>
+            {if $question_data['chain_questions'][$q_key]['SIMPLEVIDEO']!=''}
+            Текущий видеофайл: {$question_data['chain_questions'][$q_key]['SIMPLEVIDEO']}<br>
+            {/if}
+            <input type="file" name="chain_video_{$q_key}"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <hr>
+            <input type="hidden" name="chain_answer_id[{$q_key}][0]" value="{$chain_q['answers'][0]['ID']}"/>
+            <strong>Ответ 1</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Текст:
+        </td> 
+        <td>
+{strip}
+            <textarea name="chain_answer[{$q_key}][0]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid">
+                {html_entity_decode($chain_q["answers"][0]["TEXT"])|strip}
+            </textarea>
+{/strip}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Штраф:
+        </td>
+        <td>
+             <input type="text" class="admin_input_text" name="chain_price[{$q_key}][0]" value="{$chain_q['answers'][0]['PRICE']}" autocomplete="off" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+    <tr>
+            <td>
+                Уровень риска:
+            </td>
+            <td>
+                <select name="risklevel_answer[{$q_key}][0]" id="risklevel_answer[{$q_key}][0]">
+                {section name=j loop=$array_risklevel}
+                    {assign var="sel" value=""}
+                    {if $chain_q['answers'][0]['RISKLEVELID']==$array_risklevel[j]['ID']}
+                        {assign var="sel" value=" selected"}
+                    {/if}
+                    <option value="{$array_risklevel[j]['ID']}"{$sel}>{$array_risklevel[j]['TITLE']}</option>
+                {/section}
+                </select>
+            </td>
+    </tr>
+    <tr>
+        <td>
+            Видео:
+        </td>
+        <td>
+            {if $chain_q["answers"][0]["SIMPLEVIDEO"]}
+            Текущий видеофайл: {$chain_q["answers"][0]["SIMPLEVIDEO"]}<br>
+            {/if}
+            <input type="file" name="chain_video_answer_{$q_key}_0"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <hr>
+            <input type="hidden" name="chain_answer_id[{$q_key}][1]" value="{$chain_q['answers'][1]['ID']}"/>
+            <strong>Ответ 2</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Текст:
+        </td> 
+        <td>
+{strip}
+            <textarea name="chain_answer[{$q_key}][1]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid">
+                {html_entity_decode($chain_q["answers"][1]["TEXT"])|strip}
+            </textarea>
+{/strip}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Штраф:
+        </td>
+        <td>
+             <input type="text" class="admin_input_text" name="chain_price[{$q_key}][1]" value="{$chain_q['answers'][1]['PRICE']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+    <tr>
+            <td>
+                Уровень риска:
+            </td>
+            <td>
+                <select name="risklevel_answer[{$q_key}][1]" id="risklevel_answer[{$q_key}][0]">
+                {section name=j loop=$array_risklevel}
+                    {assign var="sel" value=""}
+                    {if $chain_q['answers'][1]['RISKLEVELID']==$array_risklevel[j]['ID']}
+                        {assign var="sel" value=" selected"}
+                    {/if}
+                    <option value="{$array_risklevel[j]['ID']}"{$sel}>{$array_risklevel[j]['TITLE']}</option>
+                {/section}
+                </select>
+            </td>
+    </tr>
+    <tr>
+        <td>
+            Видео:
+        </td>
+        <td>
+            {if $chain_q["answers"][1]["SIMPLEVIDEO"]}
+            Текущий видеофайл: {$chain_q["answers"][1]["SIMPLEVIDEO"]}<br>
+            {/if}
+            <input type="file" name="chain_video_answer_{$q_key}_1"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="Удалить подвопрос" onclick="del_question_field({$q_key});"/>
+        </td>
+    </tr>
+</table>
+{/foreach}
+</div>
+<input type='button' value='Добавить подвопрос' onclick='add_question_field();'/>
+{literal}
+<script>
+    function add_question_field()
+    {
+        var nextNum;
+        if ($(".chain").length>0)
+        {
+            nextNum = parseInt($(".chain").last().attr('id').substring(6)) + 1;
+        }
+        else
+        {
+            nextNum = 0;
+        }
+        if ($(".chain").length<5)
+        {
+            $.ajax({
+			type: 'POST', 
+			data: {'question_count': nextNum},
+			url: "./inc/ajax.add_chain_question.php",
+			//dataType: 'json',
+			error: function(req, text, error) {//обработчик, если произошла ошибка
+			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+			},
+			success: function (data) {
+				$("#chain_body").append(data);
+                                }
+                });
+        }
+        else
+        {
+            alert("Нельзя добавлять более 5 вопросов!");
+        }
+    }
+    
+    function del_question_field(q_key)
+    {
+        var current_id = $("#chain_id_"+q_key).val();
+        $.ajax({
+                type: 'POST', 
+		data: {'current_id': current_id},
+		url: "./inc/ajax.del_chain_question.php",
+		//dataType: 'json',
+		error: function(req, text, error) {//обработчик, если произошла ошибка
+		//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+		},
+		success: function (data) {
+		if (data=="1")
+                {
+                    $("#chain_"+q_key).remove();
+                }
+                else
+                {
+                    alert(data);
+                }
+                }
+        });
+    }
+    $(document).ready(function(){
+        $(".chainposition").keypress(function(e){
+            if ( e.which == 13 ) return false;
+        }); //Запрещаем сабмит по энтеру, чтобы всякие хитрые люди не засабмитили без проверки формы
+        $(".chainposition").focusout(function(){ //Проверка на одинаковые позиции
+            var temp = $(this).val();
+            var currentP = $(this);
+            var tempName = currentP.attr('name');
+            $(".chainposition").each(function(){
+                if ($(this).attr('name')!=tempName)
+                {
+                    if ($(this).val()==temp)
+                    {
+                        currentP.val("");
+                    }
+                }
+            });
+        });
+    });
+</script>
+{/literal}

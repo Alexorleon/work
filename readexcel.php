@@ -17,7 +17,7 @@
 	$objPHPExcel->getActiveSheet()->setTitle('Демо');*/
 	
 	// имя файла
-	$file_name = iconv("utf-8", "windows-1251", "testPOSETSHAXTI.xlsx");
+	$file_name = "testPOSETSHAXTI.xlsx"; //iconv("utf-8", "windows-1251", "testPOSETSHAXTI.xlsx");
 	die("STOP"); // TODO: предостережение от случайного запуска
 
 	$objPHPExcel = new PHPExcel();
@@ -68,7 +68,7 @@ SQL;
 		$out_array = preg_split('/ - /', $complete_line);
 		
 		// получаем ID теста
-		$str_testname = iconv("utf-8", "windows-1251", $out_array[0]); // название теста
+		$str_testname = $out_array[0];//iconv("utf-8", "windows-1251", $out_array[0]); // название теста
 		print_r($str_testname);
 		echo "<br />";
 		
@@ -81,7 +81,7 @@ SQL;
 		echo "<br />";
 		
 		// получаем ID модуля
-		$str_module = iconv("utf-8", "windows-1251", $out_array[1]); // модуль
+		$str_module = $out_array[1];//iconv("utf-8", "windows-1251", $out_array[1]); // модуль
 		
 		$sql = <<<SQL
 			SELECT ID FROM stat.MODULE WHERE upper(RTRIM(MODULE.TITLE))=upper(RTRIM('$str_module'))
@@ -123,7 +123,7 @@ SQL;
 			
 			// получаем сам вопрос
 			$cell = $worksheet->getCellByColumnAndRow(1, $row);
-			$question = iconv("utf-8", "windows-1251", $cell->getValue());
+			$question = $cell->getValue();//iconv("utf-8", "windows-1251", $cell->getValue());
 			//$question = $cell->getValue();
 			
 			// TODO: как определить какой тип вопроса
@@ -192,7 +192,7 @@ SQL;
 			
 				// получаем ответ
 				$cell = $worksheet->getCellByColumnAndRow(2, $i);
-				$answer = iconv("utf-8", "windows-1251", $cell->getValue());
+				$answer = $cell->getValue();//iconv("utf-8", "windows-1251", $cell->getValue());
 				//$answer = $cell->getValue();
 				
 				// получаем цену
@@ -201,11 +201,11 @@ SQL;
 				
 				// получаем поражающий фактор
 				$cell = $worksheet->getCellByColumnAndRow(3, $i);
-				$factor = iconv("utf-8", "windows-1251", $cell->getValue());
+				$factor = $cell->getValue();//iconv("utf-8", "windows-1251", $cell->getValue());
 				
 				// получаем комментарий - последствия
 				$cell = $worksheet->getCellByColumnAndRow(4, $i);
-				$commentary = iconv("utf-8", "windows-1251", $cell->getValue());
+				$commentary = $cell->getValue();//iconv("utf-8", "windows-1251", $cell->getValue());
 				//$commentary = $cell->getValue();
 			
 				// по цене находим компетентность и риск

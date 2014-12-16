@@ -28,9 +28,10 @@
 <script type="text/javascript" src="{$js}form-validator/jquery.form-validator.min.js"></script>
 
 <form id="edit_questions" name="edit_questions" enctype="multipart/form-data" method="post">
-    <input type="hidden" name="id" id="question-id" value=""/>
+    <input type="hidden" name="id" id="question-id" value="{$question_data['id']}"/>
+    <input type="hidden" name="question_data" id="question-data" value="{$json_data}"/>
     <span class="title_menu_edit">
-        Редактирование вопросов
+        {$title}
     </span>
 
     <div style="margin-left: 2px;" align="left">
@@ -109,11 +110,11 @@
                 Текст вопроса:
             </td>
             <td>
-                <textarea name="text_question" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
 {strip}
-{trim($question_data['text'])}
-{/strip}
+                <textarea name="text_question" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
+                    {html_entity_decode(trim($question_data['text']))}
                 </textarea>
+{/strip}
             </td>
         </tr>
         <tr>
@@ -121,11 +122,11 @@
                 Комментарий (к неправильному ответу):
             </td>
             <td>
-                <textarea name="answer_comment" maxlength="300" rows="4" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max300" data-validation-error-msg="Допустимая длина не более 300 символов!">
 {strip}
-{trim($question_data['commentary'])}
-{/strip}
+                <textarea name="answer_comment" maxlength="300" rows="4" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max300" data-validation-error-msg="Допустимая длина не более 300 символов!">
+                    {html_entity_decode(trim($question_data['commentary']))}
                 </textarea>
+{/strip}
             </td>
         </tr>
         <tr>
@@ -133,11 +134,11 @@
                 Фактор риска:
             </td>
             <td>
-                <textarea name="answer_factor" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
 {strip}
-{trim($question_data['factor'])}
-{/strip}
+                <textarea name="answer_factor" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
+                    {html_entity_decode(trim($question_data['factor']))}
                 </textarea>
+{/strip}
             </td>
         </tr>
     </table>
@@ -182,29 +183,8 @@
     $("document").ready($("#type_question").change()); //Инициализируем тип вопроса по умолчанию
     </script>
 {/literal}
-<!-- id сотрудника для передачи -->
-<!--<input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
 
 </form>
 
-<!--{if !empty($date_list)}
-<div class="test_list">
-    <h2>Итоги тестирования</h2>
-    <ul>
-        {foreach from=$date_list item=date}
-        <li>
-            <a href="/test_res.php?sid={$cur_employee_id}&dt={urlencode($date['DATEBEGIN'])}">
-                Тест за {$date['DATEBEGIN']}
-            </a>
-        </li>
-        {/foreach}
-    </ul>
-</div>
-{/if}
-{if $count_pt > 0}
-<div class="test_list">
-    <a href='test_res.php?sid={$cur_employee_id}'>Ответы по предсменному экзаменатору</a>
-</div>
-{/if}-->
 {/block}
 {/extends}

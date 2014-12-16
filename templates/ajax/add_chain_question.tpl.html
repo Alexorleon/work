@@ -1,0 +1,123 @@
+<table class='chain' id='chain_{$last}' width="45%" style='display: inline-block;border: 1px solid black;min-width: 618px;'>
+    <tr>
+        <td colspan="2">
+            <input type='hidden' name='chain_id[{$last}]' id="chain_id_{$last}" value='0'/>
+            <strong>Вопрос {$last+1}</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>Текст вопроса:</td>
+        <td>
+{strip}
+            <textarea name="chain_title[{$last}]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid"></textarea>
+{/strip}
+        </td>
+    </tr>
+    <tr>
+        <td>Позиция:</td>
+        <td>
+            <input type="text" class="admin_input_text chainposition" name="chain_position[{$last}]" value="{$last+1}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Видео вопроса</td>
+        <td>
+            <br><input type="file" name="chain_video_{$last}"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <hr>
+            <input type="hidden" name="chain_answer_id[{$last}][0]" value=""/>
+            <strong>Ответ 1</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Текст:
+        </td> 
+        <td>
+{strip}
+            <textarea name="chain_answer[{$last}][0]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid"></textarea>
+{/strip}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Штраф:
+        </td>
+        <td>
+             <input type="text" class="admin_input_text" name="chain_price[{$last}][0]" value="" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+    <tr>
+            <td>
+                Уровень риска:
+            </td>
+            <td>
+                <select name="risklevel_answer[{$last}][0]" id="risklevel_answer[{$last}][0]">
+                {section name=j loop=$array_risklevel}
+                    <option value="{$array_risklevel[j]['ID']}">{$array_risklevel[j]['TITLE']}</option>
+                {/section}
+                </select>
+            </td>
+    </tr>
+    <tr>
+        <td>
+            Видео:
+        </td>
+        <td>
+            <input type="file" name="chain_video_answer_{$last}_0"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <hr>
+            <input type="hidden" name="chain_answer_id[{$last}][1]" value=""/>
+            <strong>Ответ 2</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Текст:
+        </td> 
+        <td>
+{strip}            
+            <textarea name="chain_answer[{$last}][1]" maxlength="150" rows="2" cols="75" required="" style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!" class="valid"></textarea>
+{/strip}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Штраф:
+        </td>
+        <td>
+             <input type="text" class="admin_input_text" name="chain_price[{$last}][1]" value="" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+    <tr>
+            <td>
+                Уровень риска:
+            </td>
+            <td>
+                <select name="risklevel_answer[{$last}][1]" id="risklevel_answer[{$last}][1]">
+                {section name=j loop=$array_risklevel}
+                    <option value="{$array_risklevel[j]['ID']}">{$array_risklevel[j]['TITLE']}</option>
+                {/section}
+                </select>
+            </td>
+    </tr>
+    <tr>
+        <td>
+            Видео:
+        </td>
+        <td>
+            <input type="file" name="chain_video_answer_{$last}_1"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="Удалить подвопрос" onclick="del_question_field({$last});"/>
+        </td>
+    </tr>
+</table>

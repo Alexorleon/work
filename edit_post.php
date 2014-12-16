@@ -24,7 +24,7 @@
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_post'] == 0){ // это добавление нового
 		
-			$temppost = trim(iconv("UTF-8", "windows-1251", $postname));
+			$temppost = trim($postname);//trim(iconv("UTF-8", "windows-1251", $postname));
 			
 			// проверяем, есть ли уже такая должность
 			$sql = <<<SQL
@@ -46,9 +46,9 @@ SQL;
 		}else if($_SESSION['add_or_edit_post'] == 1){ // это редактирование
 			
 			$dolj_id = filter_input(INPUT_POST, 'dolj_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['dolj_id']; // название должности
-			$postname = filter_input(INPUT_POST, 'postname', FILTER_SANITIZE_SPECIAL_CHARS);
+			$temppost = filter_input(INPUT_POST, 'postname', FILTER_SANITIZE_SPECIAL_CHARS);
 			
-			$temppost = iconv(mb_detect_encoding($postname), "windows-1251", $postname);
+			//$temppost = iconv(mb_detect_encoding($postname), "windows-1251", $postname);
 			
 			// проверяем, есть ли уже такая должность
 			$sql = <<<SQL

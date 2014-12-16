@@ -14,13 +14,13 @@
 		
 	if (!empty($_POST)){
 		$employeesur = filter_input(INPUT_POST, 'employeesur', FILTER_SANITIZE_SPECIAL_CHARS);
-		$employeesur = iconv("utf-8", "windows-1251", $employeesur); // фамилия
+		//$employeesur = iconv("utf-8", "windows-1251", $employeesur); // фамилия
                 
         $employeename = filter_input(INPUT_POST, 'employeename', FILTER_SANITIZE_SPECIAL_CHARS);
-		$employeename = iconv("utf-8", "windows-1251", $employeename); // имя
+		//$employeename = iconv("utf-8", "windows-1251", $employeename); // имя
                 
         $employeepat = filter_input(INPUT_POST, 'employeepat', FILTER_SANITIZE_SPECIAL_CHARS);
-		$employeepat = iconv("utf-8", "windows-1251", $employeepat); // отчество
+		//$employeepat = iconv("utf-8", "windows-1251", $employeepat); // отчество
                 
 		$type_doljnost = filter_input(INPUT_POST, 'type_doljnost', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['type_doljnost']; // должность
 		
