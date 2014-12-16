@@ -356,6 +356,7 @@ else
                 TESTNAMESID
                 FROM stat.ALLQUESTIONS_B
                 WHERE ALLQUESTIONSID='$question_id'";
+
         $q_res['TEST'] = $db->go_result_once($sql)['TESTNAMESID']; //Выцепляем ID теста, к которому прикреплен вопрос. Двумя запросами, чтобы все не падало, если вопрос ни к чему не прикреплен
 
         if ($q_res['TYPE']!=22 && $q_res['TYPE']!=10) //Магические числа, 22 - сложное фото (ваще пока нет), 10 - сложное видео
