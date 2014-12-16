@@ -24,6 +24,8 @@
                 
 		$type_doljnost = filter_input(INPUT_POST, 'type_doljnost', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['type_doljnost']; // должность
 		
+		$type_uchastok = filter_input(INPUT_POST, 'type_uchastok', FILTER_SANITIZE_SPECIAL_CHARS);//$_POST['type_uchastok']; // участок
+		
         $employeetabel = filter_input(INPUT_POST, 'employeetabel', FILTER_SANITIZE_NUMBER_INT);//$_POST['employeetabel']; // табельный
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
@@ -40,7 +42,7 @@ SQL;
 				$smarty->assign("employeename", "");
 				$sql = <<<SQL
 				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_SPUSK, UCHAST_K) 
-				VALUES ('$employeesur', '$employeename', '$employeepat', '$predpr_k_glob', '$type_doljnost', '$employeetabel', '6000')
+				VALUES ('$employeesur', '$employeename', '$employeepat', '$predpr_k_glob', '$type_doljnost', '$employeetabel', '$type_uchastok')
 SQL;
 				$db->go_query($sql);
 			
@@ -67,7 +69,7 @@ SQL;
 				if(empty($check_employees_tabel)){ // если пусто, то такого табельного нет. добовляем.
 
 					$sql = <<<SQL
-					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_SPUSK='$employeetabel' WHERE 
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', UCHAST_K='$type_uchastok', TABEL_SPUSK='$employeetabel' WHERE 
 					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 					$db->go_query($sql);
@@ -78,6 +80,7 @@ SQL;
 					$_GET['employee_pat'] = $employeepat; // отчество
 					$_GET['employee_tabel'] = $employeetabel; // табельный
 					$_GET['dolj'] = $type_doljnost; // ID должности
+					$_GET['site_k'] = $type_uchastok; // ID участка
 					
 					// запоминаем новый табельный
 					$_SESSION['check_employee_tabel'] = $employeetabel;
@@ -89,7 +92,7 @@ SQL;
 			}else{
 			
 				$sql = <<<SQL
-					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', TABEL_SPUSK='$employeetabel' WHERE 
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', UCHAST_K='$type_uchastok', TABEL_SPUSK='$employeetabel' WHERE 
 					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 				$db->go_query($sql);
@@ -100,6 +103,7 @@ SQL;
 				$_GET['employee_pat'] = $employeepat; // отчество
 				$_GET['employee_tabel'] = $employeetabel; // табельный
 				$_GET['dolj'] = $type_doljnost; // ID должности
+				$_GET['site_k'] = $type_uchastok; // ID участка
 			}
 		}else{
 			
@@ -108,7 +112,7 @@ SQL;
 	}
 	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
     
-        $smarty->assign("role", $role);
+    $smarty->assign("role", $role);
 	if(array_key_exists('posttype', $_GET)){
                 $posttype = filter_input(INPUT_GET, 'posttype', FILTER_SANITIZE_NUMBER_INT);
 		if($posttype == 0){ // это добавление нового
@@ -122,6 +126,7 @@ SQL;
 			$smarty->assign("cur_employee_pat", '');
 			$smarty->assign("cur_employee_tabel", '');
 			$smarty->assign("cur_dolj_kod", '');
+			$smarty->assign("cur_site_kod", '');
 			
 			$smarty->assign("count_pt", 0);
 		}else if($posttype == 1){ // это редактирование
@@ -135,9 +140,14 @@ SQL;
 			$employee_pat = filter_input(INPUT_GET, 'employee_pat', FILTER_SANITIZE_STRING); //$_GET['employee_pat']; // отчество
 			$employee_tabel = filter_input(INPUT_GET, 'employee_tabel', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_tabel']; // табельный
 			$dolj_kod = filter_input(INPUT_GET, 'dolj', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID должности
-			
+			$site_kod = filter_input(INPUT_GET, 'site_k', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID участка
 
-            //$sql_res = "SELECT * FROM stat.ALLHISTORY WHERE ";
+            // получаем участок сотрудника
+			$sql = <<<SQL
+			SELECT UCHAST_K FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$employee_id'
+SQL;
+			$site_k = $db->go_result_once($sql);
+			$site_kod = $site_k['UCHAST_K'];
  
 			// запоминаем табельный
 			$_SESSION['check_employee_tabel'] = $employee_tabel;
@@ -154,21 +164,29 @@ SQL;
 			$smarty->assign("cur_employee_pat", $employee_pat);
 			$smarty->assign("cur_employee_tabel", $employee_tabel);
 			$smarty->assign("cur_dolj_kod", $dolj_kod);
+			$smarty->assign("cur_site_kod", $site_kod);
 		}else{
 			
 			die("У меня не прописано, что делать");
 		}
 	}
 	
-	// получаем список всех должностей. 10 - кокс-майнинг
+	// получаем список всех должностей.
 	$sql = <<<SQL
 	SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K='$predpr_k_glob'
 SQL;
-	$array_posts = $db->go_result($sql);	
+	$array_posts = $db->go_result($sql);
+	
+	// получаем список всех участков
+	$sql = <<<SQL
+	SELECT UCHAST_K, UCHAST_NAIM FROM stat.UCHAST WHERE UCHAST.PREDPR_K='$predpr_k_glob'
+SQL;
+	$array_site = $db->go_result($sql);
 	
 	$smarty->assign("error_", $error_);
 	
 	$smarty->assign("array_posts", $array_posts);
+	$smarty->assign("array_site", $array_site);
     $smarty->assign("curPage", 2);
 	// TODO: через ИФ режактирование или создание новой
 	$smarty->assign("title", "Редактирование сотрудников");

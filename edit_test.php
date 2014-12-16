@@ -27,6 +27,8 @@
 			$testname = filter_input(INPUT_POST, 'testname', FILTER_SANITIZE_SPECIAL_CHARS); //$_POST['testname'];
 			$testpenalty = filter_input(INPUT_POST, 'testpenalty', FILTER_SANITIZE_NUMBER_INT); //$_POST['testpenalty'];
 			
+			$testname = iconv(mb_detect_encoding($testname), "windows-1251", $testname);
+			$testpenalty = iconv(mb_detect_encoding($testpenalty), "windows-1251", $testpenalty);
 			// TODO: по хорошему тут обязательно нужна транзакция
 			
 			$sql = <<<SQL
