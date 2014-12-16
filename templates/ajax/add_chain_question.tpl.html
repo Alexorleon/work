@@ -14,6 +14,18 @@
         </td>
     </tr>
     <tr>
+        <td>Комментарий:</td>
+        <td>
+            <textarea name="chain_comment[{$last}]" maxlength="250" rows="2" cols="75" style="resize: none;"  data-validation="length" data-validation-length="max250" data-validation-error-msg="Допустимая длина не более 250 символов!"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>Поражающий фактор:</td>
+        <td>
+            <textarea name="chain_factor[{$last}]" maxlength="150" rows="2" cols="75" style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!"></textarea>
+        </td>
+    </tr>
+    <tr>
         <td>Позиция:</td>
         <td>
             <input type="text" class="admin_input_text chainposition" name="chain_position[{$last}]" value="{$last+1}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>

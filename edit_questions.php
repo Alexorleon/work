@@ -26,15 +26,14 @@ else
         $risklevel_question = filter_input(INPUT_POST,'risklevel_question', FILTER_SANITIZE_NUMBER_INT); //ID уровня риска вопроса
         $testname_question = filter_input(INPUT_POST,'testname_question', FILTER_SANITIZE_NUMBER_INT); //ID теста, к которому прикреплен вопрос
         $text_question = filter_input(INPUT_POST,'text_question', FILTER_SANITIZE_STRING); //Текст вопроса
-        $answer_comment = filter_input(INPUT_POST, 'answer_comment', FILTER_SANITIZE_STRING); //Комментарий к неправильному ответу
-        $answer_factor = filter_input(INPUT_POST, 'answer_factor', FILTER_SANITIZE_STRING); //Фактор риска
-        
+
         if ($type_question!=10)
         {
             $id_answer = filter_input(INPUT_POST, 'id_answer', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив ID-шников ответов
             $text_answer = filter_input(INPUT_POST, 'text_answer', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов
             $answer_price = filter_input(INPUT_POST, 'answer_price', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив штрафов к ответам
-            
+            $answer_comment = filter_input(INPUT_POST, 'comment_answer', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив комментариев
+            $answer_factor = filter_input(INPUT_POST, 'answer_factor', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Фактор риска
             if ($current_id) //Сохранение отредактированного вопроса
             {
                 $sql_question = "UPDATE stat.ALLQUESTIONS SET
@@ -57,15 +56,15 @@ else
                 OCIExecute($stmt);
             }
 
-            for ($ans_iter = 0; $ans_iter<3; $ans_iter++) //3 - патамушта максимум 3 вопроса
+            for ($ans_iter = 0; $ans_iter<3; $ans_iter++) //3 - потому что максимум 3 вопроса
             {
                 $competencelevel_id = GetCompetenceLevelID($db, $answer_price);
 
                 if ($answer_price[$ans_iter]!=0) //Если ответ неверный - записываем ему фактор и комментарий (общий для всех неправильных ответов)
                 {
-                    $current_comment = $answer_comment;
-                    $current_factor = $answer_factor;
-                    $current_risk = $risklevel_question;
+                    //$current_comment = $answer_comment;
+                    $current_factor = $answer_factor[$ans_iter];
+                    $current_risk = GetRiskLevelID($answer_price[$ans_iter]);
                 }
                 else //Если ответ верный - фактор и риск пустые
                 {
@@ -80,7 +79,7 @@ else
                                    TEXT ='{$text_answer[$ans_iter]}',
                                    ALLQUESTIONSID='$current_id',
                                    COMPETENCELEVELID='$competencelevel_id',
-                                   COMMENTARY='$current_comment',
+                                   COMMENTARY='{$answer_comment[$ans_iter]}',
                                    FACTOR='$current_factor',
                                    RISKLEVELID='$current_risk',
                                    PRICE='{$answer_price[$ans_iter]}'
@@ -91,7 +90,7 @@ else
                     $sql_answer = "INSERT INTO stat.ALLANSWERS
                                    (TEXT, ALLQUESTIONSID, COMPETENCELEVELID, COMMENTARY, FACTOR, RISKLEVELID, PRICE)
                                    VALUES
-                                   ('{$text_answer[$ans_iter]}','$current_id','$competencelevel_id','$current_comment','$current_factor','$current_risk','{$answer_price[$ans_iter]}')";
+                                   ('{$text_answer[$ans_iter]}','$current_id','$competencelevel_id','{$answer_comment[$ans_iter]}','$current_factor','$current_risk','{$answer_price[$ans_iter]}')";
                 }
                 $db->go_query($sql_answer);
             }
@@ -152,8 +151,9 @@ else
             $chain_answers = filter_input(INPUT_POST, 'chain_answer', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов на подвопросы
             $chain_prices = filter_input(INPUT_POST, 'chain_price', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив штрафов за ответы на подвопросы
             $chain_risks = filter_input(INPUT_POST, 'risklevel_answer', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); //Массив уровней рисков для ответов на подвопросы
-            
-            $dir_complex = $_SERVER['DOCUMENT_ROOT']."/storage/video_questions/complex_video/$catalog/"; //Директория для схоронения видео к вопросу
+            $chain_comment = filter_input(INPUT_POST, 'chain_comment', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов на подвопросы
+            $chain_factor = filter_input(INPUT_POST, 'chain_factor', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов на подвопросы
+            $dir_complex = $_SERVER['DOCUMENT_ROOT']."/storage/video_questions/complex_video/$catalog/"; //Директория для сохранения видео к вопросу
             
             if (!file_exists($dir_complex)) //Создаем директорию для схоронения, если ее еще нет
             {
@@ -179,7 +179,7 @@ else
                         (TEXT, TYPEQUESTIONSID, MODULEID, RISKLEVELID, CATALOG)
                         VALUES
                         ('$text_question', '$type_question', '$module_question', '$risklevel_question', '$catalog')
-                        returning ID into :mylastid"; //Аналогично простому вопросу, нам нужно выцепить ID
+                        returning ID into :mylastid"; //Аналогично простому вопросу, нам нужно взять ID
                 $stmt = OCIParse($c, $sql);
                 oci_bind_by_name($stmt, "mylastid", $current_id, 32, SQLT_INT); //Записываем полученный ID в $current_id
                 OCIExecute($stmt);
@@ -283,8 +283,8 @@ else
                     
                     if ($chain_prices[$key][$i]!=0)
                     {
-                        $current_comment = $answer_comment;
-                        $current_factor = $answer_factor;
+                        $current_comment = $chain_comment[$key];
+                        $current_factor = $chain_factor[$key];
                         $current_risk  = $chain_risks[$key][$i];
                     }
                     else
@@ -355,7 +355,8 @@ else
                 TESTNAMESID
                 FROM stat.ALLQUESTIONS_B
                 WHERE ALLQUESTIONSID='$question_id'";
-        $q_res['TEST'] = $db->go_result_once($sql)['TESTNAMESID']; //Выцепляем ID теста, к которому прикреплен вопрос. Двумя запросами, если вопрос ни к чему не прикреплен
+
+        $q_res['TEST'] = $db->go_result_once($sql)['TESTNAMESID']; //Выцепляем ID теста, к которому прикреплен вопрос. Двумя запросами, чтобы все не падало, если вопрос ни к чему не прикреплен
 
         if ($q_res['TYPE']!=22 && $q_res['TYPE']!=10) //Магические числа, 22 - сложное фото (ваще пока нет), 10 - сложное видео
         {
@@ -519,7 +520,23 @@ function GetCompetenceLevelID($obj, $level_num) //Возвращает ID из �
     }
         return  $result;
 }
+function GetRiskLevelID($penalty=0)
+{
+    if($penalty>=0 && $penalty<=2)
+    {
+        return 21;
+    }
+    if ($penalty>2 && $penalty<10)
+    {
+        return 9;
+    }
+    if ($penalty>9 && $penalty<25)
+    {
+        return 8;
+    }
 
+    return 7;
+}
 function GetEmptyQuestionArray()
 {
     $question_data = array();
@@ -538,14 +555,20 @@ function GetEmptyQuestionArray()
     $question_data['answers'][0]['ID'] = '';
     $question_data['answers'][0]['TEXT'] = '';
     $question_data['answers'][0]['PRICE'] = '';
+    $question_data['answers'][0]['COMMENTARY'] = '';
+    $question_data['answers'][0]['FACTOR'] = '';
     $question_data['answers'][1] = array();
     $question_data['answers'][1]['ID'] = '';
     $question_data['answers'][1]['TEXT'] = '';
     $question_data['answers'][1]['PRICE'] = '';
+    $question_data['answers'][1]['COMMENTARY'] = '';
+    $question_data['answers'][1]['FACTOR'] = '';
     $question_data['answers'][2] = array();
     $question_data['answers'][2]['ID'] = '';
     $question_data['answers'][2]['TEXT'] = '';
     $question_data['answers'][2]['PRICE'] = '';
+    $question_data['answers'][2]['COMMENTARY'] = '';
+    $question_data['answers'][2]['FACTOR'] = '';
     $question_data['chain_questions'] = array();
     $question_data['prolog'] = '';
     $question_data['catalog'] = GetNewCatalog();
