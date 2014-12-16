@@ -361,7 +361,7 @@ else
 
         if ($q_res['TYPE']!=22 && $q_res['TYPE']!=10) //Магические числа, 22 - сложное фото (ваще пока нет), 10 - сложное видео
         {
-            $sql = "SELECT ID, TEXT, PRICE, COMMENTARY, FACTOR FROM stat.ALLANSWERS WHERE ALLQUESTIONSID='$question_id'";
+            $sql = "SELECT ID, TEXT, PRICE, COMMENTARY, FACTOR FROM stat.ALLANSWERS WHERE ALLQUESTIONSID='$question_id' ORDER BY ID";
             $a_res = $db->go_result($sql); //Выцепляем ответы к вопросу
             foreach($a_res as $answer)
             {
