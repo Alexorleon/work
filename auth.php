@@ -11,7 +11,7 @@
 	echo "</br>";
 	print_r("Временно не работает");
 	die();*/
-	
+
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
