@@ -16,22 +16,22 @@ else
     // инициализация
     $_SESSION['add_or_edit_employee'] = 0; // добавление
 		
-    /*if(!empty($_GET))
+    if(!empty($_GET))
     {
-        if(array_key_exists('del_employeeid', $_GET))
+        if(array_key_exists('del_questionid', $_GET))
         {
-            $del_employeeid = filter_input(INPUT_GET, 'del_employeeid', FILTER_SANITIZE_NUMBER_INT);
-            if($del_employeeid != '')
+            $del_questionid = filter_input(INPUT_GET, 'del_questionid', FILTER_SANITIZE_NUMBER_INT);
+            if($del_questionid != '')
             {
                 // удаляем сотрудника
                 $sql = <<<SQL
-                    DELETE FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$del_employeeid'
+                    DELETE FROM stat.ALLQUESTIONS WHERE ID='$del_questionid'
 SQL;
                 $db->go_query($sql);
                 //unset($_GET['del_employeeid']);
             }
         }
-    }*/
+    }
 
     // получаем список всех вопросов
     $sql = 
