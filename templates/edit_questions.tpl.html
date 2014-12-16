@@ -75,22 +75,6 @@
         </tr>
         <tr>
             <td>
-                Уровень риска:
-            </td>
-            <td>
-                <select name="risklevel_question" id="risklevel_question">
-                {section name=j loop=$array_risklevel}
-                    {assign var="sel" value=""}
-                    {if $question_data['risk']==$array_risklevel[j]['ID']}
-                        {assign var="sel" value=" selected"}
-                    {/if}
-                    <option value="{$array_risklevel[j]['ID']}"{$sel}>{$array_risklevel[j]['TITLE']}</option>
-                {/section}
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 Тест:
             </td>
             <td>
@@ -113,30 +97,6 @@
 {strip}
                 <textarea name="text_question" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
                     {html_entity_decode(trim($question_data['text']))}
-                </textarea>
-{/strip}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Комментарий (к неправильному ответу):
-            </td>
-            <td>
-{strip}
-                <textarea name="answer_comment" maxlength="300" rows="4" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max300" data-validation-error-msg="Допустимая длина не более 300 символов!">
-                    {html_entity_decode(trim($question_data['commentary']))}
-                </textarea>
-{/strip}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Фактор риска:
-            </td>
-            <td>
-{strip}
-                <textarea name="answer_factor" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">
-                    {html_entity_decode(trim($question_data['factor']))}
                 </textarea>
 {/strip}
             </td>

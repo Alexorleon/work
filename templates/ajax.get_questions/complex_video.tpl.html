@@ -51,6 +51,18 @@
         </td>
     </tr>
     <tr>
+        <td>Комментарий:</td>
+        <td>
+            <textarea name="chain_comment[{$q_key}]" maxlength="250" rows="2" cols="75" style="resize: none;"  data-validation="length" data-validation-length="max250" data-validation-error-msg="Допустимая длина не более 250 символов!">{html_entity_decode($chain_q["answers"][0]["COMMENTARY"])|strip}{html_entity_decode($chain_q["answers"][1]["COMMENTARY"])|strip}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>Поражающий фактор:</td>
+        <td>
+            <textarea name="chain_factor[{$q_key}]" maxlength="150" rows="2" cols="75" style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{html_entity_decode($chain_q["answers"][0]["FACTOR"])|strip}{html_entity_decode($chain_q["answers"][1]["FACTOR"])|strip}</textarea>
+        </td>
+    </tr>
+    <tr>
         <td>Позиция:</td>
         <td>
             <input type="text" class="admin_input_text chainposition" name="chain_position[{$q_key}]" value="{$chain_q['POSITION']}" autocomplete="off"  data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
