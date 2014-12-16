@@ -45,7 +45,8 @@ SQL;
     
     $smarty->assign("role", $role);
     $smarty->assign("error_", $error_);
-	
+    $smarty->assign('curPage', 5);
+
     $smarty->assign("array_questions", $array_questions);
 
     $smarty->assign("title", "Список вопросов");

@@ -47,6 +47,13 @@
                 {/if}
                 <li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu{$selected}" type="button" value="Тесты" onclick=""/></a></li>
             
+                {if $curPage==5}
+                {assign var="selected" value=" set_cur"}
+                {else}
+                {assign var="selected" value=""}
+                {/if}
+                <li style="list-style-type: none;"><a href="/list_questions"><input class="button_menu{$selected}" type="button" value="Вопросы" onclick=""/></a></li>
+                
 		{if $curPage==4}
                 {assign var="selected" value=" set_cur"}
                 {else}
