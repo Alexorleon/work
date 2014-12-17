@@ -1,80 +1,5 @@
-<!DOCTYPE HTML>
-<html lang="ru">
-<head>
-<title>{$title}</title>
-<meta charset="utf-8">
-<link rel="stylesheet" href="{$tpl}css/main.css">
-
-{literal}
-<script>
-
-	// добавляем тесты к должности
-	function insert_row(){
-		//$(".edit_tables").find("tr").remove();	// удаляем все, кроме первой строки таблицы(заголовок)
-		var dolj_id = $("#dolj_id").val();
-		var test_id = $("#type_specialty").val();
-		var title_post = $("#title_post").val();
-		
-		//console.log(dolj_id+"fdfds"+test_id);
-		if (dolj_id != "" && test_id != ""){// на всякий, чтоб на новой не запустили
-
-			$.ajax({ 
-				type: 'POST', 
-				data: {'dolj_id': dolj_id, 'test_id': test_id},
-				url: "./inc/ajax.insert_rows.posts.php",
-				//dataType: 'json',
-				error: function(req, text, error) {
-				//console.log('Ошибка AJAX: ' + text + ' | ' + error);
-				},
-				success: function (data) {
-					console.log(data);
-					if(data == "not"){ // ничего не делаем
-					}else{
-						if (data == "0"){
-							console.log("Ошибка!");
-						}else{
-							var arr_ans = data.split('_');
-							var give_me_text_ept = $("#type_specialty option[value='"+arr_ans[1]+"']").text();
-							$(".edit_tables tbody").append("<tr><td>"+give_me_text_ept+"</td><td><a href='/edit_post?del_testid="+arr_ans[2]+"&post_kod="+arr_ans[0]+"&post_name="+title_post+"' title='Удалить'><img src='files/img/del_table.png' alt='Удалить' align='center'></a></td></tr>");		
-							//console.log(arr_ans[1]);
-						}
-					}
-				}
-			});
-		}
-	}
-	
-</script>
-{/literal}
-
-<div id="error_mess"> {$error_} </div>
-
-<script type="text/javascript" src="{$js}jquery-1.11.1.min.js"></script>	
-<script type="text/javascript" src="{$js}migrate.js"></script>
-<script type="text/javascript" src="{$js}noselect.js"></script>
-</head>
-<body>
-<!--<form id="list_posts" name="list_posts" method="post">
-</form>-->
-
-<div id="menu-holder"></div>
-
-<main>
-
-<aside>
-
-	<menu>
-		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
-		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu set_cur" type="button" value="Должности" onclick=""/></a></li>
-		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/></a></li>
-		<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu" type="button" value="Тесты" onclick=""/></a></li>
-		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
-	</menu>
-
-</aside>
-
-<article>
-
+{extends file="list.tpl.html"}
+{block name="article"}
 <form id="edit_post" name="edit_post" method="post">
 
 	<span class="title_menu_edit">Редактирование должности</span>
@@ -168,15 +93,5 @@
 	
 </form>
 
-</article>
-
-</main>
-
-<footer id="bottom">
-
-</footer>
-
-
-<script src="{$tpl}js/script.js"></script>
-</body>
-</html>
+{/block}
+{/extends}

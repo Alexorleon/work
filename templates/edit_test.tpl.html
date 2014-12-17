@@ -1,78 +1,6 @@
-<!DOCTYPE HTML>
-<html lang="ru">
-<head>
-<title>{$title}</title>
-<meta charset="utf-8">
-<link rel="stylesheet" href="{$tpl}css/main.css">
+{extends file="list.tpl.html"}
+{block name="article"}
 
-<div id="error_mess"> {$error_} </div>
-
-<script type="text/javascript" src="{$js}jquery-1.11.1.min.js"></script>	
-<script type="text/javascript" src="{$js}migrate.js"></script>
-<script type="text/javascript" src="{$js}noselect.js"></script>
-<script type="text/javascript" src="{$js}TableFilter/tablefilter_min.js"></script>
-<script type="text/javascript" src="{$js}jquery.toast.js"></script>
-</head>
-
-{literal}
-<script>
-
-	function add_question(id_question){
-
-		var id = id_question;
-		var test_id = $("#cur_test_id").val();
-		var symbol = "#q_";
-		//console.log(test_id);
-		// добавляем вопрос к тесту
-		$.ajax({
-			type: 'POST',
-			data: {'id_question': id, 'test_id': test_id},
-			url: "./inc/ajax.add_questions.tests.php",
-			error: function(req, text, error) {
-				console.log('Ошибка AJAX: ' + text + ' | ' + error);
-			},
-			success: function (data) {
-				console.log(data);
-				date = data.split('_');
-				if(data == "true"){
-				
-					var str = "Вопрос №"+id+" добавлен.";
-					$().toastmessage('showSuccessToast', str);
-					
-					symbol = symbol+id; // формируем id, для удаления строки из таблицы
-					$(symbol).remove();
-					console.log(symbol);
-				}else{
-				
-					$().toastmessage('showErrorToast', 'Ошибка добавления');
-				}
-			}
-		});
-	}
-</script>
-{/literal}
-
-<body>
-<!--<form id="list_posts" name="list_posts" method="post">
-</form>-->
-
-<div id="menu-holder"></div>
-
-<main>
-
-<aside>
-
-	<menu>
-		<li style="list-style-type: none;"><div class="authlogo_admin"></div></li>
-		<li style="list-style-type: none;"><a href="/list_posts"><input class="button_menu" type="button" value="Должности" onclick=""/></a></li>
-		<li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu" type="button" value="Сотрудники" onclick=""/>
-		<li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu set_cur" type="button" value="Тесты" onclick=""/></a></li></a></li>
-		<li style="list-style-type: none;"><a href="/admin_settings"><input class="button_menu" type="button" value="Настройки" onclick=""/></a></li>
-	</menu>
-
-</aside>
-
-<article>
 <form id="edit_test" name="edit_test" method="post">
 
 	{if $add_or_edit_test eq 0} <!-- новый тест -->
@@ -275,15 +203,5 @@
 	<input id="cur_test_id" name="cur_test_id" type="hidden" value="{$cur_test_id}"/>
 </form>
 
-</article>
-
-</main>
-
-<footer id="bottom">
-
-</footer>
-
-
-<script src="{$tpl}js/script.js"></script>
-</body>
-</html>
+{/block}
+{/extends}
