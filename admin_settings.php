@@ -17,10 +17,12 @@
 		$err = array();
 
 		// проверям логин
-                $temp_login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_SPECIAL_CHARS);
-                $temp_password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
-                $temp_conf_password = filter_input(INPUT_POST, 'conf_password', FILTER_SANITIZE_SPECIAL_CHARS);
-                
+        $temp_login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_SPECIAL_CHARS);
+        $temp_new_login = filter_input(INPUT_POST, 'new_login', FILTER_SANITIZE_SPECIAL_CHARS);
+        $temp_password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+        $temp_old_password = filter_input(INPUT_POST, 'old_password', FILTER_SANITIZE_SPECIAL_CHARS);
+        $temp_conf_password = filter_input(INPUT_POST, 'conf_password', FILTER_SANITIZE_SPECIAL_CHARS);
+        
 		if(!preg_match("/^[a-zA-Z0-9]+$/",$temp_login)){
 
 			$err[] = "Логин может состоять только из букв английского алфавита и цифр";
@@ -31,7 +33,28 @@
 			$err[] = "Логин должен быть не меньше 3-х символов и не больше 30";
 		}
 		
+		if(!preg_match("/^[a-zA-Z0-9]+$/",$temp_new_login)){
+
+			$err[] = "Новый логин может состоять только из букв английского алфавита и цифр";
+		}
+
+		if(strlen($temp_login) < 3 or strlen($temp_new_login) > 30){
+
+			$err[] = "Новый логин должен быть не меньше 3-х символов и не больше 30";
+		}
+		
 		// проверям пароль
+		if(!preg_match("/^[a-zA-Z0-9]+$/",$temp_old_password)){
+
+			$err[] = "Пароль может состоять только из букв английского алфавита и цифр";
+		}
+
+		if(strlen($temp_old_password) < 4 or strlen($temp_old_password) > 32){
+
+			$err[] = "Пароль должен быть не меньше 4-х символов и не больше 32-х";
+		}
+		
+		// новый пароль
 		if(!preg_match("/^[a-zA-Z0-9]+$/",$temp_password)){
 
 			$err[] = "Пароль может состоять только из букв английского алфавита и цифр";
@@ -49,9 +72,11 @@
 		}
 
 		// TODO: экранируем
-                // Уже.
+        // Уже.
 		$good_login = $temp_login;
+		$good_new_login = $temp_new_login;
 		$good_password = $temp_password;
+		$good_old_password = $temp_old_password;
 		
 		//print_r($check_login);
 		//die();
@@ -60,13 +85,36 @@
 		if(count($err) == 0){
 			
 			// Делаем двойное шифрование
-			$password = md5(md5($good_password));
-
+			$password = md5(md5($good_old_password));
+			
+			// сверяем соответствие логина и пароля
 			$sql = <<<SQL
-				UPDATE stat.ADMINREG SET LOGIN='$good_login', PASSWORD='$password', 
-				HASH='', IP='0' WHERE ADMINREG.ID='1'
+				SELECT ID FROM stat.ADMINREG WHERE LOGIN='$good_login' AND PASSWORD='$password'
 SQL;
-			$db->go_query($sql);
+			$value = $db->go_result_once($sql);
+			
+			if( !empty($value)){
+			
+				$password = md5(md5($good_password));
+			
+				$id = $value['ID'];
+				
+				// производим замену
+				$sql = <<<SQL
+					UPDATE stat.ADMINREG SET LOGIN='$good_new_login', PASSWORD='$password', 
+					HASH='' WHERE ADMINREG.ID='$id'
+SQL;
+				$db->go_query($sql);
+			}else{
+				$err[] = "Логин и текущий пароль не совместимы";
+				
+				print "<b>При регистрации произошли следующие ошибки:</b><br>";
+
+				foreach($err AS $error){
+
+					print $error."<br>";
+				}
+			}
 				
 		}else{
 
