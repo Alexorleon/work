@@ -13,7 +13,7 @@
 	{$count = 0}
 	<!-- ограничиваем таблицу для скролинга -->
 	<!--<div class="scrolling_tables_menu">-->
-	<table class="edit_tables">
+	<table class="edit_tables" id="postlist">
 
 		<tr>
 			<th style="width: 2%;">№</th>
@@ -42,6 +42,16 @@
 	<!--<section>
 		<p>здесь могут быть похожие записи, слайдер, баннеры, миниатюры и т.д...</p>
 	</section>-->
-
+	<script>
+		var table2_Props = {
+							sort: true,
+							mark_active_columns: true,
+							col_0: "none",
+							col_2: "none",
+							sort_select: true,
+							col_number_format: ['EU',null,'EU']
+						   };
+		var tf2 = setFilterGrid("postlist", table2_Props);
+	</script>
 {/block}
 {/extends}
