@@ -68,7 +68,13 @@
                     {assign var="selected" value=""}
                 {/if}
                 <li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu{$selected}" type="button" value="Сотрудники" onclick=""/></a></li>
-        {/if}
+		{/if}
+		{if $curPage==6}
+                {assign var="selected" value=" set_cur"}
+                {else}
+                {assign var="selected" value=""}
+                {/if}
+		<li style="list-style-type: none;"><a href="/login"><input class="button_menu{$selected}" type="button" value="Выход" onclick=""/></a></li>
 	</menu>
 
 </aside>
