@@ -13,7 +13,9 @@
 	$error_='';
 	//$array_test_added = Array();	
 	$smarty->assign("cur_post_name", '');
-	
+	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
+         $smarty->assign("role", $role);
+         $smarty->assign("curPage", 1);
 	if (!empty($_POST)){
 		
 		//print_r($_POST);

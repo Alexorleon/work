@@ -11,7 +11,9 @@
 	$db = new db;
 	$db->GetConnect();
 	$error_='';
-	
+	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
+         $smarty->assign("role", $role);
+         $smarty->assign("curPage", 3);
 	if(isset($_GET['exit'])){
 		if($_GET['exit'] == 'exit'){
 		
