@@ -23,15 +23,15 @@ $uch_query = ($uchast!=-1) ? " AND UCHAST_K='$uchast'" : "";
 switch ($shift)
 {
     case 1:
-        $current_date_min = $date_lamp." 05:00:00";
+        $current_date_min = $date_lamp." 01:00:00";
         $current_date_max = $date_lamp." 09:00:00";
     break;
     case 2:
-        $current_date_min = $date_lamp." 13:00:00";
+        $current_date_min = $date_lamp." 9:00:00";
         $current_date_max = $date_lamp." 17:00:00";
     break;
     case 3:
-        $current_date_min = date("d.m.Y", (strtotime($date_lamp) - 60 * 60 * 24))." 21:00:00";
+        $current_date_min = date("d.m.Y", (strtotime($date_lamp) - 60 * 60 * 24))." 17:00:00";
         $current_date_max = $date_lamp." 01:00:00";
     break;
     default:
