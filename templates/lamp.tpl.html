@@ -19,13 +19,28 @@
         get_sotrud(current_num);
         $("#tb_"+tab_num).addClass("tab_num_selected");
     }
-
+    
+    function get_uchast_info()
+    {
+        $.ajax({ //стартуем аякс
+            type: 'POST', //обращаемся к скрипту методом ПОСТ
+            data: {'current': $('#uchast_lamp').val()},
+            url: "./inc/ajax.get_uchast.lamp.php",//путь к скрипту, от корня
+            error: function(req, text, error) {//обработчик, если произошла ошибка
+            //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+            },
+            success: function (data)
+                    {
+                        $("#uchast_lamp").html(data);
+                    }
+        });
+    }
     /*Обновляем таблу чувачков*/
     function get_sotrud(check_tab_num)
     {	//создал функцию, чтобы запускать по событию
         $.ajax({ //стартуем аякс
                 type: 'POST', //обращаемся к скрипту методом ПОСТ
-                data: {'type': '1', 'tabel_spusk': check_tab_num, 'window': $('#window').val(), 'shift': $('#shift').val(), 'date_lamp': $('#date_lamp').val()},
+                data: {'type': '1', 'tabel_spusk': check_tab_num, 'window': $('#window').val(), 'shift': $('#shift').val(), 'date_lamp': $('#date_lamp').val(), 'uchast': $('#uchast_lamp').val()},
                 url: "./inc/ajax.get_sotrud.lamp.php",//путь к скрипту, от корня
                 error: function(req, text, error) {//обработчик, если произошла ошибка
                 //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
@@ -51,6 +66,7 @@
                              }
                     });
         }
+        get_uchast_info();
     }
 function window_change()
 {
@@ -106,6 +122,13 @@ function window_change()
         <option value='1'>Окно №1</option>
         <option value='2'>Окно №2</option>
         <option value='3'>Окно №3</option>
+    </select>
+</td>
+<td>
+    <select class="text_lamp" id="uchast_lamp" name="uchast_lamp" onchange="get_sotrud(0)">
+        {foreach from=$array_uchast item=uchast}
+        <option value="{$uchast['UCHAST_K']}">{$uchast['UCHAST_NAIM']}</option>
+        {/foreach}
     </select>
 </td>
 <td><span id="tabnum_status" class="status_search_tabnum"></span></td>

@@ -8,7 +8,7 @@ $temp_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_NUMBER_INT);
 $sotrud_tabel_spusk = filter_input(INPUT_POST, 'tabel_spusk', FILTER_SANITIZE_NUMBER_INT);
 $shift = filter_input(INPUT_POST, 'shift', FILTER_SANITIZE_NUMBER_INT);
 $window = filter_input(INPUT_POST, 'window', FILTER_SANITIZE_NUMBER_INT);
-
+$uchast = filter_input(INPUT_POST, 'uchast', FILTER_SANITIZE_NUMBER_INT);
 if (filter_input(INPUT_POST, 'date_lamp', FILTER_SANITIZE_STRING))
 {
     $date_lamp = date("d.m.Y.", strtotime(filter_input(INPUT_POST, 'date_lamp', FILTER_SANITIZE_STRING)));
@@ -17,6 +17,8 @@ else
 {
     $date_lamp = date("d.m.Y");
 }
+
+$uch_query = ($uchast!=-1) ? " AND UCHAST_K='$uchast'" : "";
 
 switch ($shift)
 {
@@ -43,7 +45,7 @@ if ($temp_type == 1)
 
     $sql = "SELECT SOTRUD.TABEL_SPUSK AS TABEL, SOTRUD.SOTRUD_FAM AS FAM, SOTRUD.SOTRUD_IM AS IM, SOTRUD.SOTRUD_OTCH AS OTCH FROM stat.SOTRUD
             WHERE (SOTRUD.SOTRUD_K IN (SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEBEGIN >= to_date('$current_date_min', 'DD.MM.YYYY HH24:MI:SS') AND ALLHISTORY.DATEBEGIN <= to_date('$current_date_max', 'DD.MM.YYYY HH24:MI:SS') AND 
-            EXAMINERTYPE=1)) AND SOTRUD.WINDOW='$window' ORDER BY TABEL_SPUSK";
+            EXAMINERTYPE=1)) AND SOTRUD.WINDOW='$window'$uch_query ORDER BY TABEL_SPUSK";
 
     $array_sotrud = $db->go_result($sql);
     $amount = round(count($array_sotrud)/3);

@@ -1,0 +1,9 @@
+<option value='-1'>Все участки</option>
+{foreach from=$array_uchast item=uchast}
+{if $uchast['UCHAST_K']==$current}
+{assign var=selected value=" selected"}
+{else}
+{assign var=selected value=""}
+{/if}
+<option value="{$uchast['UCHAST_K']}"{$selected}>{$uchast['UCHAST_NAIM']}</option>
+{/foreach}

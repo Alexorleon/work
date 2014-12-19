@@ -13,43 +13,23 @@
 	
 	$period = time() - (3 * 60 * 60); // TODO: установить нужный период
 	$current_date = date('d.m.Y H:i:s', $period);
-	
-	// , TO_CHAR(ALLHISTORY.DATEEND, 'YY-mm-dd HH24:MI:SS') AS DATEEND
-	// , stat.ALLHISTORY 
-	// получаем список сотрудников прошедших предсменный экзаменатор за выбранный период
-//	select sotrud_id, TO_CHAR(ALLHISTORY.DATEEND, 'YY-mm-dd HH24:MI:SS') AS DATEEND from stat.allhistory where ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND EXAMINERTYPE=1
+        $sql = "SELECT UCHAST_K, UCHAST_NAIM FROM stat.UCHAST WHERE
+                PREDPR_K='$predpr_k_glob' AND
+                UCHAST_K IN (SELECT DISTINCT SOTRUD.UCHAST_K FROM stat.SOTRUD WHERE
+                            SOTRUD_K IN (SELECT DISTINCT SOTRUD_ID FROM stat.ALLHISTORY))";
+        
+        $array_uchast = $db->go_result($sql);
+        
 	$sql = <<<SQL
 	SELECT TABEL_SPUSK FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
 	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEBEGIN >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
 	EXAMINERTYPE=1) ORDER BY TABEL_SPUSK
 SQL;
 	$array_sotrud = $db->go_result($sql);
-
-	// заменяем ID сотрудника на его табельный
-	/*for ($i = 0; $i < count($array_sotrud); $i++){
-	
-		$temp_sotrudid = $array_sotrud[$i]['SOTRUD_ID'];
-				
-		$sql = <<<SQL
-		SELECT TABEL_SPUSK FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K='$temp_sotrudid' AND PREDPR_K=$predpr_k_glob
-SQL;
-		$temp_tabkadr = $db->go_result_once($sql);
-		
-		$array_sotrud[$i]['SOTRUD_ID'] = $temp_tabkadr['TABEL_SPUSK'];
-	}*/
-	
-	/*$sql = <<<SQL
-	SELECT TABEL_SPUSK FROM stat.SOTRUD WHERE SOTRUD.SOTRUD_K IN 
-	(SELECT SOTRUD_ID FROM stat.ALLHISTORY WHERE ALLHISTORY.DATEEND >= to_date('$current_date', 'DD.MM.YYYY HH24:MI:SS') AND 
-	EXAMINERTYPE=1)
-SQL;*/
-	//echo "</br>";
-	//print_r($array_sotrud);
-	//die();
-
 	$smarty->assign("error_", $error_);
 	
 	$smarty->assign("array_sotrud", $array_sotrud);
+        $smarty->assign("array_uchast", $array_uchast);
 	$smarty->assign("count_array_sotrud", count($array_sotrud));
 
 	$smarty->assign("title", "Ламповая");

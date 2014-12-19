@@ -1,7 +1,7 @@
 <?php
 	require_once($_SERVER['DOCUMENT_ROOT']."./cfg/config.inc.php"); 
 
-	unset($_SESSION['type_question_chain']);
+        unset($_SESSION['type_question_chain']);
 	
 	unset($_SESSION['final_array_txt_questions']); // хранятся текстовые вопросы
 	unset($_SESSION['final_array_txt_answers']); // основной массив для ответов

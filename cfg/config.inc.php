@@ -38,4 +38,21 @@ session_start();//чтобы работать с сессиями, на кажд
 	2 - СУЭК
 	*/
 	$predpr_k_glob = "2";
+        
+        
+
+register_shutdown_function("fatal_handler");
+
+function fatal_handler()
+{
+    $errno = E_CORE_ERROR;
+    
+    $error = error_get_last();
+    
+    if ($error!= null && $error['type']==1 || $error['type']==16 ||$error['type']==64 ||$error['type']==256)
+    {
+        die('<script>document.location.href= "/auth.php"</script>');
+        //var_dump($error);
+    }
+}
 ?>
