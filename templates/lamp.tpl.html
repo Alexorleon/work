@@ -24,7 +24,7 @@
     {
         $.ajax({ //стартуем аякс
             type: 'POST', //обращаемся к скрипту методом ПОСТ
-            data: {'current': $('#uchast_lamp').val()},
+            data: {'current': $('#uchast_lamp').val(), 'window': $('#window').val(), 'shift': $('#shift').val(), 'date_lamp': $('#date_lamp').val()},
             url: "./inc/ajax.get_uchast.lamp.php",//путь к скрипту, от корня
             error: function(req, text, error) {//обработчик, если произошла ошибка
             //console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
@@ -71,6 +71,7 @@
 function window_change()
 {
     $("#tabnum_status").html("");
+    $("#uchast_lamp").val(-1);
     get_sotrud(0);
 }
     // нажатие enter
@@ -126,9 +127,7 @@ function window_change()
 </td>
 <td>
     <select class="text_lamp" id="uchast_lamp" name="uchast_lamp" onchange="get_sotrud(0)">
-        {foreach from=$array_uchast item=uchast}
-        <option value="{$uchast['UCHAST_K']}">{$uchast['UCHAST_NAIM']}</option>
-        {/foreach}
+        <option value="-1">Все участки</option>
     </select>
 </td>
 <td><span id="tabnum_status" class="status_search_tabnum"></span></td>
