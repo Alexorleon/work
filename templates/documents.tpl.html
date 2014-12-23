@@ -37,19 +37,18 @@
 
 		<div id="menu-holder"></div>
 		
-		<!-- TODO: заглушка с подстановкой нового документа -->
-		{$count = 0}
 		<table class="scrolling_table_docs">
 		<tbody>
 			{section name=j loop=$array_instr}
 				<tr onclick="javascript:window.location='./show_regulations_{$array_instr[j]['ID']}'" style="cursor: pointer;">
-					<td>
-					{if $count eq 0}
-						{$array_instr[j]['TITLE']} . (Новый документ)
+					{if $array_instr[j]['STATUS'] eq 1}
+						<td style="width: 120px; background: #FAAC58;">Новый></td>
 					{else}
-						{$array_instr[j]['TITLE']}
+						<td style="width: 120px; opacity: 0;"></td>
 					{/if}
-					{capture}{$count++}{/capture}
+					
+					<td>
+						{$array_instr[j]['TITLE']}
 					</td>
 				</tr>
 			{/section}
@@ -98,21 +97,21 @@
 		<div class="top-face">Видеоинструктажи</div>
 
 		<div id="menu-holder"></div>
-		
-		<!-- TODO: заглушка с подстановкой нового документа -->
-		{$count = 0}
+
 		<table class="scrolling_table_docs">
 		<tbody>
 			{section name=j loop=$array_instr}
 				<!--<tr><td><p><a href="/show_video_{$array_instr[j]['ID']}">{$array_instr[j]['TITLE']}</a></p></td></tr>-->
 				<tr onclick="javascript:window.location='./show_video_{$array_instr[j]['ID']}'" style="cursor: pointer;">
-					<td>
-					{if $count eq 0}
-						{$array_instr[j]['TITLE']} . (Новый документ)
+					{if $array_instr[j]['STATUS'] eq 1}
+						<td style="width: 120px; background: #FAAC58;">Новый></td>
 					{else}
-						{$array_instr[j]['TITLE']}
+						<td style="width: 120px; opacity: 0;"></td>
 					{/if}
-					{capture}{$count++}{/capture}
+					
+					<td>
+						{$array_instr[j]['TITLE']}
+					</td>
 					</td>
 				</tr>
 			{/section}
@@ -169,20 +168,20 @@
 		<div class="top-face" style="line-height:35px;">Компьютерные модели<br>несчастных случаев</div>
 
 		<div id="menu-holder"></div>
-		
-		<!-- TODO: заглушка с подстановкой нового документа -->
-		{$count = 0}
+
 		<table class="scrolling_table_docs">
 		<tbody>
 			{section name=j loop=$array_instr}
 				<tr onclick="javascript:window.location='./show_compmodel_{$array_instr[j]['ID']}'" style="cursor: pointer;">
-					<td>
-					{if $count eq 0}
-						{$array_instr[j]['TITLE']} . (Новый документ)
+					{if $array_instr[j]['STATUS'] eq 1}
+						<td style="width: 120px; background: #FAAC58;">Новый></td>
 					{else}
-						{$array_instr[j]['TITLE']}
+						<td style="width: 120px; opacity: 0;"></td>
 					{/if}
-					{capture}{$count++}{/capture}
+					
+					<td>
+						{$array_instr[j]['TITLE']}
+					</td>
 					</td>
 				</tr>
 			{/section}

@@ -28,20 +28,14 @@ SQL;
 				
 				$sotrud_dolj = $_SESSION['sotrud_dolj'];
 				
-				// получаем нормативные документы				
+				// получаем нормативные документы
+				// статус документа и в сортированном порядке
 				$sql = <<<SQL
-				SELECT ID, TITLE FROM stat.ALLTRAINING WHERE ALLTRAINING.ID IN
-				(SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.TESTNAMESID IN 
-				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) 
-				AND ALLTRAINING.ALLTRAININGTYPEID=1
+				SELECT ALLTRAINING.ID, ALLTRAINING.TITLE, ALLTRAINING_B.STATUS FROM stat.ALLTRAINING, stat.ALLTRAINING_B WHERE ALLTRAINING.ID IN
+				(SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.DOLJNOSTID='$sotrud_dolj' AND ALLTRAINING_B.ALLTRAININGID=ALLTRAINING_B_TN.ALLTRAININGID) 
+				AND ALLTRAINING.ALLTRAININGTYPEID=1 ORDER BY STATUS DESC
 SQL;
 				$array_instr = $db->go_result($sql);
-				
-				// TODO: сделать 2 запроса,с выборкой из _b. с Y и без.
-				// !!!!! заменить Y на 0 и 1, где 1 это прочитано. Теперь можно просто сортировать при выборке и массив 
-				// заполнится в порядке прочтения. С другой стороны, это медленне чем 2 запроса.
-				
-				//$sotrud_id = $_SESSION['sotrud_id'];
 				
 				$smarty->assign("array_instr", $array_instr);
 			}
@@ -68,17 +62,11 @@ SQL;
 				
 				// получаем видео				
 				$sql = <<<SQL
-				SELECT ID, TITLE FROM stat.ALLTRAINING WHERE ALLTRAINING.ID IN
-				(SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.TESTNAMESID IN 
-				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) 
-				AND ALLTRAINING.ALLTRAININGTYPEID=2
+				SELECT ALLTRAINING.ID, ALLTRAINING.TITLE, ALLTRAINING_B.STATUS FROM stat.ALLTRAINING, stat.ALLTRAINING_B WHERE ALLTRAINING.ID IN
+				(SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.DOLJNOSTID='$sotrud_dolj' AND ALLTRAINING_B.ALLTRAININGID=ALLTRAINING_B_TN.ALLTRAININGID) 
+				AND ALLTRAINING.ALLTRAININGTYPEID=2 ORDER BY STATUS DESC
 SQL;
 				$array_instr = $db->go_result($sql);
-				// TODO: сделать 2 запроса,с выборкой из _b. с Y и без.
-				// !!!!! заменить Y на 0 и 1, где 1 это прочитано. Тогда можно будет просто сортировать при выборке и массив 
-				// заполнится в порядке прочтения. С другой стороны, это медленне чем 2 запроса.
-				
-				//$sotrud_id = $_SESSION['sotrud_id'];
 				
 				$smarty->assign("array_instr", $array_instr);
 			}
@@ -101,14 +89,11 @@ SQL;
 				
 				// получаем компьютерные модели				
 				$sql = <<<SQL
-				SELECT ID, TITLE FROM stat.ALLTRAINING WHERE ALLTRAINING.ID IN
-				(SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.TESTNAMESID IN 
-				(SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) 
-				AND ALLTRAINING.ALLTRAININGTYPEID=3
+				SELECT ALLTRAINING.ID, ALLTRAINING.TITLE, ALLTRAINING_B.STATUS FROM stat.ALLTRAINING, stat.ALLTRAINING_B WHERE ALLTRAINING.ID IN
+				(SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.DOLJNOSTID='$sotrud_dolj' AND ALLTRAINING_B.ALLTRAININGID=ALLTRAINING_B_TN.ALLTRAININGID) 
+				AND ALLTRAINING.ALLTRAININGTYPEID=3 ORDER BY STATUS DESC
 SQL;
 				$array_instr = $db->go_result($sql);
-				
-				// TODO: -//-
 				
 				$smarty->assign("array_instr", $array_instr);
 			}

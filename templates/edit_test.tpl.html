@@ -56,6 +56,7 @@
 			</tr>
 		</table>
 		
+		<!-- формируем таблицу соотношей модулей для теста -->
 		<table class="edit_tables_typeques">
 			<tr>
 				<th style="width: 20%;"></th>
@@ -65,7 +66,6 @@
 				<th style="width: 20%;">Первая помощь</th>
 			</tr>
 
-			<!-- формируем таблицу соотношей модулей для теста -->
 			{section name=first start=0 loop=$active_modules_questions step=4}
 				<tr>
 					<td>
@@ -74,11 +74,13 @@
 					{section name=second start=$smarty.section.first.index loop=$active_modules_questions max=4}
 						<td>
 							{if $active_modules_questions[{$smarty.section.second.index}]['ACTIVE'] eq 1}
-							
+
 								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="true" checked />
+								<input class="check_text_edit" id="txt{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="txt{$active_modules_questions[{$smarty.section.second.index}]['ID']}" value="">
 							{else}
 							
 								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]"/>
+								<input class="check_text_edit" id="txt{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="txt{$active_modules_questions[{$smarty.section.second.index}]['ID']}">
 							{/if}
 						</td>
 					{/section}

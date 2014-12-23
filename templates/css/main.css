@@ -904,7 +904,7 @@ bottom: 0px;
  
 .scrolling_table_docs tr td {
 	padding:28px;
-	border-bottom:10px solid #e0e0e0;
+	border-bottom:10px solid #e5e5e5;
 	
 	background: #A9D0F5;
 	background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5), to(#A9D0F5));
@@ -1973,3 +1973,11 @@ clear: both;
    position: relative;
     font-size: 30px;
 }
+
+/*общая настройка. редактирование теста. текстовое поле рядом с чексбоксом*/
+.check_text_edit
+{
+	width: 40px;
+	vertical-align: 35%;
+}
+
