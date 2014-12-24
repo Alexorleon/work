@@ -14,7 +14,7 @@ else
     $error_='';
 
     // инициализация
-    $_SESSION['add_or_edit_employee'] = 0; // добавление
+    // TODO: не нужно? $_SESSION['add_or_edit_employee'] = 0; // добавление
 		
     if(!empty($_GET))
     {

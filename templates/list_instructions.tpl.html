@@ -1,0 +1,52 @@
+{extends file="list.tpl.html"}
+{block name="article"}
+	<span class="title_menu_edit">Инструкции</span>
+
+	<!-- Меню редактирования -->
+	<div style="margin-left: 2px;" align="left"><a href="/new_instructions"><input class="button_admin_edit" type="button" value="Добавить инструкцию" onclick=""/></a></div>
+
+	{$count = 0}
+	<table class="edit_tables" id="instructionslist">
+            <thead>
+		<tr>
+			<th style="width: 4%;">№</th>
+			<th style="width: 83%;">Название</th>
+			<th style="width: 12%;">Тип инструкции</th>
+			<th style="width: 1%;"></th>
+		</tr>
+            </thead>
+            <tbody>
+		{section name=count loop=$array_instructions}
+			<tr onclick="window.location='edit_instructions?instructions_id={$array_instructions[{$count}]['ID']}'" style="cursor: pointer;">
+				<td>
+				{$array_instructions[{$count}]['ID']}
+				</td>
+				<td>
+				{$array_instructions[{$count}]['TITLE']}
+				</td>
+				<td>
+				{$array_instructions[{$count}]['T_TYPE']}
+				</td>
+				<td class="deleteInTable" style="text-align: center;">
+				<a href="/list_instructions?del_instructionid={$array_instructions[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				</td>
+				{capture}{$count++}{/capture}
+			</tr>
+		{/section}
+            </tbody>
+	</table>
+        <script>
+            var table2_Props = {
+                                sort: true,
+                                mark_active_columns: true,
+                                col_0: "none",
+                                col_2: "select",
+                                col_3: "none",
+                                display_all_text: " [ Показать все ] ",
+                                sort_select: true,
+                                col_number_format: ['EU',null,null,'EU']
+                               };
+            var tf2 = setFilterGrid("instructionslist", table2_Props);
+        </script>
+{/block}
+{/extends}

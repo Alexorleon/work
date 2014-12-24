@@ -47,13 +47,20 @@
                 {/if}
                 <li style="list-style-type: none;"><a href="/list_tests"><input class="button_menu{$selected}" type="button" value="Тесты" onclick=""/></a></li>
             
-                {if $curPage==5}
+        {if $curPage==5}
                 {assign var="selected" value=" set_cur"}
                 {else}
                 {assign var="selected" value=""}
                 {/if}
                 <li style="list-style-type: none;"><a href="/list_questions"><input class="button_menu{$selected}" type="button" value="Вопросы" onclick=""/></a></li>
-                
+        
+		{if $curPage==6}
+                {assign var="selected" value=" set_cur"}
+                {else}
+                {assign var="selected" value=""}
+                {/if}
+                <li style="list-style-type: none;"><a href="/list_instructions"><input class="button_menu{$selected}" type="button" value="Инструкции" onclick=""/></a></li>
+        
 		{if $curPage==4}
                 {assign var="selected" value=" set_cur"}
                 {else}
@@ -69,11 +76,11 @@
                 {/if}
                 <li style="list-style-type: none;"><a href="/list_employees"><input class="button_menu{$selected}" type="button" value="Сотрудники" onclick=""/></a></li>
 		{/if}
-		{if $curPage==6}
+		{if $curPage==7}
                 {assign var="selected" value=" set_cur"}
                 {else}
                 {assign var="selected" value=""}
-                {/if}
+        {/if}
 		<li style="list-style-type: none;"><a href="/login"><input class="button_menu{$selected}" type="button" value="Выход" onclick=""/></a></li>
 	</menu>
 

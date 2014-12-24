@@ -38,6 +38,10 @@ RewriteRule ^list_questions$ /list_questions.php [L,QSA]
 RewriteRule ^new_questions$ /edit_questions.php?posttype=0 [L,QSA]
 RewriteRule ^edit_questions$ /edit_questions.php?posttype=1 [L,QSA]
 
+RewriteRule ^list_instructions$ /list_instructions.php [L,QSA]
+RewriteRule ^new_instructions$ /edit_instructions.php?posttype=0 [L,QSA]
+RewriteRule ^edit_instructions$ /edit_instructions.php?posttype=1 [L,QSA]
+
 RewriteRule ^list_tests$ /list_tests.php [L,QSA]
 RewriteRule ^new_test$ /edit_test.php?testtype=0 [L,QSA]
 RewriteRule ^edit_test$ /edit_test.php?testtype=1 [L,QSA]
