@@ -25,7 +25,7 @@ SQL;
 			$sql = <<<SQL
 				insert into stat.speciality_b (TESTNAMESID, DOLJNOSTKOD) VALUES('$test_id', '$dolj_id')
 SQL;
-			if( !$db->go_query($sql)){
+			if($db->go_query($sql)){ // TODO: убрал отрицание и заработало???
 				
 				// получаем номер последнего ID после вставки. нужен для таблицы.
 				$sql = <<<SQL
