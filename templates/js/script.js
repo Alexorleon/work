@@ -269,6 +269,26 @@ function enableSelectBoxes(){
     });
 }
 
+
+// добавление или редактирование инструкции
+function get_instruction(f){
+
+	if(($("#text_instruction").val() == "") || ($("#employeename").val() == "") || ($("#employeepat").val() == "") || ($("#employeetabel").val() == "")){ // не пустые значения
+
+		alert("Введите все данные!");		
+	}else{
+	
+		num = f.type_instruction.selectedIndex;
+		instruction_id = f.type_instruction.options[num].value;
+
+		$("#employee_hidden_id").val();
+		$("#text_instruction").val();
+		$("#type_instruction").val(instruction_id);
+		$("#employeetabel").val();
+		$("#edit_employee").submit();
+	}
+}
+
 /* Кнопка удаления в таблице */
 function deleteInTable(n)
 {

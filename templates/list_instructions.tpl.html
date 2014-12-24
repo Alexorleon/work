@@ -17,7 +17,7 @@
             </thead>
             <tbody>
 		{section name=count loop=$array_instructions}
-			<tr onclick="window.location='edit_instructions?instructions_id={$array_instructions[{$count}]['ID']}'" style="cursor: pointer;">
+			<tr onclick="window.location='edit_instructions?instructions_id={$array_instructions[{$count}]['ID']}&instructiontitle_cur={$array_instructions[{$count}]['TITLE']}&instructiontype_cur={$array_instructions[{$count}]['T_ID']}'" style="cursor: pointer;">
 				<td>
 				{$array_instructions[{$count}]['ID']}
 				</td>

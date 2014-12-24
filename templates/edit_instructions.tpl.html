@@ -1,0 +1,104 @@
+{extends file="list.tpl.html"}
+{block name="article"}
+
+{literal}
+<script>
+
+	function add_question(){
+	
+		$.ajax({
+			//type: 'POST', 
+			//data: {'typequestion': curVar},
+			//url: "./inc/ajax.get_questions.php",
+			//dataType: 'json',
+			error: function(req, text, error) {//обработчик, если произошла ошибка
+			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+			},
+			success: function (data) {
+
+				var download_video = "<input type=file id=download_video name=download_video accept=video/mp4></input>";
+				$("#generate").append(download_video);
+				$("#generate").append("</br>");
+			}
+		});
+	}
+	
+</script>
+
+{/literal}
+<script type="text/javascript" src="{$js}form-validator/jquery.form-validator.min.js"></script>
+
+<form id="edit_instructions" name="edit_instructions" enctype="multipart/form-data" method="post">
+
+    <span class="title_menu_edit">
+        {$title}
+    </span>
+
+    <div style="margin-left: 2px;" align="left">
+        <a href="/list_instructions"><input class="button_admin_edit" type="button" value="Назад" onclick=""/></a>
+		
+		<!--в зависимости от статуса добавляем или редактируем-->
+		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_instruction(this.form)"/>
+    </div>
+
+	<table>
+		<tr>
+			<td>Тип инструкции:</td>
+			<td>
+				<p style="font-size:14px"><select name="type_instruction" id="type_instruction">
+				{section name=j loop=$array_typeinstructions}
+					{if $cur_instruction_type eq $array_typeinstructions[j]['ID']} <!-- ищем в списке нужный -->
+						<option value="{$array_typeinstructions[j]['ID']}" selected="selected">{$array_typeinstructions[j]['TITLE']}</option>
+					{else}
+						<option value="{$array_typeinstructions[j]['ID']}">{$array_typeinstructions[j]['TITLE']}</option>
+					{/if}
+				{/section}
+				</select></p>
+			</td>
+		</tr>
+		<tr>
+			<td>Название:</td>
+			<td><input  class="field_text_edit" id="text_instruction" name="text_instruction" value="{$cur_instructiontitle}"></td>
+		</tr>
+		
+		<tr>
+			<td><input type=file id=download_file name=download_file accept="video/mp4,application/pdf"></td>
+		</tr>
+	</table>
+	
+	<!-- id инструкции для передачи -->
+	<input type="hidden" id="instruction_hidden_id" name="instruction_hidden_id" value="{$cur_instruction_id}"></td>
+	
+    <!-- ловим событие выбора -->
+<!--    {literal}
+    <script>
+    $("#type_instruction").change(
+            function(){
+		var curVar = $(this).val();
+		var formData = $("#edit_instructions").serialize();
+		if(!curVar) return false;
+		// формируем шаблон параметров
+		$.ajax({
+			type: 'POST', 
+			data: formData,
+			url: "./inc/ajax.get_questions.php",
+			//dataType: 'json',
+			error: function(req, text, error) {//обработчик, если произошла ошибка
+			//console.log('Ошибка AJAX: ' + text + ' | ' + error);//выводим в консоль текст ошибки
+			},
+			success: function (data) {
+				$("#generate").html(data);
+                                $.validate();
+				// TODO: магические числа
+			}
+                });
+    });
+
+    $("document").ready($("#type_instruction").change()); //Инициализируем тип вопроса по умолчанию
+    </script>
+{/literal}-->
+
+</form>
+
+{/block}
+{/extends}

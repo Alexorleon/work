@@ -33,7 +33,7 @@ SQL;
         }
     }
 
-    // получаем список всех сотрудников. 10 - кокс-майнинг
+    // получаем список всех сотрудников
     $sql = 
 	"SELECT SOTRUD.SOTRUD_K, SOTRUD.SOTRUD_FAM, SOTRUD.SOTRUD_IM, SOTRUD.SOTRUD_OTCH, DOLJNOST.TEXT AS TEXT, DOLJNOST.KOD AS KOD, SOTRUD.TABEL_SPUSK 
 	FROM stat.SOTRUD, stat.DOLJNOST WHERE SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.DOLJ_K=DOLJNOST.KOD";
