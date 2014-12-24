@@ -273,7 +273,7 @@ function enableSelectBoxes(){
 // добавление или редактирование инструкции
 function get_instruction(f){
 
-	if(($("#text_instruction").val() == "") || ($("#employeename").val() == "") || ($("#employeepat").val() == "") || ($("#employeetabel").val() == "")){ // не пустые значения
+	if(($("#text_instruction").val() == "")){ // не пустые значения
 
 		alert("Введите все данные!");		
 	}else{
@@ -281,11 +281,12 @@ function get_instruction(f){
 		num = f.type_instruction.selectedIndex;
 		instruction_id = f.type_instruction.options[num].value;
 
-		$("#employee_hidden_id").val();
+		$("#instruction_hidden_id").val();
 		$("#text_instruction").val();
+		$("#download_file").val();
+		$("#instruction_hidden_name").val();
 		$("#type_instruction").val(instruction_id);
-		$("#employeetabel").val();
-		$("#edit_employee").submit();
+		$("#edit_instructions").submit();
 	}
 }
 
