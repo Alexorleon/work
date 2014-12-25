@@ -133,9 +133,14 @@ SQL;
     // получаем список типов инструкций.
     $sql = "SELECT ID, TITLE FROM stat.ALLTRAININGTYPE ORDER BY ID";
     $array_alltrainingtype = $db->go_result($sql);
+	
+	// список соотношения инструкций и должностей
+	$sql = "SELECT KOD, TEXT FROM stat.DOLJNOST WHERE DOLJNOST.PREDPR_K='$predpr_k_glob'";
+    $array_doljnost = $db->go_result($sql);
 
     $smarty->assign("error_", $error_);
 	$smarty->assign("array_typeinstructions", $array_alltrainingtype);
+	$smarty->assign("array_doljnost", $array_doljnost);
 	$smarty->assign("add_or_edit_instructions", $_SESSION['add_or_edit_instructions']);
 
     if ($_SESSION['add_or_edit_instructions'] == 1)
