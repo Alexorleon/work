@@ -290,6 +290,13 @@ function get_instruction(f){
 	}
 }
 
+// edit testparameters
+function get_testparameters(status, f){
+
+	$("#edit_testparameters").val(status);
+	$("#form_testparameters").submit();
+}
+
 /* Кнопка удаления в таблице */
 function deleteInTable(n)
 {

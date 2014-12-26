@@ -20,7 +20,7 @@
 			$_SESSION['add_or_edit_test'] = 1;
 		}
 	}
-
+	
 	if (!empty($_POST)){
 		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
@@ -38,6 +38,7 @@
 SQL;
 			$db->go_query($sql);
 			
+			/*
 			// получаем номер последнего ID после вставки.
 			$sql = <<<SQL
 				SELECT Max(ID) AS "max" FROM stat.TESTNAMES
@@ -73,7 +74,7 @@ SQL;
 SQL;
 					$db->go_query($sql);
 				}
-			}
+			}*/
 			
 			// TODO: после успешной записи запомнить ID. и активировать кнопку редактирования последней этой записи.
 			
@@ -90,7 +91,7 @@ SQL;
 					$cur_test_id = filter_input(INPUT_POST, 'cur_test_id', FILTER_SANITIZE_NUMBER_INT); // $_POST['cur_test_id'];
 					
 					$sql = <<<SQL
-					UPDATE stat.TESTPARAMETERS SET ACTIVE='0' WHERE TESTPARAMETERS.TESTNAMESID='$cur_test_id'
+					UPDATE stat.TESTPARAMETERS SET AMOUNT=0
 SQL;
 					$db->go_query($sql);
 					
@@ -98,10 +99,19 @@ SQL;
 
 						$arraytest_id = filter_input(INPUT_POST, 'arraytest_id', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); // $_POST['arraytest_id'];
 
+						$num = 0;
 						foreach($arraytest_id as $key=>$value)
 						{
+							if(empty($value)){
+							
+								$num = 0;
+							}else{
+							
+								$num = $value;
+							}
+							
 							$sql = <<<SQL
-							UPDATE stat.TESTPARAMETERS SET ACTIVE='1' WHERE TESTPARAMETERS.ID=$key
+							UPDATE stat.TESTPARAMETERS SET AMOUNT=$num WHERE TESTPARAMETERS.ID=$key
 SQL;
 							$db->go_query($sql);
 						}
@@ -175,9 +185,9 @@ SQL;
 			// получаем таблицу активности вопросов
 			// TODO: модули должны располагаться в БД строго как - знания, умения, опыт, ПП
 			$sql = <<<SQL
-				SELECT TESTPARAMETERS.ID, TESTPARAMETERS.ACTIVE, TESTPARAMETERS.TYPEQUESTIONSID, TESTPARAMETERS.MODULEID, TYPEQUESTIONS.TITLE 
+				SELECT TESTPARAMETERS.ID, TESTPARAMETERS.AMOUNT, TESTPARAMETERS.TYPEQUESTIONSID, TESTPARAMETERS.MODULEID, TYPEQUESTIONS.TITLE 
 				FROM stat.TESTPARAMETERS, stat.TYPEQUESTIONS 
-				WHERE TESTPARAMETERS.TESTNAMESID='$test_id' AND TESTPARAMETERS.TYPEQUESTIONSID=TYPEQUESTIONS.ID 
+				WHERE TESTPARAMETERS.TYPEQUESTIONSID=TYPEQUESTIONS.ID 
 				ORDER BY TESTPARAMETERS.TYPEQUESTIONSID, TESTPARAMETERS.MODULEID
 SQL;
 			$active_modules_questions = $db->go_result($sql);

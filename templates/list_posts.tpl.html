@@ -1,8 +1,14 @@
 {extends file="list.tpl.html"}
 {block name="article"}
+<form id="form_testparameters" name="form_testparameters" method="post">
+
 	<span class="title_menu_edit">Список должностей для терминала</span>
 
-	<div style="margin-left: 2px;" align="left"><a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить должность" onclick=""/></a></div>
+	<div style="margin-left: 2px;" align="left">
+		<a href="/new_post"><input class="button_admin_edit" type="button" value="Добавить должность" onclick=""/></a>
+		<input class="button_admin_edit" type="button" value="Сохранить изменения" onclick="get_testparameters('save', this.form)"/>
+	</div>
+	
 	<!-- Меню редактирования -->
 	<!--<nav>
 		<ul>
@@ -10,6 +16,38 @@
 		</ul>
 	</nav>-->
 
+	<!-- формируем таблицу соотношей модулей для теста -->
+	<table class="edit_tables_typeques">
+		<tr>
+			<th style="width: 20%;"></th>
+			<th style="width: 20%;">Проверка знаний</th>
+			<th style="width: 20%;">Проверка умений</th>
+			<th style="width: 20%;">Проверка опыта</th>
+			<th style="width: 20%;">Первая помощь</th>
+		</tr>
+
+		{section name=first start=0 loop=$active_modules_questions step=4}
+			<tr>
+				<td>
+					{$active_modules_questions[{$smarty.section.first.index}]['TITLE']}
+				</td>
+				{section name=second start=$smarty.section.first.index loop=$active_modules_questions max=4}
+					<td>
+						{if $active_modules_questions[{$smarty.section.second.index}]['AMOUNT'] neq 0}
+
+							<input class="check_text_edit" style="font-weight: bold;" id="arraytest_id{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="{$active_modules_questions[{$smarty.section.second.index}]['AMOUNT']}">
+						{else}
+						
+							<input class="check_text_edit" id="arraytest_id{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="0">
+						{/if}
+					</td>
+				{/section}
+			</tr>
+		{/section}
+	</table>
+	
+	<p style="margin-left: 2px;"><span>Должности</span></p>
+	
 	{$count = 0}
 	<!-- ограничиваем таблицу для скролинга -->
 	<!--<div class="scrolling_tables_menu">-->
@@ -53,5 +91,8 @@
 						   };
 		var tf2 = setFilterGrid("postlist", table2_Props);
 	</script>
+	
+	<input id="edit_testparameters" name="edit_testparameters" type="hidden" value="save"/>
+</form>
 {/block}
 {/extends}

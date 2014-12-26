@@ -73,14 +73,12 @@
 					</td>
 					{section name=second start=$smarty.section.first.index loop=$active_modules_questions max=4}
 						<td>
-							{if $active_modules_questions[{$smarty.section.second.index}]['ACTIVE'] eq 1}
+							{if $active_modules_questions[{$smarty.section.second.index}]['AMOUNT'] neq 0}
 
-								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="true" checked />
-								<input class="check_text_edit" id="txt{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="txt{$active_modules_questions[{$smarty.section.second.index}]['ID']}" value="">
+								<input class="check_text_edit" style="font-weight: bold;" id="arraytest_id{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="{$active_modules_questions[{$smarty.section.second.index}]['AMOUNT']}">
 							{else}
 							
-								<input class="checkboxInTable_style" type="checkbox" id="{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]"/>
-								<input class="check_text_edit" id="txt{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="txt{$active_modules_questions[{$smarty.section.second.index}]['ID']}">
+								<input class="check_text_edit" id="arraytest_id{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="0">
 							{/if}
 						</td>
 					{/section}
