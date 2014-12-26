@@ -1439,14 +1439,14 @@ input.set_cur {
 	width: 250%;
 }
 
-/*
+
 .scrolling_tables_menu {
     display: block;
 	height: 790px;
     width: 98%;
     overflow: hidden;
 	overflow-y: auto;
-}*/
+}
 
 /*
 -------------------------- END Разметка для администрирования ---------------------------
