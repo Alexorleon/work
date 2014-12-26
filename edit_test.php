@@ -29,52 +29,13 @@
 			$testname = filter_input(INPUT_POST, 'testname', FILTER_SANITIZE_SPECIAL_CHARS); //$_POST['testname'];
 			$testpenalty = filter_input(INPUT_POST, 'testpenalty', FILTER_SANITIZE_NUMBER_INT); //$_POST['testpenalty'];
 			
-			$testname = iconv(mb_detect_encoding($testname), "windows-1251", $testname);
-			$testpenalty = iconv(mb_detect_encoding($testpenalty), "windows-1251", $testpenalty);
-			// TODO: по хорошему тут обязательно нужна транзакция
-			
+			//$testname = iconv(mb_detect_encoding($testname), "windows-1251", $testname);
+			//$testpenalty = iconv(mb_detect_encoding($testpenalty), "windows-1251", $testpenalty);
+
 			$sql = <<<SQL
 			INSERT INTO stat.TESTNAMES (TITLE, PENALTYPOINTS, ACTIVE) VALUES ('$testname', '$testpenalty', 'Y')
 SQL;
 			$db->go_query($sql);
-			
-			/*
-			// получаем номер последнего ID после вставки.
-			$sql = <<<SQL
-				SELECT Max(ID) AS "max" FROM stat.TESTNAMES
-SQL;
-			$s_res = $db->go_result_once($sql);
-			
-			$last_testid = (int)$s_res['max'];
-			
-			// получаем все модули
-			$sql = <<<SQL
-				SELECT ID FROM stat.MODULE
-SQL;
-			$all_modules = $db->go_result($sql);
-			
-			// получаем все типы вопросов
-			$sql = <<<SQL
-				SELECT ID FROM stat.TYPEQUESTIONS
-SQL;
-			$all_types_ques = $db->go_result($sql);
-			
-			// записываем параметры по умолчанию
-			for($mod = 0; $mod < count($all_modules); $mod++){
-			
-				$int_all_mod = (int)$all_modules[$mod]['ID'];
-				
-				for($typ = 0; $typ < count($all_types_ques); $typ++){
-			
-					// COEFFICIENT по умолчанию равен 50. Это 50%. Т.е. распределять равномерно.
-					$int_all_typ = (int)$all_types_ques[$typ]['ID'];
-					$sql = <<<SQL
-					INSERT INTO stat.TESTPARAMETERS (ACTIVE, COEFFICIENT, TESTNAMESID, TYPEQUESTIONSID, MODULEID) 
-					VALUES ('0', 50, '$last_testid', '$int_all_typ', '$int_all_mod')
-SQL;
-					$db->go_query($sql);
-				}
-			}*/
 			
 			// TODO: после успешной записи запомнить ID. и активировать кнопку редактирования последней этой записи.
 			
@@ -86,36 +47,18 @@ SQL;
 
 				if($status_edit_test == "save"){
 				
-					// TODO: начать транзакцию
+					$cur_test_id = filter_input(INPUT_POST, 'cur_test_id', FILTER_SANITIZE_NUMBER_INT);
+					$testname = filter_input(INPUT_POST, 'testname', FILTER_SANITIZE_SPECIAL_CHARS); //$_POST['testname'];
+					$testpenalty = filter_input(INPUT_POST, 'testpenalty', FILTER_SANITIZE_NUMBER_INT); //$_POST['testpenalty'];
 					
-					$cur_test_id = filter_input(INPUT_POST, 'cur_test_id', FILTER_SANITIZE_NUMBER_INT); // $_POST['cur_test_id'];
+					//$testname = iconv(mb_detect_encoding($testname), "windows-1251", $testname);
+					//$testpenalty = iconv(mb_detect_encoding($testpenalty), "windows-1251", $testpenalty);
 					
 					$sql = <<<SQL
-					UPDATE stat.TESTPARAMETERS SET AMOUNT=0
+					UPDATE stat.TESTNAMES SET TITLE='$testname', PENALTYPOINTS='$testpenalty' WHERE TESTNAMES.ID='$cur_test_id'
 SQL;
 					$db->go_query($sql);
-					
-					if(isset($_POST['arraytest_id'])){
 
-						$arraytest_id = filter_input(INPUT_POST, 'arraytest_id', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY); // $_POST['arraytest_id'];
-
-						$num = 0;
-						foreach($arraytest_id as $key=>$value)
-						{
-							if(empty($value)){
-							
-								$num = 0;
-							}else{
-							
-								$num = $value;
-							}
-							
-							$sql = <<<SQL
-							UPDATE stat.TESTPARAMETERS SET AMOUNT=$num WHERE TESTPARAMETERS.ID=$key
-SQL;
-							$db->go_query($sql);
-						}
-					}
 				}elseif($status_edit_test == "add_question"){
 
 					$_SESSION['add_or_edit_test'] = 2;
@@ -123,7 +66,7 @@ SQL;
 				}elseif($status_edit_test == "exit"){
 			
 					$_SESSION['add_or_edit_test'] = 1;
-		print_r("dfgdfgdfdfgdf");
+
 				}else{
 				}
 			}
@@ -182,16 +125,6 @@ SQL;
 				}
 			}
 			
-			// получаем таблицу активности вопросов
-			// TODO: модули должны располагаться в БД строго как - знания, умения, опыт, ПП
-			$sql = <<<SQL
-				SELECT TESTPARAMETERS.ID, TESTPARAMETERS.AMOUNT, TESTPARAMETERS.TYPEQUESTIONSID, TESTPARAMETERS.MODULEID, TYPEQUESTIONS.TITLE 
-				FROM stat.TESTPARAMETERS, stat.TYPEQUESTIONS 
-				WHERE TESTPARAMETERS.TYPEQUESTIONSID=TYPEQUESTIONS.ID 
-				ORDER BY TESTPARAMETERS.TYPEQUESTIONSID, TESTPARAMETERS.MODULEID
-SQL;
-			$active_modules_questions = $db->go_result($sql);
-			
 			// получаем список вопросов к этому тесту
 			$sql = <<<SQL
 				SELECT ALLQUESTIONS_B.ID, ALLQUESTIONS.TEXT, MODULE.TITLE AS T_MODULE, RISKLEVEL.TITLE AS T_RISK, TYPEQUESTIONS.TITLE AS T_TYPE FROM stat.ALLQUESTIONS_B, stat.ALLQUESTIONS, stat.MODULE, stat.RISKLEVEL, stat.TYPEQUESTIONS 
@@ -204,13 +137,11 @@ SQL;
 			$smarty->assign("cur_test_title", $test_title);
 			$smarty->assign("cur_test_penalty", $test_penalty);
 			
-			$smarty->assign("active_modules_questions", $active_modules_questions);
 			$smarty->assign("questions_this_test", $questions_this_test);
 			
 		}elseif($_GET['testtype'] == 2){ // добавление вопросов
 
 			$_SESSION['add_or_edit_test'] = 2;
-			
 			
 		}else{
 			

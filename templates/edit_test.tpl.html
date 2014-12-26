@@ -56,36 +56,6 @@
 			</tr>
 		</table>
 		
-		<!-- формируем таблицу соотношей модулей для теста -->
-		<table class="edit_tables_typeques">
-			<tr>
-				<th style="width: 20%;"></th>
-				<th style="width: 20%;">Проверка знаний</th>
-				<th style="width: 20%;">Проверка умений</th>
-				<th style="width: 20%;">Проверка опыта</th>
-				<th style="width: 20%;">Первая помощь</th>
-			</tr>
-
-			{section name=first start=0 loop=$active_modules_questions step=4}
-				<tr>
-					<td>
-						{$active_modules_questions[{$smarty.section.first.index}]['TITLE']}
-					</td>
-					{section name=second start=$smarty.section.first.index loop=$active_modules_questions max=4}
-						<td>
-							{if $active_modules_questions[{$smarty.section.second.index}]['AMOUNT'] neq 0}
-
-								<input class="check_text_edit" style="font-weight: bold;" id="arraytest_id{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="{$active_modules_questions[{$smarty.section.second.index}]['AMOUNT']}">
-							{else}
-							
-								<input class="check_text_edit" id="arraytest_id{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="0">
-							{/if}
-						</td>
-					{/section}
-				</tr>
-			{/section}
-		</table>
-		
 		<p style="margin-left: 2px;"><span>Вопросы к этому тесту</span></p>
 		
 		<!-- Вопросы к этому тесту -->
