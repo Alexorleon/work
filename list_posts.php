@@ -90,6 +90,66 @@ SQL;
 SQL;
 	$array_posts = $db->go_result($sql);
 	
+	$temp_kod = $array_posts[0]['KOD'];
+		
+		$sql = <<<SQL
+			SELECT ALLQUESTIONS.MODULEID, COUNT(ALLQUESTIONS.ID) AS "count" FROM stat.ALLQUESTIONS, stat.MODULE 
+			WHERE ALLQUESTIONS.ID IN (SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B 
+			WHERE ALLQUESTIONS_B.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$temp_kod')) AND ALLQUESTIONS.MODULEID=MODULE.ID GROUP BY ALLQUESTIONS.MODULEID
+SQL;
+		$array_types = $db->go_result($sql);
+
+	// TODO: магическое число, но можно взять запросом
+	$array_modules = array(5, 21, 22, 61);
+	$is_module = true;
+	
+	// получаем количество вопросов каждого модуля, каждой должности
+	// TODO: заменить на один запрос непосредственно из БД
+	for($i_count = 0; $i_count < count($array_posts); $i_count++ ){
+	
+		$temp_kod = $array_posts[$i_count]['KOD'];
+		
+		$sql = <<<SQL
+			SELECT ALLQUESTIONS.MODULEID, COUNT(ALLQUESTIONS.ID) AS "count" FROM stat.ALLQUESTIONS, stat.MODULE 
+			WHERE ALLQUESTIONS.ID IN (SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B 
+			WHERE ALLQUESTIONS_B.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$temp_kod')) AND ALLQUESTIONS.MODULEID=MODULE.ID GROUP BY ALLQUESTIONS.MODULEID ORDER BY ALLQUESTIONS.MODULEID
+SQL;
+		$array_types = $db->go_result($sql);
+		
+		// если массив пуст, значит у должности нет вопросов
+		if( !empty($array_types)){
+		
+			for($x_count = 0; $x_count < count($array_modules); $x_count++ ){
+			
+				$is_module = true;
+				// проходим по всем модулям и заполняем их в правильном порядке
+				for($y_count = 0; $y_count < count($array_types); $y_count++ ){
+
+					if($array_types[$y_count]['MODULEID'] == $array_modules[$x_count]){
+					
+						array_push($array_posts[$i_count], $array_types[$y_count]['count']);
+						$is_module = true;
+						break;
+					}else{
+					
+						$is_module = false;
+					}
+				}
+				
+				if($is_module == false){
+				
+					array_push($array_posts[$i_count], 0);
+				}
+			}
+		}else{
+		
+			array_push($array_posts[$i_count], 0);
+		}
+		
+	}
+	//print_r($array_posts);
+	//die();
+	
 	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
     
     $smarty->assign("role", $role);

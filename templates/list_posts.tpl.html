@@ -49,26 +49,54 @@
 	<p style="margin-left: 2px; margin-bottom: 0px;"><span>Должности</span></p>
 	
 	{$count = 0}
+	{$max_count = 3}
 	<!-- ограничиваем таблицу для скролинга -->
 	<!--<div class="scrolling_tables_menu">-->
 		<table class="edit_tables" id="postlist" cellpadding="0" cellspacing="0">
 
 			<tr>
 				<th style="width: 2%;">№</th>
-				<th style="width: 97%;">Название</th>
+				<th style="width: 69%;">Название</th>
+				<th style="width: 7%;">Проверка знаний</th>
+				<th style="width: 7%;">Проверка умений</th>
+				<th style="width: 7%;">Проверка опыта</th>
+				<th style="width: 7%;">Первая помощь</th>
 				<th style="width: 1%;"></th>
 			</tr><!-- Table Header -->
 
 			{section name=count loop=$array_posts}
 				<tr>
 					<td>
-					{$array_posts[{$count}]['KOD']}
+						{$array_posts[{$count}]['KOD']}
 					</td>
 					<td onclick="window.location='edit_post?post_kod={$array_posts[{$count}]['KOD']}&post_name={$array_posts[{$count}]['TEXT']}'" title="Редактировать" style="cursor: pointer;">		
-					{$array_posts[{$count}]['TEXT']}		
+						{$array_posts[{$count}]['TEXT']}		
 					</td>
+					
+					{if $array_posts[$count]['0'] eq 0}
+					
+						{for $i_count=0 to $max_count}
+							<td>
+								0
+							</td>
+						{/for}
+					{else}
+
+						<!-- TODO: заменить циклом -->
+						<td>
+							{$array_posts[{$count}]['0']}
+						</td>
+						<td>
+							{$array_posts[{$count}]['1']}
+						</td>
+						<td>
+							{$array_posts[{$count}]['2']}
+						</td>
+						<td>
+							{$array_posts[{$count}]['3']}
+						</td>
+					{/if}
 					<td class="deleteInTable" style="text-align: center;">
-						
 						<a href="/list_posts?del_postid={$array_posts[{$count}]['KOD']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center" onclick="return confirm('Удалить?');"/></a>
 					</td>
 					{capture}{$count++}{/capture}
@@ -80,9 +108,15 @@
 	<!--<section>
 		<p>здесь могут быть похожие записи, слайдер, баннеры, миниатюры и т.д...</p>
 	</section>-->
+	
+	<!-- TODO: добавить динамическую настройку вывода количества строк -->
 	<script>
 		var table2_Props = {
 							col_2: "none",
+							col_3: "none",
+							col_4: "none",
+							col_5: "none",
+							col_6: "none",
 							paging: true,
 							paging_length: 12,
 							rows_counter: true,
