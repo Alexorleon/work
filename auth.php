@@ -108,13 +108,18 @@ SQL;
 	// узнаем сколько должно быть вопросов в тесте
 	function set_numquestions(&$obj){
 
-		$sql = <<<SQL
+		/*$sql = <<<SQL
 		select NUMQUESTIONS from stat.ADMININFO
 SQL;
-		$numq_res = $obj->go_result_once($sql);
+		$numq_res = $obj->go_result_once($sql);*/
 
+		$sql = <<<SQL
+		SELECT SUM(AMOUNT) AS "AMOUNT" FROM stat.TESTPARAMETERS
+SQL;
+		$numq_res = $obj->go_result_once($sql);
+		
 		// запоминаем количество задаваемых вопросов
-		$_SESSION['numquestions'] = $numq_res['NUMQUESTIONS'];
+		$_SESSION['numquestions'] = $numq_res['AMOUNT'];
 
 	}
   ?>

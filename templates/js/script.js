@@ -10,7 +10,7 @@ function go_auth(exam_type){
 				},
                success: function(data)
                {
-                   if (data=="1")
+                   if (data==1)
                    {
                        $("#auth" ).submit();
                    }

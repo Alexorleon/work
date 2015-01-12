@@ -1,6 +1,44 @@
 {extends file="list.tpl.html"}
 {block name="article"}
 
+{literal}
+<script>
+
+	function add_question(id_question){
+
+		var id = id_question;
+		var test_id = $("#cur_test_id").val();
+		var symbol = "#q_";
+		//console.log(test_id);
+		// добавляем вопрос к тесту
+		$.ajax({
+			type: 'POST',
+			data: {'id_question': id, 'test_id': test_id},
+			url: "./inc/ajax.add_questions.tests.php",
+			error: function(req, text, error) {
+				console.log('Ошибка AJAX: ' + text + ' | ' + error);
+			},
+			success: function (data) {
+				console.log(data);
+				date = data.split('_');
+				if(data == "true"){
+				
+					var str = "Вопрос №"+id+" добавлен.";
+					$().toastmessage('showSuccessToast', str);
+					
+					symbol = symbol+id; // формируем id, для удаления строки из таблицы
+					$(symbol).remove();
+					console.log(symbol);
+				}else{
+				
+					$().toastmessage('showErrorToast', 'Ошибка добавления');
+				}
+			}
+		});
+	}
+</script>
+{/literal}
+
 <form id="edit_test" name="edit_test" method="post">
 
 	{if $add_or_edit_test eq 0} <!-- новый тест -->

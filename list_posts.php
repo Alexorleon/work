@@ -122,7 +122,7 @@ SQL;
 			for($x_count = 0; $x_count < count($array_modules); $x_count++ ){
 			
 				$is_module = true;
-				// проходим по всем модулям и заполняем их в правильном порядке
+				// проходим по всем модулям и заполняем их в правильном порядке, а именно, если нет текущего модуля, ставим 0
 				for($y_count = 0; $y_count < count($array_types); $y_count++ ){
 
 					if($array_types[$y_count]['MODULEID'] == $array_modules[$x_count]){

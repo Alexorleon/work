@@ -104,8 +104,7 @@ if (!$this->connect) $this->GetConnect();
 		$e = oci_error($s);
 		die("Oracle Error [".$e['message']."]");
 	}
-	OCICommit($c);
-        return true;
+	return OCICommit($c);
 }
  
 //end

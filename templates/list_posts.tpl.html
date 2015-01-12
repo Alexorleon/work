@@ -73,6 +73,7 @@
 						{$array_posts[{$count}]['TEXT']}		
 					</td>
 					
+					<!-- вопросов нет, значит всем модулям ставим 0 -->
 					{if $array_posts[$count]['0'] eq 0}
 					
 						{for $i_count=0 to $max_count}
@@ -83,16 +84,16 @@
 					{else}
 
 						<!-- TODO: заменить циклом -->
-						<td>
+						<td style="font-weight: bold;">
 							{$array_posts[{$count}]['0']}
 						</td>
-						<td>
+						<td style="font-weight: bold;">
 							{$array_posts[{$count}]['1']}
 						</td>
-						<td>
+						<td style="font-weight: bold;">
 							{$array_posts[{$count}]['2']}
 						</td>
-						<td>
+						<td style="font-weight: bold;">
 							{$array_posts[{$count}]['3']}
 						</td>
 					{/if}

@@ -285,10 +285,19 @@
 		
 		// получаем массив вопросов по всем рискам
 		// , RISKLEVELID, TYPEQUESTIONSID
-		$sql_test_parameters =
+		/*$sql_test_parameters =
 			"SELECT ID, MODULEID FROM stat.ALLQUESTIONS WHERE 
 			ALLQUESTIONS.MODULEID IN (SELECT MODULEID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE='1' AND TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
 			ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.ACTIVE='1' AND TESTPARAMETERS.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj')) AND 
+			ALLQUESTIONS.ID IN (SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
+		$array_test_parameters = $obj->go_result($sql_test_parameters);*/
+		
+		// получаем массив вопросов по всем рискам
+		// , RISKLEVELID, TYPEQUESTIONSID
+		$sql_test_parameters =
+			"SELECT ID, MODULEID FROM stat.ALLQUESTIONS WHERE 
+			ALLQUESTIONS.MODULEID IN (SELECT MODULEID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.AMOUNT != 0) AND 
+			ALLQUESTIONS.TYPEQUESTIONSID IN (SELECT TYPEQUESTIONSID FROM stat.TESTPARAMETERS WHERE TESTPARAMETERS.AMOUNT != 0) AND 
 			ALLQUESTIONS.ID IN (SELECT ALLQUESTIONSID FROM stat.ALLQUESTIONS_B WHERE ALLQUESTIONS_B.TESTNAMESID IN (SELECT TESTNAMESID FROM stat.SPECIALITY_B WHERE SPECIALITY_B.DOLJNOSTKOD='$sotrud_dolj'))";
 		$array_test_parameters = $obj->go_result($sql_test_parameters);
 		
@@ -363,35 +372,53 @@
 		$count_module_firsthelp = 0;
 		
 		// определяем недостающее количество вопросов каждого модуля кроме основного - знания
-		// TODO: магические числа заменить на выборку из БД
-		if(count($array_module_skills) < 1){
+		// получаем количество вопросов по модулю - проверка умений
+		// TODO: магические числа
+		$sql = <<<SQL
+		SELECT SUM(AMOUNT) AS "AMOUNT" FROM stat.TESTPARAMETERS WHERE MODULEID=21
+SQL;
+		$numq_skills = $obj->go_result_once($sql)['AMOUNT'];
 		
-			$add_num = 1 - count($array_module_skills);
+		if(count($array_module_skills) < $numq_skills){
+		
+			$add_num = $numq_skills - count($array_module_skills);
 			//$count_index += $add_num;
 			$count_module_skills = count($array_module_skills); // задаем сколько есть
 		}else{
 		
-			$count_module_skills = 1; // задаем нужное количество
+			$count_module_skills = $numq_skills; // задаем нужное количество
 		}
 		
-		if(count($array_module_experiences) < 2){
+		// получаем количество вопросов по модулю - проверка опыта
+		$sql = <<<SQL
+		SELECT SUM(AMOUNT) AS "AMOUNT" FROM stat.TESTPARAMETERS WHERE MODULEID=22
+SQL;
+		$numq_experiences = $obj->go_result_once($sql)['AMOUNT'];
 		
-			$add_num = 2 - count($array_module_experiences);
+		if(count($array_module_experiences) < $numq_experiences){
+		
+			$add_num = $numq_experiences - count($array_module_experiences);
 			//$count_index += $add_num;
 			$count_module_experiences = count($array_module_experiences); // задаем сколько есть
 		}else{
 		
-			$count_module_experiences = 2; // задаем нужное количество
+			$count_module_experiences = $numq_experiences; // задаем нужное количество
 		}
 		
-		if(count($array_module_firsthelp) < 1){
+		// получаем количество вопросов по модулю - ПП
+		$sql = <<<SQL
+		SELECT SUM(AMOUNT) AS "AMOUNT" FROM stat.TESTPARAMETERS WHERE MODULEID=61
+SQL;
+		$numq_firsthelp = $obj->go_result_once($sql)['AMOUNT'];
 		
-			$add_num = 1 - count($array_module_firsthelp);
+		if(count($array_module_firsthelp) < $numq_firsthelp){
+		
+			$add_num = $numq_firsthelp - count($array_module_firsthelp);
 			//$count_index += $add_num;
 			$count_module_firsthelp = count($array_module_firsthelp); // задаем сколько есть
 		}else{
 		
-			$count_module_firsthelp = 1; // задаем нужное количество
+			$count_module_firsthelp = $numq_firsthelp; // задаем нужное количество
 		}
 		
 		$tempcount = $_SESSION['numquestions']; // необходимое количество вопросов

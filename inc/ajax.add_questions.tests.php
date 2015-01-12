@@ -16,7 +16,7 @@
 		$sql = <<<SQL
 			INSERT INTO stat.ALLQUESTIONS_B (TESTNAMESID, ALLQUESTIONSID) VALUES('$test_id', '$id_question')
 SQL;
-		if( !$db->go_query($sql)){
+		if( $db->go_query($sql)){
 		
 			die("true");
 		}else{
