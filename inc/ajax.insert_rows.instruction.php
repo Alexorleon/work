@@ -12,28 +12,28 @@
 	
 		//print_r($_POST);
 		$dolj_id = filter_input(INPUT_POST, 'dolj_id', FILTER_SANITIZE_NUMBER_INT);//$_POST['dolj_id'];
-		$test_id = filter_input(INPUT_POST, 'test_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['test_id'];
+		$instruction_id = filter_input(INPUT_POST, 'instruction_id', FILTER_SANITIZE_NUMBER_INT); //$_POST['instruction_id'];
 		
 		// проверяем на совпадение
 		$sql = <<<SQL
-			SELECT ID FROM stat.SPECIALITY_B WHERE TESTNAMESID='$test_id' AND DOLJNOSTKOD='$dolj_id'
+			SELECT ID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAININGID='$instruction_id' AND DOLJNOSTID='$dolj_id'
 SQL;
 		$s_res = $db->go_result_once($sql);
 		
 		if(empty($s_res)){
 		
 			$sql = <<<SQL
-				insert into stat.speciality_b (TESTNAMESID, DOLJNOSTKOD) VALUES('$test_id', '$dolj_id')
+				INSERT INTO stat.ALLTRAINING_B_TN (ALLTRAININGID, DOLJNOSTID) VALUES('$instruction_id', '$dolj_id')
 SQL;
 			if($db->go_query($sql)){
 				
 				// получаем номер последнего ID после вставки. нужен для таблицы.
 				$sql = <<<SQL
-					SELECT Max(ID) AS "max" FROM stat.speciality_b
+					SELECT Max(ID) AS "max" FROM stat.ALLTRAINING_B_TN
 SQL;
 				$s_res = $db->go_result_once($sql);
 				
-				$ans = $dolj_id."_".$test_id."_".$s_res['max'];
+				$ans = $dolj_id."_".$instruction_id."_".$s_res['max'];
 				die($ans);
 			}else{
 				$ans = "0";

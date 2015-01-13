@@ -1981,3 +1981,17 @@ clear: both;
 	vertical-align: 35%;
 }
 
+/*разделение таблиц на две колонки*/
+#two_columns_tests_inst{
+	display: block;
+	width: 50%;
+	float: left;
+}
+
+#two_columns_inst_tests{
+	display: block;
+	width: 50%;
+	float: right;
+}
+
+

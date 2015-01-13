@@ -91,7 +91,7 @@ SQL;
 			$_SESSION['add_or_edit_post'] = 1;
                         // получаем значения для задания их по умолчанию
 			$post_kod = filter_input(INPUT_GET, 'post_kod', FILTER_SANITIZE_NUMBER_INT);
-                        $post_name = filter_input(INPUT_GET, 'post_name', FILTER_SANITIZE_SPECIAL_CHARS);
+            $post_name = filter_input(INPUT_GET, 'post_name', FILTER_SANITIZE_SPECIAL_CHARS);
 			if($post_kod && $post_name){
 
 				// получаем значения для задания их по умолчанию
@@ -106,7 +106,16 @@ SQL;
 SQL;
 				$array_test_added = $db->go_result($sql);
 				
+				// получаем список инструкций к должности
+				$sql = <<<SQL
+				SELECT ALLTRAINING_B_TN.ID AS "ID", ALLTRAINING_B_TN.ALLTRAININGID AS "TRAININGID", ALLTRAINING.TITLE AS "TITLE"
+				FROM stat.ALLTRAINING_B_TN, stat.ALLTRAINING
+				WHERE ALLTRAINING_B_TN.DOLJNOSTID='$post_kod' AND ALLTRAINING_B_TN.ALLTRAININGID=ALLTRAINING.ID
+SQL;
+				$array_alltraining_added = $db->go_result($sql);
+				
 				$smarty->assign("array_test_added", $array_test_added);
+				$smarty->assign("array_alltraining_added", $array_alltraining_added);
 				$smarty->assign("cur_post_kod", $post_kod);
 				$smarty->assign("cur_post_name", $post_name);
 			}else{
@@ -122,7 +131,16 @@ SQL;
 SQL;
 				$array_test_added = $db->go_result($sql);
 				
+				// получаем список инструкций к должности
+				$sql = <<<SQL
+				SELECT ALLTRAINING_B_TN.ID AS "ID", ALLTRAINING_B_TN.ALLTRAININGID AS "TRAININGID", ALLTRAINING.TITLE AS "TITLE"
+				FROM stat.ALLTRAINING_B_TN, stat.ALLTRAINING
+				WHERE ALLTRAINING_B_TN.DOLJNOSTID='$post_kod' AND ALLTRAINING_B_TN.ALLTRAININGID=ALLTRAINING.ID
+SQL;
+				$array_alltraining_added = $db->go_result($sql);
+				
 				$smarty->assign("array_test_added", $array_test_added);
+				$smarty->assign("array_alltraining_added", $array_alltraining_added);
 				$smarty->assign("cur_post_kod", $post_kod);
 				$smarty->assign("cur_post_name", $post_name);
 			}
@@ -130,12 +148,14 @@ SQL;
 			
 			die("У меня не прописано, что делать");
 		}
+		
 		$del_testid = filter_input(INPUT_GET, 'del_testid', FILTER_SANITIZE_NUMBER_INT);
+		
 		if($del_testid){
 
 			//$del_testid = $_GET['del_testid']; // id теста
-                        $post_kod = filter_input(INPUT_GET, 'post_kod', FILTER_SANITIZE_NUMBER_INT);// id должности
-                        $post_name = filter_input(INPUT_GET, 'post_name', FILTER_SANITIZE_SPECIAL_CHARS);// название должности
+            $post_kod = filter_input(INPUT_GET, 'post_kod', FILTER_SANITIZE_NUMBER_INT);// id должности
+            $post_name = filter_input(INPUT_GET, 'post_name', FILTER_SANITIZE_SPECIAL_CHARS);// название должности
 			//$post_kod = $_GET['post_kod']; // id должности
 			//$post_name = $_GET['post_name']; // название должности
 			
@@ -148,6 +168,26 @@ SQL;
 			die('<script>document.location.href= "'.lhost.'/edit_post?post_kod='.$post_kod.'&post_name='.$post_name.'"</script>');
 			//unset($_GET['del_testid']);
 		}
+		
+		$del_instructionid = filter_input(INPUT_GET, 'del_instructionid', FILTER_SANITIZE_NUMBER_INT);
+		
+		if($del_instructionid){
+
+			//$del_instructionid = $_GET['del_instructionid']; // id теста
+            $post_kod = filter_input(INPUT_GET, 'post_kod', FILTER_SANITIZE_NUMBER_INT);// id должности
+            $post_name = filter_input(INPUT_GET, 'post_name', FILTER_SANITIZE_SPECIAL_CHARS);// название должности
+			//$post_kod = $_GET['post_kod']; // id должности
+			//$post_name = $_GET['post_name']; // название должности
+			
+			// удаляем должность
+			$sql = <<<SQL
+			DELETE FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.ID='$del_instructionid'
+SQL;
+			$db->go_query($sql);
+			
+			die('<script>document.location.href= "'.lhost.'/edit_post?post_kod='.$post_kod.'&post_name='.$post_name.'"</script>');
+			//unset($_GET['del_instructionid']);
+		}
 	}
 	
 	// получаем список всех тестов
@@ -155,6 +195,12 @@ SQL;
 	SELECT ID, TITLE FROM stat.TESTNAMES WHERE TESTNAMES.ACTIVE='Y'
 SQL;
 	$array_testnames = $db->go_result($sql);
+	
+	// получаем список всех инструкций
+	$sql = <<<SQL
+	SELECT ID, TITLE FROM stat.ALLTRAINING
+SQL;
+	$array_alltrainings = $db->go_result($sql);
 	
 	/*if($_SESSION['add_or_edit_post'] == 1){
 		
@@ -174,6 +220,7 @@ SQL;
 	$smarty->assign("error_", $error_);
 	//$smarty->assign("array_test_added", $array_test_added);	
 	$smarty->assign("array_testnames", $array_testnames);
+	$smarty->assign("array_alltrainings", $array_alltrainings);
 	
 	$smarty->assign("add_or_edit_post", $_SESSION['add_or_edit_post']);
 
