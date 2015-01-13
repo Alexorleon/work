@@ -126,10 +126,31 @@ SQL;
 			}
 		}
 	}
+	
+	if(array_key_exists('submit_numwindows', $_POST)){
+
+		$temp_login = filter_input(INPUT_POST, 'numwindows', FILTER_SANITIZE_NUMBER_INT);
+		
+		// запоминаем количество окон
+		// TODO: разделение по предприятиям. пока временно через магическое число
+		$sql = <<<SQL
+			UPDATE stat.ADMININFO SET NUMWINDOWS='$temp_login' WHERE ADMININFO.ID='21'
+SQL;
+		$db->go_query($sql);
+	}
+	
+	// текущее количество окон
+	// TODO: разделение по предприятиям. пока временно через магическое число
+	$sql = <<<SQL
+		SELECT NUMWINDOWS FROM stat.ADMININFO WHERE ADMININFO.ID='21'
+SQL;
+	$value_numwindows = $db->go_result_once($sql)['NUMWINDOWS'];
+	
 	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
     
     $smarty->assign("role", $role);
 	$smarty->assign("error_", $error_);
+	$smarty->assign("value_numwindows", $value_numwindows);
     $smarty->assign("curPage", 4);
 	$smarty->assign("title", "Настройки");
 	$smarty->display("admin_settings.tpl.html");
