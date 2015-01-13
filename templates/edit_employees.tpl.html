@@ -52,6 +52,21 @@
 			</td>
 		</tr>
 		<tr>
+			<td>Окно:</td>
+			<td>
+				<p style="font-size:14px"><select name="type_numwindows" id="type_numwindows">
+				{for $foo=1 to $value_numwindows}
+
+					{if $numwindow eq $foo} <!-- ищем в списке нужный -->
+						<option value="{$foo}" selected="selected">{$foo}</option>
+					{else}
+						<option value="{$foo}">{$foo}</option>
+					{/if}
+				{/for}
+				</select></p>
+			</td>
+		</tr>
+		<tr>
 			<td>Табельный:</td>
 			<td><input  type="field_text_edit" id="employeetabel" name="employeetabel" value="{$cur_employee_tabel}"></td>
 		</tr>

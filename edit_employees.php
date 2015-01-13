@@ -28,6 +28,8 @@
 		
         $employeetabel = filter_input(INPUT_POST, 'employeetabel', FILTER_SANITIZE_NUMBER_INT);//$_POST['employeetabel']; // табельный
 		
+		$type_numwindows = filter_input(INPUT_POST, 'type_numwindows', FILTER_SANITIZE_NUMBER_INT);//$_POST['type_numwindows']; // окно
+		
 		// определяем нужный запрос в зависимости от статуса. добавляем или редактируем
 		if($_SESSION['add_or_edit_employee'] == 0){ // это добавление нового
 		
@@ -41,8 +43,8 @@ SQL;
 				$error_='';//нулим ошибку,если повторно будет
 				$smarty->assign("employeename", "");
 				$sql = <<<SQL
-				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_SPUSK, UCHAST_K) 
-				VALUES ('$employeesur', '$employeename', '$employeepat', '$predpr_k_glob', '$type_doljnost', '$employeetabel', '$type_uchastok')
+				INSERT INTO stat.SOTRUD (SOTRUD_FAM, SOTRUD_IM, SOTRUD_OTCH, PREDPR_K, DOLJ_K, TABEL_SPUSK, UCHAST_K, WINDOW) 
+				VALUES ('$employeesur', '$employeename', '$employeepat', '$predpr_k_glob', '$type_doljnost', '$employeetabel', '$type_uchastok', '$type_numwindows')
 SQL;
 				$db->go_query($sql);
 			
@@ -69,7 +71,7 @@ SQL;
 				if(empty($check_employees_tabel)){ // если пусто, то такого табельного нет. добовляем.
 
 					$sql = <<<SQL
-					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', UCHAST_K='$type_uchastok', TABEL_SPUSK='$employeetabel' WHERE 
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', UCHAST_K='$type_uchastok', TABEL_SPUSK='$employeetabel', WINDOW='$type_numwindows' WHERE 
 					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 					$db->go_query($sql);
@@ -81,6 +83,7 @@ SQL;
 					$_GET['employee_tabel'] = $employeetabel; // табельный
 					$_GET['dolj'] = $type_doljnost; // ID должности
 					$_GET['site_k'] = $type_uchastok; // ID участка
+					$_GET['numwindow'] = $type_numwindows; // ID участка
 					
 					// запоминаем новый табельный
 					$_SESSION['check_employee_tabel'] = $employeetabel;
@@ -92,7 +95,7 @@ SQL;
 			}else{
 			
 				$sql = <<<SQL
-					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', UCHAST_K='$type_uchastok', TABEL_SPUSK='$employeetabel' WHERE 
+					UPDATE stat.SOTRUD SET SOTRUD_FAM='$employeesur', SOTRUD_IM='$employeename', SOTRUD_OTCH='$employeepat', DOLJ_K='$type_doljnost', UCHAST_K='$type_uchastok', TABEL_SPUSK='$employeetabel', WINDOW='$type_numwindows' WHERE 
 					SOTRUD.PREDPR_K='$predpr_k_glob' AND SOTRUD.SOTRUD_K='$employee_id_hidden'
 SQL;
 				$db->go_query($sql);
@@ -103,7 +106,7 @@ SQL;
 				$_GET['employee_pat'] = $employeepat; // отчество
 				$_GET['employee_tabel'] = $employeetabel; // табельный
 				$_GET['dolj'] = $type_doljnost; // ID должности
-				$_GET['site_k'] = $type_uchastok; // ID участка
+				$_GET['numwindow'] = $type_numwindows; // ID участка
 			}
 		}else{
 			
@@ -114,13 +117,15 @@ SQL;
     
     $smarty->assign("role", $role);
 	if(array_key_exists('posttype', $_GET)){
-                $posttype = filter_input(INPUT_GET, 'posttype', FILTER_SANITIZE_NUMBER_INT);
+	
+        $posttype = filter_input(INPUT_GET, 'posttype', FILTER_SANITIZE_NUMBER_INT);
+		
 		if($posttype == 0){ // это добавление нового
 		
 			$_SESSION['add_or_edit_employee'] = 0;
 			
 			// чистые значения
-                        $smarty->assign("date_list", array());
+            $smarty->assign("date_list", array());
 			$smarty->assign("cur_employee_cur", '');
 			$smarty->assign("cur_employee_name", '');
 			$smarty->assign("cur_employee_pat", '');
@@ -129,6 +134,7 @@ SQL;
 			$smarty->assign("cur_site_kod", '');
 			
 			$smarty->assign("count_pt", 0);
+			$smarty->assign("numwindow", 1);
 		}else if($posttype == 1){ // это редактирование
 	
 			$_SESSION['add_or_edit_employee'] = 1;
@@ -141,6 +147,7 @@ SQL;
 			$employee_tabel = filter_input(INPUT_GET, 'employee_tabel', FILTER_SANITIZE_NUMBER_INT); //$_GET['employee_tabel']; // табельный
 			$dolj_kod = filter_input(INPUT_GET, 'dolj', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID должности
 			$site_kod = filter_input(INPUT_GET, 'site_k', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID участка
+			$numwindow = filter_input(INPUT_GET, 'numwindow', FILTER_SANITIZE_NUMBER_INT); //$_GET['dolj']; // ID участка
 
             // получаем участок сотрудника
 			$sql = <<<SQL
@@ -165,6 +172,7 @@ SQL;
 			$smarty->assign("cur_employee_tabel", $employee_tabel);
 			$smarty->assign("cur_dolj_kod", $dolj_kod);
 			$smarty->assign("cur_site_kod", $site_kod);
+			$smarty->assign("numwindow", $numwindow);
 		}else{
 			
 			die("У меня не прописано, что делать");
@@ -183,10 +191,18 @@ SQL;
 SQL;
 	$array_site = $db->go_result($sql);
 	
+	// текущее количество окон
+	// TODO: разделение по предприятиям. пока временно через магическое число
+	$sql = <<<SQL
+		SELECT NUMWINDOWS FROM stat.ADMININFO WHERE ADMININFO.ID='21'
+SQL;
+	$value_numwindows = $db->go_result_once($sql)['NUMWINDOWS'];
+	
 	$smarty->assign("error_", $error_);
 	
 	$smarty->assign("array_posts", $array_posts);
 	$smarty->assign("array_site", $array_site);
+	$smarty->assign("value_numwindows", $value_numwindows);
     $smarty->assign("curPage", 2);
 	// TODO: через ИФ режактирование или создание новой
 	$smarty->assign("title", "Редактирование сотрудников");
