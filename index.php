@@ -75,6 +75,50 @@
 	$sql = "SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$temp_doljnost_kod'";
 	$sotrud_dolj_lobby = $db->go_result_once($sql);
 	
+	// проверяем на новые документы
+	// TODO: можно и динамкой сделать
+	$temp_sotrud_id = $_SESSION['sotrud_id'];
+	$array_status_newdocs = array(0, 0, 0);
+	
+	// документ
+	$sql = <<<SQL
+		SELECT ID from stat.ALLTRAINING_B WHERE 
+		ALLTRAINING_B.SOTRUDID='$temp_sotrud_id' AND ALLTRAINING_B.STATUS='1' AND ALLTRAINING_B.ALLTRAININGID IN 
+		(SELECT ID FROM stat.ALLTRAINING WHERE ALLTRAINING.ALLTRAININGTYPEID='1')
+SQL;
+		$_1_res = $db->go_result($sql);
+	
+	if( !empty($_1_res)){
+	
+		$array_status_newdocs[0] = 1;
+	}
+	
+	// видео
+	$sql = <<<SQL
+		SELECT ID from stat.ALLTRAINING_B WHERE 
+		ALLTRAINING_B.SOTRUDID='$temp_sotrud_id' AND ALLTRAINING_B.STATUS='1' AND ALLTRAINING_B.ALLTRAININGID IN 
+		(SELECT ID FROM stat.ALLTRAINING WHERE ALLTRAINING.ALLTRAININGTYPEID='2')
+SQL;
+		$_2_res = $db->go_result($sql);
+	
+	if( !empty($_2_res)){
+	
+		$array_status_newdocs[1] = 1;
+	}
+	
+	// модель
+	$sql = <<<SQL
+		SELECT ID from stat.ALLTRAINING_B WHERE 
+		ALLTRAINING_B.SOTRUDID='$temp_sotrud_id' AND ALLTRAINING_B.STATUS='1' AND ALLTRAINING_B.ALLTRAININGID IN 
+		(SELECT ID FROM stat.ALLTRAINING WHERE ALLTRAINING.ALLTRAININGTYPEID='3')
+SQL;
+		$_3_res = $db->go_result($sql);
+
+	if( !empty($_3_res)){
+	
+		$array_status_newdocs[2] = 1;
+	}
+	
 	$smarty->assign("error_", $error_);
 	
 	$smarty->assign("sotrud_tabkadr", $_SESSION['sotrud_tabkadr']);
@@ -82,6 +126,7 @@
 	$smarty->assign("sotrud_im", $_SESSION['sotrud_im']);
 	$smarty->assign("sotrud_otch", $_SESSION['sotrud_otch']);
 	$smarty->assign("sotrud_dolj", $sotrud_dolj_lobby['TEXT']);
+	$smarty->assign("array_status_newdocs", $array_status_newdocs);
 
 	$smarty->assign("title", "Главная");
 

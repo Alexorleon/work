@@ -95,7 +95,7 @@ SQL;
 			}
 		}
 	}
-
+	
 	$smarty->assign("empty_PE", $empty_PE);
 	$smarty->assign("empty_BigEx", $empty_BigEx);
 	$smarty->assign("error_", $error_);

@@ -50,18 +50,30 @@
 <table class="table_menu_lobby" style="width:80%;">
 	<tr style="width:100%;">
 		<!--<td><input class="quest_num" type="button" value={$count}></td>-->
-		<td><input class="choice_button" type="button" onclick="go_from_main(1)" value="Нормативные документы"/></td>
+		{if $array_status_newdocs[0] eq 1}
+			<td><input style="background: #FAAC58;" class="choice_button" type="button" onclick="go_from_main(1)" value="Нормативные документы"/></td>
+		{else}
+			<td><input class="choice_button" type="button" onclick="go_from_main(1)" value="Нормативные документы"/></td>
+		{/if}
 		<td><input class="choice_button" type="button" onclick="go_from_main(2)" value="Комплексный экзаменатор"/></td>
 	</tr>
 
 	<tr style="width:100%;">
-		<td><input class="choice_button" type="button" onclick="go_from_main(3)" value="Видеоинструктажи"/></td>
+		{if $array_status_newdocs[1] eq 1}
+			<td><input style="background: #FAAC58;" class="choice_button" type="button" onclick="go_from_main(3)" value="Видеоинструктажи"/></td>
+		{else}
+			<td><input class="choice_button" type="button" onclick="go_from_main(3)" value="Видеоинструктажи"/></td>
+		{/if}
 		<td><input class="choice_button" type="button" onclick="go_from_main(4)" value="Предсменный экзаменатор"/></td>
 	</tr>
 
 	<tr style="width:100%;">
-		<td><input class="choice_button" type="button" onclick="go_from_main(5)" value="Компьютерные модели несчастных случаев"/></td>
-                <td><a href="/addproposals"><input class="choice_button" type="button" value="Предложения руководству"/></a></td>
+		{if $array_status_newdocs[2] eq 1}
+			<td><input style="background: #FAAC58;" class="choice_button" type="button" onclick="go_from_main(5)" value="Компьютерные модели несчастных случаев"/></td>
+		{else}
+			<td><input class="choice_button" type="button" onclick="go_from_main(5)" value="Компьютерные модели несчастных случаев"/></td>
+		{/if}
+        <td><a href="/addproposals"><input class="choice_button" type="button" value="Предложения руководству"/></a></td>
 	</tr>
 
 	<tr style="width:100%;">
