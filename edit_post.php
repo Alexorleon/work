@@ -179,9 +179,22 @@ SQL;
 			//$post_kod = $_GET['post_kod']; // id должности
 			//$post_name = $_GET['post_name']; // название должности
 			
+			// получаем id инструкции
+			$sql = <<<SQL
+			SELECT ALLTRAININGID FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.ID='$del_instructionid'
+SQL;
+			$inst_id = $db->go_result_once($sql)['ALLTRAININGID'];
+			
+			// TODO: нужна транзакция.
 			// удаляем должность
 			$sql = <<<SQL
 			DELETE FROM stat.ALLTRAINING_B_TN WHERE ALLTRAINING_B_TN.ID='$del_instructionid'
+SQL;
+			$db->go_query($sql);
+			
+			// удаляем соотношение инструкции у каждого сотрудника
+			$sql = <<<SQL
+			DELETE FROM stat.ALLTRAINING_B WHERE ALLTRAINING_B.ALLTRAININGID='$inst_id'
 SQL;
 			$db->go_query($sql);
 			
