@@ -51,43 +51,86 @@
 	</table>
 	</div>
 	
-	<div id="two_columns_inst_tests">
-		{$count = 0}
-		<!-- Таблица должностей -->
-		<table id="table_check_instructions" class="edit_tables">
+	{if $add_or_edit_instructions eq 1} <!-- редактирование -->
+	
+		<div id="two_columns_inst_tests">
+			{$count = 0}
+			{$is_y = 0}
+			<!-- Таблица должностей -->
+			<table id="table_check_instructions" class="edit_tables">
 
-			<tr>
-				<th style="width: 1%;"><input class="checkboxInTable_style" type="checkbox" onchange="checkAll(this)" name="chkAll"/></th>
-				<th style="width: 1%;">№</th>
-				<th style="width: 98%;">Название должности</th>
-			</tr><!-- Table Header -->
-			{section name=count loop=$array_doljnost}
 				<tr>
-					<td>
-						<input class="checkboxInTable_style" type="checkbox" id="checkdolj" name="{$array_doljnost[{$count}]['KOD']}">
-					</td>
-					<td>
-						{$array_doljnost[{$count}]['KOD']}
-					</td>
-					<td>
-						{$array_doljnost[{$count}]['TEXT']}
-					</td>
-					{capture}{$count++}{/capture}
-				</tr>
-			{/section}
-		</table>
-	</div>
-	<!-- value="true" checked-->
-	<!--{if $active_modules_questions[{$smarty.section.second.index}]['AMOUNT'] neq 0}-->
-<!--{else}
+					<th style="width: 1%;"><input class="checkboxInTable_style" type="checkbox" onchange="checkAll(this)" name="chkAll"/></th>
+					<th style="width: 1%;">№</th>
+					<th style="width: 98%;">Название должности</th>
+				</tr><!-- Table Header -->
+				{section name=count loop=$array_doljnost}
+					<tr>
+						<td>
+							{for $foo=0 to $array_dolj_ratio|@count-1}
+								{if $array_doljnost[$count]['KOD'] eq $array_dolj_ratio[$foo]['KOD']}
+								
+									{capture}{$is_y = 1}{/capture}
+									{break}
+								{/if}
+							{/for}
+							
+							{if $is_y eq 1}
+								
+								<input class="checkboxInTable_style" type="checkbox" id="checkdolj" name="{$array_doljnost[{$count}]['KOD']}" value="true" checked>
+							{else}
+							
+								<input class="checkboxInTable_style" type="checkbox" id="checkdolj" name="{$array_doljnost[{$count}]['KOD']}">
+							{/if}
+							{capture}{$is_y = 0}{/capture}
+						</td>
+						<td>
+							{$array_doljnost[{$count}]['KOD']}
+						</td>
+						<td>
+							{$array_doljnost[{$count}]['TEXT']}
+						</td>
+						{capture}{$count++}{/capture}
+					</tr>
+				{/section}
+			</table>
+		</div>
+	{else}
+	
+		<div id="two_columns_inst_tests">
+			{$count = 0}
+			<!-- Таблица должностей -->
+			<table id="table_check_instructions" class="edit_tables">
 
-	<input class="check_text_edit" id="arraytest_id{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="0">
-{/if}-->
-		
+				<tr>
+					<th style="width: 1%;"><input class="checkboxInTable_style" type="checkbox" onchange="checkAll(this)" name="chkAll"/></th>
+					<th style="width: 1%;">№</th>
+					<th style="width: 98%;">Название должности</th>
+				</tr><!-- Table Header -->
+				{section name=count loop=$array_doljnost}
+					<tr>
+						<td>
+							<input class="checkboxInTable_style" type="checkbox" id="checkdolj" name="{$array_doljnost[{$count}]['KOD']}">
+						</td>
+						<td>
+							{$array_doljnost[{$count}]['KOD']}
+						</td>
+						<td>
+							{$array_doljnost[{$count}]['TEXT']}
+						</td>
+						{capture}{$count++}{/capture}
+					</tr>
+				{/section}
+			</table>
+		</div>
+	{/if}
+
 	<!-- id инструкции и имя файла для передачи -->
 	<input type="hidden" id="instruction_hidden_id" name="instruction_hidden_id" value="{$cur_instruction_id}"></td>
 	<input type="hidden" id="instruction_hidden_name" name="instruction_hidden_name" value="{$instructionname_cur}"></td>
 	<input type="hidden" id="arrayAllDolj" name="arrayAllDolj"></td>
+	<!-- определение редактирование или нет -->
+	<input type="hidden" id="add_or_edit_instructions" name="add_or_edit_instructions" value="{$add_or_edit_instructions}"></td>
 
 	<!-- TODO: добавить динамическую настройку вывода количества строк -->
 	<script>

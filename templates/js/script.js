@@ -277,7 +277,7 @@ function get_instruction(f){
 
 		$().toastmessage('showErrorToast', 'Введите название!');
 
-	}else if($("#download_file").val() == ""){
+	}else if(($("#download_file").val() == "") && ($("#add_or_edit_instructions").val() == 0)){
 	
 		$().toastmessage('showErrorToast', 'Укажите файл!');
 		

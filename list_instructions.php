@@ -25,10 +25,10 @@ else
             {
                 // удаляем инструкцию
 				// TODO: с удалением пока не понятно. физически или тоже только отмечать.
-                /*$sql = <<<SQL
+                $sql = <<<SQL
                     DELETE FROM stat.ALLTRAINING WHERE ID='$del_instructionid'
 SQL;
-                $db->go_query($sql);*/
+                $db->go_query($sql);
                 //unset($_GET['del_employeeid']);
             }
         }
