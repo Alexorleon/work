@@ -30,7 +30,7 @@ SQL;
 				
 				// получаем номер последнего ID после вставки. нужен для таблицы.
 				$sql_max = <<<SQL
-					SELECT Max(ID) AS "max" FROM stat.ALLTRAINING_B_TN
+					SELECT MAX(ID) AS "max" FROM stat.ALLTRAINING_B_TN
 SQL;
 				$s_res = $db->go_result_once($sql_max);
 				
@@ -38,7 +38,7 @@ SQL;
 				
 				// каждому сотруднику с этой должностью добавляем этот новый документ
 				$sql_sotrud = <<<SQL
-				SELECT SOTRUD_K FROM stat.SOTRUD WHERE DOLJ_K='$dolj_id'
+					SELECT SOTRUD_K FROM stat.SOTRUD WHERE DOLJ_K='$dolj_id'
 SQL;
 				$s_res_sotrud = $db->go_result($sql_sotrud);
 				

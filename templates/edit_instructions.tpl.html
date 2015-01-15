@@ -16,6 +16,7 @@
 		<input class="button_admin_edit" type="button" value="Сохранить" onclick="get_instruction(this.form)"/>
     </div>
 
+	<div id="two_columns_tests_inst">
 	<table>
 		<tr>
 			<td>Тип инструкции:</td>
@@ -35,7 +36,9 @@
 			<td>Название:</td>
 			<td><input  class="field_text_edit" id="text_instruction" name="text_instruction" value="{$cur_instructiontitle}"></td>
 		</tr>
-
+	</table>
+	
+	<table>
 		{if $instructionname_cur eq ''}
 		{else}
 			<tr>
@@ -46,11 +49,90 @@
 			<td><input type=file id=download_file name=download_file accept="video/mp4,application/pdf"></td>
 		</tr>
 	</table>
+	</div>
 	
-	<!-- id инструкции и имя фала для передачи -->
+	<div id="two_columns_inst_tests">
+		{$count = 0}
+		<!-- Таблица должностей -->
+		<table id="table_check_instructions" class="edit_tables">
+
+			<tr>
+				<th style="width: 1%;"><input class="checkboxInTable_style" type="checkbox" onchange="checkAll(this)" name="chkAll"/></th>
+				<th style="width: 1%;">№</th>
+				<th style="width: 98%;">Название должности</th>
+			</tr><!-- Table Header -->
+			{section name=count loop=$array_doljnost}
+				<tr>
+					<td>
+						<input class="checkboxInTable_style" type="checkbox" id="checkdolj" name="{$array_doljnost[{$count}]['KOD']}">
+					</td>
+					<td>
+						{$array_doljnost[{$count}]['KOD']}
+					</td>
+					<td>
+						{$array_doljnost[{$count}]['TEXT']}
+					</td>
+					{capture}{$count++}{/capture}
+				</tr>
+			{/section}
+		</table>
+	</div>
+	<!-- value="true" checked-->
+	<!--{if $active_modules_questions[{$smarty.section.second.index}]['AMOUNT'] neq 0}-->
+<!--{else}
+
+	<input class="check_text_edit" id="arraytest_id{$active_modules_questions[{$smarty.section.second.index}]['ID']}" name="arraytest_id[{$active_modules_questions[{$smarty.section.second.index}]['ID']}]" value="0">
+{/if}-->
+		
+	<!-- id инструкции и имя файла для передачи -->
 	<input type="hidden" id="instruction_hidden_id" name="instruction_hidden_id" value="{$cur_instruction_id}"></td>
 	<input type="hidden" id="instruction_hidden_name" name="instruction_hidden_name" value="{$instructionname_cur}"></td>
+	<input type="hidden" id="arrayAllDolj" name="arrayAllDolj"></td>
 
+	<!-- TODO: добавить динамическую настройку вывода количества строк -->
+	<script>
+		var table2_Props = {
+							col_0: "none",
+							paging: true,
+							paging_length: 20,
+							rows_counter: true,
+							rows_counter_text: "Строк:",
+							btn_reset: true,
+							loader: true,
+							loader_text: "Обработка..."
+							/*sort: true,
+							mark_active_columns: true,
+							col_0: "none",
+							sort_select: true,
+							col_number_format: ['EU',null,'EU']*/
+						   };
+		var tf2 = setFilterGrid("table_check_instructions", table2_Props);
+		
+		// выделяем все чекбоксы
+		function checkAll(ele){
+			
+			var checkboxes = document.getElementsByTagName('input');
+			var countCheckbox = checkboxes.length;
+
+			if(ele.checked){
+				for(var i = 0; i < countCheckbox; i++){
+				
+					if(checkboxes[i].type == 'checkbox'){
+						checkboxes[i].checked = true;
+					}
+				}
+			}else{
+				for(var i = 0; i < countCheckbox; i++){
+				
+					//console.log(i)
+					if(checkboxes[i].type == 'checkbox'){
+						checkboxes[i].checked = false;
+					}
+				}
+			}
+		}
+	</script>
+	
     <!-- ловим событие выбора -->
 <!--    {literal}
     <script>

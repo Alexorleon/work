@@ -275,8 +275,51 @@ function get_instruction(f){
 
 	if(($("#text_instruction").val() == "")){ // не пустые значения
 
-		alert("Введите все данные!");		
+		$().toastmessage('showErrorToast', 'Введите название!');
+
+	}else if($("#download_file").val() == ""){
+	
+		$().toastmessage('showErrorToast', 'Укажите файл!');
+		
 	}else{
+	
+		var checkboxes = document.getElementsByTagName('input');
+		var countCheckbox = checkboxes.length;
+		
+		// подсчитываем количество нужных элементов
+		var count = 0;		
+		for(var i = 0; i < countCheckbox; i++){
+		
+			if((checkboxes[i].type == 'checkbox') && (checkboxes[i].name != "chkAll")){ // можно просто и по именам сравнить например
+				count++;
+			}
+		}
+		
+		// объявляем двумерный массив для должностей со статусом для передачи в PHP
+		var arrayAllDolj = new Array(count);
+		for(var i = 0; i < arrayAllDolj.length; i++){
+		
+			arrayAllDolj[i] = new Array(2);
+		}
+		
+		// инициализируем наш массив
+		var count_2 = 0;
+		for(var i = 0; i < countCheckbox; i++){
+		
+			if((checkboxes[i].type == 'checkbox') && (checkboxes[i].name != "chkAll")){
+
+				arrayAllDolj[count_2][0] = checkboxes[i].name;
+				if(checkboxes[i].checked){
+				
+					arrayAllDolj[count_2][1] = '1';
+				}else{
+				
+					arrayAllDolj[count_2][1] = '0';
+				}
+				
+				count_2++;
+			}
+		}
 	
 		num = f.type_instruction.selectedIndex;
 		instruction_id = f.type_instruction.options[num].value;
@@ -286,6 +329,7 @@ function get_instruction(f){
 		$("#download_file").val();
 		$("#instruction_hidden_name").val();
 		$("#type_instruction").val(instruction_id);
+		$("#arrayAllDolj").val(arrayAllDolj);
 		$("#edit_instructions").submit();
 	}
 }
