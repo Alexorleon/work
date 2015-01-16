@@ -204,6 +204,11 @@
 		</script>
 	{/if}
 	
+	<!-- выводим сообщения об ошибках -->
+	{if $error_message != ""}
+		
+		<script type="text/javascript">$().toastmessage('showNoticeToast', "{$error_message}");</script>
+	{/if}
 	<!--  -->
 	<!--<td><input type="hidden" id="employee_hidden_id" name="employee_hidden_id" value="{$cur_employee_id}"></td>-->
 

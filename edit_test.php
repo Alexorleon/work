@@ -12,8 +12,9 @@
 	$db->GetConnect();
 	$error_='';
 	$role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
-         $smarty->assign("role", $role);
-         $smarty->assign("curPage", 3);
+    $smarty->assign("role", $role);
+    $smarty->assign("curPage", 3);
+	$error_message = ""; // TODO: можно сделать массивом
 	if(isset($_GET['exit'])){
 		if($_GET['exit'] == 'exit'){
 		
@@ -32,12 +33,27 @@
 			//$testname = iconv(mb_detect_encoding($testname), "windows-1251", $testname);
 			//$testpenalty = iconv(mb_detect_encoding($testpenalty), "windows-1251", $testpenalty);
 
+			// проверяем, есть ли уже такой тест
 			$sql = <<<SQL
-			INSERT INTO stat.TESTNAMES (TITLE, PENALTYPOINTS, ACTIVE) VALUES ('$testname', '$testpenalty', 'Y')
+				SELECT ID FROM stat.TESTNAMES WHERE upper(RTRIM(TESTNAMES.TITLE))=upper(RTRIM('$testname'))
 SQL;
-			$db->go_query($sql);
+			$check_test = $db->go_result_once($sql);
+
+			if(empty($check_test)){ // если пусто, то такой должности нет. добовляем.
+
+				$sql = <<<SQL
+					INSERT INTO stat.TESTNAMES (TITLE, PENALTYPOINTS, ACTIVE) VALUES ('$testname', '$testpenalty', 'Y')
+SQL;
+				$db->go_query($sql);
 			
-			// TODO: после успешной записи запомнить ID. и активировать кнопку редактирования последней этой записи.
+				// TODO: после успешной записи запомнить ID. и активировать кнопку редактирования последней этой записи.
+			}else{
+				
+				//$error_ = "Такой тест уже есть!";
+				$error_message = "Такой тест уже есть!";
+			}
+			
+			
 			
 		}elseif($_SESSION['add_or_edit_test'] == 1){ // это редактирование
 
@@ -161,6 +177,7 @@ SQL;
 	}
 	
 	$smarty->assign("add_or_edit_test", $_SESSION['add_or_edit_test']);
+	$smarty->assign("error_message", $error_message);
 	$smarty->display("edit_test.tpl.html");
 
 	// --- ФУНКЦИИ ---

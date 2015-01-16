@@ -42,7 +42,7 @@ SQL;
 				$db->go_query($sql);
 			}else{
 				
-				$error_ = "Возможно такая должность уже есть!";
+				$error_ = "Такая должность уже есть!";
 			}
 		
 		}else if($_SESSION['add_or_edit_post'] == 1){ // это редактирование
