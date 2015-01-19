@@ -136,7 +136,7 @@ SQL;
 			}
 		
 			// загружам файл
-			if (isset($_FILES['download_file']['tmp_name'])&&(isset($_FILES['download_file']['name']))) //Сохраняем пролог вопроса (если таковой есть)
+			if (isset($_FILES['download_file']['tmp_name'])&&(isset($_FILES['download_file']['name'])))
 			{
 				if (move_uploaded_file($_FILES['download_file']['tmp_name'], "".$dir_complex.$_FILES['download_file']['name']))
 				{
@@ -243,6 +243,19 @@ SQL;
 						}
 					}
 				}
+			}
+			
+			// загружам файл, если он новый
+			if (isset($_FILES['download_file']['tmp_name'])&&(isset($_FILES['download_file']['name'])))
+			{
+				if (move_uploaded_file($_FILES['download_file']['tmp_name'], "".$dir_complex.$_FILES['download_file']['name']))
+				{
+					chmod($dir_complex.$_FILES['download_file']['name'], 0644);
+					//$ext = pathinfo($_FILES['download_file']['name'], PATHINFO_EXTENSION);
+					unlink($dir_complex.$instruction_name);
+
+					rename($dir_complex.$_FILES['download_file']['name'], "".$dir_complex.$instruction_name);
+				}                
 			}
 			
 			// обновляем данные в полях
