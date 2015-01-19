@@ -28,7 +28,7 @@
 				{$array_instructions[{$count}]['T_TYPE']}
 				</td>
 				<td class="deleteInTable" style="text-align: center;">
-				<a href="/list_instructions?del_instructionid={$array_instructions[{$count}]['ID']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
+				<a href="/list_instructions?del_instructionid={$array_instructions[{$count}]['ID']}&del_instructiontype={$array_instructions[{$count}]['TRANTYPE']}&del_instructionname={$array_instructions[{$count}]['NAME']}" title="Удалить"><img src="files/img/del_table.png" alt="Удалить" align="center"/></a>
 				</td>
 				{capture}{$count++}{/capture}
 			</tr>

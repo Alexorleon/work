@@ -21,14 +21,37 @@ else
         if(array_key_exists('del_instructionid', $_GET))
         {
             $del_instructionid = filter_input(INPUT_GET, 'del_instructionid', FILTER_SANITIZE_NUMBER_INT);
+            $del_instructiontype = filter_input(INPUT_GET, 'del_instructiontype', FILTER_SANITIZE_NUMBER_INT);
+            $del_instructionname = filter_input(INPUT_GET, 'del_instructionname', FILTER_SANITIZE_SPECIAL_CHARS); // имя файла
+			
             if($del_instructionid != '')
             {
                 // удаляем инструкцию
-				// TODO: с удалением пока не понятно. физически или тоже только отмечать.
+				// TODO: с удалением пока не понятно. удалим пока физически.
                 $sql = <<<SQL
                     DELETE FROM stat.ALLTRAINING WHERE ID='$del_instructionid'
 SQL;
-                $db->go_query($sql);
+				// если запись успешно удалена, удаляем файл
+                if($db->go_query($sql)){
+				
+					// смотрим где лежит файл
+					$dir_file = "";
+					
+					switch ($del_instructiontype) {
+						case 1:
+							$dir_file = $_SERVER['DOCUMENT_ROOT']."/storage/regulations/".$del_instructionname;
+							break;
+						case 2:
+							$dir_file = $_SERVER['DOCUMENT_ROOT']."/storage/video_briefings/".$del_instructionname;
+							break;
+						case 3:
+							$dir_file = $_SERVER['DOCUMENT_ROOT']."/storage/compmodel/".$del_instructionname;
+							break;
+					}
+					
+					// удаляем файл
+					unlink($dir_file);
+				}
                 //unset($_GET['del_employeeid']);
             }
         }
@@ -36,7 +59,7 @@ SQL;
 
     // получаем список всех инструкций
     $sql = 
-	"SELECT ALLTRAINING.ID, ALLTRAINING.TITLE, ALLTRAINING.NAME AS NAME, ALLTRAININGTYPE.TITLE AS T_TYPE, ALLTRAININGTYPE.ID AS T_ID FROM stat.ALLTRAINING, stat.ALLTRAININGTYPE 
+	"SELECT ALLTRAINING.ID, ALLTRAINING.TITLE, ALLTRAINING.NAME AS NAME, ALLTRAINING.ALLTRAININGTYPEID AS TRANTYPE, ALLTRAININGTYPE.TITLE AS T_TYPE, ALLTRAININGTYPE.ID AS T_ID FROM stat.ALLTRAINING, stat.ALLTRAININGTYPE 
 	WHERE ALLTRAINING.ALLTRAININGTYPEID=ALLTRAININGTYPE.ID";
     $array_instructions = $db->go_result($sql);
     
