@@ -44,7 +44,7 @@
             </tbody>
 	</table>
         <script>
-            var table2_Props = {
+            /*var table2_Props = {
                                 sort: true,
                                 mark_active_columns: true,
                                 col_0: "none",
@@ -56,7 +56,23 @@
                                 sort_select: true,
                                 col_number_format: ['EU',null,null,null,null,'EU']
                                };
-            var tf2 = setFilterGrid("questionslist", table2_Props);
+            var tf2 = setFilterGrid("questionslist", table2_Props);*/
+			
+			var table2_Props = {
+                            col_2: "select",
+                            col_3: "select",
+                            col_4: "select",
+                            col_5: "none",
+							display_all_text: " [ Показать все ] ",
+							paging: true,
+							paging_length: 20,
+							rows_counter: true,
+							rows_counter_text: "Строк:",
+							btn_reset: true,
+							loader: true,
+							loader_text: "Обработка..."
+						   };
+			var tf2 = setFilterGrid("questionslist", table2_Props);
         </script>
 {/block}
 {/extends}
