@@ -231,7 +231,7 @@
 	$smarty->assign("sm_sotrud_fam", $_SESSION['sotrud_fam']);
 	$smarty->assign("sm_sotrud_im", $_SESSION['sotrud_im']);
 	$smarty->assign("sm_sotrud_otch", $_SESSION['sotrud_otch']);
-	$smarty->assign("sm_sotrud_dolj", $_SESSION['sotrud_dolj']);
+	$smarty->assign("sm_sotrud_dolj", $_SESSION['sotrud_dolj_text']);
 	$smarty->assign("sm_sotrud_tabel", $_SESSION['sotrud_tabkadr']);
 	$smarty->assign("title", "Пробное тестирование");
 	
@@ -267,11 +267,15 @@
 		
 		$sotrud_dolj = $_SESSION['sotrud_dolj'];
 		
+		// получаем название должности
+		$sql = <<<SQL
+			SELECT TEXT FROM stat.DOLJNOST WHERE DOLJNOST.KOD='$sotrud_dolj'
+SQL;
+		$_SESSION['sotrud_dolj_text'] = $obj->go_result_once($sql)['TEXT'];
 		/*
 		также необходимо сформировать количество и типы вопросов к тесту.
 		данная информация берется из таблицы testparameters
 		*/
-		
 		// модули
 		$array_module_knowledge = array(); // текст, фото
 		$array_module_skills = array(); // видео цепочки

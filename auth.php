@@ -55,6 +55,7 @@ SQL;
 			$_SESSION['sotrud_im']=$s_res['SOTRUD_IM'];
 			$_SESSION['sotrud_otch']=$s_res['SOTRUD_OTCH'];
 			$_SESSION['sotrud_dolj']=$s_res['DOLJ_K'];
+			$_SESSION['sotrud_dolj_text']=""; // текст должности
 			$_SESSION['sotrud_tabkadr']=$s_res['TABEL_SPUSK'];
 			
 			// если у этой дожности нет теста, назначим ей общий
