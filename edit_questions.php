@@ -155,7 +155,12 @@ else
             $chain_comment = filter_input(INPUT_POST, 'chain_comment', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов на подвопросы
             $chain_factor = filter_input(INPUT_POST, 'chain_factor', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY); //Массив текстов ответов на подвопросы
             $dir_complex = $_SERVER['DOCUMENT_ROOT']."/storage/video_questions/complex_video/$catalog/"; //Директория для сохранения видео к вопросу
-            $risklevel_question = min($chain_risks);
+            $risklevel_question = 21;
+			foreach ($chain_risks as $risk)
+			{
+				$risklevel_question = ($risk[0]) ? min($risklevel_question, $risk[0]) : ($risk[1]) ? min($risklevel_question, $risk[1]) : $risklevel_question;
+			}
+			
             if (!file_exists($dir_complex)) //Создаем директорию для схоронения, если ее еще нет
             {
                 mkdir($dir_complex, 0644);
