@@ -1,5 +1,5 @@
-{extends file="{$document_root}/templates/ajax.get_questions/simple_question.tpl.html"}
-{block name="special_question_block"}
+<input type='hidden' name='json_refresh' value='{$json_data}'/>
+<table>
 <tr>
     <td>
         Видео:
@@ -11,6 +11,52 @@
         <input type=file id=download_sv name=download_sv accept=video/mp4>
     </td>
 </tr>
-{/block}
-{/extends}
- 
+    <tr>
+        <td>Ответ 1:</td>
+        <td>
+            <textarea min-length=2 aria-required="true" name="text_answer[0]" maxlength="150" rows="2" cols="75" required style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{html_entity_decode($question_data['answers'][0]['TEXT'])}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>Комментарий:</td>
+        <td>
+            <textarea name="comment_answer[0]" maxlength="250" rows="2" cols="75" style="resize: none;"  data-validation="length" data-validation-length="max250" data-validation-error-msg="Допустимая длина не более 250 символов!">{html_entity_decode($question_data['answers'][0]['COMMENTARY'])}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>Поражающий фактор:</td>
+        <td>
+            <textarea name="answer_factor[0]" maxlength="150" rows="2" cols="75" style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{html_entity_decode($question_data['answers'][0]['FACTOR'])}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>Штраф за ответ:</td>
+        <td>
+            <input class="admin_input_text"  type="text" size="2" name="answer_price[0]" value="{$question_data['answers'][0]['PRICE']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Ответ 2:</td>
+            <td>
+                <textarea name="text_answer[1]" maxlength="150" rows="2" cols="75" required style="resize: none;" data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{html_entity_decode($question_data['answers'][1]['TEXT'])}</textarea>
+            </td>
+    </tr>
+    <tr>
+        <td>Комментарий:</td>
+        <td>
+            <textarea name="comment_answer[1]" maxlength="250" rows="2" cols="75" style="resize: none;"  data-validation="length" data-validation-length="max250" data-validation-error-msg="Допустимая длина не более 250 символов!">{html_entity_decode($question_data['answers'][1]['COMMENTARY'])}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>Поражающий фактор:</td>
+        <td>
+            <textarea name="answer_factor[1]" maxlength="150" rows="2" cols="75" style="resize: none;"  data-validation="length" data-validation-length="max150" data-validation-error-msg="Допустимая длина не более 150 символов!">{html_entity_decode($question_data['answers'][1]['FACTOR'])}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>Штраф за ответ:</td>
+        <td>
+            <input class="admin_input_text" type="text" size="2" name="answer_price[1]" value="{$question_data['answers'][1]['PRICE']}" data-validation="number" data-validation-allowing="integer,positive" data-validation-error-msg="Введите целое число, большее или равное нулю"/>
+        </td>
+    </tr>
+</table>

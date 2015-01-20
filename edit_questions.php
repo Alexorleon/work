@@ -13,6 +13,7 @@ else
     $error_='';
     $role = filter_input(INPUT_COOKIE, 'role', FILTER_SANITIZE_NUMBER_INT);
     $question_id = filter_input(INPUT_GET, 'question_id', FILTER_SANITIZE_NUMBER_INT); //ID вопроса
+
     $dir_photo = $_SERVER['DOCUMENT_ROOT']."/storage/photo_questions/";
     $dir_video = $_SERVER['DOCUMENT_ROOT']."/storage/video_questions/simple_video/";
 
@@ -57,7 +58,7 @@ else
                 OCIExecute($stmt);
             }
 
-            for ($ans_iter = 0; $ans_iter<3; $ans_iter++) //3 - потому что максимум 3 вопроса
+            for ($ans_iter = 0; $ans_iter<count($answer_factor); $ans_iter++) //3 - потому что максимум 3 вопроса
             {
                 $competencelevel_id = GetCompetenceLevelID($db, $answer_price);
 
@@ -361,13 +362,24 @@ else
                 TESTNAMESID
                 FROM stat.ALLQUESTIONS_B
                 WHERE ALLQUESTIONSID='$question_id'";
-
-        $q_res['TEST'] = $db->go_result_once($sql)['TESTNAMESID']; //Выцепляем ID теста, к которому прикреплен вопрос. Двумя запросами, чтобы все не падало, если вопрос ни к чему не прикреплен
+		$res_temp = $db->go_result_once($sql);
+		
+        $q_res['TEST'] = ( !empty($res_temp)) ? $res_temp['TESTNAMESID'] : 62; //Выцепляем ID теста, к которому прикреплен вопрос. Двумя запросами, чтобы все не падало, если вопрос ни к чему не прикреплен
 
         if ($q_res['TYPE']!=22 && $q_res['TYPE']!=10) //Магические числа, 22 - сложное фото (ваще пока нет), 10 - сложное видео
         {
             $sql = "SELECT ID, TEXT, PRICE, COMMENTARY, FACTOR FROM stat.ALLANSWERS WHERE ALLQUESTIONSID='$question_id' ORDER BY ID";
             $a_res = $db->go_result($sql); //Выцепляем ответы к вопросу
+			/*if (count($a_res)<3)
+			{
+				while(count($a_res)<3)
+				{
+					$sql_add = "INSERT INTO stat.ALLANSWERS (TEXT, PRICE, COMMENTARY, FACTOR, ALLQUESTIONSID) VALUES ('','0','','','$question_id')";
+					$db->go_query($sql_add);
+					$a_res = $db->go_result($sql);
+				}
+				
+			}*/
             foreach($a_res as $answer)
             {
                 if ($answer['PRICE']!=0) //Выцепляем комментарий и фактор к вопросу (довольно странная архитектура-с таблиц-с)
@@ -452,6 +464,7 @@ else
                 $question_data['epilog'] = $q_res['EPILOG'];
             }
         }
+		
     }
 
     if(array_key_exists('posttype', $_GET))
